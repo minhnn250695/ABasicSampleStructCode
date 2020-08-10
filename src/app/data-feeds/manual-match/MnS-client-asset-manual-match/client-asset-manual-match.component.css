@@ -1,0 +1,11 @@
+@import '../../../../assets/styles/fp-styles.css';
+
+::ng-deep .cdk-overlay-container {
+    position: fixed !important;
+    opacity: 1 !important;
+    z-index: 2000 !important;
+}
+
+.nav-pills > li > a {
+    font-size: 1em;
+}

@@ -1,0 +1,60 @@
+<div class="progress-menu-container padding-top-50">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="steps-form-2">
+          <div class="background-line"></div>
+          <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+            <div class="steps-step-2">
+              <a href="#/on-boarding/personal-information" type="button" class="btn btn-completed-step btn-circle-2"
+                data-toggle="tooltip" data-placement="top" title="Personal info">
+                <i class="fas fa-check fa-2x" aria-hidden="true"></i>
+              </a>
+            </div>
+            <div class="steps-step-2">
+              <a href="#/on-boarding/family-member" type="button" class="btn btn-completed-step btn-circle-2"
+                data-toggle="tooltip" data-placement="top" title="Family members">
+                <i class="fas fa-check fa-2x" aria-hidden="true"></i>
+              </a>
+            </div>
+            <div class="steps-step-2">
+              <a href="#/on-boarding/financial-situation" type="button" class="btn btn-completed-step btn-circle-2"
+                data-toggle="tooltip" data-placement="top" title="Financial situation">
+                <i class="fas fa-check fa-2x" aria-hidden="true"></i>
+              </a>
+            </div>
+            <div class="steps-step-2">
+              <a href="#/on-boarding/your-goal" type="button" class="btn btn-completed-step btn-circle-2" data-toggle="tooltip"
+                data-placement="top" title="Your goals">
+                <i class="fas fa-check fa-2x" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>
+
+<div *ngIf="!onLoadComponent; then component else waiting"></div>
+
+<ng-template #component>
+  <div class="container padding-top-40 padding-bottom-50">
+    <div class="row">
+      <div class="col-md-3 text-center padding-top-20">
+        <i class="fas fa-thumbs-up fa-10x medium-gray" aria-hidden="true"></i>
+      </div>
+      <div class="col-md-9">
+        <h2 class="finpal-h1">Thanks!</h2>
+        <p>We appreciate you taking the time to provide us all that information. If you’re ready to see our initial
+          analysis,
+          click on the button below. Otherwise you can log back in any time to view.</p>
+        <a href="#/client-view" (click)="updateFactFindStatus()" class="btn btn-info btn-lg">Let's go!</a>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #waiting>
+  <app-waiting></app-waiting>
+</ng-template>

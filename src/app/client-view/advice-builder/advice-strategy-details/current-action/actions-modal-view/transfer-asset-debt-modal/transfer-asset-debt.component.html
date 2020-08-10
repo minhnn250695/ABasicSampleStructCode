@@ -1,0 +1,90 @@
+<div class="modal-dialog" style="min-width: 650px;" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <span class="modal-title finpal-h2 padding-bottom-10 margin-right-5">View action</span>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-1 auto-width">
+                    <ul class="icon-list margin-top-bot-5">
+                        <li>
+                            <span><i class="fa fa-arrow-alt-right fa-lg dark-gray"></i></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-11 padding-0">
+                    <h3 class="action-style">Transfer funds from asset to debt</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                        <li class="active">
+                            <a id="transfer-asset-debt-details-view" data-toggle="pill" href="#asset-to-debt-basic-data-view">Action details</a>
+                        </li>
+                        <li>
+                            <a data-toggle="pill" href="#asset-to-debt-complementary-data-view">Advice comments</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <!-- Policy -->
+                        <div id="asset-to-debt-basic-data-view" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row padding-bottom-20">
+                                        <div class="col-md-5">
+                                            <label class="control-label">Asset</label>
+                                            <p class="field-info"> {{getAssetName(assetToDebt.assetId)}}</p>
+                                        </div>
+                                        <div class="col-md-2 text-center padding-top-20">
+                                            <i class="fas fa-arrow-alt-right fa-2x light-blue"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label class="control-label">Debt</label>
+                                            <p class="field-info"> {{getDebtName(assetToDebt.debtId)}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row padding-bottom-20">
+                                        <div class="col-md-6">
+                                            <label class="control-label">Transfer on year</label>
+                                            <p class="field-info">{{assetToDebt.year || 'N/A'}}</p>
+                                        </div>
+                                        <div class="col-md-1 text-center padding-top-20">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label class="control-label">Amount to transfer</label>
+                                            <p class="field-info">{{assetToDebt.amount || 'N/A'}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="asset-to-debt-complementary-data-view" class="tab-pane fade">
+                            <div>
+                                <label class="control-label">What is this action?</label>
+                                <textarea class="form-control" [value]="assetToDebt.details || 'N/A'" readonly></textarea>
+                            </div>
+                            <div class="padding-top-20">
+                                <label class="control-label">Why are you taking this action?</label>
+                                <textarea class="form-control" [value]="assetToDebt.reason || 'N/A'" readonly></textarea>
+                            </div>
+                            <div class="padding-top-20">
+                                <label class="control-label">How It improves your situation?</label>
+                                <textarea class="form-control" [value]="assetToDebt.result || 'N/A'" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div [style.display]="(!assetToDebt.actionId && adviceBuilderService.isUpdateAction) ? 'block' : 'none'" class="modal-body text-center margin-top-10 margin-bottom-10">
+            <i class="fas fa-spinner fa-pulse"></i>
+        </div> -->
+    </div>
+</div>

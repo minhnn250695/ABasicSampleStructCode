@@ -1,0 +1,140 @@
+<fp-client-view-header active="3"> </fp-client-view-header>
+
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <div class="container">
+        <div class="row padding-top-20 padding-bottom-20 summary-cash-flow white-background">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="summary-item" id="surplus">
+
+                    <div class="pull-right summary-item-content">
+                        <h3 class="finpal-h3">Surplus</h3>
+                        <h2 class="finpal-h2">
+                            ${{ cashFlowDetail && cashFlowDetail.surplusIncome || 0 | number : '1.2-2'}}
+                        </h2>
+                    </div>
+                    <span>
+                        <i class="fas fa-2x fa-chart-line pull-right summary-icon green-color"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="summary-item" id="weekly-surplus">
+                    <div class="pull-right summary-item-content">
+                        <h3 class="finpal-h3">Weekly surplus</h3>
+                        <h2 class="finpal-h2">
+                            ${{ cashFlowDetail && cashFlowDetail.weeklySurplus || 0 | number : '1.2-2'}}
+                        </h2>
+                    </div>
+                    <i class="fas fa-2x fa-calendar pull-right summary-icon green-color"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid e1-gray-background">
+        <div class="container">
+            <div class="row padding-top-20 padding-bottom-40 cash-flow-details">
+                <h1 class="font-size-30 m-dark-gray margin-bottom-20 padding-left-20 padding-right-20">Cash Flow</h1>
+                <div class="col-xs-12 col-md-6 cash-flow-detail" *ngFor="let cashflow of cashFlowDisplayDetail">
+                    <div class="card default-cursor">
+                        <div class="wrapper">
+                            <div class="triangle" [ngClass]="cashflow.type == 'income' ? 'dark-green-background' : 'red-background'">
+                                <i class="fas fa-2x white" [ngClass]="cashflow.type == 'income' ? 'fa-download' : 'fa-upload'"></i>
+                            </div>
+                            <div class="triangle-down" [ngClass]="cashflow.type == 'income' ? 'dark-green' : 'red'">
+                            </div>
+                        </div>
+                        <div class="card-header-xs-2 dark-blue-background"></div>
+                        <div class="card-block padding-left-20 padding-right-20 padding-top-40 padding-bottom-10 cash-flow-details-item">
+                            <table class="table">
+                                <tr>
+                                    <td colspan="2" class="padding-top-10 padding-bottom-10">
+                                        <h1 class="finpal-h1">{{ cashflow.label }}</h1>
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let item of cashflow.details; let i = index" class="font-size-20 item-details padding-top-5 padding-bottom-5" [ngClass]="i !== cashflow.details.length-1 && item.id != 'total-gross-income' ? 'border-bottom' : ''">
+                                    <td class="item-label" [ngClass]="item.id=='total-gross-income' ? 'bold-text height-80' : ''">
+                                        {{ item.label }}</td>
+                                    <td class="item-value" [ngClass]="item.id=='total-gross-income' ? 'bold-text height-80' : ''">
+                                        ${{ item.value || 0 | number: '1.2-2' }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="card-block">
+                            <div class="cash-flow-total padding-top-15 padding-bottom-10">
+                                <h3 class="finpal-h3 x-dark-blue" *ngIf="cashflow.type == 'income'">Total net income</h3>
+                                <h3 class="finpal-h3 x-dark-blue" *ngIf="cashflow.type == 'expenses'">Total expenses</h3>
+                                <h1 class="finpal-h1 x-dark-blue margin-top-5">
+                                    ${{ cashflow.total.value || 0 | number: '1.2-2'}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #mobile>
+    <div class="container cashflow-mobile e1-gray-background" [style.min-height.px]="containerInnerHeight">
+        <!-- Overview -->
+        <div class="cashflow-overview">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 overview-item" [ngClass]="i == 0 ? 'padding-right-5' : 'padding-left-5'" *ngFor="let item of this.cashflowOverviewDetails; let i = index" [attr.id]="item.id">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-2 overview-icon">
+                                <span><i class="fa fa-2x green-color" [ngClass]="item.icon"></i></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-10 overview-text">
+                                <h6 class="finpal-h6">{{ item.label }}</h6>
+                                <p>${{ item.value | number: '1.0-2' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Income / Expense -->
+        <div class="cashflow-income-expense">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="card" [attr.id]="item.id" *ngFor="let item of cashFlowDisplayDetail; let i = index" [ngClass]="i == cashFlowDisplayDetail.length-1 ? 'last-item' : ''">
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-2 income-expense-overview-icon">
+                                <span><i class="fa fa-2x"
+                                        [ngClass]="item.type == 'income' ? 'fa-download dark-green': 'fa-upload red'"></i></span>
+                            </div>
+                            <div class="col-xs-7 col-sm-8 income-expense-overview-text">
+                                <h3 class="finpal-h3">{{ item.label }}</h3>
+                                <p class="font-size-18">${{ item.total.value | number:'1.0-2'}}</p>
+                                <p class="font-size-14">{{ item.total.label }}</p>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 padding-top-20 padding-bottom-10  income-expense-overview-icon-expand">
+                                <a (click)="toggleCashflowItemDetails(i)">
+                                    <span [ngClass]="item.isShow ? 'opened' : ''">
+                                        <i class="fa fa-2x fa-chevron-down dark-blue"></i>
+                                    </span>
+                                </a>
+                            </div>
+
+                            <div class="cashflow-details" [ngClass]="item.isShow ? 'opened' : ''">
+                                <div class="col-xs-12 col-sm-12 padding-top-20">
+                                    <table class="table">
+                                        <tr *ngFor="let detail of item.details; let i = index" class="font-size-14 item-details padding-top-5 padding-bottom-5" [ngClass]="i !== item.details.length-1 && detail.id != 'total-gross-income' ? 'border-bottom' : ''">
+                                            <td class="item-label" [ngClass]="detail.id=='total-gross-income' ? 'bold-text height-80' : ''">
+                                                {{ detail.label }}</td>
+                                            <td class="item-value" [ngClass]="detail.id=='total-gross-income' ? 'bold-text height-80' : ''">
+                                                ${{ detail.value || 0 | number: '1.2-2' }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

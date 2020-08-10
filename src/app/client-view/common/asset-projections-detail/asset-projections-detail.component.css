@@ -1,0 +1,121 @@
+.min-width-250 {
+    min-width: 250px !important;
+}
+
+.max-width-250 {
+    max-width: 250px !important;
+}
+
+.border-bottom-6 {
+    border-bottom: 6px solid #505050;
+}
+
+.border-top-1 {
+    border-top: 1px solid #ddd !important;
+}
+
+.link {
+    color: #337ab7;
+    font-weight: normal;
+}
+
+.finpal-h2 {
+    color: #666666;
+}
+
+.breadcrumb-advice-builder .chevron {
+    margin-right: 3px;
+    margin-left: 3px;
+}
+
+
+/**************************************************************************
+                                TABLE
+ **************************************************************************/
+
+table {
+    position: relative;
+    border-collapse: collapse;
+}
+
+.table-condensed>tbody>tr>th,
+.table-condensed>tbody>tr>td {
+    text-align: right;
+    padding: 10px;
+    min-width: 130px;
+    border-top: none;
+}
+
+.table-responsive {
+    position: relative;
+}
+
+.table {
+    margin-bottom: 0px;
+}
+
+.fixed-column {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    background: #FFF;
+    z-index: 1;
+}
+
+.box-shadow-fixed-column {
+    box-shadow: 3px 3px 4px #ddd;
+}
+
+.fixed-first-column-table {
+    border-collapse: unset;
+}
+
+.hidden-table-column {
+    border: none;
+    visibility: hidden;
+}
+
+
+/**************************************************************************
+                                SCROLLBAR
+ **************************************************************************/
+
+.scrollbar::-webkit-scrollbar-thumb {
+    border-top: 1px solid #E1E1E1;
+    border-bottom: 1px solid #E1E1E1;
+    border-left: 2px solid #E1E1E1;
+    border-right: 2px solid #E1E1E1;
+    width: 187px;
+    background-color: #969696;
+}
+
+.scrollbar::-webkit-scrollbar {
+    height: 14px;
+    background-color: #E1E1E1;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background-color: #E1E1E1;
+}
+
+.scrollbar::-webkit-scrollbar-button:single-button {
+    height: 14px;
+    width: 16px;
+    background: #E1E1E1;
+}
+
+
+/* Left */
+
+.scrollbar::-webkit-scrollbar-button:single-button:horizontal:decrement {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 512' width='5' height='8' fill='%23969696'><path d='M192 127.338v257.324c0 17.818-21.543 26.741-34.142 14.142L29.196 270.142c-7.81-7.81-7.81-20.474 0-28.284l128.662-128.662c12.599-12.6 34.142-3.676 34.142 14.142z'/></svg>") no-repeat center center;
+    background-size: 45% 80%;
+}
+
+
+/* Right */
+
+.scrollbar::-webkit-scrollbar-button:single-button:horizontal:increment {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 512' width='5' height='9' fill='%23969696'><path d='M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z'/></svg>") no-repeat center center;
+    background-size: 45% 80%;
+}

@@ -1,0 +1,141 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <third-party-header active="2"></third-party-header>
+    <div class="container padding-top-40 padding-bottom-50">
+        <h1 class="finpal-h1 m-dark-gray">TAL settings</h1>
+        <div class="row">
+            <div class="col-md-2 padding-top-10">
+                <div class="row">
+                    <div class="col-md-12">
+                        <img src="../../../../assets/img/tal.png" class="img-thumbnail" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 padding-top-20">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="switch pull-left">
+                  <input type="checkbox" [checked]="config.settings.enabled" (change)="onSettingSelect(1)">
+                  <span class="slider3 round"></span>
+                </label>
+                                <span class="padding-left-10 small">Off / On</span>
+                            </div>
+                        </div>
+                        <div class="row padding-top-5">
+                            <div class="col-md-12">
+                                <label class="switch pull-left">
+                  <input type="checkbox" [checked]="config.settings.mode == 0" (change)="onSettingSelect(2)">
+                  <span class="slider3 round"></span>
+                </label>
+                                <span class="padding-left-10 small">Manual / Auto</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 padding-top-10">
+                <h3 class="finpal-h3 padding-bottom-10">Connection data</h3>
+                <form #validateForm="ngForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="username" class="small">Username</label>
+                            <input type="email" class="form-control input-sm" [(ngModel)]="config.connection.username" name="txtUN" required placeholder="dropbear42@msn.com">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="password" class="small">Password</label>
+                            <input type="password" class="form-control input-sm" name="txtPass" [(ngModel)]="config.connection.passphrase" required placeholder="******">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button [disabled]="validateForm.invalid" type="submit" class="btn btn-info pull-right btn-sm margin-top-10" (click)="btnSaveClick()">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #mobile>
+    <div class="breadcrumb-bar-third-party padding-top-50 margin-top-10 padding-bottom-10">
+        <div class="container">
+            <a href="/#/third-party/landing">
+                <i class="fas fa-angle-left margin-right-5"></i> Third party connections</a>
+        </div>
+    </div>
+    <div class="container padding-bottom-30">
+        <h1 class="finpal-h2">Settings</h1>
+        <div class="row">
+            <div class="col-xs-4">
+                <img src="../../../../assets/img/tal.png" class="margin-bottom-20 img-thumbnail" alt="TAL logo" />
+            </div>
+            <div class="col-xs-8 padding-top-20">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label class="switch">
+              <input type="checkbox" [checked]="config.settings.enabled" (change)="onSettingSelect(1)">
+              <span class="slider3 round"></span>
+            </label>
+                    </div>
+                    <div class="col-xs-7">
+                        Off/On
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label class="switch">
+              <input type="checkbox" [checked]="config.settings.mode == 0" (change)="onSettingSelect(2)">
+              <span class="slider3 round"></span>
+            </label>
+                    </div>
+                    <div class="col-xs-7">
+                        Manual/Auto
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 padding-top-20">
+                <h3 class="finpal-h3 padding-bottom-10">Step 1</h3>
+                <div class="card">
+                    <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+                        <p>A secure public key is required for this connection. Please download and provide to TAL who will then provide the below configuration information required to complete the connection.</p>
+                        <button type="submit" class="btn btn-info margin-top-10" (click)="btnDownloadClick()">Download public key
+              certificate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 padding-top-30">
+                <h3 class="finpal-h3 padding-bottom-10">Step 2</h3>
+                <div class="card">
+                    <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Username</label>
+                                <input type="email" class="form-control" placeholder="dropbear42@msn.com" [(ngModel)]="config.connection.username" name="txtUN">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Passphrase</label>
+                                <input type="password" class="form-control" name="txtPass" placeholder="******" [(ngModel)]="config.connection.passphrase">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Host</label>
+                                <input type="text" class="form-control" name="txtHost" placeholder="Host" [(ngModel)]="config.connection.host">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Port</label>
+                                <input type="text" class="form-control" name="txtPort" placeholder="Port" [(ngModel)]="config.connection.port">
+                            </div>
+                            <button *ngIf="isValidtoSave" type="submit" class="btn btn-primary" (click)="btnSaveClick()">Save</button>
+                            <button *ngIf="!isValidtoSave" type="submit" class="btn btn-primary" disabled="disabled">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

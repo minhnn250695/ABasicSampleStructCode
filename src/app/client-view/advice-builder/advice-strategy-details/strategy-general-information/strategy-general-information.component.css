@@ -1,0 +1,74 @@
+.float-right {
+    float: right;
+}
+
+.margin-top-15 {
+    margin-top: 15px;
+}
+
+.finpal-h1 {
+    margin-top: 10px;
+}
+
+.finpal-h4 {
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.back-to-advice {
+    color: #FFFFFF;
+}
+
+.back-to-advice a {
+    color: #FFFFFF;
+}
+
+.back-to-advice a:hover {
+    color: #FFFFFF;
+}
+
+.breadcrumb-advice-builder svg.chevron {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+#delete-strategy {
+    width: 173px;
+    height: 40px;
+    padding: 8px 12px;
+}
+
+#delete-strategy:hover {
+    background-color: #002050;
+    color: #FFFFFF;
+}
+
+#delete-strategy svg {
+    margin: 0 5px;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+
+#member-profile input::-webkit-outer-spin-button,
+#member-profile input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* Firefox */
+
+#member-profile input[type=number] {
+    -moz-appearance: textfield;
+}
+
+#btn-save-retirement-age {
+    width: 66px;
+    height: 35px;
+}
+
+#member-profile p {
+    margin: 0 0 5px;
+    color: #505050;
+}

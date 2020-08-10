@@ -1,0 +1,100 @@
+.card {
+    padding: 30px 20px;
+    background-color: #F6F6F6;
+}
+
+.item-container {
+    width: 80%;
+    margin: auto;
+}
+
+.item-button>div.m-dark-gray {
+    font-size: 24px;
+}
+
+.fa-1x {
+    font-size: 1.3em;
+}
+
+.card .filter select,
+.card .filter select:focus {
+    width: 100%;
+    display: inline-block;
+    border: 1px solid #AFAFAF;
+    border-radius: 4px;
+    position: relative;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: #FFF url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' width='40' height='20' fill='%23969696'><path d='M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z'/></svg>") no-repeat;
+    background-position: right 0 top 40%;
+}
+
+
+/* handle CSS for menu side bar */
+
+ul.list-group a {
+    border-left: none;
+    border-right: none;
+    background-color: #F6F6F6;
+    color: #0072C6;
+}
+
+.list-group-item:hover {
+    background-color: #002050 !important;
+    color: #fff !important;
+}
+
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+    background-color: #FF8C00 !important;
+    border-color: #FF8C00 !important;
+    color: #fff !important;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.list-group-item:last-child {
+    margin-bottom: 0;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+
+/* end css for menu side bar */
+
+.arrow-icon {
+    padding: 0 5px 0 10px;
+    width: auto;
+}
+
+
+/* =========================================================
+                            FOR MOBILE 
+ =========================================================== */
+
+.mobile-menu .filter select,
+.mobile-menu .filter select:focus {
+    width: 115px;
+    display: inline-block;
+    border: none;
+    border-radius: 6px;
+    transition: 0.3s;
+    position: relative;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: #E1E1E1 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' width='40' height='20' fill='%230072C6'><path d='M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z'/></svg>") no-repeat;
+    background-position: right 0 top 40%;
+}

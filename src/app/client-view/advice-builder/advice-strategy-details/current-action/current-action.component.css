@@ -1,0 +1,79 @@
+@import '../../../../../assets/styles/css/customize-styles.css';
+.carousel-indicators {
+    bottom: -15px !important;
+}
+
+#actions-carousel {
+    position: relative;
+}
+
+#actions-carousel .carousel-indicators li {
+    margin-left: 8px !important;
+    height: 16px;
+    width: 16px;
+}
+
+#actions-carousel .carousel-indicators .active {
+    background-color: #0072C6;
+    border: 1px solid #0072C6;
+    width: 16px;
+    height: 16px;
+}
+
+#actions-carousel .carousel-control-prev {
+    position: absolute;
+    top: 86px;
+    left: -50px;
+}
+
+#actions-carousel .carousel-control-next {
+    position: absolute;
+    top: 86px;
+    right: -50px;
+}
+
+select.input-lg {
+    height: 40px;
+}
+
+.card:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.card-block {
+    min-height: 186px;
+}
+
+.action-icon {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.btn-circle {
+    height: 35px;
+    width: 35px;
+    padding: 8px 0;
+    border-radius: 50%;
+}
+
+.action-feature {
+    bottom: 20px;
+    right: 110px;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.action-feature .fa-lg {
+    font-size: 1.2em;
+}
+
+.opacity-03 {
+    opacity: 0.3;
+}
+
+.carousel-inner {
+    overflow: visible;
+}

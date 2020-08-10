@@ -1,0 +1,228 @@
+<div *ngIf="isMobile, then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <div class="debt">
+        <total-banner [totalData]="totalDebtData"></total-banner>
+
+        <div class="e1-gray-background">
+            <div class="container padding-top-30 padding-bottom-20">
+                <div class="title">
+                    <h1 class="m-dark-gray font-size-30">Debt</h1>
+                    <a href="#/client-view/debt/history" type="button" class="btn btn-info-inverse object-shadow debt-title-content pull-right" id="debt-history">
+                        <i class="fas fa-history fa-1x"></i>
+                        <span>Debt History</span>
+                    </a>
+                </div>
+                <div class="row debt debt-details">
+                    <div class="col-md-3 list">
+                        <sidebar-menu [isMobile]="isMobile" [listOwner]="listOwner" [objectValue]="debtTitle" [listItems]="listDebts" [itemTypes]="itemTypes" (selectedItems)="changeSelectedItemDetails($event)">
+                        </sidebar-menu>
+                    </div>
+                    <div class="col-md-9 details">
+                        <div class="card light-gray-background padding-top-30 padding-bottom-30">
+                            <ng-container *ngTemplateOutlet="flag"></ng-container>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <fp-cirle-img class="owner-img" [img]="getProfileImgUrl(debtDetails)" [name]="getFullName()" [imgWidth]="80" [imgHeight]="80">
+                                    </fp-cirle-img>
+                                </div>
+                                <div class="col-md-10 padding-left-0 padding-right-30">
+                                    <div class="debt-overview padding-top-10 margin-bottom-20">
+                                        <h1 class="finpal-h1">
+                                            {{ debtDetails && debtDetails.name || 'N/A' }}
+                                            <ng-container *ngTemplateOutlet="connectDebt"></ng-container>
+                                        </h1>
+                                        <h1 class="finpal-h1 margin-top-10">
+                                            ${{( debtDetails && debtDetails.currentBalance || 0) | number : '1.2-2'}}
+                                        </h1>
+                                    </div>
+                                    <div class="debt-general-info margin-bottom-20 light-gray">
+                                        <ng-container *ngTemplateOutlet="generalInfo"></ng-container>
+                                    </div>
+                                    <div class="debt-files">
+                                        <span class="upload-file">
+                                            <button folderModifyPermission class="btn btn-info"
+                                                (click)="uploadFileClick()"
+                                                [disabled]="!debtDetails || !debtDetails.id || isFileLoading">Upload
+                                                file...</button>
+                                            <input id="open-file" #chooseFile type="file"
+                                                (change)="onFileChanged($event)">
+                                        </span>
+                                        <h1 class="finpal-h1 margin-bottom-10">Files</h1>
+                                        <ng-container *ngTemplateOutlet="files"></ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #mobile>
+    <div class="mobile-debt light-gray-background" [style.min-height.px]="screenHeight">
+        <div class="debt-overview container e1-gray-background padding-top-30 padding-bottom-20">
+            <div class="row margin-bottom-15">
+                <div class="col-xs-12 col-sm-12 total-overview" id="total-debt">
+                    <ng-container *ngTemplateOutlet="overviewCard, context: {$implicit: totalDebtData.firstCol, isFullRow: true}">
+                    </ng-container>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-md-6 padding-right-5 total-overview" id="total-deductible-deb">
+                    <ng-container *ngTemplateOutlet="overviewCard, context: {$implicit: totalDebtData.secondCol, isFullRow: false}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-6 padding-left-5 total-overview" id="total-non-deductible-debt">
+                    <ng-container *ngTemplateOutlet="overviewCard, context: {$implicit: totalDebtData.thirdCol, isFullRow: false}">
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="debt container padding-top-30 padding-bottom-30">
+            <sidebar-menu [isMobile]="isMobile" [listOwner]="listOwner" [objectValue]="debtTitle" [listItems]="listDebts" [itemTypes]="itemTypes" (selectedItems)="changeSelectedItemDetails($event)">
+            </sidebar-menu>
+            <div class="actions margin-bottom-50 text-align-center">
+                <a routerLink="/client-view/debt/history" type="button" class="btn btn-info object-shadow">
+                    <i class="fas fa-history fa-lg"></i>
+                    <span>Debt History</span>
+                </a>
+            </div>
+            <mat-drawer #drawer class="sidebar" mode="side">
+                <div class="sidebar-header">
+                    <div class="title pull-right padding-top-15 padding-bottom-10">
+                        <span>My Debt</span>
+                        <a class="pull-right padding-right-20 padding-left-20" (click)="closeSideBar()"><i
+                                class="fas fa-times fa-lg dark-gray"></i></a>
+                    </div>
+                </div>
+                <div class="sidebar-content">
+                    <div *ngIf="isDeductible()" class="icon-image" data-toggle="tooltip" title="Deductible Debt">
+                        <div class="icon-border">
+                            <i class="fas fa-check icon"></i>
+                        </div>
+                        <div class="triangle-down">
+                        </div>
+                    </div>
+                    <div *ngIf="!isDeductible()" class="icon-image" data-toggle="tooltip" title="Non-Deductible Debt">
+                        <div class="icon-border">
+                            <i class="fas fa-times icon"></i>
+                        </div>
+                        <div class="triangle-down">
+                        </div>
+                    </div>
+                    <div class="debt-details container">
+                        <div class="row margin-top-10 margin-bottom-10" id="overview">
+                            <div class="col-xs-2 col-sm-2">
+                                <fp-cirle-img class="owner-img" [img]="getProfileImgUrl(debtDetails)" [name]="getFullName()" [imgWidth]="50" [imgHeight]="50"></fp-cirle-img>
+                            </div>
+                            <div class="col-xs-10 col-sm-10 padding-right-60">
+                                <h4 class="finpal-h4" id="debt-title">{{debtDetails && debtDetails.name || 'N/A'}}
+                                    <span class="font-size-14 margin-left-20">
+                                        <a *ngIf="debtDetails && debtDetails.dataFeedsConnected" id="link-icon"
+                                            class="orange" data-toggle="tooltip" data-placement="left"
+                                            title="Connected">
+                                            <i class="fas fa-link"></i></a>
+                                        <a *ngIf="debtDetails && !debtDetails.dataFeedsConnected" id="unlink-icon"
+                                            class="dark-blue" data-toggle="tooltip" data-placement="left"
+                                            title="Not Connected"><i class="fas fa-unlink"></i></a>
+                                    </span>
+                                </h4>
+                                <p class="font-size-24" id="debt-total-amount">
+                                    ${{( debtDetails && debtDetails.currentBalance || 0) | number : '1.2-2'}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="debt-general-info margin-bottom-20">
+                            <ng-container *ngTemplateOutlet="generalInfo"></ng-container>
+                        </div>
+                        <div class="debt-files">
+                            <h5 class="finpal-h5 margin-bottom-10">Files</h5>
+                            <ng-container *ngTemplateOutlet="files"></ng-container>
+                        </div>
+                    </div>
+                </div>
+            </mat-drawer>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #flag>
+    <div class="icon-image" data-toggle="tooltip" [title]="isDeductible() ?  'Deductible Debt' : 'Non-Deductible Debt'">
+        <div class="icon-border">
+            <i class="fas icon" [ngClass]="isDeductible() ? 'fa-check' : 'fa-times'"></i>
+        </div>
+        <div class="triangle-down">
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #connectDebt>
+    <a *ngIf="debtDetails && debtDetails.dataFeedsConnected" id="link-icon" class="orange" data-toggle="tooltip" data-placement="left" title="Connected"><i class="fas fa-link"></i></a>
+    <a *ngIf="debtDetails && !debtDetails.dataFeedsConnected" id="unlink-icon" class="dark-blue" data-toggle="tooltip" data-placement="left" title="Not Connected"><i class="fas fa-unlink"></i></a>
+</ng-template>
+
+<ng-template #overviewCard let-item let-isFullRow="isFullRow">
+    <div class="card light-gray-background">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 padding-top-20 padding-bottom-20">
+                <div class="icon" [ngClass]="isFullRow ? 'col-xs-2 col-sm-2' : 'col-xs-3 col-sm-2'">
+                    <span><i class="fas fa-sm" [ngClass]="item.mobileIcon"></i></span>
+                </div>
+                <div class="content padding-top-10 padding-bottom-5" [ngClass]="isFullRow ? 'col-xs-8 col-sm-8 padding-left-0' : 'col-xs-9 col-sm-10'">
+                    <h6 class="finpal-h6">{{ item.mobileLabel }}</h6>
+                    <p>${{ item.value | number : '1.2-2' || 0 }}</p>
+                </div>
+                <div class="icon col-xs-2 col-sm-2" *ngIf="isFullRow">
+                    <common-debts-projections-overlay class="projections" [iconWidth]="32" [iconHeight]="32" buttonShape="circle">
+                    </common-debts-projections-overlay>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #generalInfo>
+    <div><strong>Interest rate: </strong> {{(debtDetails && debtDetails.annualInterestRate || 0) | number : '1.2-2'}}%
+    </div>
+    <div><strong>Interest type: </strong> {{getInterestType()}} </div>
+    <div><strong>Payment: </strong> {{ debtDetails && debtDetails.repayment || debtDetails && debtDetails.repayment == 0 ? '$' + ( debtDetails.repayment | number : '1.2-2') + getFrequency() : 'N/A'}}
+    </div>
+    <div><strong>Offset account balance: </strong> ${{(debtDetails && debtDetails.offsetAccountBalance ? debtDetails.offsetAccountBalance : 0) | number : '1.2-2'}}
+    </div>
+    <div><strong>Type of debt: </strong> {{getDebtType() }}</div>
+    <div><strong>Associated assets: </strong> {{debtDetails && debtDetails.associatedAsset ? debtDetails.associatedAsset: 'N/A'}}
+    </div>
+</ng-template>
+
+<ng-template #files>
+    <table class="table table-striped card-client-table">
+        <tbody>
+            <tr *ngIf="isFileLoading">
+                <td colspan="2">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Files are loading.</span>
+                </td>
+            </tr>
+            <tr *ngIf="!isFileLoading && dislayedFiles && dislayedFiles.length == 0">
+                <td class="col-md-12">
+                    <a>There are no files.</a>
+                </td>
+            </tr>
+            <tr class="hand-pointer" *ngFor="let file of dislayedFiles">
+                <td class="col-md-10">
+                    <a data-toggle="tooltip" title="Download" (click)="downloadFile(file)">
+                        <i class="fas fa-lg margin-right-5" [ngClass]="getEntityIcon(file)"></i> {{file.name}}</a>
+                </td>
+                <td class="col-md-2">
+                    <a folderModifyPermission type="button" class="btn btn-info-inverse btn-circle object-shadow pull-right" data-toggle="tooltip" data-placement="top" title="Delete" (click)="deleteDoc(file)">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-template>

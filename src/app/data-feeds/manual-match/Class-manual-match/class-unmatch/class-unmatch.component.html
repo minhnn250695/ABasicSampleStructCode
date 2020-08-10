@@ -1,0 +1,290 @@
+<div class="table-responsive">
+    <table class="table table-hover table-striped card-client-table table-responsive">
+        <thead>
+            <tr>
+                <th colspan="7" style="font-size: 17px;">
+                    {{ manualMatchType.name }}</th>
+            </tr>
+            <tr>
+                <th></th>
+                <!-- Type: Company-Contact/Fund -->
+                <th *ngIf="manualMatchType.value == 'Client'">Name</th>
+                <th *ngIf="manualMatchType.value == 'Client'">Code</th>
+                <th *ngIf="manualMatchType.value == 'Client'">Legal Entity Type</th>
+                <th *ngIf="manualMatchType.value == 'Client'">ABN</th>
+                <th *ngIf="manualMatchType.value == 'Client'">Status</th>
+                <!-- Type: ClientAsset/FundInvestment -->
+                <th *ngIf="manualMatchType.value == 'ClientAsset'">Market Type Name</th>
+                <th *ngIf="manualMatchType.value == 'ClientAsset'">Fund Name</th>
+                <th *ngIf="manualMatchType.value == 'ClientAsset'">Fund Code</th>
+                <th *ngIf="manualMatchType.value == 'ClientAsset'">Status</th>
+                <!-- Type: Member/Member -->
+                <th *ngIf="manualMatchType.value == 'Member'">First Name</th>
+                <th *ngIf="manualMatchType.value == 'Member'">Last Name</th>
+                <th *ngIf="manualMatchType.value == 'Member'">Date of Birth</th>
+                <th *ngIf="manualMatchType.value == 'Member'">Preferred Salutation</th>
+                <th *ngIf="manualMatchType.value == 'Member'">Fund Code</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="unMatchList.length == 0">
+                <td colspan="6">
+                    No record founds.
+                </td>
+            </tr>
+            <tr *ngFor="let record of unMatchList, let i = index">
+                <td><input type="checkbox" value="" [checked]="record.isSelected" (change)="onRecordSelect(record)">
+                </td>
+                <!-- Type: Company-Contact/Fund -->
+                <td *ngIf="manualMatchType.value == 'Client'">
+                    {{ record.classFundData && record.classFundData.name ? record.classFundData.name : 'N/A'}}</td>
+                <td *ngIf="manualMatchType.value == 'Client'">
+                    {{ record.classFundData && record.classFundData.code ? record.classFundData.code : 'N/A'}}</td>
+                <td *ngIf="manualMatchType.value == 'Client'">
+                    {{ record.classFundData && record.classFundData.legalEntityTypeString ? record.classFundData.legalEntityTypeString : 'N/A' }}
+                </td>
+                <td *ngIf="manualMatchType.value == 'Client'">
+                    {{ record.classFundData && record.classFundData.abn ? record.classFundData.abn : 'N/A'}}</td>
+                <td *ngIf="manualMatchType.value == 'Client'">
+                    {{ record.classFundData && record.classFundData.entityStatus ? record.classFundData.entityStatus : 'N/A'}}
+                </td>
+                <!-- Type: ClientAsset/FundInvestment -->
+                <td *ngIf="manualMatchType.value == 'ClientAsset'">
+                    {{ record.platformData && record.platformData.accountData && record.platformData.accountData.accountName ? record.platformData.accountData.accountName : 'N/A'}}
+                </td>
+                <td *ngIf="manualMatchType.value == 'ClientAsset'">
+                    {{ record.platformData && record.platformData.fundCode ? record.platformData.fundCode : 'N/A'}}</td>
+                <td *ngIf="manualMatchType.value == 'ClientAsset'">
+                    {{ record.platformData && record.platformData.fundName ? record.platformData.fundName : 'N/A'}}</td>
+                <td *ngIf="manualMatchType.value == 'ClientAsset'">
+                    {{ record.platformData && record.platformData.fundStatus ? record.platformData.fundStatus : 'N/A'}}</td>
+                <!-- Type: Member/Member -->
+                <td *ngIf="manualMatchType.value == 'Member'">
+                    {{ record.member && record.member.personalDetails.firstName ? record.member.personalDetails.firstName : 'N/A' }}
+                </td>
+                <td *ngIf="manualMatchType.value == 'Member'">
+                    {{ record.member && record.member.personalDetails.lastName ? record.member.personalDetails.lastName : 'N/A' }}
+                </td>
+                <td *ngIf="manualMatchType.value == 'Member'">
+                    {{ record.member && record.member.personalDetails.birthDate ? record.member.personalDetails.birthDate : 'N/A' }}
+                </td>
+                <td *ngIf="manualMatchType.value == 'Member'">
+                    {{ record.member && record.member.personalDetails.preferredSalutation ? record.member.personalDetails.preferredSalutation : 'N/A' }}
+                </td>
+                <td *ngIf="manualMatchType.value == 'Member'">
+                    {{ record.member && record.member.fundcode ? record.member.fundcode : 'N/A' }}</td>
+                <td>
+                    <!-- Refresh button -->
+                    <button type="button" class="btn btn-gray btn-xs pull-right" [tooltip]="refresh" tooltipPlacement="top" (click)="btnRefreshCRM(record, i)">
+                        <i class="fas fa-sync-alt" [attr.id]="'btnUnmatched' + i"></i>
+                    </button>
+                    <tooltip-content #refresh>
+                        <span style="width: 50px; display: inline-block;">Refresh from CRM</span>
+                    </tooltip-content>
+                    <!-- Edit Match button -->
+                    <button type="button" class="btn btn-gray btn-xs pull-right margin-right-5" [tooltip]="edit" tooltipPlacement="top" data-toggle="modal" data-target="#class-unmatched-modal" (click)="btnMatchingClick(record)">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <tooltip-content #edit>
+                        <span style="width: 50px; display: inline-block;">Edit record</span>
+                    </tooltip-content>
+                    <!-- Ignore Match button -->
+                    <button *ngIf="manualMatchType.value == 'ClientAsset'" type="button" class="btn btn-gray btn-xs pull-right margin-right-5" [tooltip]="ignore" tooltipPlacement="top" (click)="btnIgnoreMatch(record)">
+                        <i class="fas fa-eye-slash" [attr.id]="'btnIgnored' + i"></i>
+                    </button>
+                    <tooltip-content #ignore>
+                        <span style="width: 50px; display: inline-block;">Ignore</span>
+                    </tooltip-content>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <button [disabled]="!checkRecordSelectAll()" [disabled]="unMatchList.length == 0" type="button" class="btn btn-default pull-right margin-right-5" (click)="onRecordSelectAll(false)">Deselect all</button>
+        <button [disabled]="checkRecordSelectAll()" [disabled]="unMatchList.length == 0" type="button" class="btn btn-default pull-right margin-right-5" (click)="onRecordSelectAll(true)">Select all</button>
+    </div>
+</div>
+
+<div class="modal fade" id="class-unmatched-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h1 class="modal-title finpal-h2" id="MatchModalLabel">Match entity</h1>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="search-group-unmatched" class="input-group" style="width:100%;">
+                            <input id="class-unmatched-search" class="form-control txtSearch" type="text" [placeholder]="manualMatchType.name" [disabled]="isSearching" (keyup)="txtSearchChanged()">
+                            <div *ngIf="isSearching" class="input-group-addon btn-search">
+                                <i class="fas fa-spinner fa-spin fa-lg"></i>
+                            </div>
+                            <div *ngIf="!isSearching" class="input-group-addon btn-search">
+                                <i class="fas fa-search fa-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div *ngIf="manualMatchType.value == 'Client'; then clientModal"></div>
+                <div *ngIf="manualMatchType.value == 'ClientAsset'; then assetModal"></div>
+                <div *ngIf="manualMatchType.value == 'Member'; then memberModal"></div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="!isValidtoSave" type="button" class="btn btn-info" (click)="btnSaveClick()">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #clientModal>
+    <div class="row">
+        <div class="col-md-12">
+            <table *ngIf="selectedClientRecord" class="table revenue-management-table">
+                <tbody>
+                    <tr class="table-header">
+                        <th width="30%"></th>
+                        <th width="35%">Class - Fund</th>
+                        <th width="35%">CRM - Company/Contact</th>
+                    </tr>
+                    <tr>
+                        <th class="text-right" width="33%">Name</th>
+                        <td>
+                            {{ selectedClientRecord.name ? selectedClientRecord.name : "-" }}
+                        </td>
+                        <td>{{ selectedClientRecord.crm && selectedClientRecord.crm.companyName ? selectedClientRecord.crm.companyName : "-" }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">Code</th>
+                        <td>
+                            {{ selectedClientRecord.code ? selectedClientRecord.code : "-" }}
+                        </td>
+                        <td>{{ selectedClientRecord.crm && selectedClientRecord.crm.code ? selectedClientRecord.crm.code : "-" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">Legal Entity Type</th>
+                        <td> {{ selectedClientRecord.legalEntityTypeString ? selectedClientRecord.legalEntityTypeString : "-" }}
+                        </td>
+                        <td>{{ selectedClientRecord.crm && selectedClientRecord.crm.companyTypeText ? selectedClientRecord.crm.companyTypeText : "-" }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">ABN</th>
+                        <td> {{ selectedClientRecord.abn ? selectedClientRecord.abn : "-" }}
+                        </td>
+                        <td>{{ selectedClientRecord.crm && selectedClientRecord.crm.abn ? selectedClientRecord.crm.abn : "-" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">Status</th>
+                        <td>{{ selectedClientRecord.entityStatus ? selectedClientRecord.entityStatus : "-" }}
+                        </td>
+                        <td>{{ selectedClientRecord.crm && selectedClientRecord.crm.statusText ? selectedClientRecord.crm.statusText : "-" }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #assetModal>
+    <div class="row">
+        <div class="col-md-12">
+            <table *ngIf="selectedClientAssetRecord" class="table revenue-management-table">
+                <tbody>
+                    <tr class="table-header">
+                        <th width="30%"></th>
+                        <th width="35%">Class - Fund investment</th>
+                        <th width="35%">CRM - Client asset</th>
+                    </tr>
+                    <tr>
+                        <th class="text-right">Fund Code</th>
+                        <td>{{ selectedClientAssetRecord.fundCode ? selectedClientAssetRecord.fundCode : "-" }}</td>
+                        <td>{{ selectedClientAssetRecord.accountCRM && selectedClientAssetRecord.accountCRM.fundCode ? selectedClientAssetRecord.accountCRM.fundCode : "-" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" width="33%">Market Type Name</th>
+                        <td>{{ selectedClientAssetRecord.accountData && selectedClientAssetRecord.accountData.accountName ? selectedClientAssetRecord.accountData.accountName : "-" }}</td>
+                        <td>{{ selectedClientAssetRecord.accountCRM && selectedClientAssetRecord.accountCRM.name ? selectedClientAssetRecord.accountCRM.name : "-" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">Status</th>
+                        <td>{{ selectedClientAssetRecord.fundStatus ? selectedClientAssetRecord.fundStatus : "-" }}</td>
+                        <td>{{ selectedClientAssetRecord.accountCRM && selectedClientAssetRecord.accountCRM.fundStatus ? selectedClientAssetRecord.accountCRM.fundStatus : "-" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">Description</th>
+                        <td>{{ selectedClientAssetRecord.accountData && selectedClientAssetRecord.accountData.accountName ? selectedClientAssetRecord.accountData.accountName : "-" }}</td>
+                        <td>{{ selectedClientAssetRecord.accountCRM && selectedClientAssetRecord.accountCRM.description ? selectedClientAssetRecord.accountCRM.description : "-" }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #memberModal>
+    <div class="row">
+        <div class="col-md-12">
+            <table *ngIf="selectedMemberRecord" class="table revenue-management-table">
+                <tbody>
+                    <tr class="table-header">
+                        <th width="30%"></th>
+                        <th width="35%">Class - Member</th>
+                        <th width="35%">CRM - Member</th>
+                    </tr>
+                    <tr>
+                        <th class="text-right">First Name</th>
+                        <td>{{ selectedMemberRecord.personalDetails && selectedMemberRecord.personalDetails.firstName ? selectedMemberRecord.personalDetails.firstName : "-" }}</td>
+                        <td>{{ selectedMemberRecord.memberCRM && selectedMemberRecord.memberCRM.firstName ? selectedMemberRecord.memberCRM.firstName : "-" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">Last Name</th>
+                        <td>{{ selectedMemberRecord.personalDetails && selectedMemberRecord.personalDetails.lastName ? selectedMemberRecord.personalDetails.lastName : "-" }}</td>
+                        <td>{{ selectedMemberRecord.memberCRM && selectedMemberRecord.memberCRM.lastName ? selectedMemberRecord.memberCRM.lastName : "-" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">Date of birth</th>
+                        <td>{{ selectedMemberRecord.personalDetails && selectedMemberRecord.personalDetails.birthDate ? selectedMemberRecord.personalDetails.birthDate : "-" }}</td>
+                        <td>{{ selectedMemberRecord.memberCRM && selectedMemberRecord.memberCRM.dateOfBirth ? selectedMemberRecord.memberCRM.dateOfBirth : "-" }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">Fund Code</th>
+                        <td>{{ selectedMemberRecord.fundcode ? selectedMemberRecord.fundcode : "-" }}</td>
+                        <td>{{ selectedMemberRecord.memberCRM && selectedMemberRecord.memberCRM.fundCode ? selectedMemberRecord.memberCRM.fundCode : "-" }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>
+
+<div class="modal fade" id="overwrite-unmatch-warning" tabindex="-1" role="dialog" aria-labelledby="WarningModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h1 class="modal-title finpal-h2" id="WarningModalLabel">Warning</h1>
+            </div>
+
+            <div class="modal-body">
+                <p>The selected client asset is already matched with another record.</p>
+                <p>Do you want to overwrite it? </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-info" (click)="btnYesClick(1)" data-dismiss="modal">Yes</button>
+                <button class="btn btn-default" (click)="btnYesClick(2)" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>

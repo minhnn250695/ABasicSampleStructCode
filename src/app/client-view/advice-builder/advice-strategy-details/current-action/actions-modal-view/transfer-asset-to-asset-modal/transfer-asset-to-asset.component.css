@@ -1,0 +1,10 @@
+@import '../../../../../../../assets/styles/css/customize-styles.css';
+.margin-right-30 {
+    margin-right: 30px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 35px;
+    resize: none;
+}

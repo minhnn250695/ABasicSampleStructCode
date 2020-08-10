@@ -1,0 +1,13 @@
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+a.disabled:hover {
+    color: #505050;
+}
+
+.dim-image {
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}

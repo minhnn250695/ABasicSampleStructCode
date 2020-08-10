@@ -1,0 +1,166 @@
+<div *ngIf="!isMobile" class="breadcrumb-bar-staff padding-top-50 padding-bottom-10">
+  <div class="container">
+    <a routerLink="/admin">
+      <i class="fa fa-home fa-lg margin-right-5"></i>
+    </a>
+    <i class="fa fa-angle-right margin-right-5"></i>
+    <span class="active-breadcrumb"> Admin</span>
+  </div>
+</div>
+
+<div *ngIf="isMobile" class="breadcrumb-bar-staff padding-top-50 margin-top-10 padding-bottom-10">
+  <div class="container">
+    <a href="#">
+      <i class="fas fa-angle-left margin-right-5"></i> Home</a>
+  </div>
+</div>
+
+<div class="container padding-top-40 padding-bottom-50">
+  <h1 class="finpal-h1">Administration</h1>
+  <div class="row">
+
+    <div class="padding-top-20" [ngClass]="isMobile ? 'col-xs-12' : 'col-md-3'">
+      <h2 class="finpal-h3 padding-bottom-20">{{state.getName()}} logo</h2>
+      <img id="logoImage" 
+        [src]="state.logoUrl()" 
+        class="img-thumbnail padding-20" 
+        width="150" alt="Company Logo" 
+      />
+      <p>
+        <label for="uploadFromFile">
+          <span class="btn btn-info margin-top-10">Upload new</span>
+        </label>
+        <input type="file" id="uploadFromFile" name="pic" accept="image/*" class="sr-only" (change)="handleUploadImage($event)">
+      </p>
+    </div>
+
+    <div class="col-md-4 padding-top-20">
+      <h2 class="finpal-h3 padding-bottom-20">Contact information</h2>
+      <h4 class="finpal-h4">Address</h4>
+      <p>{{state.fullAddress()}}
+        <a rel="popover" id="addressPopover" data-popover-content="#address-content" onclick="$(this).popover('toggle')">
+          <i class="fa fa-pencil"></i>
+        </a>
+      </p>
+      <h4 class="finpal-h4">Phone</h4>
+      <p>
+        {{state.phone()}}
+        <a rel="popover" id="phonePopover" data-popover-content="#phone" onclick="$(this).popover('toggle')">
+          <i class="fa fa-pencil"></i>
+        </a>
+      </p>
+      <h4 class="finpal-h4">Email</h4>
+      <p>
+        {{state.email()}}
+        <a rel="popover" id="emailPopover" data-popover-content="#email" onclick="$(this).popover('toggle')">
+          <i class="fa fa-pencil"></i>
+        </a>
+      </p>
+
+    </div>
+
+    <div class="col-md-3 padding-top-20">
+      <h2 class="finpal-h3 padding-bottom-20">Social media</h2>
+      <form class="form-inline">
+        <div class="form-group padding-bottom-10">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fab fa-facebook fa-lg margin-left-3 margin-right-3"></i>
+            </div>
+            <input type="text" class="form-control" id="exampleInputAmount" placeholder="facebook">
+          </div>
+        </div>
+        <div class="form-group padding-bottom-10">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fab fa-vimeo fa-lg"></i>
+            </div>
+            <input type="text" class="form-control" id="exampleInputAmount" placeholder="vimeo">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fab fa-linkedin fa-lg"></i>
+            </div>
+            <input type="text" class="form-control" id="exampleInputAmount" placeholder="LinkedIn">
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="padding-top-20">
+      <div *ngIf="isShowWarning" class="alert alert-danger col-md-6 col-md-offset-3">
+        <strong>Warning!</strong> {{errorMsg}}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Popovers -->
+
+<div id="address-content" class="hide">
+  <label for="street" class="control-label">Residential address</label>
+  <input type="text" class="form-control" id="txtStreet" placeholder="{{state.street()}}">
+  <label for="city" id="city" class="control-label padding-top-10">City</label>
+  <select class="form-control" id="selectCity" value="{{state.city()}}">
+    <option>Melbourne</option>
+    <option>Torquay</option>
+    <option>Geelong</option>
+    <option>Ballarat</option>
+  </select>
+  <label for="state" id="state" class="control-label padding-top-10">State</label>
+  <select name="state" class="form-control" id="selectState" value="{{state.stateOrProvince()}}">
+    <option name="aci">Ashmore and Cartier Islands</option>
+    <option name="aat">Australian Antarctic Territory</option>
+    <option name="act">Australian Capital Territory</option>
+    <option name="ci">Christmas Island</option>
+    <option name="ki">Cocos (Keeling) Islands</option>
+    <option name="csi">Coral Sea Islands</option>
+    <option name="himi">Heard Island and McDonald Islands</option>
+    <option name="jb">Jervis Bay Territory</option>
+    <option name="nsw">New South Wales</option>
+    <option name="ni">Norfolk Island</option>
+    <option name="nt">Northern Territory</option>
+    <option name="qld">Queensland</option>
+    <option name="sa">South Australia</option>
+    <option name="tas">Tasmania</option>
+    <option name="vic">Victoria</option>
+    <option name="wa">Western Australia</option>
+  </select>
+  <label for="postalcode" id="postalcode" class="control-label padding-top-10">Postal code</label>
+  <select class="form-control" id="selectPostCode" [ngModel]="state.postcode">
+    <option value="3227" [selected]="state.isPostalCode('3227')">3227</option>
+    <option value="3228" [selected]="state.isPostalCode('3228')">3228</option>
+    <option value="3229" [selected]="state.isPostalCode('3229')">3229</option>
+    <option value="3230" [selected]="state.isPostalCode('3230')">3230</option>
+  </select>
+  <div class="margin-top-10">
+    <button type="button" class="btn btn-primary save-address">Save changes</button>
+    <button type="button" class="btn btn-default close-address">Close</button>
+  </div>
+</div>
+
+<div id="phone" class="hide">
+  <label for="" class="control-label">Alias</label>
+  <input type="text" class="form-control" id="txtAlias" placeholder="{{state.phoneAlias()}}">
+  <label for="" class="control-label padding-top-10">Phone number</label>
+  <input type="text" class="form-control" id="txtPhone" placeholder="{{state.phone()}}" onkeypress='return (event.charCode >= 48 && event.charCode <= 57)'>
+  <div class="margin-top-10">
+    <button type="button" class="btn btn-primary save-phone">Save changes</button>
+    <button type="button" class="btn btn-default close-phone">Close</button>
+  </div>
+</div>
+
+<div id="email" class="hide">
+  <label for="email" class="control-label">Email address</label>
+  <input type="text" class="form-control" id="txtEmail" placeholder="{{state.email()}}">
+  <div class="margin-top-10">
+    <button type="button" class="btn btn-primary save-email">Save changes</button>
+    <button type="button" class="btn btn-default close-email">Close</button>
+  </div>
+</div>

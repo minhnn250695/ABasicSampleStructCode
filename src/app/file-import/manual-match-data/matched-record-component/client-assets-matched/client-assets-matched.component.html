@@ -1,0 +1,185 @@
+<table id="dataFeedTable" class="table table-striped small">
+    <!--Table head-->
+    <thead>
+        <tr>
+            <!-- <th class="col-md-1 col-xs-1"><input type="checkbox" value="" [checked]="isSelectAll"
+                    (change)="onRecordSelectAll()"></th> -->
+            <th class="col-md-2 col-xs-2">Primary Client <a><i class="fas fa-sort"></i></a></th>
+            <th class="col-md-2 col-xs-2">Friendly Name</th>
+            <th class="col-md-2 col-xs-2">Primary Adviser</th>
+            <th class="col-md-2 col-xs-2">Asset Status</th>
+            <th class="col-md-2 col-xs-2">Account Balance</th>
+            <th class="col-md-2 col-xs-2"></th>
+        </tr>
+        <tr></tr>
+    </thead>
+    <!--Table head-->
+    <!--Table body-->
+    <tbody infiniteScroll [infiniteScrollDistance]="scrollDistance" [infiniteScrollThrottle]="scrollThrottle"
+        [infiniteScrollUpDistance]="scrollUpDistance" (scrolled)="onScrollDown()" [scrollWindow]="false">
+        <tr *ngFor="let row of matchedList">
+            <!-- <td class="col-md-1 col-xs-1"><input type="checkbox" value="" [disabled]="row.canNotSetNew"
+                    [checked]="row.isSelected" (change)="onRecordSelect(row)"></td> -->
+            <td class="col-md-2 col-xs-2">{{row.sourceData.finpal_primaryclient}}</td>
+            <td class="col-md-2 col-xs-2">{{row.sourceData.finpal_friendlyname}}</td>
+            <td class="col-md-2 col-xs-2">{{row.sourceData.owninguser}}</td>
+            <td class="col-md-2 col-xs-2">{{row.sourceData.finpal_assetstatus}}</td>
+            <td class="col-md-2 col-xs-2">{{row.sourceData.finpal_currentaccountbalance}}</td>
+            <td *ngIf="row.imported; else modify" class="col-md-2 col-xs-2">
+                <p class="orange pull-right"><i class="fas fa-check"></i> Successfully imported</p>
+            </td>
+            <ng-template #modify>
+                <td class="col-md-2 col-xs-2">
+                    <span data-toggle="modal" [attr.data-target]="'#' + editModal">
+                        <button tooltipPlacement="top" tooltip="Edit" class="btn btn-gray btn-xs pull-right"
+                            (click)="btnMatchingClick(row)">
+                            <i class="fas fa-pencil"></i>
+                        </button>
+                    </span>
+                    <span data-toggle="modal" [attr.data-target]="'#' + unlinkModal">
+                        <button tooltipPlacement="top" tooltip="Unlink record"
+                            class="btn btn-gray btn-xs pull-right margin-right-5" (click)="btnUnlinkClick(row)">
+                            <i class="fas fa-unlink"></i>
+                        </button>
+                    </span>
+                </td>
+            </ng-template>
+        </tr>
+    </tbody>
+    <!--Table body-->
+</table>
+
+<!-- <button class="btn btn-info pull-right margin-top-20" (click)="importToCRM()"
+    [disabled]="!matchedList || matchedList.length < 1 || entityKeys.length == 0">Import
+    to CRM</button> -->
+<button class="btn btn-info pull-right margin-top-20" [disabled]="isImporting" (click)="importToCRM()">Import
+    to CRM</button>
+
+<!--import Confirmation  -->
+<div class="modal fade" id="import-confirm" tabindex="-1" role="dialog" aria-labelledby="ConfirmModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <span class="modal-title finpal-h2 padding-bottom-10" id="ConfirmModalLabel"><i
+                        class="fas fa-exclamation-triangle fa-xs"></i>
+                    Warning</span>
+            </div>
+            <div class="modal-body">
+                Importing data for existing records will overwrite anything stored in the same fields. Continue?
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info pull-right margin-right-5" data-dismiss="modal"
+                            (click)="importToCRM()">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit modal -->
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <span class="modal-title finpal-h2 padding-bottom-10" id="EditModalLabel">Match record</span>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="match-group" class="input-group">
+                            <input id="match-tags" class="form-control" type="text" [placeholder]="searchText"
+                                (keyup)="txtSeachKeyUp($event)">
+                            <div *ngIf="isSearching" class="input-group-addon btn-search">
+                                <i class="fas fa-spinner fa-spin fa-lg"></i>
+                            </div>
+                            <div *ngIf="!isSearching" class="input-group-addon btn-search">
+                                <i class="fas fa-search fa-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-condensed small">
+                            <thead>
+                                <tr>
+                                    <th class="text-right"></th>
+                                    <th>CRM</th>
+                                    <th>File</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let targetName of targetNames, let i = index">
+                                    <th class="text-right">{{displayNames[i]}}</th>
+                                    <td>{{getCRMColumnsValue(targetName)}}</td>
+                                    <td>{{getFileColumnsValue(targetName)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                        <button type="button" [disabled]="!isValidData || isSearching"
+                            class="btn btn-info pull-right margin-right-5" (click)="editMatchRecord()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Override modal -->
+<div class="modal fade" id="edit-warning" tabindex="-1" role="dialog" aria-labelledby="WarningModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <span class="modal-title finpal-h2 padding-bottom-10" id="WarningModalLabel"><i
+                        class="fas fa-exclamation-triangle fa-xs"></i>
+                    Warning</span>
+            </div>
+            <div class="modal-body">
+                The selected record is already matched with another record. Do you want to overwrite it?
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info pull-right margin-right-5">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Unlink modal -->
+<div class="modal fade" id="unlink-modal" tabindex="-1" role="dialog" aria-labelledby="UnlinkModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <span class="modal-title finpal-h2 padding-bottom-10" id="UnlinkModalLabel"><i
+                        class="fas fa-exclamation-triangle fa-xs"></i>
+                    Warning</span>
+            </div>
+            <div class="modal-body">
+                Do you want to unlink this record?
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-info pull-right margin-right-5"
+                            (click)="btnYesToAgreeUnlink()">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

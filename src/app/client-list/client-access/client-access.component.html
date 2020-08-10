@@ -1,0 +1,106 @@
+<div class="breadcrumb-bar-staff padding-top-50 padding-bottom-10">
+    <div *ngIf="!isMobile" class="container">
+        <a routerLink="/landing">
+            <i class="fa fa-home fa-lg margin-right-5"></i>
+        </a>
+        <i class="fa fa-angle-right margin-right-5"></i>
+        <span class="active-breadcrumb">Client list</span>
+    </div>
+
+    <div *ngIf="isMobile" class="container margin-top-10">
+        <a href="#">
+            <i class="fas fa-angle-left margin-right-5"></i> Home</a>
+    </div>
+</div>
+
+
+<div *ngIf="!isMobile" class="sub-menu">
+    <div class="container">
+        <button type="button" class="btn btn-default pull-right" (click)="newClient()">
+            <i class="fa fa-user-plus"></i> New client/s</button>
+    </div>
+</div>
+
+<div class="container padding-top-40 padding-bottom-50">
+    <h1 class="finpal-h1">Client list</h1>
+
+    <div class="row">
+        <client-filter (filter)="filterChange($event)"></client-filter>
+        <div class="col-md-9 padding-top-10">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name
+                            <a (click)="searchBy('Name')">
+                                <i class="fa fa-sort margin-right-10"></i>
+                            </a>
+                        </th>
+                        <th>Status</th>
+                        <th>Gender
+                            <a (click)="searchBy('Gender')">
+                                <i class="fa fa-sort margin-right-10"></i>
+                            </a>
+                        </th>
+                        <th>Age
+                            <a (click)="searchBy('Age')">
+                                <i class="fa fa-sort margin-right-10"></i>
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let client of state.clients; let i = index">
+                        <td>
+                            <input type="checkbox" [checked]="client.isSelected" (change)="onRecordSelect(client)">
+                        </td>
+                        <td>
+                            <i class="fa fa-caret-right fa-lg light-blue margin-right-10"></i>
+                            <a>{{client && client.fullName}}</a>
+                        </td>
+                        <td *ngIf="client.portalActivateStatus == 0">
+                            <i class="fas fa-clock fa-lg medium-gray margin-right-10"></i> Pending
+                        </td>
+                        <td *ngIf="client.portalActivateStatus == 1">
+                            <i class="fas fa-check-circle fa-lg green-color margin-right-10"></i> Active
+                        </td>
+                        <td *ngIf="client.portalActivateStatus == 2">
+                            <i class="fas fa-plug fa-lg medium-gray margin-right-10"></i> Inactive
+                        </td>
+                        <td *ngIf="client.portalActivateStatus == 3">
+                            <i class="fas fa-lock fa-lg medium-gray margin-right-10"></i> Locked
+                        </td>
+                        <td *ngIf="client.gender == 'Male'">
+                            <i class="fa fa-male fa-lg medium-gray"></i>
+                        </td>
+                        <td *ngIf="client.gender != 'Male'">
+                            <i class="fa fa-female fa-lg medium-gray"></i>
+                        </td>
+                        <td>{{client && client.age}}</td>
+                        <td>
+                            <div class="pull-right">
+                                <client-action [id]="i" [client]="client" (action)="actionSelected($event)"></client-action>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <div class="row">
+                <div class="col-md-6 margin-top-10">
+                    <button type="button" class="btn btn-default" (click)="btnSelectALL()">Select all</button>
+                    <button type="button" class="btn btn-primary" (click)="btnRemoveClick()">Remove selected</button>
+                </div>
+                <div class="col-md-6 margin-top-10">
+                    <nav class="pull-right">
+                        <fp-paging #paging [currentPage]="state.currentPage" (searchPage)="getClientsForPage($event)"></fp-paging>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<fp-success-dialog #mySuccessDialog></fp-success-dialog>

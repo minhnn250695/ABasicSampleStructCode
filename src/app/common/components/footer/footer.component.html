@@ -1,0 +1,84 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<!-- DESKTOP -->
+<ng-template #desktop>
+    <footer class="footer">
+        <div class="container padding-top-40 padding-bottom-30">
+            <div class="row">
+                <div class="col-md-4 padding-top-5">
+                    <a href="https://fin365.com.au/">
+                        <span class="dark-gray">Powered by</span>
+                        <img src="../../../assets/img/finpal-spinner.png" alt="Fin365" width="33.4px" height="33.8px" />
+                        <span class="dark-blue"><strong>Fin</strong>365</span>
+                    </a>
+                </div>
+                <div class="col-md-4 social text-center padding-top-5">
+                    <h4>
+                        Copyright © {{ this.currentYear }}. All rights reserved.
+                    </h4>
+                </div>
+                <div class="col-md-4 text-right">
+                    <h4>
+                        Connect
+                        <ul class="social-network social-circle">
+                            <li>
+                                <a href="https://www.facebook.com/FinPalSoftware/" class="icoFacebook" title="Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://vimeo.com/finpalsoftware/" class="icoVimeo" title="Vimeo">
+                                    <i class="fab fa-vimeo-v"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.linkedin.com/company/finpal-pty-ltd" class="icoLinkedin" title="Linkedin">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </footer>
+</ng-template>
+
+<!-- MOBILE -->
+<ng-template #mobile>
+    <footer class="footer" *ngIf="isShow">
+        <div class="container">
+            <div class="row padding-top-30 padding-bottom-80 text-center">
+                <div class="col-xs-12">
+                    <a href="https://fin365.com.au/">
+                        <img src="../../../assets/img/fin365-full-logo.png" alt="Fin365" height="38px" />
+                    </a>
+                </div>
+                <div class="col-xs-12 social margin-top-20">
+                    <ul class="social-network social-circle">
+                        <li>
+                            <a href="https://www.facebook.com/FinPalSoftware/" class="icoFacebook" title="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://vimeo.com/finpalsoftware/" class="icoVimeo" title="Vimeo">
+                                <i class="fab fa-vimeo-v"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/company/finpal-pty-ltd" class="icoLinkedin" title="Linkedin">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 margin-top-20">
+                    <h4>
+                        Copyright © {{ this.currentYear }}. All rights reserved.
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </footer>
+</ng-template>

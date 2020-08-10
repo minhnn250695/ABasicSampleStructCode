@@ -1,0 +1,303 @@
+<!-- PROGRESS BAR -->
+<div class="progress-menu-container padding-top-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="steps-form-2">
+                    <div class="background-line"></div>
+                    <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+                        <div class="steps-step-2">
+                            <button type="button" class="btn btn-completed-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Personal info" [disabled]="onLoadComponent" (click)="navigateToStep('/on-boarding/personal-information')">
+                                <i class="fas fa-check fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="steps-step-2">
+                            <button type="button" class="btn btn-completed-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Family members" [disabled]="onLoadComponent" (click)="navigateToStep('/on-boarding/family-member')">
+                                <i class="fas fa-check fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="steps-step-2">
+                            <button type="button" class="btn btn-active-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Financial situation">
+                                <i class="fas fa-money-bill-alt fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="steps-step-2">
+                            <button type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Your goals" [disabled]="onLoadComponent" (click)="navigateToStep('/on-boarding/your-goal')">
+                                <i class="fas fa-flag-checkered fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>
+
+<div class="modal fade" id="asset-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <app-asset-type #asset></app-asset-type>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="debt-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <app-debt-type #debt></app-debt-type>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cashflow-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <app-family-cashflow #cashflow (addNewAsset)="onTypeChange(2)"></app-family-cashflow>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="insurance-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <app-insurance-type #insurance></app-insurance-type>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="!onLoadComponent; then component else waiting"></div>
+<ng-template #component>
+    <div class="container padding-top-40 padding-bottom-50">
+        <div class="row padding-bottom-20">
+            <div class="col-md-12">
+                <h2 class="finpal-h1">Financial situation</h2>
+                <p>Please provide information about your current financial situation. The more information the merrier.
+                </p>
+            </div>
+        </div>
+        <!-- SUMMARY OF ALL CLIENT'S FINANCIAL SITUATION -->
+        <div class="row">
+            <!-- Assets -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header-xs green-background">
+                        Assets
+                        <a [popover]="asset" class="pull-right">
+                            <i class="fas fa-info-circle" aria-hidden="true"></i>
+                        </a>
+                        <popover-content #asset placement="right" [closeOnClickOutside]="true">
+                            <p class="dark-gray" style="width: 200px; display: inline-block;">
+                                Add information about current assets like your primary residence and any investments assets such as superannuation, bank savings, rental properties, investment funds, etc.
+                            </p>
+                        </popover-content>
+                    </div>
+                    <div *ngFor="let asset of assetList" class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                        <a *ngIf="asset.assetType != '100000000'" data-toggle="modal" data-target="#asset-modal">
+                            <div class="row" (click)="assetClick(asset)">
+                                <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                                    <i class="fas fa-2x medium-gray" [ngClass]="setAssetIconClasses(asset.assetType)"></i>
+                                </div>
+                                <div class="col-md-9 padding-top-10 padding-bottom-10">
+                                    <span class="small">{{asset.name ? asset.name : "N/A"}}</span>
+                                    <br />
+                                    <span *ngIf="asset.assetType == '100000000'; else otherType" class="card-big-number light-blue">${{asset.incomeDrawn ?
+                                        (asset.incomeDrawn | number ) : "0"}}</span>
+                                    <ng-template #otherType>
+                                        <span class="card-big-number light-blue">${{asset.currentBalance ?
+                                        (asset.currentBalance | number ) : "0"}}</span>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Add new -->
+                    <div class="card-block-link padding-left-20 padding-right-20">
+                        <a data-toggle="modal" data-target="#asset-modal">
+                            <div (click)="assetClick()" class="row">
+                                <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                                    <i class="fas fa-plus fa-2x medium-gray"></i>
+                                </div>
+                                <div class="col-md-9 padding-top-10 padding-bottom-10">
+                                    <span class="small">Asset</span>
+                                    <br />
+                                    <span class="finpal-h4 orange">Add new</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Debt -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header-xs light-orange-background">
+                        Debts
+                        <a [popover]="debt" class="pull-right">
+                            <i class="fas fa-info-circle" aria-hidden="true"></i>
+                        </a>
+                        <popover-content #debt placement="right" [closeOnClickOutside]="true">
+                            <p class="dark-gray" style="width: 200px; display: inline-block;">
+                                Please provide information about any current loans, including your home mortgage, investment loans, credit cards, car loans, etc.
+                            </p>
+                        </popover-content>
+                    </div>
+                    <div *ngFor="let debt of debtList" class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                        <a data-toggle="modal" data-target="#debt-modal">
+                            <div class="row" (click)="debtClick(debt)">
+                                <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                                    <i class="fas fa-2x medium-gray" [ngClass]="setDebtIconClasses(debt.name)"></i>
+                                </div>
+                                <div class="col-md-9 padding-top-10 padding-bottom-10">
+                                    <span class="small">{{debt.name ? debt.name : "N/A"}}</span>
+                                    <br />
+                                    <span class="card-big-number light-blue">-${{debt.currentBalance ?
+                                        (debt.currentBalance
+                                        |
+                                        number) : "0" }}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Add new -->
+                    <div class="card-block-link padding-left-20 padding-right-20">
+                        <a data-toggle="modal" data-target="#debt-modal">
+                            <div (click)="debtClick()" class="row">
+                                <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                                    <i class="fas fa-plus fa-2x medium-gray"></i>
+                                </div>
+                                <div class="col-md-9 padding-top-10 padding-bottom-10">
+                                    <span class="small">Debt</span>
+                                    <br />
+                                    <span class="finpal-h4 orange">Add new</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Income/expense -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header-xs light-blue-background">
+                        Incomes & expenses
+                        <a [popover]="incomeExpense" class="pull-right">
+                            <i class="fas fa-info-circle" aria-hidden="true"></i>
+                        </a>
+                        <popover-content #incomeExpense placement="right" [closeOnClickOutside]="true">
+                            <p class="dark-gray" style="width: 200px; display: inline-block;">
+                                Please enter all current sources of income (e.g. employment, rental property, government benefits, investment income) and your estimated fixed and discretionary spending.
+                            </p>
+                        </popover-content>
+                    </div>
+                    <!-- Expense -->
+                    <div *ngFor="let expense of todayClientExpenseList" class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                        <a data-toggle="modal" data-target="#cashflow-modal">
+                            <div (click)="cashFlowClick(expense, 2)" class="row">
+                                <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                                    <i [ngClass]="getExpenseIconClass(expense.expenseType)" class="fas fa-2x medium-gray"></i>
+                                </div>
+                                <div class="col-md-9 padding-top-10 padding-bottom-10">
+                                    <span class="small">{{expense.expenseName}}</span>
+                                    <br />
+                                    <span class="card-big-number light-blue">${{expense.expenseAmount | number}}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Income/benefits -->
+                    <div *ngFor="let income of todayClientIncomeList">
+                        <div class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                            <a data-toggle="modal" data-target="#cashflow-modal">
+                                <div (click)="cashFlowClick(income, 1)" class="row">
+                                    <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                                        <i [ngClass]="getIncomeIconClass(income.incomeType)" class="fas fa-2x medium-gray"></i>
+                                    </div>
+                                    <div class="col-md-9 padding-top-10 padding-bottom-10">
+                                        <span class="small">{{income.incomeName}}</span>
+                                        <br />
+                                        <span class="card-big-number light-blue">${{income.grossIncome | number}}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Add new -->
+                    <div class="card-block-link padding-left-20 padding-right-20">
+                        <a data-toggle="modal" data-target="#cashflow-modal">
+                            <div (click)="cashFlowClick()" class="row">
+                                <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                                    <i class="fas fa-plus fa-2x medium-gray"></i>
+                                </div>
+                                <div class="col-md-9 padding-top-10 padding-bottom-10">
+                                    <span class="small">Income/expense</span>
+                                    <br />
+                                    <span class="finpal-h4 orange">Add new</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Insurance -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header-xs teal-background">
+                        Insurance
+                        <a [popover]="insurance" class="pull-right">
+                            <i class="fas fa-info-circle" aria-hidden="true"></i>
+                        </a>
+                        <popover-content #insurance placement="right" [closeOnClickOutside]="true">
+                            <p class="dark-gray" style="width: 200px; display: inline-block;">
+                                Please provide information about any personal insurance policies such as life, disability, trauma and income protection. Most people have some personal insurance inside their superannuation.
+                            </p>
+                        </popover-content>
+                    </div>
+                    <div *ngFor="let insurance of insuranceList" class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                        <a data-toggle="modal" data-target="#insurance-modal">
+                            <div (click)="insuranceClick(insurance)" class="row">
+                                <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                                    <i class="fas fa-2x fa-umbrella medium-gray"></i>
+                                </div>
+                                <div class="col-md-9 padding-top-10 padding-bottom-10">
+                                    <span class="small">{{insurance.name}}</span>
+                                    <br />
+                                    <span class="card-big-number light-blue">${{insurance.annualInsurancePremium |
+                                        number}}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Add new -->
+                    <div class="card-block-link padding-left-20 padding-right-20">
+                        <a data-toggle="modal" data-target="#insurance-modal">
+                            <div (click)="insuranceClick()" class="row">
+                                <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                                    <i class="fas fa-plus fa-2x medium-gray"></i>
+                                </div>
+                                <div class="col-md-9 padding-top-10 padding-bottom-10">
+                                    <span class="small">Insurance</span>
+                                    <br />
+                                    <span class="finpal-h4 orange">Add new</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row padding-top-20">
+            <div class="col-md-12">
+                <a href="#/on-boarding/your-goal" class="btn btn-info pull-right">Continue
+                    <i class="fas fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #waiting>
+    <app-waiting></app-waiting>
+</ng-template>

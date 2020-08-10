@@ -1,0 +1,230 @@
+<div class="progress-menu-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="steps-form-2">
+                    <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/personal-information" type="button" class="btn btn-completed-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Personal info"><i class="fas fa-user fa-lg" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/family-member" type="button" class="btn btn-active-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Family members"><i class="fas fa-users fa-lg"
+                  aria-hidden="true"></i></a>
+                        </div>
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/financial-situation" type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Financial situation"><i
+                  class="fas fa-money-bill-alt fa-lg" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/your-goal" type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Your goals"><i class="fas fa-flag-checkered fa-lg"
+                  aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- LOADING SPINNER -->
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>
+
+<!-- EDIT MODAL -->
+<div class="modal fade scroll-able" id="new-family-member" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+                <span *ngIf="isNewMember" class="modal-title finpal-h2 padding-bottom-10 margin-right-5" id="MatchModalLabel">New
+          family member</span>
+                <span *ngIf="!isNewMember && selectedMember" class="modal-title finpal-h2 padding-bottom-10 margin-right-5" id="MatchModalLabel">{{selectedMember.fullName}}</span>
+            </div>
+
+            <div class="modal-body">
+                <form #testForm="ngForm">
+                    <div *ngIf="selectedMember" class="row">
+                        <div class="col-xs-4 col-xs-offset-4 text-center">
+                            <img id="profileImage" [src]="initProfileImg(selectedMember.profileImageUrl)" class="img-circle img-responsive" />
+
+                            <p class="text-center" style="display: inline-flex;">
+
+                                <input type="file" id="uploadFromCamera" name="uploadFromCamera" accept="image/*" capture="camera" class="sr-only" (change)="handleUploadImage($event)">
+                                <label for="uploadFromCamera">
+                  <span class="btn btn-default btn-sm margin-top-10 margin-right-5">
+                    <i class="fas fa-camera fa-lg" aria-hidden="true"></i>
+                  </span>
+                </label>
+
+                                <input type="file" id="uploadFromFile" name="uploadFromFile" accept="image/*" class="sr-only" (change)="handleUploadImage($event)">
+                                <label for="uploadFromFile">
+                  <span class="btn btn-default btn-sm margin-top-10">
+                    <i class="fas fa-upload fa-lg" aria-hidden="true">
+                    </i>
+                  </span>
+                </label>
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label for="firstname" class="control-label">* First name</label>
+                            <input type="text" class="form-control" name="firstname" [(ngModel)]="firstName" required tabindex="1">
+                            <label for="lastname" class="control-label padding-top-20">* Last name</label>
+                            <input type="text" class="form-control" name="lastname" [(ngModel)]="lastName" required tabindex="2">
+                            <label for="birthday" class="control-label padding-top-20">* Date of birth</label>
+                            <app-datepicker #datePicker id="birthday" [inputDate]="dateOfBirth"></app-datepicker>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div *ngIf="!primaryClientId || selectedMember.id != primaryClientId" class="col-xs-6">
+                            <label for="maritalstatus" class="control-label padding-top-20">* Role</label>
+                            <select class="form-control" required name="role" tabindex="5" [(ngModel)]="role">
+                <option *ngFor='let option of roles' [value]="option">{{option}}</option>
+              </select>
+                        </div>
+                        <div *ngIf="primaryClientId && selectedMember.id == primaryClientId" class="col-xs-6">
+                            <label for="maritalstatus" class="control-label padding-top-20">* Marital Status</label>
+                            <select class="form-control" name="maritalStatus" required [(ngModel)]="maritalStatus" tabindex="5">
+                <option *ngFor='let option of maritalStatuses' [value]="option.code">{{option.name}}</option>
+              </select>
+                        </div>
+
+                        <div class="col-xs-6">
+                            <label for="gender" class="control-label padding-top-20">* Gender</label>
+                            <select class="form-control" required name="gender" [(ngModel)]="gender" tabindex="3">
+                <option *ngFor='let option of genderTypes' [value]="option.code">{{option.name}}</option>
+              </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <hr>
+                            <h2 class="finpal-h3 dark-blue padding-bottom-10">Contact information</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label for="street1" class="control-label">Mobile phone</label>
+                            <input type="text" class="form-control" name="mobilePhone" id="mobilephone" [(ngModel)]="mobilePhone" tabindex="6">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label for="street1" class="control-label padding-top-20">Home phone</label>
+                            <input type="text" [attr.disabled]="isPrimaryPhoneChecked ? 'disabled': null" class="form-control" name="homePhone" id="homephone" [(ngModel)]="homePhone" tabindex="7">
+                            <div *ngIf="!primaryClientId || !selectedMember || !selectedMember.id || selectedMember.id != primaryClientId" class="checkbox">
+                                <label>
+                  <input type="checkbox" [checked]="isPrimaryPhoneChecked" (change)="btnPrimaryClick(2)"> Use primary
+                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label for="street1" class="control-label padding-top-20">* Email address</label>
+                            <input type="text" [attr.disabled]="isPrimaryEmailChecked || (primaryClientId && selectedMember.id == primaryClientId) ? 'disabled': null" class="form-control" name="email" [(ngModel)]="email" required tabindex="8">
+                            <div *ngIf="!primaryClientId || !selectedMember || !selectedMember.id || selectedMember.id != primaryClientId" class="checkbox">
+                                <label>
+                  <input type="checkbox" [checked]="isPrimaryEmailChecked" (change)="btnPrimaryClick(1)"> Use primary
+                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 padding-top-20">
+                            <button type="button" class="btn btn-default pull-right margin-left-5" data-dismiss="modal" aria-label="Close">Cancel</button>
+                            <button class="btn btn-default pull-right" (click)="btnAddClick()" [disabled]="testForm.invalid" *ngIf="isNewMember"> <i class="fas fa-user-plus" aria-hidden="true"></i> Add member</button>
+                            <button (click)="btnSaveClick()" *ngIf="!isNewMember" [disabled]="testForm.invalid || !datePicker?.isValid || (!changeInformationDetection() && !changeImageDetection())" class="btn btn-info pull-right margin-right-5">
+                Save changes</button>
+                            <!-- <div *ngIf="isNewMember">
+                <button (click)="btnAddClick()" [disabled]="testForm.invalid" class="btn btn-default pull-right">
+                  <i class="fas fa-user-plus" aria-hidden="true"></i> Add member</button>
+              </div>
+              <div *ngIf="!isNewMember">
+                <button (click)="btnSaveClick()"
+                  [disabled]="testForm.invalid || !datePicker?.isValid || (!changeInformationDetection() && !changeImageDetection())"
+                  class="btn btn-info pull-right margin-right-5">
+                  Save changes</button>
+              </div> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ERROR DIALOG -->
+<div class="modal fade" id="error-dialog" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title finpal-h2" id="MatchModalLabel">Warning</span>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Your changed data will be lost.</p>
+                        <p>Do you want to continue?</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal" (click)="btnConfirmClick(false)">Cancel</button>
+                        <button type="button" class="btn btn-info pull-right margin-right-5" data-dismiss="modal" (click)="btnConfirmClick(true)">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CROP IMAGE MODAL -->
+<crop-image #cropImage (croppedImage)="handleCroppedImage($event)"></crop-image>
+
+<div *ngIf="!onLoadComponent; then component else waiting"></div>
+
+<ng-template #component>
+    <div class="container padding-top-30 padding-bottom-30">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="finpal-h2 dark-gray">Family members</h2>
+                <p>Click on each member and update any missing/incorrect information. Also add missing family members.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div *ngFor="let member of memberList" class="col-xs-3 text-center">
+                <a (click)="changeMember(member)" data-toggle="modal" data-target="#new-family-member">
+                    <span *ngIf="(selectedMember.id == member.id && testForm.valid && datePicker?.isValid) || checkAllRequiredCompleted(member)" class="notify-badge">
+            <i class="fas fa-check"></i>
+          </span>
+                    <span *ngIf="(selectedMember.id == member.id && (testForm.invalid || !datePicker?.isValid)) || !checkAllRequiredCompleted(member)" class="notify-badge2">
+            <i class="fas fa-question"></i>
+          </span>
+                    <img [src]="initProfileImg(member.profileImageUrl)" class="img-circle img-responsive" />
+                </a>
+                <p>{{member.firstName}}</p>
+            </div>
+
+            <div class="col-xs-3 text-center">
+                <a (click)="changeMember()" data-toggle="modal" data-target="#new-family-member">
+                    <img src="../../../assets/img/add-member.png" class="img-circle img-responsive" />
+                </a>
+                <p>New</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <a (click)="btnContinueClick()" class="btn btn-info pull-right">
+          Continue
+          <i class="fas fa-angle-right" aria-hidden="true"></i>
+        </a>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #waiting>
+    <app-mobile-waiting></app-mobile-waiting>
+</ng-template>

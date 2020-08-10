@@ -1,0 +1,60 @@
+<div [ngClass]="!isMobile ? 'padding-top-50 progress-menu-container' : 'progress-menu-container'">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="steps-form-2">
+                    <div class="background-line"></div>
+                    <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+                        <div class="steps-step-2">
+                            <button href="#/on-boarding/personal-information" type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Personal info" [disabled]="household?.clientOnboardingStep != 1" (click)="navigateToStep('/on-boarding/personal-information')">
+                                <i class="fas fa-user fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="steps-step-2">
+                            <button href="#/on-boarding/family-member" type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Family members" [disabled]="household?.clientOnboardingStep != 1" (click)="navigateToStep('/on-boarding/family-member')">
+                              <i class="fas fa-users fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="steps-step-2">
+                            <button href="#/on-boarding/financial-situation" type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Financial situation" [disabled]="household?.clientOnboardingStep != 1" (click)="navigateToStep('/on-boarding/financial-situation')">
+                                <i class="fas fa-money-bill-alt fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="steps-step-2">
+                            <button href="#/on-boarding/your-goal" type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Your goals" [disabled]="household?.clientOnboardingStep != 1" (click)="navigateToStep('/on-boarding/your-goal')">
+                                <i class="fas fa-flag-checkered fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container padding-top-40 padding-bottom-50">
+    <div *ngIf="household?.clientOnboardingStep == 1;then page1 else others"></div>
+    <ng-template #page1>
+        <div #page1 class="row">
+            <div class="col-md-3 text-center padding-top-40">
+                <i class="fas fa-handshake fa-10x medium-gray" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-9">
+                <h2 class="finpal-h1">Welcome {{household?.jointSalutation}}</h2>
+                <p class="finpal-h3 padding-bottom-10">We’re excited to help you design a strategy that will enable you to reach all your goals.</p>
+                <p>The first step in our process is to paint a clear picture of where you’re at today and what tomorrow looks like. To do this, we need your help collecting some basic information. There are only 4 pages to complete, but you may need to collect
+                    some information about current savings, investments, loans, etc.</p>
+                <p>At the end of the process, you’ll instantly receive a report of your current financial situation.
+                    <br /> The more information you provide us, the more comprehensive this report will be.</p>
+                <p class="small padding-top-10 padding-bottom-20">
+                    <i class="fas fa-info-circle green-color fa-2x" aria-hidden="true"></i> To make completing the report a bit easier, you’re able to save your answers and come back to the report later.</p>
+                <a href="#/on-boarding/personal-information" class="btn btn-info btn-lg pull-right">Get started
+          <i class="fas fa-angle-right fa-lg" aria-hidden="true"></i>
+        </a>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #others>
+        <app-waiting></app-waiting>
+    </ng-template>
+</div>

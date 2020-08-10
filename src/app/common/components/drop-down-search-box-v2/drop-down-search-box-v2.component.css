@@ -1,0 +1,13 @@
+@import '../../../../assets/styles/fp-styles.css';
+
+.searchRow {
+    font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+    font-size: 12px ! important;
+}
+
+.searchBox {
+    border-bottom-right-radius: 4px !important; 
+    border-left-width: 0px;
+    border-top-right-radius: 4px !important;    
+}
+

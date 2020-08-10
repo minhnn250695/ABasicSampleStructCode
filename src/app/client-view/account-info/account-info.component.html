@@ -1,0 +1,60 @@
+<fp-client-view-header active="0"></fp-client-view-header>
+
+<div class="container padding-top-40 padding-bottom-50">
+  <h1 class="finpal-h1">Account</h1>
+  <div class="row">
+    <div class="col-md-3 padding-top-20">
+      <h2 class="finpal-h3 padding-bottom-20">Profile picture</h2>
+      <img [src]="getProfileImage()" class="img-thumbnail" />
+      <p>
+        <btn-upload-file placeHolder="Upload new" [expectedFormat]="['png', 'jpg']" (fileChange)="updateProfileImg($event)"></btn-upload-file>
+      </p>
+    </div>
+
+    <div class="col-md-4 padding-top-20">
+      <h2 class="finpal-h3 padding-bottom-20">Login information</h2>
+      <h4 class="finpal-h4">Name</h4>
+      <p>{{user ? user.firstName + ' ' + user.lastName : 'N/A'}}</p>
+      <h4 class="finpal-h4">Login email</h4>
+      <p>
+        {{user ? user.userName : 'N/A'}}
+      </p>
+      <div id="accountEmail" class="hide">
+        <label for="email" class="control-label">Login email</label>
+        <input type="text" class="form-control" id="txtEmail">
+        <div class="margin-top-10">
+          <button type="button" class="btn btn-primary" id="saveEmail">Save changes</button>
+          <button type="button" class="btn btn-default" onclick="$('#btnEmail').popover('hide')" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      <h4 class="finpal-h4">Password</h4>
+      <p>
+        ********
+        <a id="btnPass" rel="popover" data-popover-content="#accountPass" onclick="$(this).popover('toggle')">
+          <i class="fas fa-pencil"></i>
+        </a>
+      </p>
+      <div id="accountPass" class="hide">
+        <label for="" class="control-label">Old password</label>
+        <input type="password" class="form-control" id="txtOldPass">
+        <label for="" class="control-label padding-top-10">New password</label>
+        <p>Must be at least 8 characters (1 lowercase letter, 1 uppercase letter and numbers).</p>
+        <input type="password" class="form-control" id="txtNewPass">
+        <label for="" class="control-label padding-top-10">Confirm new password</label>
+        <input type="password" class="form-control" id="txtRePass">
+        <div class="margin-top-10">
+          <button type="button" class="btn btn-primary" id="savePass">Save changes</button>
+          <button type="button" class="btn btn-default" onclick="$('#btnPass').popover('hide')" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      <div id="updatePassSuccess" class="hide">
+        <p>
+          <i class="fas fa-check fa-lg margin-right-5 green-color"></i> Password successfully updated!</p>
+        <div class="margin-top-10">
+          <button type="button" class="btn btn-primary disabled">Save changes</button>
+          <button type="button" class="btn btn-default" onclick="$('#btnPass').popover('hide')" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

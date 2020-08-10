@@ -1,0 +1,45 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="editincome">{{goalModalTitle}}</h4>
+        </div>
+        <!-- Add/Update -->
+        <div *ngIf="selectedGoal.goalType && !readOnly" class="modal-body">
+            <!-- Retirement income -->
+            <retirement-goal-type *ngIf="selectedGoal.goalType == 4"  [showInvestfit]="showInvestfit" [isLandingPage]="isLandingPage" [isCreateGoal]="isCreateGoal" [goal]="selectedGoal" [goalTypeName]="goalTypeName" [iconCSS]="iconCSS" (goalEmitting)="saveChangesRetirementGoal($event)">
+            </retirement-goal-type>
+            <!-- Spending -->
+            <spending-goal-type *ngIf="selectedGoal.goalType == 1" [isCreateGoal]="isCreateGoal" [goal]="selectedGoal" [clientAssets]="clientAssets" [clientDebts]="clientDebts" [goalTypeName]="goalTypeName" [iconCSS]="iconCSS" (goalEmitting)="saveChangesGoal($event)">
+            </spending-goal-type>
+            <!-- None-spending -->
+            <non-spending-goal-type *ngIf="selectedGoal.goalType == 2" [isCreateGoal]="isCreateGoal" [goal]="selectedGoal" [goalTypeName]="goalTypeName" [iconCSS]="iconCSS" (goalEmitting)="saveChangesGoal($event)">
+            </non-spending-goal-type>
+            <!-- Income -->
+            <income-goal-type *ngIf="selectedGoal.goalType == 3" [isLandingPage]="isLandingPage" [isCreateGoal]="isCreateGoal" [goal]="selectedGoal" [clientAssets]="clientAssets" [clientDebts]="clientDebts" [goalTypeName]="goalTypeName" [clientIncomeList]="adviceBuilderService.clientIncomeSource"
+                [iconCSS]="iconCSS" (goalEmitting)="saveChangesGoal($event)">
+            </income-goal-type>
+        </div>
+        <!-- View only -->
+        <div *ngIf="selectedGoal.goalType && readOnly" class="modal-body">
+            <!-- Retirement income -->
+            <retirement-goal-type-view *ngIf="selectedGoal.goalType == 4" [showInvestfit]="showInvestfit" [isLandingPage]="isLandingPage" [goal]="selectedGoal" [goalTypeName]="goalTypeName" [iconCSS]="iconCSS">
+            </retirement-goal-type-view>
+            <!-- Spending -->
+            <spending-goal-type-view *ngIf="selectedGoal.goalType == 1" [goal]="selectedGoal" [clientAssets]="clientAssets" [clientDebts]="clientDebts" [goalTypeName]="goalTypeName" [iconCSS]="iconCSS">
+            </spending-goal-type-view>
+            <!-- None-spending -->
+            <non-spending-goal-type-view *ngIf="selectedGoal.goalType == 2" [goal]="selectedGoal" [goalTypeName]="goalTypeName" [iconCSS]="iconCSS">
+            </non-spending-goal-type-view>
+            <!-- Income -->
+            <income-goal-type-view *ngIf="selectedGoal.goalType == 3" [goal]="selectedGoal" [clientAssets]="clientAssets" [clientDebts]="clientDebts" [goalTypeName]="goalTypeName" [iconCSS]="iconCSS">
+            </income-goal-type-view>
+        </div>
+
+        <div *ngIf="!selectedGoal.goalType" class="modal-body text-center margin-top-10 margin-bottom-10">
+            <i class="fas fa-spinner fa-pulse"></i>
+        </div>
+    </div>
+</div>

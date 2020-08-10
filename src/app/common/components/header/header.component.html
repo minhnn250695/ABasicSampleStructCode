@@ -1,0 +1,93 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <nav class="navbar navbar-fixed-top border-bottom-1 padding-bottom-20">
+        <fp-loader> </fp-loader>
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand margin-bottom-30" href="#">
+                    <img *ngIf="logoUrl" id="header-logo-img" class="header-logo" [src]="logoUrl" alt="Company Logo" />
+                </a>
+            </div>
+            <div *ngIf="showAvatar" class="navbar-nav navbar-right margin-top-30 top-menu-dropdown">
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <img [src]="profileImgUrl" style="height:30px" class="img-circle center-block" />{{userFirstName || ''}}
+                        <span><i class="fas fa-caret-down dark-blue profile-caret"></i></span>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li *ngIf="isClientAdmin()">
+                            <a (click)="portalAdminSetting()">Settings</a>
+                        </li>
+                        <li *ngIf="isClientAdminOrStaff()">
+                            <a (click)="thirdPartyConnections()">Third party connections</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li *ngIf="isClientAdminOrStaff()">
+                            <a (click)="clientList()">Client list</a>
+                        </li>
+                        <li *ngIf="isClientAdminOrStaff()">
+                            <a (click)="dataFeeds()">Data feeds</a>
+                        </li>
+                        <li *ngIf="isClientAdminOrStaff()">
+                            <a (click)="revenueManagement()">Revenue management</a>
+                        </li>
+                        <li *ngIf="isClientAdminOrStaff()">
+                            <a (click)="documentGenerator()">Document generator</a>
+                        </li>
+                        <li *ngIf="isClientAdminOrStaff()">
+                            <a (click)="importStatus()">Import status</a>
+                        </li>
+                        <li *ngIf="isClientAdmin()" role="separator" class="divider"></li>
+                        <li *ngIf="isClientAdmin()">
+                            <a (click)="systemDetails()">System details</a>
+                        </li>
+                        <li *ngIf="isClientAdminOrStaff()" role="separator" class="divider"></li>
+                        <li>
+                            <a (click)="logOut()"> Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</ng-template>
+
+<ng-template #mobile>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <fp-loader> </fp-loader>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <div *ngIf="showNavigation">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <a class="navbar-brand padding-top-10" href="#">
+                    <img *ngIf="logoUrl" [src]="logoUrl" style="height: 30px;" class="img-responsive" alt="miPlan" />
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- <li class="active">
+                        <a href="#">
+                            <i class="fas fa-home margin-right-5"></i> Home</a>
+                    </li>
+                    <li>
+                        <a (click)="account()">
+                            <i class="fas fa-caret-circle-right margin-right-5"></i> Account</a>
+                    </li> -->
+                    <!-- <li role="separator" class="divider"></li> -->
+                    <li>
+                        <a (click)="logOut()">
+                            <i class="fas fa-sign-out margin-right-5"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</ng-template>

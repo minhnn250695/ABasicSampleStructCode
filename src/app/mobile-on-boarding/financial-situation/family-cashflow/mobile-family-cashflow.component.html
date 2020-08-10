@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+  <span *ngIf="isAddNew" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">New income/expense</span>
+  <span *ngIf="!isAddNew && itemName" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">{{itemName}}</span>
+  <!-- <a rel="popover" data-popover-content="#income-expense-info" data-placement="right" onclick="$(this).popover('toggle')">
+    <i class="fas fa-info-circle" aria-hidden="true"></i>
+  </a>
+  <div id="income-expense-info" class="hide">
+    <p class="dark-gray">Please enter all current sources of income (e.g. employment, rental property, government
+      benefits,
+      investment income) and your estimated fixed and discretionary spending.</p>
+  </div> -->
+</div>
+
+<div class="modal-body">
+  <div class="row">
+    <div class="col-xs-12">
+      <!-- Tab header -->
+      <div *ngIf="isAddNew" class="center-block text-center">
+        <ul class="nav nav-pills center-block text-center">
+          <li [ngClass]="selectingTab == 1 ? 'active' : null">
+            <a data-toggle="pill" (click)="onTabChange(1)" href="#income">Income</a>
+          </li>
+          <li [ngClass]="selectingTab == 2 ? 'active' : null">
+            <a data-toggle="pill" (click)="onTabChange(2)" href="#expense">Expense</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Tab content -->
+      <div class="tab-content">
+        <!-- (validationFromIncome)="handleValidationFromChild($event)" -->
+        <div id="income" [ngClass]="selectingTab == 1 ? 'tab-pane fade in active' : 'tab-pane fade in'">
+          <app-mobile-income (addNewAsset)="addNewAsset.emit(true)" #income></app-mobile-income>
+        </div>
+        <div id="expense" [ngClass]="selectingTab == 2 ? 'tab-pane fade in active' : 'tab-pane fade in'">
+          <app-mobile-expense #expense></app-mobile-expense>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

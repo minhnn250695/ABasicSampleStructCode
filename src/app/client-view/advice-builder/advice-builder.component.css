@@ -1,0 +1,105 @@
+.scrolling-wrapper>.row {
+    /* flex-wrap: nowrap; */
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.scrolling-wrapper>.row>.col-md-3 {
+    display: inline-block;
+    float: none;
+}
+
+.small {
+    white-space: initial;
+}
+
+.padding-left-0 {
+    padding-left: 0px;
+}
+
+.padding-right-0 {
+    padding-right: 0px;
+}
+
+.margin-top-8 {
+    margin-top: 8px;
+}
+
+#timeline .btn-info-inverse {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+#timeline .btn-info-inverse:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+#add-new-strategy a {
+    color: #0072C6;
+}
+
+#add-new-strategy a:hover {
+    color: #0072C6;
+}
+
+#timeline .btn-lg {
+    height: 40px;
+    padding: 8px 16px;
+}
+
+#financial-planning-strategies .dropdown {
+    text-align: center;
+}
+
+#financial-planning-strategies .dropdown-menu {
+    top: 28px;
+    left: 8px;
+    width: 185px;
+}
+
+#timeline .dropdown-menu {
+    width: 279px;
+}
+
+#timeline .dropdown-menu.has-edit-button {
+    left: 28px;
+}
+
+#timeline .dropdown-menu.no-edit-button {
+    right: 19px;
+}
+
+#timeline .dropdown-menu>li>a {
+    color: #0072C6;
+}
+
+#timeline .dropdown-menu>li>a:hover,
+#timeline .dropdown-menu>li>a:focus {
+    color: #fff;
+    text-decoration: none;
+    background-color: #002050;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    max-width: 40px;
+    height: 34px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+
+/* Firefox */
+
+input[type=number] {
+    -moz-appearance: textfield;
+    height: 34px;
+    max-width: 40px;
+    text-align: center;
+    border-radius: 4px;
+}

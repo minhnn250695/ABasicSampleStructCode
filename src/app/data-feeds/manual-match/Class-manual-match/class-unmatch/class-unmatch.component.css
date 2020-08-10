@@ -1,0 +1,14 @@
+.revenue-management-table>thead>tr>th,
+.revenue-management-table>tbody>tr>th,
+.revenue-management-table>tfoot>tr>th,
+.revenue-management-table>thead>tr>td,
+.revenue-management-table>tbody>tr>td,
+.revenue-management-table>tfoot>tr>td {
+    border-top: 1px solid #ddd;
+    border-right: none;
+}
+
+.table-header {
+    height: 44px;
+    background-color: #f6f6f6;
+}

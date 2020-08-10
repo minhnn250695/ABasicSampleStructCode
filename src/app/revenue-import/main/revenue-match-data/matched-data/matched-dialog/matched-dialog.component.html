@@ -1,0 +1,134 @@
+<div class="modal fade" id="manual-match-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel" (keyup)="escapePress($event)">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="cancelClick()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title finpal-h2" id="MatchModalLabel">
+                    Match entity
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-striped small">
+                            <!--Table body-->
+                            <tbody>
+                                <tr>
+                                    <th class="text-right" width="33%">Adviser</th>
+                                    <td>{{entity.owner}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-right">Date</th>
+                                    <td>{{entity.date | date: 'dd-MMM-yyyy'}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-right">Gross revenue</th>
+                                    <td>${{entity.grossRevenue | number : '1.0-2'}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-right">Gross tax</th>
+                                    <td>${{entity.grossTax | number : '1.0-2'}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-right">Adviser split</th>
+                                    <td>{{entity.adviserPercentage*100 | number : '1.0-2'}}%</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-right">Adviser revenue</th>
+                                    <td>${{entity.adviserRevenue | number : '1.0-2'}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-right">Adviser tax</th>
+                                    <td>${{entity.adviserTax | number : '1.0-2'}}</td>
+                                </tr>
+
+                                <!-- ProductProvider -->
+                                <tr>
+                                    <th class="text-right">Product provider</th>
+                                    <td>
+                                        <div class="input-groups">
+                                            <row-content-matched [holder]="entity.productProviderCRMName ? entity.productProviderCRMName : 'Product Provider...'" id="product" [dataSource]="productProvider" [advancedSearch]="true" (returnEvent)="getReturnData($event)" (getResourceByKeyWordEvent)="getProductProvidersByKeyWord($event)">
+                                            </row-content-matched>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- clients -->
+                                <tr>
+                                    <th class="text-right">Client</th>
+                                    <td>
+                                        <row-content-matched [holder]="entity.contactName ? entity.contactName : 'Client...'" id="client" [dataSource]="crmHanlder.getClients()" (returnEvent)="getReturnData($event)">
+                                        </row-content-matched>
+                                    </td>
+                                </tr>
+                                <!-- revenue category -->
+                                <tr>
+                                    <th class="text-right">Revenue category</th>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <select class="form-control input-sm" [(ngModel)]="selectedRevenueCatetoryPosition">
+                                                    <option *ngFor="let item of revenueCatetorySource; let i = index;"
+                                                        [ngValue]="i">{{item.value}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- client Asset -->
+                                <tr *ngIf="!isInsuranceCategorySelected() && !isLendingCategorySelected()">
+                                    <th class="text-right">Client asset</th>
+                                    <td>
+                                        <row-content-matched [holder]="entity.clientAssetName ? entity.clientAssetName : 'Client Asset...'" id="clientAsset" [dataSource]="clientAssets" [advancedSearch]="true" (returnEvent)="getReturnData($event)" (getResourceByKeyWordEvent)="getClientAssetsByKeyWord($event)">
+                                        </row-content-matched>
+                                    </td>
+                                </tr>
+
+                                <!-- client Debt -->
+                                <tr *ngIf="!isInsuranceCategorySelected() && isLendingCategorySelected()">
+                                    <th class="text-right">Client debt</th>
+                                    <td>
+                                        <row-content-matched [holder]="entity.clientDebtName ? entity.clientDebtName : 'Client Debt...'" id="clientDebt" [dataSource]="clientDebts" [advancedSearch]="true" (returnEvent)="getReturnData($event)" (getResourceByKeyWordEvent)="getClientDebtsByKeyWord($event)">
+                                        </row-content-matched>
+                                    </td>
+                                </tr>
+
+                                <!-- Insurance Providers -->
+                                <tr *ngIf="isInsuranceCategorySelected() && !isLendingCategorySelected()">
+                                    <th class="text-right">Personal insurance</th>
+                                    <td>
+                                        <row-content-matched [holder]="entity.personalInsuranceName ? entity.personalInsuranceName : 'Personal Insurance...'" id="personal" [dataSource]="crmHanlder.getInsuranceProviders()" (returnEvent)="getReturnData($event)">
+                                        </row-content-matched>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-right">Revenue type</th>
+                                    <td>{{entity.revenueType}}</td>
+                                </tr>
+
+                                <!-- Opportunity -->
+                                <tr *ngIf="isShowOpportunityRow()">
+                                    <th class="text-right">Opportunity</th>
+                                    <td>
+                                        <row-content-matched [holder]="entity.opportunityCRMName ? entity.opportunityCRMName : 'Opportunity...'" id="opportunity" id="opportunity" [dataSource]="crmHanlder.getOpportunities()" (returnEvent)="getReturnData($event)">
+                                        </row-content-matched>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                            <!--Table body-->
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-right" (click)="cancelClick()">Cancel</button>
+                <button type="button" class="btn btn-info pull-right margin-right-5" [disabled]="!checkInputChange()" (click)="validateAndClose()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

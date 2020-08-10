@@ -1,0 +1,175 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <div class="insurance-policies e1-gray-background">
+        <div class="container padding-top-40 padding-bottom-20">
+            <h1 class="finpal-h1 margin-bottom-15">Insurance Policies</h1>
+            <div class="row">
+                <div class="col-md-3" id="insurance-policies-list">
+                    <sidebar-menu [listOwner]="contacts" [objectValue]="insuranceTitle" [listItems]="listInsurance" [itemTypes]="itemTypes" (selectedItems)="changeSelectedItemDetails($event)"></sidebar-menu>
+                </div>
+                <div class="col-md-9" id="insruance-policy-details">
+                    <div class="card padding-top-30">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <fp-cirle-img class="owner-img" [img]="profileUrl()" [name]="getFullName()" [imgHeight]="80" [imgWidth]="80"></fp-cirle-img>
+                            </div>
+                            <div class="col-md-10 m-dark-gray padding-left-0 padding-right-30">
+                                <div class="insurance-policy-overview padding-top-10 margin-bottom-20">
+                                    <h1 class="finpal-h1">
+                                        {{insuranceDetails && insuranceDetails.combineInsuranceName || 'N/A'}}
+                                    </h1>
+                                    <h1 class="finpal-h1 margin-top-10">
+                                        ${{( insuranceDetails && insuranceDetails.totalPremium || 0) | number : '1.2-2'}}
+                                    </h1>
+                                </div>
+                                <div class="insurance-policy-general-info margin-bottom-20">
+                                    <div><strong>Benefit Premiums:
+                                        </strong>${{ (insuranceDetails && insuranceDetails.benefitPremiums || 0) | number:'1.2-2' }}
+                                    </div>
+                                    <div><strong>Policy Fee: </strong> ${{ (insuranceDetails && insuranceDetails.policyFee || 0) | number:'1.2-2' }}
+                                    </div>
+                                </div>
+                                <div class="insurance-policy-benefits margin-bottom-20">
+                                    <h1 class="finpal-h1">Benefits</h1>
+                                    <table class="table">
+                                        <thead>
+                                            <tr class="border-bottom-gray">
+                                                <th>Type</th>
+                                                <th>Life insured</th>
+                                                <th>Amount</th>
+                                                <th>Premium</th>
+                                                <th>Annualized</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let benefit of benefits(); let i= index" [attr.id]="'benefit-' + i">
+                                                <td class="benefit-type">{{getBenefitTypeString(benefit)}}</td>
+                                                <td class="benefit-life-insure">
+                                                    {{benefit && benefit.lifeInsuredName ? benefit.lifeInsuredName : "N/A"}}
+                                                </td>
+                                                <td class="benefit-amount">
+                                                    ${{(benefit.amount || 0) | number:'1.2-2'}}
+                                                </td>
+                                                <td class="benefit-premium">{{ getPremiumTypeString(benefit)}}
+                                                </td>
+                                                <td class="benefit-anualized">
+                                                    ${{(benefit.annualizedPremium || 0) | number:'1.2-2'}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="insurance-policy-files">
+                                    <span class="upload-file">
+                                        <button folderModifyPermission class="btn btn-info"
+                                            [disabled]='(insuranceDetails && !insuranceDetails.id) || isFileLoading'
+                                            (click)="uploadFileClick()">Upload file...</button>
+                                        <input id="open-file" #chooseFile type="file" (change)="onFileChanged($event)">
+                                    </span>
+                                    <h1 class="finpal-h1 margin-bottom-10">Files
+                                    </h1>
+                                    <ng-container *ngTemplateOutlet="files"></ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #mobile>
+    <div class="insurances container light-gray-background padding-top-30 padding-bottom-10">
+        <sidebar-menu [isMobile]="isMobile" [listOwner]="contacts" [objectValue]="insuranceTitle" [listItems]="listInsurance" [itemTypes]="itemTypes" (selectedItems)="changeSelectedItemDetails($event)">
+        </sidebar-menu>
+    </div>
+    <mat-drawer #drawer class="sidebar" mode="side">
+        <div class="sidebar-header">
+            <div class="title pull-right padding-top-15 padding-bottom-10">
+                <span>Insurance Policies</span>
+                <a class="pull-right padding-right-20 padding-left-20" (click)="closeSideBar()"><i
+                        class="fas fa-times fa-lg dark-gray"></i></a>
+            </div>
+        </div>
+        <div class="sidebar-content">
+            <div class="insurance-policies-details container">
+                <div class="row margin-top-10 margin-bottom-10" id="overview">
+                    <div class="col-xs-2 col-sm-2">
+                        <fp-cirle-img class="owner-img" [img]="profileUrl()" [name]="getFullName()" [imgHeight]="50" [imgWidth]="50"></fp-cirle-img>
+                    </div>
+                    <div class="col-xs-10 col-sm-10 padding-right-60">
+                        <h4 class="finpal-h4" id="insurance-policies-title">
+                            {{insuranceDetails && insuranceDetails.combineInsuranceName || 'N/A'}}
+                        </h4>
+                        <p class="font-size-24" id="insurance-policies-total-amount">
+                            ${{( insuranceDetails && insuranceDetails.totalPremium || 0) | number : '1.2-2'}}
+                        </p>
+                    </div>
+                </div>
+                <div class="insurance-policies-general-info margin-bottom-20">
+                    <div><strong>Benefit Premiums:
+                        </strong>${{ (insuranceDetails && insuranceDetails.benefitPremiums || 0) | number:'1.2-2' }}
+                    </div>
+                    <div><strong>Policy Fee: </strong> ${{ (insuranceDetails && insuranceDetails.policyFee || 0) | number:'1.2-2' }}
+                    </div>
+                </div>
+                <div class="insurance-policies-benefits margin-bottom-20">
+                    <h5 class="finpal-h5 padding-bottom-5 border-bottom-1">Benefits</h5>
+                    <ul class="benefits">
+                        <div *ngFor="let benefit of benefits(); let i = index" class="benefit padding-top-10 padding-bottom-10 border-bottom-1" [attr.id]="'benefit-' + i">
+                            <li [ngClass]="showDetailsOfInsurancePolicies.indexOf(i) != -1 ? 'opened' : ''">
+                                <a (click)="toggleInsurancePolicyBenefitDetails(i)">{{ getBenefitTypeString(benefit)}} -
+                                    {{benefit && benefit.lifeInsuredName}}
+                                    <i class="fas fa-chevron-down fa-lg pull-right"></i></a>
+                            </li>
+                            <div class="benefit-details padding-top-10" *ngIf="showDetailsOfInsurancePolicies.indexOf(i) != -1">
+                                <p><strong>Amount: </strong>${{(benefit.amount || 0) | number:'1.2-2'}}</p>
+                                <p><strong>Premium: </strong>{{ getPremiumTypeString(benefit)}}</p>
+                                <p><strong>Annualized: </strong>${{(benefit.annualizedPremium || 0) | number:'1.2-2'}}
+                                </p>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+                <div class="insurance-policies-files">
+                    <h5 class="finpal-h5 margin-bottom-10">Files</h5>
+                    <ng-container *ngTemplateOutlet="files"></ng-container>
+                </div>
+            </div>
+        </div>
+    </mat-drawer>
+</ng-template>
+
+
+<ng-template #files>
+    <table class="table table-striped card-client-table ">
+        <tbody>
+            <tr *ngIf="isFileLoading">
+                <td colspan="2 ">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span *ngIf="!isFileDeleting">Files are
+                        loading...</span>
+                    <span *ngIf="isFileDeleting">Deleting file...</span>
+                </td>
+            </tr>
+            <tr *ngIf="!isFileLoading && dislayedFiles && dislayedFiles.length == 0">
+                <td class="col-md-12">
+                    <a>There are no files.</a>
+                </td>
+            </tr>
+            <tr class="hand-pointer " *ngFor="let file of dislayedFiles ">
+                <td class="col-md-10 ">
+                    <a data-toggle="tooltip " title="Download " (click)="downloadFile(file)"><i
+                            class="fas fa-lg margin-right-5" [ngClass]="getEntityIcon(file)"></i> {{file.name}}</a>
+                </td>
+                <td class="col-md-2 ">
+                    <a folderModifyPermission type="button " class="btn btn-info-inverse btn-circle object-shadow pull-right " data-toggle="tooltip " data-placement="top " title="Delete " (click)="deleteDoc(file) ">
+                        <i class="fas fa-trash "></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-template>

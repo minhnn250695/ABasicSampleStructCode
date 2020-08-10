@@ -1,0 +1,189 @@
+<div class="col-md-12 col-xs-12 timeline">
+    <div class="row">
+        <div *ngIf="showAdditionalButton && showAdditionalButton === 'view-detail'" class="col-md-3 padding-top-10">
+            <a class="btn btn-primary btn-lg pull-right" (click)="goToStrategyDetails()"><i
+                    class="fas fa-pencil margin-right-5"></i> Edit strategy</a>
+        </div>
+        <div *ngIf="showAdditionalButton && showAdditionalButton === 'new-goal'" class="col-md-3">
+            <new-goal-button [activeAssetList]="activeAssetList" [activeDebtList]="activeDebtList" (updateGoalList)="updateGoalListEvent($event)"></new-goal-button>
+        </div>
+    </div>
+    <div class="body-wrap">
+        <!-- # component starts -->
+        <div class="pres-timeline" id="this-timeline">
+            <div class="timeline-goal row" *ngFor="let event of events; let i = index">
+                <div class="col-xs-12 col-md-12">
+                    <div class="col-xs-3 col-sm-2 col-md-2 goal-item">
+                        <a class="btn btn-info-inverse btn-circle btn-md goal-icon" *ngIf="event.type != 1 && !allowUpdateGoalDetail" data-toggle="modal" [attr.data-target]="'#period-details' + i" (click)="selectPeriod(i)"><i class="fa fa-lg"
+                                [ngClass]="returnGoalIconCSS(event.subCategory, event.type)"></i></a>
+                        <a class="btn btn-info-inverse btn-circle btn-md goal-icon" *ngIf="event.type != 1 && allowUpdateGoalDetail" data-toggle="modal" data-target="#update-goal-mobile" (click)="updateGoal(i)"><i class="fa fa-lg"
+                                [ngClass]="returnGoalIconCSS(event.subCategory, event.type)"></i></a>
+                        <a class="btn btn-info-inverse btn-circle btn-md goal-icon" *ngIf="event.type == 1" data-toggle="modal" data-target="#retirement-details" (click)="selectPeriod(i)"><i
+                                class="fa fa-lg" [ngClass]="returnGoalIconCSS(event.subCategory, event.type)"></i></a>
+                        <div class="goal-vertical-line" *ngIf="i != events.length-1" [ngClass]="event.name.length > 78 ? 'line-x-lg' : event.name.length > 52 ? 'line-lg' : event.name.length > 26 ? 'line-md' : ''">
+                        </div>
+                    </div>
+                    <div class="col-xs-9 col-sm-10 col-md-10 goal-content">
+                        <div class="card" *ngIf="event.type != 1" [ngClass]="event.name.length > 78 ? 'card-x-lg' : event.name.length > 52 ? 'card-lg' : event.name.length > 26 ? 'card-md' : ''">
+                            <a *ngIf="event.type != 1 && !allowUpdateGoalDetail" data-toggle="modal" [attr.data-target]="'#period-details' + i" (click)="selectPeriod(i)">
+                                <div class="col-xs-1 col-md-1 goal-thumbs-icon">
+                                    <span><i class="fas fa-thumbs-up orange"
+                                            [style.display]="event.onTrack == 509000000 || event.onTrack == 509000002 ? null : 'none'"></i></span>
+                                    <span><i class="fas fa-thumbs-down orange"
+                                            [style.display]="event.onTrack == 509000001 ? null : 'none'"></i></span>
+                                </div>
+                                <div class="col-xs-11 col-md-11">
+                                    <strong>{{ event.startYear }}</strong>
+                                    <p>{{ event.name }}</p>
+                                </div>
+                            </a>
+                            <a *ngIf="event.type != 1 && allowUpdateGoalDetail" data-toggle="modal" data-target="#update-goal-mobile" (click)="updateGoal(i)">
+                                <div class="col-xs-1 col-md-1 goal-thumbs-icon">
+                                    <span><i class="fas fa-thumbs-up orange"
+                                            [style.display]="event.onTrack == 509000000 || event.onTrack == 509000002 ? null : 'none'"></i></span>
+                                    <span><i class="fas fa-thumbs-down orange"
+                                            [style.display]="event.onTrack == 509000001 ? null : 'none'"></i></span>
+                                </div>
+                                <div class="col-xs-11 col-md-11">
+                                    <strong>{{ event.startYear }}</strong>
+                                    <p>{{ event.name }}</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="card" *ngIf="event.type == 1" [ngClass]="event.name.length > 78 ? 'card-x-lg' : event.name.length > 52 ? 'card-lg' : event.name.length > 26 ? 'card-md' : ''">
+                            <div class="col-xs-10">
+                                <div class="row">
+                                    <a *ngIf="event.type == 1" data-toggle="modal" (click)="selectPeriod(i)" data-target="#retirement-details">
+                                        <div class="col-xs-1 col-md-1 goal-thumbs-icon">
+                                            <span><i class="fas fa-thumbs-up orange"
+                                                    [style.display]="event.onTrack == 509000000 || event.onTrack == 509000002 ? null : 'none'"></i></span>
+                                            <span><i class="fas fa-thumbs-down orange"
+                                                    [style.display]="event.onTrack == 509000001 ? null : 'none'"></i></span>
+                                        </div>
+                                        <div class="col-xs-11 col-md-11">
+                                            <strong>{{ event.startYear }}</strong>
+                                            <p>{{ event.name }}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- <div class="col-xs-2 padding-0 padding-top-5 padding-right-5">
+                                <a *ngIf="showInvestfit" (click)="goToReportPage()">
+                                    <img src="../../../../assets/img/investfit-fingerprint.png" class="pull-right" />
+                                </a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" *ngFor="let event of events; let i = index" [id]="'period-details' + i" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editincome">
+                    {{event.name}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-10 card-bottom-border">
+                        <div class="row">
+                            <div class="col-md-3 padding-top-10 text-center">
+                                <!-- <i [ngClass]="event.type === 1 ? 'fa fa-cocktail fa-2x' : 'fa fa-umbrella-beach fa-2x'"></i> -->
+                                <i class="fa fa-2x" [ngClass]="returnGoalIconCSS(event.subCategory, event.type)"></i>
+                            </div>
+                            <div class="col-md-9 padding-top-10">
+                                Total spending
+                                <h4 class="card-big-number" [ngStyle]="{'color': event.color}">
+                                    ${{event.amount ? (event.amount | number: '1.0-2') : '0' }}</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 padding-top-10 text-center">
+                                Start year
+                                <h4 class="finpal-h4" [ngStyle]="{'color': event.color}">
+                                    {{event.startYear == 0 ? 'No Date' : event.startYear}}</h4>
+                            </div>
+                            <div class="col-md-6 padding-top-10 padding-bottom-10 text-center">
+                                Duration
+                                <h4 class="finpal-h4" [ngStyle]="{'color': event.color}">{{event.numberOfYears}} years
+                                </h4>
+                            </div>
+                        </div>
+                        <div *ngIf="event.color && event.onTrack" class="row">
+                            <div class="col-md-12 text-center padding-bottom-10">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x" [ngStyle]="{'color': event.color}"></i>
+                                    <i
+                                        [ngClass]="event.onTrack == 509000000 ? 'fa fa-flag fa-stack-1x white-color fa-thumbs-up':'fa fa-flag fa-stack-1x white-color fa-thumbs-down'"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="retirement-details" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editincome">Retirement details</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Years until retirement</th>
+                            <td>{{retirementProjection && retirementProjection.yearsUntilRetirement}}</td>
+                        </tr>
+                        <tr>
+                            <th>Retirement Year</th>
+                            <td>{{retirementProjection && retirementProjection.fullRetirementYear}}</td>
+                        </tr>
+                        <tr>
+                            <th>Years in retirement</th>
+                            <td>{{retirementProjection && retirementProjection.yearsInRetirement}}</td>
+                        </tr>
+                        <tr>
+                            <th>Life Expectancy Year</th>
+                            <td>{{retirementProjection && retirementProjection.lifeExpectencyYear}}</td>
+                        </tr>
+                        <tr>
+                            <th>Retirement capital</th>
+                            <td>${{retirementProjection && retirementProjection.retirementCapital | number: '1.0-2'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{currentYear}} equivalent capital</th>
+                            <td>${{retirementProjection && retirementProjection.reterimentCapitalCurrentEquivalent | number: '1.0-2'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Retirement income</th>
+                            <td>${{retirementProjection && retirementProjection.retirementIncome | number: '1.0-2'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{currentYear}} equivalent income</th>
+                            <td>${{retirementProjection && retirementProjection.retirementIncomeCurrentEquivalent | number: '1.0-2'}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<goal-modal [selectedGoal]="selectingPeriod" [isCreateGoal]="false" class="modal fade" id="update-goal-mobile" role="dialog"></goal-modal>

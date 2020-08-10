@@ -1,0 +1,38 @@
+<fp-header> </fp-header>
+<div class="breadcrumb-bar-generic padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a href="#"><i class="fas fa-home fa-lg margin-right-5"></i></a> <i
+            class="fas fa-angle-right margin-right-5"></i>
+        <span class="active-breadcrumb">Import process status</span>
+    </div>
+</div>
+<div class="container padding-top-40 padding-bottom-50">
+    <h1 class="finpal-h1">Import process status</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                <li class="active"><a data-toggle="pill" (mousedown)="preventOpenNewTab($event, '#data-migration')">Data
+                        migration ({{dataMigrationList.length}})</a></li>
+                <li><a data-toggle="pill" (mousedown)="preventOpenNewTab($event, '#data-feeds')">Data feeds
+                        ({{dataFeedList.length}})</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="data-migration" class="tab-pane fade in active">
+                    <app-data-migration-status (loading)="handleShowLoading($event)" (reloadImportStatus)="handleReloadImportStatus($event)"
+                        [dataMigrationList]="dataMigrationList">
+                    </app-data-migration-status>
+                </div>
+
+                <div id="data-feeds" class="tab-pane fade">
+                    <app-data-feed-status (loading)="handleShowLoading($event)" (reloadImportStatus)="handleReloadImportStatus($event)" 
+                    [dataFeedList]="dataFeedList">
+                    </app-data-feed-status>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<fp-footer></fp-footer>
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>

@@ -1,0 +1,29 @@
+@import '../../../../../../../assets/styles/css/customize-styles.css';
+.padding-top-25 {
+    padding-top: 25px;
+}
+
+a {
+    color: #337ab7 !important;
+}
+
+.modal {
+    color: #666 !important;
+}
+
+.modal-body .nav-pills>li>a {
+    font-size: 1em;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 35px;
+}
+
+.radio-inline {
+    cursor: auto;
+}
+
+textarea{
+    resize: none;
+}

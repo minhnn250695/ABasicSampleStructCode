@@ -1,0 +1,147 @@
+<div class="table-responsive">
+  <table class="table table-hover table-striped card-client-table table-responsive">
+    <thead>
+      <tr>
+        <th class="col-md-1 col-xs-1"></th>
+        <th class="col-md-2 col-xs-2">HouseHold Name</th>
+        <th class="col-md-2 col-xs-2">Asset name</th>
+        <th class="col-md-3 col-xs-3">Product Provider</th>
+        <th class="col-md-2 col-xs-1">Account #</th>
+        <th class="col-md-1 col-xs-2">Type</th>
+        <th class="col-md-1 col-xs-1"></th>
+      </tr>
+    </thead>
+
+    <tbody *ngIf="ignoreList != undefined">
+      <tr *ngFor="let record of ignoreList">
+        <td class="col-md-1 col-xs-1">
+          <input type="checkbox" value="" [checked]="record.isSelected" (change)="onRecordSelect(record)">
+        </td>
+        <td class="col-md-2 col-xs-2">{{record.entityData.houseHoldName}}</td>
+        <td class="col-md-2 col-xs-2">{{record.entityData.name}}</td>
+        <td class="col-md-3 col-xs-3">{{record.entityData.financialInstitution.name}}</td>
+        <td class="col-md-2 col-xs-2">{{record.entityData.number}}</td>
+        <td class="col-md-1 col-xs-1">
+          {{record.entityData.assetType == 1 ? "Asset" : record.entityData.assetType == 2 ? "Liability" : "Unknown"}}
+        </td>
+        <td class="col-md-1 col-xs-1">
+          <button type="button" class="btn btn-gray btn-xs pull-right" [tooltip]="match" tooltipPlacement="top"
+            data-toggle="modal" data-target="#match" (click)="btnMatchingClick(record)">
+            <i class="fas fa-wrench"></i>
+          </button>
+          <tooltip-content #match>
+            <span style="width: 50px; display: inline-block;">Manual match</span>
+          </tooltip-content>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>
+
+<button *ngIf="!isSelectAll" type="button" class="btn btn-default" (click)="onRecordSelectAll(true)">Select all</button>
+<button *ngIf="isSelectAll" type="button" class="btn btn-default" (click)="onRecordSelectAll(false)">Deselect</button>
+<button *ngIf="isSelectAll" type="button" class="btn btn-default" (click)="btnDeleteClick()">Delete selected</button>
+<button *ngIf="!isSelectAll" type="button" class="btn btn-default" style="cursor:not-allowed">Delete selected</button>
+
+<div class="modal fade" id="match" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h1 class="modal-title finpal-h2" id="MatchModalLabel">Match entity</h1>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-striped revenue-management-table">
+              <tbody>
+                <tr>
+                  <th class="text-right" width="33%">Account Number</th>
+                  <td>{{ selectedRecord.number ? selectedRecord.number : "N/A" }}</td>
+                </tr>
+                <tr>
+                  <th class="text-right">Account Name</th>
+                  <td>
+                    <div id="igGroup" class="input-group" style="width:100%;">
+                      <input id="txtIgnored" class="form-control txtSearch" type="text" placeholder="Account Name"
+                        (keyup)="txtSearchChanged()">
+                    </div>
+                  </td>
+
+                </tr>
+                <tr>
+                  <th class="text-right">CRM HouseHold</th>
+                  <td>{{ selectedRecord.houseHoldName ? selectedRecord.houseHoldName : "N/A" }}</td>
+                </tr>
+                <tr>
+                  <th class="text-right">Type</th>
+                  <td>{{ selectedRecord.assetType == 1 ? "Asset" : selectedRecord.assetType == 2 ? "Liability" :
+                    "Unknow" }}</td>
+                </tr>
+                <tr>
+                  <th class="text-right">Product Provider</th>
+                  <td>{{ selectedInstitution.name ? selectedInstitution.name : "N/A" }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="!isSelectAccountName" type="button" disabled="disabled" class="btn btn-info">Save</button>
+        <button *ngIf="isSelectAccountName" type="button" class="btn btn-info" (click)="btnSaveClick()">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="warning-title" id="MatchModalLabel">Warning!</h4>
+        <p>Do you want to delete?</p>
+        <button class="btn btn-info" (click)="btnOKClick()" data-dismiss="modal">Yes</button>
+        <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ignore-match-warning" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+  <!-- <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4 class="warning-title" id="MatchModalLabel">Warning</h4>
+        <p>The selected client asset is already matched with another record.</p>
+        <p>Do you want to overwrite it? </p>
+        <button class="btn btn-info" (click)="btnYesClick(1)" data-dismiss="modal">Yes</button>
+        <button class="btn btn-default" (click)="btnYesClick(2)" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div> -->
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h1 class="modal-title finpal-h2 padding-bottom-10" id="MatchModalLabel">
+          <i class="fas fa-exclamation-triangle fa-xs"></i> Warning</h1>
+
+        <p class="padding-bottom-10">The selected client asset is already matched with another record.
+          <br />Do you want to overwrite it?</p>
+
+        <button class="btn btn-info" (click)="btnYesClick(1)" data-dismiss="modal">Yes</button>
+        <button class="btn btn-default" (click)="btnYesClick(2)" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

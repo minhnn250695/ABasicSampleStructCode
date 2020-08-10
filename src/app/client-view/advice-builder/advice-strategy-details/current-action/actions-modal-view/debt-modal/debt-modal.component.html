@@ -1,0 +1,122 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <span class="modal-title finpal-h2 padding-bottom-10 margin-right-5">View action</span>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-1 auto-width">
+                    <ul class="icon-list margin-top-bot-5">
+                        <li>
+                            <span><i class="fa fa-usd-circle fa-lg dark-gray"></i></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-11 padding-0">
+                    <h3 class="action-style">Debt</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                        <li class="active">
+                            <a id="debt-details-view" data-toggle="pill" href="#debt-basic-data-view">Action details</a>
+                        </li>
+                        <li>
+                            <a data-toggle="pill" href="#debt-complementary-data-view">Advice comments</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <!-- Policy -->
+                        <div id="debt-basic-data-view" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="control-label"> Debt type</label>
+                                    <p class="field-info">{{returnDebtType()}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label"> Debt subcategory</label>
+                                    <p class="field-info">{{returnDebtSubcate()}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label"> Ownership type</label>
+                                    <p class="field-info">{{returnOwnership()}}</p>
+                                </div>
+                            </div>
+                            <div class="row padding-top-20">
+                                <div class="col-md-4">
+                                    <label fclass="control-label"> Debt name</label>
+                                    <p class="field-info">{{debt.name || 'N/A'}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label fclass="control-label"> Current balance</label>
+                                    <p class="field-info">${{debt.balance || 0 | number: '1.2-2'}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label fclass="control-label"> Interest rate (%)</label>
+                                    <p class="field-info">{{debt.annualInterestRate || 'N/A'}}%</p>
+                                </div>
+                            </div>
+                            <div class="row padding-top-20">
+                                <div class="col-md-4">
+                                    <label fclass="control-label"> Repayments</label>
+                                    <p class="field-info">${{debt.repayment || 0 | number: '1.2-2'}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label"> Frequency</label>
+                                    <p class="field-info">{{returnFrequency()}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label fclass="control-label"> Starting year</label>
+                                    <p class="field-info">{{debt.startYear || 'N/A'}}</p>
+                                </div>
+                            </div>
+                            <div class="row padding-top-20">
+                                <div class="col-md-4" *ngIf="isShowingOffsetAccount">
+                                    <label class="control-label">Do you have an offset account?</label><br />
+                                    <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" [value]="true" [(ngModel)]="willThereBeOffsetAccount" disabled> Yes
+                                </label>
+                                    <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" [value]="false" [(ngModel)]="willThereBeOffsetAccount" disabled> No
+                                </label>
+                                </div>
+                                <div class="col-md-4" [style.display]=" willThereBeOffsetAccount ? 'block' : 'none'">
+                                    <label class="control-label">Starting offset balance</label>
+                                    <p class="field-info">${{debt.offset || 0 | number: '1.2-2'}}</p>
+                                </div>
+                                <div [style.display]="debt.offset > 0 ? 'block' : 'none'">
+                                    <div class="col-md-4">
+                                        <label fclass="control-label">Funded from</label>
+                                        <p class="field-info">{{getFundFromText(debt.sourceOfFunds)}}</p>
+                                    </div>
+                                    <div class="input-groups col-md-8" *ngIf="getFundFromText(debt.sourceOfFunds) != 'Cash Flow'">
+                                        <label fclass="control-label">Draw Funds from</label>
+                                        <p *ngIf="isValidValue" class="field-info">{{getSourceText(debt.sourceId)}}</p>
+                                        <p *ngIf="!isValidValue"><i class="fas fa-exclamation-triangle red"></i>Fund source has been inactived or deleted. Please select another one.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="debt-complementary-data-view" class="tab-pane fade">
+                            <div>
+                                <label class="control-label">What is this action?</label>
+                                <textarea class="form-control" [value]="debt.details || 'N/A'" readonly></textarea>
+                            </div>
+                            <div class="padding-top-20">
+                                <label class="control-label">Why are you taking this action?</label>
+                                <textarea class="form-control" [value]="debt.reason || 'N/A'" readonly></textarea>
+                            </div>
+                            <div class="padding-top-20">
+                                <label class="control-label">How It improves your situation?</label>
+                                <textarea class="form-control" [value]="debt.result || 'N/A'" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

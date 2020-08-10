@@ -1,0 +1,75 @@
+<div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span class="modal-title finpal-h2 padding-bottom-10 margin-right-5">View action</span>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-1">
+                    <ul class="icon-list margin-top-bot-5">
+                        <li>
+                            <span><i class="fa fa-arrow-left fa-lg dark-gray"></i></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-11 padding-0">
+                    <h3 class="action-style">Draw funds from an Asset</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 padding-top-10">
+                    <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                        <li id="basic-data" class="active">
+                            <a id="draw-fund-asset-details-view" data-toggle="pill" href="#draw-fund-asset-basic-data-view">Action details</a>
+                        </li>
+                        <li id="complementary-data-view">
+                            <a data-toggle="pill" href="#draw-fund-asset-complementary-data-view">Advice comments</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="draw-fund-asset-basic-data-view" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="control-label">Asset record</label>
+                                    <div>
+                                        <p class="field-info"> {{getDrawAssetName()}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label">Start Year</label>
+                                    <p class="field-info">{{drawAsset.startYear || 'N/A'}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label">End Year</label>
+                                    <p class="field-info">{{drawAsset.endYear || 'N/A'}}</p>
+                                </div>
+                            </div>
+                            <div class="row padding-top-20">
+                                <div class="col-md-4">
+                                    <label class="control-label">Annual amount</label>
+                                    <p class="field-info">{{drawAsset.annualAmount || 'N/A'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Benefits -->
+                        <div id="draw-fund-asset-complementary-data-view" class="tab-pane fade">
+                            <div>
+                                <label class="control-label">What is this action?</label>
+                                <textarea class="form-control" [value]="drawAsset.details || 'N/A'" readonly></textarea>
+                            </div>
+                            <div class="padding-top-20">
+                                <label class="control-label">Why are you taking this action?</label>
+                                <textarea class="form-control" [value]="drawAsset.reason || 'N/A'" readonly></textarea>
+                            </div>
+                            <div class="padding-top-20">
+                                <label class="control-label">How It improves your situation?</label>
+                                <textarea class="form-control" [value]="drawAsset.result || 'N/A'" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

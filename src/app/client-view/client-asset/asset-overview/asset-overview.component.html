@@ -1,0 +1,279 @@
+<div *ngIf="isMobile, then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <div class="asset">
+        <total-banner [totalData]="totalAssetData"></total-banner>
+
+        <div class="e1-gray-background">
+            <div class="container padding-top-30 padding-bottom-20">
+                <div class="title">
+                    <h1 class="m-dark-gray font-size-30">Assets</h1>
+                    <a routerLink="/client-view/asset/history" type="button" class="btn btn-info-inverse object-shadow asset-title-content pull-right" id="asset-history">
+                        <i class="fas fa-history fa-1x"></i>
+                        <span>Assets History</span>
+                    </a>
+                </div>
+                <div class="row assets asset-details">
+                    <div class="col-md-3 list">
+                        <sidebar-menu [isMobile]="isMobile" [listOwner]="listOwner" [objectValue]="assetTitle" [listItems]="listAssets" [itemTypes]="itemTypes" (selectedItems)="changeSelectedItemDetails($event)"></sidebar-menu>
+                    </div>
+                    <div class="col-md-9 details">
+                        <div class="card light-gray-background padding-top-30 padding-bottom-30">
+                            <ng-container *ngTemplateOutlet="flag"></ng-container>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <fp-cirle-img class="owner-img" [img]="getProfileImgUrl(assetDetails)" [name]="getFullName()" [imgWidth]="80" [imgHeight]="80"></fp-cirle-img>
+                                </div>
+                                <div class="col-md-10 padding-left-0 padding-right-30">
+                                    <div class="asset-overview padding-top-10 margin-bottom-20">
+                                        <h1 class="finpal-h1">
+                                            {{assetDetails && assetDetails.name || 'N/A'}}
+                                            <ng-container *ngTemplateOutlet="connectAsset"></ng-container>
+                                        </h1>
+                                        <h1 class="finpal-h1 margin-top-10">
+                                            ${{( assetDetails && assetDetails.currentBalance || 0) | number : '1.2-2'}}
+                                        </h1>
+                                    </div>
+                                    <div class="asset-general-info margin-bottom-20 light-gray">
+                                        <ng-container *ngTemplateOutlet="generalInfo"></ng-container>
+                                    </div>
+                                    <div class="asset-fees margin-bottom-20">
+                                        <h1 class="finpal-h1 margin-bottom-10">Fees</h1>
+                                        <div class="light-gray">
+                                            <ng-container *ngTemplateOutlet="fees"></ng-container>
+                                        </div>
+                                    </div>
+                                    <div class="asset-files">
+                                        <span class="upload-file">
+                                            <button folderModifyPermission class="btn btn-info"
+                                                (click)="uploadFileClick()"
+                                                [disabled]="(!assetDetails || !assetDetails.id) || isFileLoading">Upload
+                                                file...</button>
+                                            <input id="open-file" #chooseFile type="file"
+                                                (change)="onFileChanged($event)">
+                                        </span>
+                                        <h1 class="finpal-h1 margin-bottom-10">Files</h1>
+                                        <ng-container *ngTemplateOutlet="files"></ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-container *ngTemplateOutlet="netContributionModal"></ng-container>
+</ng-template>
+
+
+<ng-template #mobile>
+    <div class="mobile-assets light-gray-background" [style.min-height.px]="screenHeight">
+        <div class="assets-overview container e1-gray-background padding-top-30 padding-bottom-20">
+            <div class="row margin-bottom-15">
+                <div class="col-xs-12 col-sm-12 total-overview" id="total-assets">
+                    <ng-container *ngTemplateOutlet="overviewCard, context: {$implicit: totalAssetData.firstCol, isFullRow: true}">
+                    </ng-container>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-md-6 padding-right-5 total-overview" id="total-investment">
+                    <ng-container *ngTemplateOutlet="overviewCard, context: {$implicit: totalAssetData.secondCol, isFullRow: false}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-6 padding-left-5 total-overview" id="total-lifestyle">
+                    <ng-container *ngTemplateOutlet="overviewCard, context: {$implicit: totalAssetData.thirdCol, isFullRow: false}">
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="assets container padding-top-30 padding-bottom-30">
+            <sidebar-menu *ngIf="!showSideBar" [isMobile]="isMobile" [listOwner]="listOwner" [objectValue]="assetTitle" [listItems]="listAssets" [itemTypes]="itemTypes" (selectedItems)="changeSelectedItemDetails($event)">
+            </sidebar-menu>
+            <div class="actions margin-bottom-50 text-align-center">
+                <a routerLink="/client-view/asset/history" type="button" class="btn btn-info object-shadow">
+                    <i class="fas fa-history fa-lg"></i>
+                    <span>Assets History</span>
+                </a>
+            </div>
+        </div>
+        <mat-drawer #drawer class="sidebar" mode="side">
+            <div class="sidebar-header">
+                <div class="title pull-right padding-top-15 padding-bottom-10">
+                    <span>My Assets</span>
+                    <a class="pull-right padding-right-20 padding-left-20" (click)="closeSideBar()"><i
+                            class="fas fa-times fa-lg dark-gray"></i></a>
+                </div>
+            </div>
+            <div class="sidebar-content">
+                <ng-container *ngTemplateOutlet="flag"></ng-container>
+
+                <div class="asset-details container">
+                    <div class="row margin-top-10 margin-bottom-10" id="overview">
+                        <div class="col-xs-2 col-sm-2">
+                            <fp-cirle-img class="owner-img" [img]="getProfileImgUrl(assetDetails)" [name]="getFullName()" [imgWidth]="50" [imgHeight]="50"></fp-cirle-img>
+                        </div>
+                        <div class="col-xs-10 col-sm-10 padding-right-60">
+                            <h4 class="finpal-h4" id="asset-title">{{assetDetails && assetDetails.name || 'N/A'}}
+                                <ng-container *ngTemplateOutlet="connectAsset"></ng-container>
+                            </h4>
+                            <p class="font-size-24" id="asset-total-amount">
+                                ${{( assetDetails && assetDetails.currentBalance || 0) | number : '1.2-2'}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="asset-general-info margin-bottom-20">
+                        <ng-container *ngTemplateOutlet="generalInfo"></ng-container>
+                    </div>
+                    <div class="asset-fees margin-bottom-20">
+                        <h5 class="finpal-h5 margin-bottom-5">Fees</h5>
+                        <ng-container *ngTemplateOutlet="fees"></ng-container>
+                    </div>
+                    <div class="asset-files">
+                        <h5 class="finpal-h5 margin-bottom-10">Files</h5>
+                        <ng-container *ngTemplateOutlet="files"></ng-container>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngTemplateOutlet="netContributionModal"></ng-container>
+        </mat-drawer>
+    </div>
+</ng-template>
+
+<ng-template #flag>
+    <div class="chart-line-image" data-toggle="tooltip" [title]="isLifeStyle() ? 'Lifestyle' : 'Investment'">
+        <div class="chart-line-border">
+            <i class="fas icon" [ngClass]="isLifeStyle() ? 'fa-car' : 'fa-chart-line'"></i>
+        </div>
+        <div class="triangle-down">
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #connectAsset>
+    <span class="font-size-14 margin-left-20">
+        <a *ngIf="assetDetails && assetDetails.dataFeedsConnected" id="link-icon" class="orange" data-toggle="tooltip"
+            data-placement="left" title="Connected"><i class="fas fa-link"></i></a>
+        <a *ngIf="assetDetails && !assetDetails.dataFeedsConnected" id="unlink-icon" class="dark-blue"
+            data-toggle="tooltip" data-placement="left" title="Not Connected"><i class="fas fa-unlink"></i></a>
+    </span>
+</ng-template>
+
+<ng-template #overviewCard let-item let-isFullRow="isFullRow">
+    <div class="card light-gray-background">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 padding-top-20 padding-bottom-20">
+                <div class="icon" [ngClass]="isFullRow ? 'col-xs-2 col-sm-2' : 'col-xs-3 col-sm-2'">
+                    <span><i class="fas fa-sm" [ngClass]="item.icon"></i></span>
+                </div>
+                <div class="content padding-top-10 padding-bottom-5" [ngClass]="isFullRow ? 'col-xs-8 col-sm-8 padding-left-0' : 'col-xs-9 col-sm-10'">
+                    <h6 class="finpal-h6">{{ item.mobileLabel }}</h6>
+                    <p>${{ item.value | number : '1.2-2' || 0 }}</p>
+                </div>
+                <div class="icon col-xs-2 col-sm-2" *ngIf="isFullRow">
+                    <common-asset-projection-overlay class="projections" buttonShape="circle" [iconWidth]="32" [iconHeight]="32"></common-asset-projection-overlay>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #generalInfo>
+    <div id="investment-style"><strong>Investment style: </strong> {{ getInvestmentStyle() }}</div>
+    <div id="estimated-net-returns"><strong>Estimated net returns: </strong> {{(assetDetails && assetDetails.estimatedNetReturns || 0) | number:'1.2-2' }}%
+    </div>
+    <div id="net-contribution"><strong>Net annual contributions: </strong> ${{( assetDetails && assetDetails.annualNetContributions || 0) | number:'1.2-2' }}
+        <a id="net-annual-contribution" class="dark-blue" data-toggle="modal" data-target="#net-annual-contributions">
+            <i class="fas fa-info-circle fa-1x object-shadow object-shadow-circle"></i>
+        </a>
+    </div>
+</ng-template>
+
+<ng-template #fees>
+    <div><strong>Flatform fees: </strong> ${{ (assetDetails && assetDetails.platformFees ? assetDetails.platformFees : 0) | number:'1.2-2' }}
+    </div>
+    <div><strong>Investment fees: </strong> ${{ (assetDetails && assetDetails.investmentFees ? assetDetails.investmentFees : 0) | number:'1.2-2' }}
+    </div>
+    <div><strong>Adviser service fees: </strong> ${{ (assetDetails && assetDetails.adviserServiceFees ? assetDetails.adviserServiceFees : 0) | number:'1.2-2' }}
+    </div>
+    <div><strong>Out of pockets expenses: </strong> ${{ (assetDetails && assetDetails.outOfPocketEpenses ? assetDetails.outOfPocketEpenses : 0) | number:'1.2-2'}}
+    </div>
+</ng-template>
+
+<ng-template #files>
+    <table class="table table-striped card-client-table">
+        <tbody>
+            <tr *ngIf="isFileLoading">
+                <td colspan="2">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Files are loading.</span>
+                </td>
+            </tr>
+            <tr *ngIf="!isFileLoading && dislayedFiles && dislayedFiles.length == 0">
+                <td class="col-md-12">
+                    <a>There are no files.</a>
+                </td>
+            </tr>
+            <tr class="hand-pointer" *ngFor="let file of dislayedFiles">
+                <td class="col-md-10">
+                    <a data-toggle="tooltip" title="Download" (click)="downloadFile(file)">
+                        <i class="fas fa-lg margin-right-5" [ngClass]="getEntityIcon(file)"></i> {{file.name}}
+                    </a>
+                </td>
+                <td class="col-md-2">
+                    <a folderModifyPermission type="button" class="btn btn-info-inverse btn-circle object-shadow pull-right" data-toggle="tooltip" data-placement="top" title="Delete" (click)="deleteDoc(file)">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</ng-template>
+
+<ng-template #netContributionModal>
+    <div class="modal fade" id="net-annual-contributions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" [attr.data-backdrop]="isMobile ? 'false' : 'true'">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="editincome">Net annual contributions</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Annual Employer Contributions</th>
+                                <td>${{(assetDetails && assetDetails.annualEmployerContribution || 0) | number:'1.2-2' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Annual Taxed Personal Contributions</th>
+                                <td>${{(assetDetails && assetDetails.annualTaxedPersonalConts || 0) | number:'1.2-2' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Annual Untaxed Personal Contributions</th>
+                                <td>${{(assetDetails && assetDetails.annualUntaxedPersonalConts || 0) | number:'1.2-2' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Annual Income Drawn</th>
+                                <td>${{(assetDetails && assetDetails.annualIncome || 0) | number:'1.2-2' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Contributions Tax</th>
+                                <td>{{(assetDetails && assetDetails.contributionsTax || 0) | number:'1.2-2' }}%</td>
+                            </tr>
+                            <tr>
+                                <th>Personal Insurance Costs</th>
+                                <td>${{(assetDetails && assetDetails.personalInsuranceCost || 0) | number:'1.2-2' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

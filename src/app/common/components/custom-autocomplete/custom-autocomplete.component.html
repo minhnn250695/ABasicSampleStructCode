@@ -1,0 +1,14 @@
+<form class="pos-rel">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search..." name="search" [(ngModel)]="key"
+            (keyup)="onShowAutoComplete()" />
+        <div class="input-group-addon">
+            <i class="fas fa-search fa-sm gray999-color" (click)="search(key)"></i>
+        </div>
+    </div>
+    <div (clickOutside)="onFocusOut()" id="autocomplete" class="autocomplete-list">
+        <a *ngFor="let item of source" (click)="onAutocompleteSelect(item)">
+            <div class="autocomplete-item">{{item}}</div>
+        </a>
+    </div>
+</form>

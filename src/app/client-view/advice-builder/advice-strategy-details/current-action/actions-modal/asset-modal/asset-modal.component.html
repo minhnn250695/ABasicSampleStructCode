@@ -1,0 +1,184 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <span *ngIf="!adviceBuilderService.isUpdateAction" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">Add new action</span>
+            <span *ngIf="adviceBuilderService.isUpdateAction" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">Update action</span>
+        </div>
+        <div class="modal-body" [style.display]="((asset.assetId && adviceBuilderService.isUpdateAction) || !adviceBuilderService.isUpdateAction) ? 'block' : 'none'">
+            <form #actionAsset="ngForm">
+                <div class="row">
+                    <div class="col-md-1 auto-width">
+                        <ul class="icon-list margin-top-bot-5">
+                            <li>
+                                <span><i class="fa fa-gem fa-lg dark-gray"></i></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-11 padding-0">
+                        <h3 *ngIf="adviceBuilderService.isUpdateAction" class="action-style">Update asset</h3>
+                        <h3 *ngIf="!adviceBuilderService.isUpdateAction" class="action-style">Create new asset</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                            <li class="active">
+                                <a id="asset-details" data-toggle="pill" href="#asset-basic-data">Action details</a>
+                            </li>
+                            <li>
+                                <a data-toggle="pill" href="#asset-complementary-data">Advice comments</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <!-- Policy -->
+                            <div id="asset-basic-data" class="tab-pane fade in active">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label fclass="control-label">* Asset name</label>
+                                        <input type="text" autocomplete="off" class="form-control" name="assetName" [placeholder]="(asset && asset.assetName) || ''" [(ngModel)]="asset.assetName" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 padding-top-20">
+                                        <label class="control-label">* Asset type</label>
+                                        <select class="form-control" name="assetType" [(ngModel)]='asset.assetType' (change)="onAssetTypeChange($event)" required>
+                                            <option *ngFor="let assetType of assetTypes" [value]="assetType.value">
+                                                {{assetType.label}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 padding-top-20">
+                                        <label class="control-label">* Ownership type</label>
+                                        <select class="form-control" name="ownerShipType" (change)='onOwnershipChange($event)' [(ngModel)]="selectedOwnershipType" required>
+                                            <option *ngFor="let ownerShipType of ownerShipTypes"
+                                                [value]="ownerShipType.code">{{ownerShipType.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 padding-top-20">
+                                        <label fclass="control-label">* Starting year</label>
+                                        <input type="text" maxlength="4" class="form-control input-number-without-arrow" name="startYear" oninput="this.value=this.value.replace(/[^0-9]/g,'')" placeholder="YYYY" autocomplete="off" [(ngModel)]="asset.startYear" required>
+                                    </div>
+                                </div>
+                                <div class="row padding-top-20">
+                                    <div class="col-md-6">
+                                        <label class="control-label">Will you make any contributions to this
+                                            account?</label><br />
+                                        <label class="radio-inline">
+                                            <input type="radio" name="makeContributionsYes" [value]="true"
+                                                [(ngModel)]="makeContribution"
+                                                (change)="onMakeContributionChange(true)"> Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="makeContributionsNo" [value]="false"
+                                                [(ngModel)]="makeContribution"
+                                                (change)="onMakeContributionChange(false)"> No
+                                        </label>
+                                    </div>
+                                    <!-- Only show if Asset Type = Superannuation -->
+                                    <div class="col-md-6" *ngIf="asset.assetType == 2">
+                                        <label class="control-label">Receive contributions from your
+                                            employer?</label><br />
+                                        <label class="radio-inline">
+                                            <input type="radio" name="receiveContributionsYes" [value]="true"
+                                                [(ngModel)]="receiveContribution"
+                                                (change)="onReceiveContibutionChange(true)"> Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="receiveContributionsNo" [value]="false"
+                                                [(ngModel)]="receiveContribution"
+                                                (change)="onReceiveContibutionChange(false)"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row padding-top-20" *ngIf="makeContribution">
+                                    <div class="col-md-4">
+                                        <label fclass="control-label margin-top-10">Contribution type</label>
+                                        <select class="form-control" name="contributionType" [(ngModel)]="asset.contributionType">
+                                            <option *ngFor="let contributionType of contributionTypes"
+                                                [value]="contributionType.code">{{contributionType.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label fclass="control-label">Amount</label>
+                                        <input type="text" class="form-control" name="assetAmount" [(ngModel)]="contributionAmount" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="$100" (focus)="onAmountFocus(contributionAmount)" (focusout)="onAmountFocusOut(contributionAmount)"
+                                            (keyup)="onAmountKeyup($event)" autocomplete="off">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="control-label">Frequency</label>
+                                        <select class="form-control" name='frequency' [(ngModel)]="asset.contributionFrequency">
+                                            <option *ngFor="let frequency of frequencyList" [value]="frequency.code">
+                                                {{frequency.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row padding-top-20">
+                                    <div class="col-md-4">
+                                        <label class="control-label">* Investment type</label>
+                                        <select class="form-control" name='frequency' [(ngModel)]="asset.investmentStyle" required>
+                                            <option *ngFor="let investment of investmentStyles"
+                                                [value]="investment.code">{{investment.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="control-label">Estimated net returns (%)</label>
+                                        <input type="text" class="form-control" name="netReturn" [(ngModel)]="netReturns" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" [disabled]="asset.investmentStyle != InvestmentEnum.Custom" (focus)="onEstimatedNetReturnFocusIn(netReturns)" (focusout)="onEstimatedNetReturnFocusOut(netReturns)"
+                                            (keyup)="onEstimatedNetReturnKeyup($event)" [required]="asset.investmentStyle && asset.investmentStyle == '100000005'" placeholder="E.g. 5%" autocomplete="off">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label fclass="control-label">* Starting asset balance</label>
+                                        <input type="text" class="form-control" name="assetBalance" [(ngModel)]="assetBalance" placeholder="$100" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" (focus)="onAssetBalanceFocus(assetBalance)" (focusout)="onAssetBalanceFocusOut(assetBalance)"
+                                            (keyup)="onAssetBalanceKeyup($event)" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="row padding-top-20" *ngIf="asset.accountBalance > 0">
+                                    <!-- <div [style.display]="asset.accountBalance > 0 ? 'block' : 'none'"> -->
+                                    <div class="col-md-4">
+                                        <label fclass="control-label">Funded from</label>
+                                        <select class="form-control" name="fundedFromType" [(ngModel)]="asset.sourceOfFunds" (change)="onFundedFromChange()" [required]="asset.accountBalance > 0">
+                                            <option *ngFor="let funded of fundedFromList" [value]="funded.code">
+                                                {{funded.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div id="asset-search-group" class="input-groups col-md-8" *ngIf="asset.sourceOfFunds && asset.sourceOfFunds != FundedFromType.Cashflow">
+                                        <label fclass="control-label">Draw Funds From</label>
+                                        <auto-complete-input [placeHolder]="searchTextPH" [source]="sources" [selected]="sourceName" [isValidValue]="isValidSource" (onSelect)="onSourceChange($event)">
+                                        </auto-complete-input>
+                                        <p *ngIf="!isValidSource"><i class="fas fa-exclamation-triangle red"></i>Fund source has been inactived or deleted. Please select another one.</p>
+                                    </div>
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                            <div id="asset-complementary-data" class="tab-pane fade">
+                                <div>
+                                    <label class="control-label">What is this action?</label>
+                                    <textarea class="form-control" rows="4" name="details" [(ngModel)]="asset.details" [placeholder]="asset.details || ''"></textarea>
+                                </div>
+                                <div class="padding-top-20">
+                                    <label class="control-label">Why are you taking this action?</label>
+                                    <textarea class="form-control" rows="4" name="reason" [(ngModel)]="asset.reason" [placeholder]="asset.reason || ''"></textarea>
+                                </div>
+                                <div class="padding-top-20">
+                                    <label class="control-label">How It improves your situation?</label>
+                                    <textarea class="form-control" rows="4" name="result" [(ngModel)]="asset.result" [placeholder]="asset.result || ''"></textarea>
+                                    <p *ngIf="!isValidSource"><i class="fas fa-exclamation-triangle red"></i>Fund source has been inactived or deleted. Please select another one.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 padding-top-20">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                        <button *ngIf="!adviceBuilderService.isUpdateAction" type="button" class="btn btn-info pull-right margin-right-5" aria-describedat="modal" [disabled]="actionAsset.invalid || !isCorrectSourceOfFund()" (click)="createNewAsset()">Save
+                            new Asset</button>
+                        <button *ngIf="adviceBuilderService.isUpdateAction" type="button" class="btn btn-info pull-right margin-right-5" aria-describedat="modal" [disabled]="actionAsset.invalid || !isCorrectSourceOfFund() || !viewDetectChange()" (click)="saveChangesAsset()">Save changes Asset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div [style.display]="(!asset.assetId && adviceBuilderService.isUpdateAction) ? 'block' : 'none'" class="modal-body text-center margin-top-10 margin-bottom-10">
+            <i class="fas fa-spinner fa-pulse"></i>
+        </div>
+    </div>
+</div>

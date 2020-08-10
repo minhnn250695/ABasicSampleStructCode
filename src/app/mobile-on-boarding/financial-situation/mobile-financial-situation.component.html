@@ -1,0 +1,339 @@
+<!-- PROGRESS BAR -->
+<div class="progress-menu-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="steps-form-2">
+                    <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/personal-information" type="button" class="btn btn-completed-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Personal info"><i class="fas fa-user fa-lg" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/family-member" type="button" class="btn btn-completed-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Family members"><i class="fas fa-users fa-lg" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/financial-situation" type="button" class="btn btn-active-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Financial situation"><i class="fas fa-money-bill-alt fa-lg"
+                                    aria-hidden="true"></i></a>
+                        </div>
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/your-goal" type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Your goals"><i class="fas fa-flag-checkered fa-lg" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>
+
+<div class="modal fade" id="asset-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <app-mobile-asset-type #asset></app-mobile-asset-type>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="debt-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <app-mobile-debt-type #debt></app-mobile-debt-type>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cashflow-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <app-mobile-family-cashflow #cashflow (addNewAsset)="onTypeChange(2)"></app-mobile-family-cashflow>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="insurance-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <app-mobile-insurance-type #insurance></app-mobile-insurance-type>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="!onLoadComponent; then component else waiting"></div>
+<ng-template #component>
+    <div class="container padding-top-30 padding-bottom-30">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="finpal-h2">Financial situation</h2>
+                <p>Please provide information about your current financial situation. The more information the merrier.
+                </p>
+            </div>
+        </div>
+
+        <!-- SUMMARY OF ALL CLIENT'S FINANCIAL SITUATION -->
+
+        <!-- Assets -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="card">
+                    <div class="card-header-xs green-background">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a data-toggle="collapse" data-target="#assets-list" aria-expanded="false" aria-controls="assets-list" (click)="changeAssetArrow()">Assets</a>
+                                <a class="pull-right" data-toggle="collapse" data-target="#assets-list" aria-expanded="false" aria-controls="assets-list">
+                                    <div id="assetArrow" class="arrow-down" (click)="changeAssetArrow()"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse" id="assets-list">
+                        <div *ngFor="let asset of assetList" class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                            <a data-toggle="modal" data-target="#asset-modal">
+                                <div class="row" (click)="assetClick(asset)">
+                                    <div class="col-xs-3 padding-top-20 padding-bottom-10 text-center">
+                                        <i class="fas fa-2x medium-gray" [ngClass]="setAssetIconClasses(asset.assetType)"></i>
+                                    </div>
+                                    <div class="col-xs-9 padding-top-10 padding-bottom-10">
+                                        <span class="small dark-blue">{{asset.name ? asset.name : "N/A"}}</span>
+                                        <br />
+                                        <span class="card-big-number light-blue">${{asset.currentBalance ?
+                                            (asset.currentBalance
+                                            | number ) : "0"}}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- Add new -->
+                        <div class="card-block-link padding-left-20 padding-right-20">
+                            <a data-toggle="modal" data-target="#asset-modal">
+                                <div (click)="assetClick()" class="row">
+                                    <div class="col-xs-3 padding-top-20 padding-bottom-10 text-center">
+                                        <i class="fas fa-plus fa-2x medium-gray"></i>
+                                    </div>
+                                    <div class="col-md-9 padding-top-10 padding-bottom-10">
+                                        <span class="small dark-blue">Asset</span>
+                                        <br />
+                                        <span class="finpal-h4 orange">Add new</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Debt -->
+        <div class="row padding-top-10">
+            <div class="col-xs-12">
+                <div class="card">
+                    <div class="card-header-xs light-orange-background">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a data-toggle="collapse" data-target="#debts-list" aria-expanded="false" aria-controls="debts-list" (click)="changeDebtsArrow()">Debts</a>
+                                <a class="pull-right" data-toggle="collapse" data-target="#debts-list" aria-expanded="false" aria-controls="debts-list">
+                                    <div id="debtArrow" class="arrow-down" (click)="changeDebtsArrow()"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse" id="debts-list">
+                        <div *ngFor="let debt of debtList" class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                            <a data-toggle="modal" data-target="#debt-modal">
+                                <div class="row" (click)="debtClick(debt)">
+                                    <div class="col-xs-3 padding-top-20 padding-bottom-10 text-center">
+                                        <i class="fas fa-2x medium-gray" [ngClass]="setDebtIconClasses(debt.name)"></i>
+                                    </div>
+                                    <div class="col-xs-9 padding-top-10 padding-bottom-10">
+                                        <span class="small dark-blue">{{debt.name ? debt.name : "N/A"}}</span>
+                                        <br />
+                                        <span class="card-big-number light-blue">-${{debt.currentBalance ?
+                                            (debt.currentBalance
+                                            | number) : "0" }}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- Add new -->
+                        <div class="card-block-link padding-left-20 padding-right-20">
+                            <a data-toggle="modal" data-target="#debt-modal">
+                                <div (click)="debtClick()" class="row">
+                                    <div class="col-xs-3 padding-top-20 padding-bottom-10 text-center">
+                                        <i class="fas fa-plus fa-2x medium-gray"></i>
+                                    </div>
+                                    <div class="col-xs-9 padding-top-10 padding-bottom-10">
+                                        <span class="small dark-blue">Debt</span>
+                                        <br />
+                                        <span class="finpal-h4 orange">Add new</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Income/expense -->
+        <div class="row padding-top-10">
+            <div class="col-xs-12">
+                <div class="card">
+                    <div class="card-header-xs light-blue-background">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a data-toggle="collapse" data-target="#income-expense-list" aria-expanded="false" aria-controls="income-expense-list" (click)="changeIncomeExpensesArrow()">Incomes &
+                                    expenses</a>
+                                <a class="pull-right" data-toggle="collapse" data-target="#income-expense-list" aria-expanded="false" aria-controls="income-expense-list">
+                                    <div id="incomeExpensesArrow" class="arrow-down" (click)="changeIncomeExpensesArrow()"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse" id="income-expense-list">
+
+                        <!-- Expense -->
+                        <div *ngFor="let expense of todayClientExpenseList" class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                            <a data-toggle="modal" data-target="#cashflow-modal">
+                                <div class="row" (click)="cashFlowClick(expense, 2)">
+                                    <div class="col-xs-3 padding-top-20 padding-bottom-10 text-center">
+                                        <i class="fas fa-2x medium-gray" [ngClass]="getExpenseIconClass(expense.expenseType)"></i>
+                                    </div>
+                                    <div class="col-xs-9 padding-top-10 padding-bottom-10">
+                                        <span class="small dark-blue">{{expense.expenseName}}</span>
+                                        <br />
+                                        <span class="card-big-number light-blue">${{expense.expenseAmount | number}}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Income/benefits -->
+                        <div *ngFor="let income of todayClientIncomeList" class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                            <a data-toggle="modal" data-target="#cashflow-modal">
+                                <div class="row" (click)="cashFlowClick(income, 1)">
+                                    <div class="col-xs-3 padding-top-20 padding-bottom-10 text-center">
+                                        <i class="fas fa-2x medium-gray" [ngClass]="getIncomeIconClass(income.incomeType)"></i>
+                                    </div>
+                                    <div class="col-xs-9 padding-top-10 padding-bottom-10">
+                                        <span class="small dark-blue">{{income.incomeName}}</span>
+                                        <br />
+                                        <span class="card-big-number light-blue">${{income.grossIncome | number}}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- Add new -->
+                        <!-- <div class="card-block-link padding-left-20 padding-right-20">
+                            <a data-toggle="modal" data-target="#cashflow-modal">
+                                <div (click)="cashflowClick()" class="row">
+                                    <div class="col-xs-3 padding-top-20 padding-bottom-10 text-center">
+                                        <i class="fas fa-plus fa-2x medium-gray"></i>
+                                    </div>
+                                    <div class="col-xs-9 padding-top-10 padding-bottom-10">
+                                        <span class="small dark-blue">Income/expense</span>
+                                        <br />
+                                        <span class="finpal-h4 orange">Add new</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div> -->
+                        <div class="card-block-link padding-left-20 padding-right-20">
+                            <a data-toggle="modal" data-target="#cashflow-modal">
+                                <div (click)="cashFlowClick()" class="row">
+                                    <div class="col-xs-3 padding-top-20 padding-bottom-10 text-center">
+                                        <i class="fas fa-plus fa-2x medium-gray"></i>
+                                    </div>
+                                    <div class="col-xs-9 padding-top-10 padding-bottom-10">
+                                        <span class="small dark-blue">Income/expense</span>
+                                        <br />
+                                        <span class="finpal-h4 orange">Add new</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insurance -->
+        <div class="row padding-top-10">
+            <div class="col-xs-12">
+                <div class="card">
+                    <div class="card-header-xs teal-background">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a data-toggle="collapse" data-target="#insurance-list" aria-expanded="false" aria-controls="insurance-list" (click)="changeInsuranceArrow()">Insurance</a>
+                                <a class="pull-right" data-toggle="collapse" data-target="#insurance-list" aria-expanded="false" aria-controls="insurance-list">
+                                    <div id="insuranceArrow" class="arrow-down" (click)="changeInsuranceArrow()"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse" id="insurance-list">
+                        <div *ngFor="let insurance of insuranceList" class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                            <a data-toggle="modal" data-target="#insurance-modal">
+                                <div (click)="insuranceClick(insurance)" class="row">
+                                    <div class="col-xs-3 padding-top-20 padding-bottom-10 text-center">
+                                        <i class="fas fa-2x fa-umbrella medium-gray"></i>
+                                    </div>
+                                    <div class="col-xs-9 padding-top-10 padding-bottom-10">
+                                        <span class="small dark-blue">{{insurance.name}}</span>
+                                        <br />
+                                        <span class="card-big-number light-blue">${{insurance.annualInsurancePremium |
+                                            number}}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- Add new -->
+                        <div class="card-block-link padding-left-20 padding-right-20">
+                            <a data-toggle="modal" data-target="#insurance-modal">
+                                <div (click)="insuranceClick()" class="row">
+                                    <div class="col-xs-3 padding-top-20 padding-bottom-10 text-center">
+                                        <i class="fas fa-plus fa-2x medium-gray"></i>
+                                    </div>
+                                    <div class="col-xs-9 padding-top-10 padding-bottom-10">
+                                        <span class="small dark-blue">Insurance</span>
+                                        <br />
+                                        <span class="finpal-h4 orange">Add new</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row padding-top-20">
+            <div class="col-xs-12">
+                <a href="#/mobile-on-boarding/your-goal" class="btn btn-info pull-right">Continue
+                    <i class="fas fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- <div class="modal fade scroll-able" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div *ngIf="selectedFinancialType == 2">
+                        <app-mobile-asset-type #asset></app-mobile-asset-type>
+                    </div>
+                    <div *ngIf="selectedFinancialType == 3">
+                        <app-mobile-debt-type #debt></app-mobile-debt-type>
+                    </div>
+                    <div *ngIf="selectedFinancialType == 1">
+                        <app-mobile-family-cashflow #cashflow (addNewAsset)="onTypeChange(2)"></app-mobile-family-cashflow>
+                    </div>
+                    <div *ngIf="selectedFinancialType == 4">
+                        <app-mobile-insurance-type #insurance></app-mobile-insurance-type>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</ng-template>
+<ng-template #waiting>
+    <app-mobile-waiting></app-mobile-waiting>
+</ng-template>

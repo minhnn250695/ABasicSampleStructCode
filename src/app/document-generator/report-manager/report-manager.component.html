@@ -1,0 +1,202 @@
+﻿<!-- DESKTOP BREADCRUMB -->
+<div *ngIf="!isMobile" class="breadcrumb-bar-document padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a routerLink="/landing">
+            <i class="fas fa-home fa-lg margin-right-5"></i>
+        </a>
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <a routerLink="/document/generate-report" class="margin-right-5">Document generator</a>
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <span class="active-breadcrumb">Saved reports</span>
+    </div>
+</div>
+
+<!-- MOBILE BREADCRUMB -->
+<div *ngIf="isMobile" class="breadcrumb-bar-document padding-top-50 margin-top-10 padding-bottom-10">
+    <div class="container">
+        <a routerLink="/document/generate-report">
+            <i class="fas fa-angle-left margin-right-5"></i> Document generator</a>
+    </div>
+</div>
+
+<div class="container padding-top-40 padding-bottom-50">
+    <div class="col-md-12">
+        <h1 class="finpal-h1">Reports library</h1>
+        <div class="row padding-top-20">
+            <div class="col-md-3">
+                <div class="row padding-bottom-10">
+                    <div class="col-xs-12 col-md-12">
+                        <h3 class="finpal-h3 padding-top-10">Quick search</h3>
+                        <form class="padding-top-10 padding-bottom-20">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Report search" [(ngModel)]="filters.name" name="search">
+                            </div>
+                            <button type="button" class="btn btn-info pull-right" (click)="search()">
+                                <i class="fas fa-search fa-lg"></i> Search</button>
+                        </form>
+                    </div>
+
+                    <!-- DESKTOP ADVANCED SEARCH -->
+                    <div *ngIf="!isMobile" class="col-md-12">
+                        <h3 class="finpal-h3 margin-top-20 margin-bottom-20">Filters</h3>
+                        <h4 class="finpal-h5 orange">Author</h4>
+                        <select class="form-control" [(ngModel)]="filters.author">
+                            <option *ngFor="let author of authors" [ngValue]="author.name">{{author.name}}</option>
+                        </select>
+
+                        <h4 class="finpal-h5 orange">Period</h4>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label class="col-md-2 inline-label" for=""><strong>From</strong></label>
+                                <div class="col-md-10 padding-right-0">
+                                    <div class="input-group input-append date form_date">
+                                        <input class="form-control" [matDatepicker]="periodFromPicker" placeholder="dd/mm/yy" [(ngModel)]="filters.periodFrom" name="periodFrom">
+                                        <mat-datepicker #periodFromPicker></mat-datepicker>
+                                        <div class="input-group-addon" (click)="periodFromPicker.open()">
+                                            <span class="add-on">
+                                                <i class="fas fa-calendar fa-lg"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <form class="form-inline padding-top-10">
+                            <div class="form-group">
+                                <label class="col-md-2 inline-label" for=""><strong>To</strong></label>
+                                <div class="col-md-10 padding-right-0">
+                                    <div class="input-group input-append date form_date">
+                                        <input class="form-control" [matDatepicker]="periodToPicker" placeholder="dd/mm/yy" [(ngModel)]="filters.periodTo" name="periodTo">
+                                        <mat-datepicker #periodToPicker></mat-datepicker>
+                                        <div class="input-group-addon" (click)="periodToPicker.open()">
+                                            <span class="add-on">
+                                                <i class="fas fa-calendar fa-lg"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-md-12 padding-top-10 padding-bottom-10 margin-top-20 text-align-right">
+                                <button type="button" class="btn btn-default pull-right" (click)="resetFilters()">Reset</button>
+                                <button type="button" class="btn btn-info pull-right margin-right-5" (click)="applyFilters()">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MOBILE ADVANCED SEARCH -->
+                    <div *ngIf="isMobile" class="col-xs-12">
+                        <a class="finpal-h4 padding-top-20 adv-search" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fas fa-caret-circle-right margin-right-5"></i> Advanced search
+                        </a>
+                        <div class="collapse" id="collapseExample">
+                            <div class="well">
+                                <h4 class="finpal-h5 orange">Author</h4>
+                                <select class="form-control" [(ngModel)]="filters.author">
+                                    <option *ngFor="let author of authors" [ngValue]="author.name">{{author.name}}</option>
+                                </select>
+                                <h4 class="finpal-h5 orange">Period</h4>
+                                <form>
+                                    <div class="form-group">
+                                        <label class="control-label small" for="">From</label>
+                                        <div class="input-group input-append date form_date">
+                                            <input class="form-control" [matDatepicker]="periodFromPicker" placeholder="dd/mm/yy" [(ngModel)]="filters.periodFrom" name="periodFrom">
+                                            <mat-datepicker #periodFromPicker></mat-datepicker>
+                                            <div class="input-group-addon" (click)="periodFromPicker.open()">
+                                                <span class="add-on">
+                                                    <i class="fas fa-calendar fa-lg"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label small" for="">To</label>
+                                        <div class="input-group input-append date form_date">
+                                            <input class="form-control" [matDatepicker]="periodToPicker" placeholder="dd/mm/yy" [(ngModel)]="filters.periodTo" name="periodTo">
+                                            <mat-datepicker #periodToPicker></mat-datepicker>
+                                            <div class="input-group-addon" (click)="periodToPicker.open()">
+                                                <span class="add-on">
+                                                    <i class="fas fa-calendar fa-lg"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <span class="pull-right">
+                                            <button type="button" class="btn btn-info" (click)="applyFilters()">Apply</button>
+                                            <button type="button" class="btn btn-default" (click)="resetFilters()">Reset</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 padding-top-5">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped card-client-table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <h3 class="finpal-h3">Name</h3>
+                                </th>
+                                <th>
+                                    <h3 class="finpal-h3">Author</h3>
+                                </th>
+                                <th>
+                                    <h3 class="finpal-h3">Date</h3>
+                                </th>
+                                <th>
+                                    <h3 class="finpal-h3">Actions</h3>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let report of reports">
+                                <td>
+                                    <a>
+                                        <i class="fas fa-caret-right fa-lg light-orange margin-right-10"></i>{{report.name}}</a>
+                                </td>
+                                <td>{{report.authorName}}</td>
+                                <td>{{report.creationDate | date:'dd/MM/yyyy'}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-default btn-sm" title="Download" (click)="downloadReport(report)">
+                                        <i class="fas fa-download fa-lg"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-placement="top" data-target="#confirmDeleteReport" title="Delete" (click)="selectReport(report)">
+                                        <i class="fas fa-trash fa-lg"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <mat-paginator #reportPaginator [length]="paginator.length" [(pageSize)]="paginator.pageSize" [pageSizeOptions]="paginator.pageSizeOptions" (page)="changePage($event)">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="confirmDeleteReport" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Report Confirm</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Are you sure you want to delete this report?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-blue" (click)="deleteReport()" data-dismiss="modal">DELETE</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

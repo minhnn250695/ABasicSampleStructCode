@@ -1,0 +1,21 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <div class="container padding-top-60 padding-bottom-50">
+        <div class="row">
+            <card-find-client (isLoading)="loadingFunction($event)"> </card-find-client>
+            <card-datafeeds></card-datafeeds>
+            <card-revenue> </card-revenue>
+            <card-documents-gen> </card-documents-gen>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #mobile>
+    <div class="container padding-top-50 padding-bottom-30">
+        <div class="row">
+            <card-find-client (isLoading)="loadingFunction($event)"> </card-find-client>
+        </div>
+    </div>
+</ng-template>
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>

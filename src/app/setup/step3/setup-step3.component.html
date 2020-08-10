@@ -1,0 +1,68 @@
+<fp-header> </fp-header>
+<div class="breadcrumb-bar-generic padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a class="margin-right-5">Get started</a> <i class="fas fa-angle-right margin-right-5"></i> <span class="active-breadcrumb">Step 3</span>
+    </div>
+</div>
+<div class="container padding-top-10 padding-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="finpal-h1">Get started</h1>
+            <h2 class="finpal-h3">Step 3</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 padding-top-20">
+            <h3 class="finpal-h4">Company logo</h3>
+            <p class="padding-bottom-20">Recommended size 150 x 50 pixels</p>
+            <img *ngIf="step.logoPath" [src]="step.logoPath" class="img-thumbnail light-gray-background padding-20" />
+            <p><button class="btn btn-info margin-top-10" (click)="uploadLogo()">Upload...</button></p>
+            <input #chooseFile type="file" value="" style="display: none" (change)="onFileChanged($event)">
+        </div>
+        <div class="col-md-3 padding-top-20">
+            <h3 class="finpal-h4">Social media</h3>
+            <p class="padding-bottom-20">Connect your web portal with social</p>
+            <form class="form-inline">
+                <div *ngFor="let socialMedia of step.socialMedias" class="form-group padding-bottom-10">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i [ngClass]="getSocialMediaClass(socialMedia.socialMediaType)"></i></div>
+                        <input type="text" class="form-control" name="socialMediaUrl{{socialMedia.socialMediaType}}" [(ngModel)]="socialMedia.url" placeholder="{{socialMedia.name}}">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 padding-top-20">
+            <h3 class="finpal-h4">Contact information</h3>
+            <p class="padding-bottom-20">This information will be displayed in the Contact us section</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="street1" class="control-label">Address 1</label>
+                    <input type="text" class="form-control" name="residentialAddress1" [(ngModel)]="step.addressLine1" placeholder="">
+                    <label for="street2" class="control-label padding-top-10">Address 2</label>
+                    <input type="text" class="form-control" name="residentialAddress2" [(ngModel)]="step.addressLine2" placeholder="">
+                    <label for="city" id="city" class="control-label padding-top-10">City</label>
+                    <input type="text" class="form-control" name="city" [(ngModel)]="step.city" placeholder="">
+                    <label for="state" id="state" class="control-label padding-top-10">State</label>
+                    <input type="text" class="form-control" name="state" [(ngModel)]="step.stateOrProvince" placeholder="">
+                </div>
+                <div class="col-md-6">
+                    <label for="postalcode" id="postalcode" class="control-label">Postal code</label>
+                    <input type="text" class="form-control" name="postalCode" [(ngModel)]="step.postalCode" placeholder="">
+                    <label for="street1" class="control-label padding-top-10">Email</label><i style="color: red">*</i>
+                    <input type="text" class="form-control" name="email" [(ngModel)]="step.email" required placeholder="" #email="ngModel">
+                    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="form-group" style="color: red">
+                        <div *ngIf="email.errors.required">required</div>
+                    </div>
+                    <label for="street2" class="control-label padding-top-10">Phone</label>
+                    <input type="text" class="form-control" name="phone" [(ngModel)]="step.phone" placeholder="1300 346 725">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center margin-top-40">
+            <button class="btn btn-lg btn-info" (click)="save()" [disabled]="email.invalid">Complete setup</button>
+        </div>
+    </div>
+</div>
+<fp-footer> </fp-footer>

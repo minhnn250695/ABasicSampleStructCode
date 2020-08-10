@@ -1,0 +1,89 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <span class="modal-title finpal-h2 padding-bottom-10 margin-right-5">View action</span>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-1 auto-width">
+                    <ul class="icon-list margin-top-bot-5">
+                        <li>
+                            <span><i class="fa fa-exchange fa-lg dark-gray"></i></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-11 padding-0">
+                    <h3 class="action-style">Transfer funds between two assets
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                        <li class="active">
+                            <a id="transfer-two-asset-details-view" data-toggle="pill"
+                                href="#asset-to-asset-basic-data-view">Action details</a>
+                        </li>
+                        <li>
+                            <a data-toggle="pill" href="#asset-to-asset-complementary-data-view">Advice comments</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <!-- Policy -->
+                        <div id="asset-to-asset-basic-data-view" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row padding-bottom-20">
+                                        <div class="col-md-5">
+                                            <label class="control-label">Source Asset</label>
+                                            <p class="field-info"> {{getAssetName(twoAsset.sourceId)}}</p>
+                                        </div>
+                                        <div class="col-md-2 text-center padding-top-20">
+                                            <i class="fas fa-arrow-alt-right fa-2x light-blue"></i>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label class="control-label">Target Asset</label>
+                                            <p class="field-info"> {{getAssetName(twoAsset.targetId)}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row padding-bottom-20">
+                                        <div class="col-md-6">
+                                            <label class="control-label">Transfer on year</label>
+                                            <p class="field-info">{{twoAsset.year || 'N/A'}}</p>
+                                        </div>
+                                        <div class="col-md-1 text-center padding-top-20">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label class="control-label">Amount to transfer</label>
+                                            <p class="field-info">{{twoAsset.amount || 'N/A'}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="asset-to-asset-complementary-data-view" class="tab-pane fade">
+                            <div>
+                                <label class="control-label">What is this action?</label>
+                                <textarea class="form-control" [value]="twoAsset.details || 'N/A'" readonly></textarea>
+                            </div>
+                            <div class="padding-top-20">
+                                <label class="control-label">Why are you taking this action?</label>
+                                <textarea class="form-control" [value]="twoAsset.reason || 'N/A'" readonly></textarea>
+                            </div>
+                            <div class="padding-top-20">
+                                <label class="control-label">How It improves your situation?</label>
+                                <textarea class="form-control" [value]="twoAsset.result || 'N/A'" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

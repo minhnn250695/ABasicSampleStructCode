@@ -1,0 +1,94 @@
+@import "../../../../assets/styles/css/timeline2.css";
+@import '../../../../assets/styles/css/customize-styles.css';
+.time-line li:before,
+.time-line li:after {
+    z-index: 0;
+}
+
+.time-line li span {
+    z-index: 10;
+}
+
+.time-line li span:hover .white-color {
+    color: #0072C6;
+}
+
+.time-line li span:hover .dark-gray {
+    color: #fff;
+}
+
+.time-line li span:visited .white-color {
+    color: #0072C6;
+}
+
+.time-line li span:visited .dark-gray {
+    color: #fff;
+}
+
+.fa-2x {
+    top: -10px;
+}
+
+.menu-width {
+    width: 169px;
+}
+
+.sub-item {
+    display: block;
+    font-size: 14px;
+    padding: 3px 8px 3px 4px;
+}
+
+
+/* #addGoalButton {
+    width: 169px;
+} */
+
+
+/* @media only screen and (min-width: 992px) {
+    .menu-width {
+        width: 169px;
+    }
+    .sub-item {
+        display: block;
+        font-size: 14px;
+        padding: 3px 8px 3px 4px;
+    }
+    #addGoalButton {
+        width: 169px;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .menu-width {
+        width: 169px;
+    }
+    .sub-item {
+        display: block;
+        font-size: 14px;
+        padding: 3px 8px 3px 4px;
+    }
+    #addGoalButton {
+        width: 169px;
+    }
+} */
+
+.sub-item {
+    color: #666666;
+}
+
+.well {
+    padding: 7px 8px 7px 8px;
+    margin-top: 4px;
+}
+
+#search-goal {
+    background-color: #e5e5e5;
+}
+
+.btn-lg {
+    width: 169px;
+    height: 40px;
+    font-size: 16px;
+    padding: 9px 16px;
+}

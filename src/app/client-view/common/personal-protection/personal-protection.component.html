@@ -1,0 +1,99 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #mobile>
+    <div class="row card protection-card padding-bottom-20" id="landing-insurance">
+        <div class="row margin-0">
+            <div class="card-header-xs-2-mobile light-blue-background">
+                <div class="card white-color pull-right thumb-flag orange-background thumb-top-position">
+                    <span class="thumb-icon" [style.display]="(personalProtection.onTrack == 509000000 || personalProtection.onTrack == 509000002) ? null : 'none'">
+                        <i class="fas fa-thumbs-up"></i>
+                    </span>
+                    <span class="thumb-icon" [style.display]="personalProtection.onTrack == 509000001 ? null : 'none'">
+                        <i class="fas fa-thumbs-down"></i>
+                    </span>
+                </div>
+            </div>
+            <h3 class="finpal-h3  padding-left-20 padding-top-5">Insurance</h3>
+        </div>
+
+        <div id="myCarousel" class="carousel slide " data-ride="carousel" data-interval="false" *ngIf="personalProtection.contacts && personalProtection.contacts.length > 0">
+            <!-- Indicators -->
+            <ol class="carousel-indicators" *ngIf="personalProtection.contacts && personalProtection.contacts.length > 1" [style.bottom]="isAdviceBuilderPage ? '60px' : 'none'">
+                <li class="indicators" [attr.id]="'indicator-' + i" data-target="#myCarousel" *ngFor="let member of personalProtection.contacts; let i = index" [attr.data-slide-to]="i" [ngClass]="currentCarouselSlide == i ? 'active' : ''" (click)="onSelectCarouselSide(i)">
+                </li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="item" *ngFor="let contact of personalProtection.contacts; let k = index" [ngClass]="k == 0 ? 'active' : ''">
+                    <common-client-member-card [generalThumnUpDown]="personalProtection.onTrack" [isAdviceBuilderPage]="isAdviceBuilderPage" [contact]="contact"></common-client-member-card>
+                </div>
+            </div>
+            <div class="projections-button" *ngIf="isAdviceBuilderPage">
+                <a class="btn btn-info finpal-h5 white-color" href="/#/client-view/advice-builder/insurance-projection-details">Insurance Projections</a>
+            </div>
+        </div>
+        <common-client-member-card *ngIf="!personalProtection || personalProtection.length == 0 || (personalProtection.contacts && personalProtection.contacts.length == 0)" [isAdviceBuilderPage]="isAdviceBuilderPage" [generalThumnUpDown]="personalProtection.onTrack"
+            [contact]="contact">
+        </common-client-member-card>
+    </div>
+    <div id="contactIndicators" *ngIf="personalProtection.contacts && personalProtection.contacts.length > 1">
+        <!-- Contact indicators -->
+        <ul id="image-indicators" class="padding-0" [style.bottom]="isAdviceBuilderPage ? '60px' : 'none'">
+            <li class="small object-shadow img-indicators" [attr.id]="'img-indicators-' + prevIndicators[i]" *ngFor="let prevContact of prevHouseHoldMembers; let i = index" [style.visibility]="!prevContact ? 'hidden' : 'visible'" (click)="onChangeCarouselContact(prevContact)">
+                <ngu-letter-avatar *ngIf="!isHasAvatar(prevContact)" [avatar-data]="getClientFullName(prevContact)" avatar-char-count="2" avatar-shape="round" avatar-dynamic='true' class="img-circle" avatar-height="38px" avatar-width="38px" [avatar-custom-bg-color]="getAvatarColor(prevContact)"
+                    avatar-font-size="15px">
+                </ngu-letter-avatar>
+                <img *ngIf="isHasAvatar(prevContact)" [src]="memberImgUrlForMobile(prevContact)" class="img-circle white-border" [alt]="prevContact.fullName" />
+            </li>
+            <li class="active object-shadow img-indicators" [attr.id]="'img-indicators-' + currentCarouselSlide">
+                <ngu-letter-avatar *ngIf="isShowAvatar(currentHouseHoldMember)" [avatar-data]="getClientFullName(currentHouseHoldMember)" avatar-char-count="2" avatar-shape="round" avatar-dynamic='true' class="img-circle" avatar-height="52px" avatar-width="52px" [avatar-custom-bg-color]="getAvatarColor(currentHouseHoldMember)"
+                    avatar-font-size="15px">
+                </ngu-letter-avatar>
+                <img *ngIf="isHasAvatar(currentHouseHoldMember)" [src]="memberImgUrlForMobile(currentHouseHoldMember)" class="img-circle white-border" [alt]="currentHouseHoldMember.fullName" />
+            </li>
+            <li class="small object-shadow img-indicators" [attr.id]="'img-indicators-' + nextIndicators[i]" *ngFor="let nextContact of nextHouseHoldMembers; let i = index" (click)="onChangeCarouselContact(nextContact)" [style.visibility]="!nextContact ? 'hidden' : 'visible'">
+                <ngu-letter-avatar *ngIf="!isHasAvatar(nextContact)" [avatar-data]='getClientFullName(nextContact)' avatar-char-count="2" avatar-shape="round" avatar-dynamic='true' class="img-circle" avatar-height="38px" avatar-width="38px" [avatar-custom-bg-color]="getAvatarColor(nextContact)"
+                    avatar-font-size="15px">
+                </ngu-letter-avatar>
+                <img *ngIf="isHasAvatar(nextContact)" [src]="memberImgUrlForMobile(nextContact)" class="img-circle white-border" [alt]="nextContact.fullName" />
+            </li>
+        </ul>
+        <a class="carousel-control-prev" (click)="changeIndicatorsByAction('prev')">
+            <i class="fas fa-angle-left dark-blue fa-lg"></i>
+        </a>
+        <a class="carousel-control-next" (click)="changeIndicatorsByAction('next')">
+            <i class="fas fa-angle-right dark-blue fa-lg"></i>
+        </a>
+    </div>
+</ng-template>
+
+<ng-template #desktop>
+    <div class="card default-cursor m-dark-gray light-gray-background" id="landing-insurance">
+        <div class="card-header-xs-2 light-blue-background padding-left-20 padding-right-20">
+            <div class="card white-color pull-right thumb-flag orange-background">
+                <span class="thumb-icon" [style.display]="(personalProtection.onTrack == 509000000 || personalProtection.onTrack == 509000002) ? null : 'none'">
+                    <i class="fas fa-thumbs-up"></i></span>
+                <span class="thumb-icon" [style.display]="personalProtection.onTrack == 509000001 ? null : 'none'">
+                    <i class="fas fa-thumbs-down"></i></span>
+            </div>
+        </div>
+        <h3 class="finpal-h3 m-dark-gray padding-left-20 padding-right-20 padding-top-20">Insurance</h3>
+
+        <div id="myCarousel" class="carousel slide" data-ride="carousel" *ngIf="personalProtection.contacts && personalProtection.contacts.length > 0">
+            <!-- Indicators -->
+            <ol class="carousel-indicators" [ngClass]="!isAdviceBuilderPage ? 'padding-bottom-20' : ''" *ngIf="personalProtection.contacts && personalProtection.contacts.length > 1" [style.bottom]="isAdviceBuilderPage ? '60px' : 'none'">
+                <li data-target="#myCarousel" *ngFor="let member of personalProtection.contacts; let i = index" [attr.data-slide-to]="i" [ngClass]="i == 0 ? 'active' : ''"> </li>
+            </ol>
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="item" *ngFor="let contact of personalProtection.contacts; let k = index" [ngClass]="k == 0 ? 'active' : ''">
+                    <common-client-member-card [generalThumnUpDown]="personalProtection.onTrack" [isAdviceBuilderPage]="isAdviceBuilderPage" [contact]="contact"></common-client-member-card>
+                </div>
+            </div>
+            <div class="projections-button" *ngIf="isAdviceBuilderPage">
+                <a class="btn btn-info finpal-h5 white-color" href="/#/client-view/advice-builder/insurance-projection-details">Insurance Projections</a>
+            </div>
+        </div>
+        <common-client-member-card *ngIf="!personalProtection || personalProtection.length == 0 || (personalProtection.contacts && personalProtection.contacts.length == 0)" [isAdviceBuilderPage]="isAdviceBuilderPage" [generalThumnUpDown]="personalProtection.onTrack"
+            [contact]="contact"></common-client-member-card>
+    </div>
+</ng-template>

@@ -1,0 +1,93 @@
+<div class="col-md-4 padding-top-30">
+  <div class="card">
+    <div class="hovercard">
+      <div class="background">
+      </div>
+      <div class="avatar">
+        <fp-cirle-img [img]="avatarUrl()" [name]="getFullName()"></fp-cirle-img>
+      </div>
+      <div class="info">
+        <div class="title padding-bottom-10">{{getFullName()}}</div>
+      </div>
+      <div class="bottomxs">
+        <table class="table text-left">
+          <tr>
+            <th>Life insurance</th>
+            <td>${{(insurance && insurance.lifeInsuranceTotal? insurance.lifeInsuranceTotal : 0) | number:'1.2-2'}}</td>
+          </tr>
+          <tr>
+            <th>TPD insurance</th>
+            <td>
+              ${{(insurance && insurance.tpdInsuranceTotal? insurance.tpdInsuranceTotal : 0) | number:'1.2-2'}}
+            </td>
+          </tr>
+          <tr>
+            <th>Trauma insurance</th>
+            <td>${{(insurance && insurance.traumaInsuranceTotal? insurance.traumaInsuranceTotal : 0) | number:'1.2-2'}}
+            </td>
+          </tr>
+          <tr>
+            <th>Income protection</th>
+            <td>
+              ${{(insurance && insurance.incomeProtectionTotal? insurance.incomeProtectionTotal : 0) | number:'1.2-2'}}
+            </td>
+          </tr>
+          <tr>
+            <th>Business expenses</th>
+            <td>
+              ${{(insurance && insurance.businessExpensesTotal? insurance.businessExpensesTotal : 0) | number:'1.2-2'}}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Total cost
+            </th>
+            <th>
+              ${{(insurance && insurance.totalCost ? insurance.totalCost : 0) | number:'1.2-2'}}
+
+              <a rel="popover" [attr.data-popover-content]="addId('#paidby')" onclick="$(this).popover('toggle')">
+                <i class="fas fa-info-circle fa-lg"></i>
+              </a>
+
+              <div id="paidby{{id}}" class="hide close-popover">
+                <table class="table text-left">
+                  <thead>
+                    <tr>
+                      <td>Paid by superannuation</td>
+                      <td>
+                        ${{(insurance && insurance.paidBySuperannuation? insurance.paidBySuperannuation : 0) | number:'1.2-2'}}
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Paid by you</td>
+                      <td>
+                        ${{(insurance && insurance.paidByYou? insurance.paidByYou : 0) | number:'1.2-2'}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Paid by business</td>
+                      <td>${{(insurance && insurance.paidByBusiness? insurance.paidByBusiness : 0) | number:'1.2-2'}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </th>
+          </tr>
+        </table>
+
+        <span class="fa-stack fa-lg" *ngIf="!contact || contact.onTrack == 509000000 || contact.onTrack == 509000002" (click)="thumpsUpClick($event)">
+          <i class="fas fa-circle fa-stack-2x teal-color"></i>
+          <i class="fas fa-flag fa-stack-1x fa-thumbs-up white-color"></i>
+        </span>
+
+        <span class="fa-stack fa-lg" *ngIf="contact.onTrack == 509000001" (click)="thumpsUpClick($event)">
+          <i class="fas fa-circle fa-stack-2x gray999-color"></i>
+          <i class="fas fa-flag fa-stack-1x fa-thumbs-down white-color"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

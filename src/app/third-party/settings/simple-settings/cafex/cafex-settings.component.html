@@ -1,0 +1,55 @@
+<div class="breadcrumb-bar-third-party padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a href="#">
+            <i class="fas fa-home fa-lg margin-right-5"></i>
+        </a>
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <a href="/#/third-party/landing" class="margin-right-5">Third party connections</a>
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <span class="active-breadcrumb">CafeX Settings</span>
+    </div>
+</div>
+<div class="container padding-top-40 padding-bottom-50">
+    <h1 class="finpal-h1 m-dark-gray">Settings</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-6 padding-top-20">
+                    <img src="../../../../assets/img/cafex.png" class="margin-bottom-20 img-thumbnail" alt="cafeX logo" />
+                </div>
+                <div class="col-md-6 padding-top-50">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="switch">
+                                <input type="checkbox" [checked]="config.settings.enabled" (change)="config.settings.enabled= !config.settings.enabled">
+                                <span class="slider3 round"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-7">
+                            Off/On
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card margin-top-20">
+                <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+                    <form>
+                        <div class="form-group">
+                            <label for="">Account number</label>
+                            <input type="text" name="accountNumber" class="form-control" [(ngModel)]="accountNumber">
+                        </div>
+                        <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 col-md-offset-1 padding-top-20">
+            <h3 class="finpal-h3 padding-bottom-10">CafeX Live Assist for Microsoft Dynamics 365</h3>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/iarSVqIA704?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <p class="padding-top-10">Revolutionize digital customer service on Dynamics 365. With Live Assist, your business can provide personalized live assistance within web pages and apps through chat, co-browse and video support. Omnichannel service helps you resolve issues
+                faster and increase customer satisfaction.</p>
+
+            <p><a href="https://www.cafex.com/en/products/" target="_blank" class="btn btn-info" role="button">Read more</a></p>
+        </div>
+    </div>
+</div>

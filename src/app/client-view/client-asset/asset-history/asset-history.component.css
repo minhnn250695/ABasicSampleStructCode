@@ -1,0 +1,79 @@
+.max-height-200 {
+    max-height: 350px;
+    margin-bottom: 40px;
+    overflow-x: hidden;
+}
+
+
+/* Breadcrumb */
+
+.breadcrumb-advice-builder a {
+    color: #ffffff;
+}
+
+.breadcrumb-advice-builder {
+    color: #ffffff;
+}
+
+
+/* Chart */
+
+.opacity-03 {
+    opacity: 0.3;
+}
+
+.chartWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.chartWrapper>canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+}
+
+.chartWrapper .caret-left {
+    position: absolute;
+    left: -40px;
+    top: 155px;
+}
+
+.chartWrapper .caret-right {
+    position: absolute;
+    right: -40px;
+    top: 155px;
+}
+
+.chartAreaWrapper {
+    width: 100%;
+    display: flex;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+#lineChart {
+    height: 400px;
+}
+
+@media (max-width: 992px) {
+    .chartAreaWrapper {
+        overflow-x: scroll;
+    }
+    #period-filter {
+        margin-bottom: 5px;
+    }
+}
+
+@media (min-width: 992px) {
+    #period-filter,
+    #assets-filter {
+        float: right !important;
+        margin-top: 5px;
+        width: 208px;
+    }
+    #assets-filter {
+        margin-right: 5px;
+    }
+}

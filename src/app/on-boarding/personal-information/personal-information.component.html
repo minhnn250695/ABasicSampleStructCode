@@ -1,0 +1,119 @@
+<div class="progress-menu-container padding-top-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="steps-form-2">
+                    <div class="background-line"></div>
+                    <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+                        <div class="steps-step-2">
+                            <button type="button" class="btn btn-active-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Personal info">
+                                <i class="fas fa-user fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="steps-step-2">
+                            <button type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Family members" [disabled]="onLoadComponent" (click)="navigateToStep('/on-boarding/family-member')">
+                             <i class="fas fa-users fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="steps-step-2">
+                            <button type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Financial situation" [disabled]="onLoadComponent" (click)="navigateToStep('/on-boarding/financial-situation')">
+                                <i class="fas fa-money-bill-alt fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="steps-step-2">
+                            <button type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Your goals" [disabled]="onLoadComponent" (click)="navigateToStep('/on-boarding/your-goal')">
+                                <i class="fas fa-flag-checkered fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>
+<crop-image #cropImage (croppedImage)="handleCroppedImage($event)"></crop-image>
+
+<div *ngIf="!onLoadComponent; then component else waiting"></div>
+
+<ng-template #component>
+    <div class="container padding-top-40 padding-bottom-50">
+        <div class="row padding-bottom-20">
+            <div class="col-md-12">
+                <h2 class="finpal-h1 dark-gray">Personal information</h2>
+                <p>The following information is needed to get to know you better. Please update any missing/incorrect information.
+                </p>
+            </div>
+        </div>
+        <div *ngIf="userInfo" class="row">
+            <div class="col-md-2">
+                <img id="profileImage" [src]="profileImg" class="img-thumbnail img-responsive" width="100%" />
+                <!-- <img [src]="initProfileImg(selectedMember.profileImageUrl)" class="img-thumbnail img-responsive" width="100%" /> -->
+                <p class="text-center">
+                    <input type="file" id="btnUploadImg" name="pic" accept="image/*" class="sr-only" (change)="handleUploadImage($event)">
+                    <label for="btnUploadImg"><span class="btn btn-default btn-sm margin-top-10">New profile picture</span></label>
+                </p>
+            </div>
+            <form #testForm="ngForm">
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="firstname" class="control-label">* First name</label>
+                            <input type="text" class="form-control" (keydown)="checkTextOnly($event)" name="firstname" [(ngModel)]="userInfo.firstName" tabindex="1" required>
+                            <label for="birthday" class="control-label padding-top-10">* Date of birth</label>
+                            <!--<app-date-picker #datePicker [selectedDate]="userInfo.birthday" tabindex="4"></app-date-picker>-->
+                            <app-datepicker #datePicker id="birthday" [disableSinceToday]="true" [inputDate]="userInfo.birthday"></app-datepicker>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="lastname" class="control-label">* Last name</label>
+                            <input type="text" class="form-control" name="lastname" [(ngModel)]="userInfo.lastName" tabindex="2" required>
+                            <label for="maritalstatus" class="control-label padding-top-10">* Marital status</label>
+                            <select class="form-control" (change)="onUpdateMaritialStatus($event)" name="marital-status" tabindex="5" [(ngModel)]="selectedStatus">
+                                <option *ngFor='let option of maritalStatuses' [value]="option.code">{{option.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="gender" class="control-label">* Gender</label>
+                            <select class="form-control" (change)="onUpdateGender($event)" tabindex="3" name="gender" [(ngModel)]="selectedGender">
+                                <option *ngFor='let option of genderTypes' [value]="option.code">{{option.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr>
+                            <h2 class="finpal-h3 dark-blue padding-bottom-10">Contact information</h2>
+                            <p>We will use the information provided on this section to get in contact with you, also your email address will be your login email.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="street1" class="control-label">Mobile phone</label>
+                            <input type="text" class="form-control" name="mobile" (keydown)="checkNumbersOnly($event)" [(ngModel)]="userInfo.mobilePhone" tabindex="6">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="street1" class="control-label">Home phone</label>
+                            <input type="text" class="form-control" name="home" (keydown)="checkNumbersOnly($event)" [(ngModel)]="userInfo.homePhone" tabindex="7">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="street1" class="control-label">* Email address</label>
+                            <input type="text" class="form-control" disabled="disabled" name="email" [(ngModel)]="userInfo.email" required tabindex="8">
+                        </div>
+                    </div>
+                    <div class="row padding-top-20">
+                        <div class="col-md-12">
+                            <button type="submit" (click)="btnSaveClick()" class="btn btn-info pull-right" [disabled]="!testForm.form.valid || !datePicker.isValid || !selectedGender || !selectedStatus">
+                                Continue <i class="fas fa-angle-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #waiting>
+    <app-waiting></app-waiting>
+</ng-template>

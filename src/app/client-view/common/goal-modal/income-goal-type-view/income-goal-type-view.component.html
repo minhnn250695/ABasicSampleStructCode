@@ -1,0 +1,99 @@
+<form #incomeGoal="ngForm">
+    <div class="row">
+        <div class="col-md-1">
+            <ul class="icon-list margin-top-bot-5">
+                <li *ngFor="let icon of iconCSSList">
+                    <span *ngIf="iconCSS === icon">
+                        <i class="fa fa-lg dark-gray" [ngClass]="iconCSS"></i>
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-11 padding-0">
+            <h3 class="goal-style">{{goalTypeName}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 padding-top-10">
+            <label for="name">Goal name</label>
+            <p class="income-goal-type-info" id="name">{{goalOutPut.name == undefined ? 'N/A' : goalOutPut.name}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div *ngIf="clientIncomeList && clientIncomeList.length > 0; else newIncome" class="col-md-8 padding-top-10">
+            <label for="existing-income">Existing income</label>
+            <p class="income-goal-type-info" id="existing-income">{{getSelectedClientIncome()}}</p>
+        </div>
+        <ng-template #newIncome>
+            <div class="col-md-8 padding-top-10">
+                <label for="income-name">Income name</label>
+                <p class="income-goal-type-info" id="income-name">
+                    {{goalOutPut.income && goalOutPut.income.incomeName == undefined ? 'N/A' : (goalOutPut.income && goalOutPut.income.incomeName)}}
+                </p>
+            </div>
+        </ng-template>
+    </div>
+    <div class="row">
+        <div class="col-md-4 padding-top-10">
+            <label for="household-member">Household member</label>
+            <p class="income-goal-type-info" id="household-member">{{getSelectedHouseHoldMember()}}</p>
+        </div>
+        <div class="col-md-4 padding-top-10">
+            <label for="frequency">Frequency</label>
+            <p class="income-goal-type-info" id="frequency">{{getSelectedFinanceFrequency()}}</p>
+        </div>
+        <div class="col-md-4 padding-top-10">
+            <label for="income-frequency">Income frequency</label>
+            <p class="income-goal-type-info" id="income-frequency">{{getSelectedIncomeFrequency()}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 padding-top-10">
+            <label for="income-type">Income Type</label>
+            <p class="income-goal-type-info" id="income-type">{{getSelectedIncomeType()}}</p>
+        </div>
+        <div class="col-md-4 padding-top-10">
+            <label for="first-year">First Year</label>
+            <p class="income-goal-type-info" id="first-year">
+                {{goalOutPut.startYear == undefined ? 'N/A' : goalOutPut.startYear}}</p>
+        </div>
+        <div *ngIf="goalOutPut.financeFrequency == 1 && isShowLastYear" class="col-md-4 padding-top-10">
+            <label for="last-year">Last Year</label>
+            <p class="income-goal-type-info" id="last-year">
+                {{goalOutPut.endYear == undefined ? 'N/A' : goalOutPut.endYear}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4  padding-top-10">
+            <div id="search-group">
+                <label for="gross-income">Gross Income</label>
+                <p class="income-goal-type-info" id="gross-income">
+                    {{!goalOutPut.income || !goalOutPut.income.grossIncome ? 'N/A' :"$" + (goalOutPut.income && goalOutPut.income.grossIncome  | number:'1.2-2')}}
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4  padding-top-10">
+            <div id="search-group">
+                <label for="pre-tax-spending">Pre-Tax Spending</label>
+                <p class="income-goal-type-info" id="pre-tax-spending">
+                    {{!goalOutPut.income || !goalOutPut.income.preTaxSpending ? 'N/A' :"$" + (goalOutPut.income && goalOutPut.income.preTaxSpending | number:'1.2-2')}}
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4  padding-top-10">
+            <div id="search-group">
+                <label for="tax-paid">Tax Paid</label>
+                <p class="income-goal-type-info" id="tax-paid">
+                    {{!goalOutPut.income || !goalOutPut.income.taxPaid ? 'N/A' : "$" + (goalOutPut.income && goalOutPut.income.taxPaid | number:'1.2-2')}}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 padding-top-20 padding-bottom-10">
+            <a class="btn btn-info pull-right" data-dismiss="modal">Close</a>
+        </div>
+    </div>
+</form>

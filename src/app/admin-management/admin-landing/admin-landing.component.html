@@ -1,0 +1,43 @@
+<div class="container padding-top-40 padding-bottom-50">
+  <div class="row">
+    <div [ngClass]="isMobile ? 'col-xs-12 padding-top-20' : 'col-md-3'">
+      <div class="card">
+        <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+          <h3 class="finpal-h3 padding-bottom-10">Find a customer</h3>
+          <drop-down-search-box placeHolder="Client name" [source]="state.getCustomerPairs()" (onSelect)="onClientItemSelected($event)">
+          </drop-down-search-box>
+        </div>
+      </div>
+    </div>
+    <div [ngClass]="isMobile ? 'col-xs-12 padding-top-30' : 'col-md-9'">
+      <h3 class="finpal-h3 padding-bottom-10">Recent customers</h3>
+      <div class="table-responsive">
+        <table class="table table-striped card-client-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>$</th>
+              <th>State</th>
+              <th>Postcode</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let customer of state.recentCustomers">
+              <td>
+                <i class="fas fa-caret-right fa-lg light-blue margin-right-10"></i>
+                <a (click)="gotoCustomerSummary(customer)">{{customer && customer.name || 'N/A'}}</a>
+              </td>
+              <td>
+                <i class="margin-right-10" [ngClass]="state.getStatusIcon(customer)"></i> {{customer && customer.status || 'N/A'}} </td>
+              <td>
+                <i class="margin-right-10" [ngClass]="state.getLicenseIcon(customer)"></i>{{customer && customer.license || 'N/A'}}</td>
+              <td>{{customer && customer.state || 'N/A'}}</td>
+              <td>{{customer && customer.postcode || 'N/A'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

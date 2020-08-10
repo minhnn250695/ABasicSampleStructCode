@@ -1,0 +1,17 @@
+@mixin font-face($name, $fileName) {
+  $fileName: '~/assets/fonts/' + $fileName;
+  @font-face {
+    font-family: quote($name);
+    src:  url(quote($fileName + ".ttf")) format("truetype");
+    src: url(quote($fileName + ".eot"));
+    src: url(quote($fileName + ".eot?#iefix")) format("embedded-opentype"),
+         url(quote($fileName + ".woff")) format("woff"),
+         url(quote($fileName + ".ttf")) format("truetype"),
+         url(quote($fileName + ".svg#" + $name)) format("svg");
+
+    font-weight: normal;
+    font-style: normal;
+  }
+}
+
+//@include font-face('Arial Rounded MT Bold', 'ArialRoundedBold');

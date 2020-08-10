@@ -1,0 +1,19 @@
+<fp-client-view-header active="6"> </fp-client-view-header>
+<div *ngIf="!isMobile" class="sub-menu2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 margin-top-10">
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-default pull-right" (click)="outcome()"><i
+                        class="fa fa-clipboard margin-right-5"></i> Outcomes</button>
+                <button type="button" class="btn btn-default pull-right margin-right-5" (click)="policyDetails()"><i
+                        class="fas fa-gavel margin-right-5"></i> Policy details</button>
+                <button type="button" class="btn btn-default pull-right margin-right-10" (click)="overview()"><i
+                        class="fas fa-list margin-right-5"></i> Overview</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<router-outlet></router-outlet>

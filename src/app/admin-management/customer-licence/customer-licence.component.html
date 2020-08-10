@@ -1,0 +1,53 @@
+<div *ngIf="!isMobile" class="breadcrumb-bar-staff padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a routerLink="/admin">
+            <i class="fa fa-home fa-lg margin-right-5"></i>
+        </a>
+        <i class="fa fa-angle-right margin-right-5"></i>
+        <a routerLink="/admin/customer-list" class="margin-right-5">Customer list</a>
+        <i class="fa fa-angle-right margin-right-5"></i>
+        <a routerLink="/admin/customer-summary" class="margin-right-5">Customer summary</a>
+        <i class="fa fa-angle-right margin-right-5"></i>
+        <span class="active-breadcrumb">Licences details</span>
+    </div>
+</div>
+
+<div *ngIf="isMobile" class="breadcrumb-bar-staff padding-top-50 margin-top-10 padding-bottom-10">
+    <div class="container">
+        <a routerLink="/admin/customer-summary">
+            <i class="fas fa-angle-left margin-right-5"></i> Customer summary</a>
+    </div>
+</div>
+
+<div [ngClass]="isMobile ? '' : 'padding-top-40'" class="container padding-bottom-50">
+    <h1 [ngClass]="isMobile ? 'finpal-h2' : 'finpal-h1'">Licences details</h1>
+    <h3 class="finpal-h3" [ngClass]="isMobile ? '' : 'padding-bottom-20'">{{state.getFullUserName()}}</h3>
+    <div class="row">
+        <licence-tile title="CRM Licence" color="dark-blue-background" id="1" [licence]="state.crmLicenceInfo()" type="CRM" (warning)="showWarning($event)"
+            (licenceChange)="licenceChanged($event)"></licence-tile>
+
+        <licence-tile title="Portal Licence" color="green-background" id="2" [licence]="state.portalLicenceInfo()" type="PORTAL"
+            (warning)="showWarning($event)" (licenceChange)="licenceChanged($event)"></licence-tile>
+
+        <licence-tile title="BI Licence" color="light-orange-background" id="3" [licence]="state.biLicenceInfo()" type="BI" (warning)="showWarning($event)"
+            (licenceChange)="licenceChanged($event)"></licence-tile>
+
+        <div class="col-md-3" [ngClass]="isMobile ? 'margin-top-30' : ''">
+            <licence-status [licence]="state.getLicenceInfo()" (changeLicence)="licenceStatusChanged($event)" (extendTrial)="extendTrial($event)"></licence-status>
+
+            <button *ngIf="state.isPackagesUpdated" class="btn btn-primary save-change" (click)="savePackagesToServer()">Save changes</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="padding-top-20">
+            <div *ngIf="isShowWarning" class="alert alert-danger col-md-6 col-md-offset-3">
+                <strong>Warning!</strong> {{errorMsg}}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<fp-basic-modal #warningDeletemodal title="Delete ..." body="Are you sure to delete?" actionString="Delete"></fp-basic-modal>

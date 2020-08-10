@@ -1,0 +1,142 @@
+<fp-client-view-header active="9"> </fp-client-view-header>
+<div class="x-dark-blue-background">
+    <div class="container">
+        <div class="row padding-top-30">
+            <div class="col-md-12">
+                <h1 class="finpal-h1 white">Financial Planning Strategies</h1>
+            </div>
+        </div>
+        <div class="row padding-top-20 padding-bottom-20" id="financial-planning-strategies">
+            <div class="col-md-3 col-xs-6 margin-bottom-5" *ngFor="let strategy of adviceBuilderService.strategyList; let i = index">
+                <a (click)="selectScenario(i)">
+                    <div class="card">
+                        <div class="card-150-height card-block-link">
+                            <div class="pull-right margin-top-8 margin-right-20">
+                                <a *ngIf="strategy.scenarioId === selectedStrategyId && i !== 0" class="dark-blue" (click)="confirmDeleteStrategy(i)" id="delete-strategy">
+                                    <i class="fa fa-1x fa-trash"></i>
+                                </a>
+                            </div>
+                            <div class="row">
+                                <div *ngIf="strategy.scenarioId === selectedStrategyId && i === 0" class="col-md-12 text-center margin-top-30">
+                                    <span class="fa-stack fa-lg margin-bottom-10">
+                                        <i class="fa fa-stack-2x fa-calendar-day orange"></i>
+                                    </span>
+                                    <h4 class="finpal-h4 m-dark-gray">
+                                        {{strategy.scenarioName && strategy.scenarioName !== "" ? strategy.scenarioName : "N/A"}}
+                                    </h4>
+                                </div>
+                                <div *ngIf="strategy.scenarioId === selectedStrategyId && i !== 0" class="col-md-12 text-center margin-top-10">
+                                    <span class="fa-stack fa-lg margin-bottom-10">
+                                        <i class="fa fa-stack-2x fa-chess-knight orange"></i>
+                                    </span>
+                                    <h4 class="finpal-h4 m-dark-gray">
+                                        {{strategy.scenarioName && strategy.scenarioName !== "" ? strategy.scenarioName : "N/A"}}
+                                    </h4>
+                                </div>
+                                <div *ngIf="strategy.scenarioId !== selectedStrategyId && i === 0" class="col-md-12 text-center margin-top-30">
+                                    <span class="fa-stack fa-lg margin-bottom-10">
+                                        <i class="fa fa-stack-2x fa-calendar-day dark-blue"></i>
+                                    </span>
+                                    <h4 class="finpal-h4 dark-blue">
+                                        {{strategy.scenarioName && strategy.scenarioName !== "" ? strategy.scenarioName : "N/A"}}
+                                    </h4>
+                                </div>
+                                <div *ngIf="strategy.scenarioId !== selectedStrategyId && i !== 0" class="col-md-12 text-center margin-top-30">
+                                    <span class="fa-stack fa-lg margin-bottom-10">
+                                        <i class="fa fa-stack-2x fa-chess-knight dark-blue"></i>
+                                    </span>
+                                    <h4 class="finpal-h4 dark-blue">
+                                        {{strategy.scenarioName && strategy.scenarioName !== "" ? strategy.scenarioName : "N/A"}}
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-xs-6 margin-bottom-5" *ngIf="adviceBuilderService.strategyList && adviceBuilderService.strategyList.length <= 3">
+                <div id="card add-new-strategy">
+                    <div class="card-block-link card-150-height padding-left-10 padding-right-10 padding-top-30 padding-bottom-30">
+                        <div class="col-md-12 margin-bottom-10">
+                            <a (click)="createStrategyFrom()">
+                                <div class="col-md-12 text-center margin-top-10">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-stack-2x fa-plus-circle dark-blue"></i>
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-12">
+                            <h4 [style.display]="adviceBuilderService.strategyList.length <= 1 ? null : 'none'" class="finpal-h4 dark-blue" style="text-align: center;">
+                                {{ newStrategyName }}
+                            </h4>
+                            <div [style.display]="adviceBuilderService.strategyList.length > 1 ? null : 'none'" class="dropdown top-menu-dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown">
+                                    <h4 class="finpal-h4 dark-blue">
+                                        {{ newStrategyName }} <i class="fas fa-caret-down dark-blue profile-caret"></i>
+                                    </h4>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li *ngFor="let strategy of adviceBuilderService.strategyList">
+                                        <a class="dropdown-item" (click)="changeCreateNewStrategy(strategy)">{{strategy.scenarioName}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="full3 inner-shadow" id="timeline">
+    <div class="container padding-top-30 padding-bottom-50">
+        <div class="row">
+            <div [ngClass]="selectedStrategyId && selectedStrategyId == currentStrategyId ? 'col-md-9' : 'col-md-7'">
+                <h1 class="font-size-30 white-color margin-top-10">{{selectedStrategyName}}</h1>
+                <h1 class="finpal-h1 white-color">Your goals over time</h1>
+            </div>
+            <div class="padding-top-10" [ngClass]="selectedStrategyId && selectedStrategyId == currentStrategyId ? 'col-md-3' : 'col-md-5'">
+                <div *ngIf="selectedStrategyId && selectedStrategyId == currentStrategyId" class="">
+                    <button type="button" class="btn btn-info font-size-16 pull-right" (click)="durationSaveChanges()" [disabled]="duration!==0 && !duration">Apply</button>
+                    <input type="number" class="duration-input light-gray font-size-14 margin-right-10 pull-right" maxlength="2" name="advice-duration" [(ngModel)]="duration">
+                    <span class="white-color margin-right-10 padding-left-20">Advice Duration</span>
+                    <p class="white-color font-size-14 padding-left-20">(in years)</p>
+                </div>
+                <a *ngIf="selectedStrategyId && selectedStrategyId != currentStrategyId" class="btn btn-info-inverse btn-lg pull-right " routerLink="/client-view/advice-builder/strategy-details">
+                    <i class="fas fa-pencil margin-right-5"></i> Edit strategy
+                </a>
+                <a *ngIf="adviceBuilderService.strategyList.length > 1 && (selectedStrategyId && selectedStrategyId != currentStrategyId)" class="btn btn-info-inverse dropdown-toggle btn-lg pull-right margin-right-5" type="button" data-toggle="dropdown"> <i class="fas fa-balance-scale-right"></i> Compare strategy with ... <span class="caret"></span></a>
+                <ul class="dropdown-menu has-edit-button">
+                    <li *ngFor="let strategy of filterCurrentStrategy()"><a (click)="compareStrategies(strategy)">{{ strategy.scenarioName }}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <app-timeline-v2 additionalButton="view-detail" goalModalTitle="Your goal" [isLandingPage]="false" [readOnly]="true" [events]="adviceBuilderService.selectedScenario && adviceBuilderService.selectedScenario.goals" [activeAssetList]="adviceBuilderService.notClosedAssetList"
+                [activeDebtList]="adviceBuilderService.debtList">
+            </app-timeline-v2>
+        </div>
+    </div>
+</div>
+
+<!-- asset debt income insurance -->
+<div class="container padding-top-40 padding-bottom-50">
+    <div class="row">
+        <div class="col-md-3">
+            <common-client-cash-flow [cashFlow]="adviceBuilderService.selectedScenario.cashFlow">
+            </common-client-cash-flow>
+        </div>
+        <div class="col-md-3">
+            <common-personal-protection [personalProtection]="adviceBuilderService.selectedScenario.personalProtection">
+            </common-personal-protection>
+        </div>
+        <div class="col-md-6">
+            <common-client-assets-debts [asset]="adviceBuilderService.selectedScenario.assets" [debt]="adviceBuilderService.selectedScenario.debt" [assetProjections]="adviceBuilderService.selectedScenario.assetProjections" [debtProjections]="adviceBuilderService.selectedScenario.debtProjections"></common-client-assets-debts>
+        </div>
+    </div>
+</div>
+
+<!-- Alert change to Edit mode -->
+<fp-basic-modal #alertModal title="Delete strategy" [body]="getAlertMessage()" actionString="Delete" (action)="deleteScenario(tempStrategyDeleteIndex)" buttonStyle="btn-info"></fp-basic-modal>

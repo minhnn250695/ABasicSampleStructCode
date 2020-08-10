@@ -1,0 +1,7 @@
+<button [ngClass]="customClass ? customClass : 'btn btn-info margin-top-10'" (click)="btnClick()">
+        {{ placeHolder }}</button>
+<input *ngIf="!usingTwoTimes" id="btnChooseFile1" type="file" value="" (change)="onFileChanged($event)" style="display: none" [accept]="toInputAllowedFileExtension()">
+
+<!-- we need a differnt input for other image upload -->
+<input *ngIf="usingTwoTimes" id="btnChooseFile2" type="file" value="" (change)="onFileChanged($event)" style="display: none" [accept]="toInputAllowedFileExtension()">
+

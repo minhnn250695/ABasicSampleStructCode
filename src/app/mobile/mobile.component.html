@@ -1,0 +1,74 @@
+<div class="container" *ngIf="isMobile">
+  <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+          <div class="row">
+              <div class="col-xs-12">
+                  <h1 class="text-center"><img style="height:30px" src="../../assets/img/miplan-logo-large.png" alt="miPlan logo" /></h1>
+                  <h4 class="h4 text-center padding-top-10">Sign in to your account</h4>
+                  <form>
+                    <div class="form-group padding-top-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-envelope"></i></span>
+                            <input type="email" class="form-control" id="" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                      <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                          <input type="password" class="form-control" id="" placeholder="Password">
+                      </div>
+                    </div> 
+                    <div class="row">
+                          <div class="col-xs-6">
+                                <div class="checkbox">
+                                  <label>
+                                    <input type="checkbox"> Remember me
+                                  </label>
+                                </div>
+                                
+                          </div>
+                          <div class="col-xs-6">
+                              <button type="submit" class="btn btn-info pull-right">SIGN IN</button>
+                          </div>
+                    </div>
+                  </form>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-xs-12">
+                    <a href="fp-d-com_forgot-password.html" class="dark-gray"><i class="fas fa-question-circle"></i> Forgot your password?</a>
+              </div>
+          </div>
+          <div class="row padding-bottom-30">
+              <div class="col-xs-12 text-center">
+                  <hr class="finpal-rule" />
+                  <a class="btn btn-default" href=""><img src="../../assets/img/Microsoft-Logo.png" class="margin-right-5"> Sign in with Microsoft</a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<footer class="footer" *ngIf="isMobile">
+  <div class="container">
+      <div class="row padding-top-30 padding-bottom-30 text-center">
+          <div class="col-xs-12">
+              <h4>Powered by <img src="../../../assets/img/finpal-logo.png" alt="FinPal" /></h4>
+              <p class="small">
+                  <i class="fas fa-map-marker-alt"></i> Unit 1, 2-6 Rutland St, Newtown, VIC, 3220<br />
+                  <i class="fas fa-mobile-alt"></i> <a href="tel:1300-346-725">1300 FINPAL (1300 346 725)</a><br />
+                  <i class="fas fa-envelope"></i> <a href="mailto:info@finpal.com.au">info@finpal.com.au</a>
+              </p>
+          </div>
+          <div class="col-xs-12 social padding-top-20">
+                  <ul class="social-network social-circle">
+                      <li><a href="#" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                      <li><a href="#" class="icoVimeo" title="Vimeo"><i class="fab fa-vimeo-v"></i></a></li>
+                      <li><a href="#" class="icoLinkedin" title="Linkedin"><i class="fab fa-linkedin-in"></i></a></li>
+                  </ul>
+          </div>
+      </div>
+  </div>
+</footer>
+<!-- <fp-footer></fp-footer> -->
+
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>

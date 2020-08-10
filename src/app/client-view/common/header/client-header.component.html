@@ -1,0 +1,167 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <nav class="navbar navbar-fixed-top border-bottom-1 padding-bottom-20">
+        <fp-loader> </fp-loader>
+        <div class="container">
+            <div class="navbar-header">
+                <a *ngIf="logoUrl" class="navbar-brand" href="#">
+                    <img *ngIf="logoUrl" class="header-logo" [src]="logoUrl" alt="miPlan" />
+                </a>
+            </div>
+            <div class="navbar-nav navbar-right margin-top-20 top-menu-dropdown">
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <img [src]="getProfileImage()" style="width:30px; height:30px" class="img-circle center-block" />{{userFirstName}}
+                        <span><i class="fas fa-caret-down dark-blue profile-caret"></i></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li *ngIf="isBusinessClient()">
+                            <a (click)="account()">
+                                <i class="fas fa-cog dark-gray margin-right-5"></i> Account</a>
+                        </li>
+                        <li *ngIf="isClientAdmin()">
+                            <a (click)="portalAdminSetting()">Settings</a>
+                        </li>
+                        <li *ngIf="isClientAdminOrStaff()">
+                            <a (click)="thirdPartyConnections()">Third party connections</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li *ngIf="isClientAdminOrStaff()">
+                            <a (click)="clientList()">Client list</a>
+                        </li>
+                        <li *ngIf="isClientAdminOrStaff()">
+                            <a (click)="dataFeeds()">Data feeds</a>
+                        </li>
+                        <li *ngIf="isClientAdminOrStaff()">
+                            <a (click)="revenueManagement()">Revenue management</a>
+                        </li>
+                        <li *ngIf="isClientAdminOrStaff()">
+                            <a (click)="documentGenerator()">Document generator</a>
+                        </li>
+                        <li *ngIf="isClientAdminOrStaff()">
+                            <a (click)="importStatus()">Import status</a>
+                        </li>
+
+                        <li *ngIf="isClientAdmin()" role="separator" class="divider"></li>
+                        <li *ngIf="isClientAdmin()">
+                            <a (click)="systemDetails()">System details</a>
+                        </li>
+                        <li *ngIf="isClientAdminOrStaff()" role="separator" class="divider"></li>
+                        <li>
+                            <a (click)="logOut()"> Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</ng-template>
+
+
+<ng-template #mobile>
+    <!-- Logo Header -->
+    <nav class=" navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header border-bottom-3">
+                <a class="navbar-brand padding-top-10" href="#">
+                    <img *ngIf="logoUrl" [src]="logoUrl" style="height: 35px" class="img-responsive" alt="miPlan" />
+                </a>
+                <span class="page-title">{{ selectedSubMenuItem && selectedSubMenuItem.name ? selectedSubMenuItem.pageTitle : '' }}</span>
+            </div>
+        </div>
+    </nav>
+    <!-- Navigation bar at bottom -->
+    <nav class="navbar navbar-default navbar-fixed-bottom" id="navbar-bottom">
+        <mat-drawer-container class="navbar-container" autosize>
+            <div class="navbar-sidenav-content">
+                <div class="nav navbar-nav">
+                    <li><a class="nav-item nav-link" [ngClass]="selectedMenuItem == 'home' ? 'focus' : ''" (click)="selectMenuItem('home')"><i class="fas fa-home fa-2x"></i><br>Home</a></li>
+                    <li><a class="nav-item nav-link" [ngClass]="selectedMenuItem == 'sections' ? 'focus' : ''" (click)="selectMenuItem('sections')"><i class="fas fa-th-large fa-2x"></i><br>Sections</a>
+                    </li>
+                    <li><a class="nav-item nav-link" [ngClass]="selectedMenuItem == 'account' ? 'focus' : ''" (click)="selectMenuItem('account')"><i class="fas fa-user fa-2x"></i><br>Account</a></li>
+                    <li><a class="nav-item nav-link" [ngClass]="selectedMenuItem == 'contact' ? 'focus' : ''" (click)="selectMenuItem('contact')"><i class="fas fa-envelope fa-2x"></i><br>Contact</a>
+                    </li>
+                </div>
+            </div>
+        </mat-drawer-container>
+        <mat-drawer #drawer class="navbar-sidenav" mode="side">
+            <div class="container-fluid">
+                <nav class="navbar navbar-default navbar-fixed-top">
+                    <div class="navbar-header">
+                        <a class="navbar-brand padding-top-10" href="#">
+                            <img *ngIf="logoUrl" [src]="logoUrl" style="height: 35px" class="img-responsive" alt="miPlan" />
+                        </a>
+                        <a class="pull-right padding-top-15 padding-right-20 padding-left-20 padding-bottom-10" (click)="closeSideBar()"><i class="fas fa-times fa-lg dark-gray"></i></a>
+                    </div>
+                </nav>
+            </div>
+            <div class="navbar-search" *ngIf="selectedMenuItem == 'sections'">
+                <div class="input-group" id="search">
+                    <input type="text" class="form-control" name="search" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="onChangeSearchText()" (focus)="clearSearchText()">
+                    <span *ngIf="searchText != ''" class="input-group-addon"><a (click)="clearSearchText()"><i
+                                class="fas fa-times fa-1x light-gray"></i></a></span>
+                    <span class="input-group-addon"><i class="fas fa-search fa-lg"></i></span>
+                </div>
+            </div>
+            <div class="navbar-item" *ngIf="selectedMenuItem != 'contact'">
+                <mat-nav-list>
+                    <div *ngFor="let item of menu[selectedMenuItem] | filter: searchText; let i = index">
+                        <ng-container *ngTemplateOutlet="NavItem, context: {$implicit: item, itemIndex: i}">
+                        </ng-container>
+                    </div>
+                </mat-nav-list>
+            </div>
+            <div class="nav-context" *ngIf="selectedMenuItem == 'contact'">
+                <h4 class="margin-top-20 margin-bottom-20">Contact Information</h4>
+                <div class="contact-info-details">
+                    <div class="margin-bottom-20">
+                        <label>Email</label><br>
+                        <a href="mailto:{{companyInfo.email}}">{{companyInfo.email}}</a>
+                    </div>
+                    <div class="margin-bottom-20">
+                        <label>Phone</label><br>
+                        <a [href]="sanitize()">{{companyInfo.phone}}</a>
+                    </div>
+                </div>
+                <div class="contact-info-social-media">
+                    <ul class="social-network social-circle no-rotate circle-md">
+                        <li *ngIf="twitter">
+                            <a href="https://www.{{twitter}}" class="icoTwitter" title="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li *ngIf="facebook">
+                            <a href="https://www.{{facebook}}" class="icoFacebook" title="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li *ngIf="linkedin">
+                            <a href="https://www.{{linkedin}}" class="icoLinkedin" title="Linkedin">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </mat-drawer>
+    </nav>
+</ng-template>
+
+<ng-template #NavItem let-item let-itemIndex="itemIndex">
+    <mat-list-item [ngClass]="item.subMenu && item.isShowSubMenu ? 'focus' : ''">
+        <a matLine *ngIf="!item.subMenu" (click)="takeAnAction(item)"><i class="fas margin-right-5"
+                [ngClass]="item.icon" *ngIf="item.icon"></i>{{ item.name }}</a>
+        <a matLine *ngIf="item.subMenu && item.subMenu.length > 0" (click)="toggleSubMenu(item, itemIndex)">
+            {{ item.name }}
+        </a>
+        <a class="mat-icon" *ngIf="item.subMenu && item.subMenu.length > 0 && !item.isShowSubMenu" (click)="toggleSubMenu(item, itemIndex)"><i class="fas fa-chevron-down fa-lg"></i></a>
+        <a class="mat-icon" *ngIf="item.subMenu && item.subMenu.length > 0 && item.isShowSubMenu" (click)="toggleSubMenu(item, itemIndex)"><i class="fas fa-chevron-up fa-lg"></i></a>
+    </mat-list-item>
+    <div *ngIf="item.subMenu && item.subMenu.length > 0 && item.isShowSubMenu">
+        <div *ngFor="let subItem of item.subMenu">
+            <a mat-list-item (click)="takeAnAction(subItem)" class="nav-sub-item"><i class="fas margin-right-5"
+                    [ngClass]="subItem.icon" *ngIf="item.icon"></i>{{ subItem.name }}</a>
+        </div>
+    </div>
+</ng-template>

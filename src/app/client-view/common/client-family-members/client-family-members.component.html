@@ -1,0 +1,13 @@
+<div id="myCarousel" class="carousel slide card" data-ride="carousel" *ngIf="personalProtection">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" *ngFor="let member of personalProtection; let i = index" [attr.data-slide-to]="i" [ngClass]="i == 0 ? 'active' : ''"> </li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        <div *ngFor="let contact of personalProtection; let k = index" [ngClass]="k == 0 ? 'active' : ''" class="item">
+            <common-client-member-card [contact]="contact"></common-client-member-card>
+        </div>
+    </div>
+</div>

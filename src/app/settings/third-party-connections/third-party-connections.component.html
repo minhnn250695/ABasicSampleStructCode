@@ -1,0 +1,85 @@
+
+<div class="container padding-bottom-50">
+    <h1 class="finpal-h2">TAL Settings</h1>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Username</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="username" [(ngModel)]="talConfig.username" required placeholder="Username" #username="ngModel">
+            </div>
+            <div *ngIf="username.invalid && (username.dirty || username.touched)" class="col-sm-4" style="color: red">
+                <div *ngIf="username.errors.required">This field is required.</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Passphrase</label>
+            <div class="col-sm-2">
+                <input type="password" class="form-control" name="passphrase" [(ngModel)]="talConfig.passphrase" required placeholder="Passphrase" #passphrase="ngModel">
+            </div>
+            <div *ngIf="passphrase.invalid && (passphrase.dirty || passphrase.touched)" class="col-sm-4" style="color: red">
+                <div *ngIf="passphrase.errors.required">This field is required.</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Host</label>
+            <div class="col-sm-2">
+                <input type="url" class="form-control" name="host" [(ngModel)]="talConfig.host" required placeholder="Host" #host="ngModel">
+            </div>
+            <div *ngIf="host.invalid && (host.dirty || host.touched)" class="col-sm-4" style="color: red">
+                <div *ngIf="host.errors.required">This field is required.</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Port</label>
+            <div class="col-sm-2">
+                <input type="number" class="form-control" name="port" [(ngModel)]="talConfig.port" required pattern="[0-9]*" placeholder="Port" #port="ngModel">
+            </div>
+            <div *ngIf="port.invalid && (port.dirty || port.touched)" class="col-sm-4" style="color: red">
+                <div *ngIf="port.errors.required">This field is required.</div>
+                <div *ngIf="port.errors.pattern">Only numbers are allowed.</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Folder</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="folder" [(ngModel)]="talConfig.sourceFolder" required placeholder="Folder" #folder="ngModel">
+            </div>
+            <div *ngIf="folder.invalid && (folder.dirty || folder.touched)" class="col-sm-4" style="color: red">
+                <div *ngIf="folder.errors.required">This field is required.</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Certificate</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="certificate" [(ngModel)]="talConfig.privateKeyFile" [disabled]="true" required placeholder="Certificate" #certificate="ngModel">                
+            </div>
+            <div *ngIf="certificate.invalid" class="col-sm-4" style="color: red">
+                <div *ngIf="certificate.errors.required">This field is required.</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <app-drop-pick-file #dropFileView class="select_file_box hand-pointer"
+                                    title="Drop your certificate file here"
+                                    formatIcon="fa-file fa-3x"
+                                    style="cursor:pointer"
+                                    [expectedFormat]="['pfx']"
+                                    [disableSelectedFile]="false"
+                                    (onFileSelected)="onFileSelected($event)"
+                                    (onWrongFileSelected)="onWrongFileSelected()"></app-drop-pick-file>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary"
+                [disabled]="username.invalid ||
+                            passphrase.invalid ||
+                            host.invalid ||
+                            port.invalid ||
+                            folder.invalid ||
+                            isSaveDisabled()"
+                (click)="saveTALConfig()">
+            Save
+        </button>
+    </form>
+</div>
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>

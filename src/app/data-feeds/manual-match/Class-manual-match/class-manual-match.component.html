@@ -1,0 +1,71 @@
+<div class="breadcrumb-bar-datafeeds padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a href="#">
+            <i class="fas fa-home fa-lg margin-right-5"></i>
+        </a>
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <a href="#/data-feeds/home-feeds" class="margin-right-5">Data feeds</a>
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <span>Manual match</span>
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <span class="active-breadcrumb">Class match status</span>
+    </div>
+</div>
+<div class="container padding-top-40 padding-bottom-50">
+    <h1 class="finpal-h1">Class match status</h1>
+    <div class="row">
+        <div class="col-md-1"><img src="../../../../assets/img/class-no-bg.png" class="img-thumbnail" /></div>
+        <div class="col-md-11">
+            <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                <li [ngClass]="!activeUnmatchedTab ? 'active' : '' "><a data-toggle="pill" href="#matched">Matched
+                        records ({{ getNumberOfRecords(manualMatchList) }})</a></li>
+                <li [ngClass]="activeUnmatchedTab ? 'active' : '' "><a data-toggle="pill" href="#unmatched">Unmatched
+                        records ({{ getNumberOfRecords(manualUnMatchList) }})</a></li>
+                <li><a data-toggle="pill" href="#ignored">Ignored
+                        records ({{ getNumberOfRecords(manualIgnoredList) }})</a></li>
+            </ul>
+            <div class="row padding-top-20 padding-bottom-20">
+                <div class="col-md-6">
+                    <form class="form-inline">
+                        <label class="margin-top-10" style="font-weight: normal;">Record type:</label>
+                        <select class="form-control" name="manualMatchType" [(ngModel)]="manualMatchType" (change)="onChangeRecordType()">;
+                            <option *ngFor="let manualMatchType of manualMatchTypeList" [value]="manualMatchType.value">
+                                {{manualMatchType.name}}</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="matched" class="tab-pane fade" [ngClass]="!activeUnmatchedTab ? contentTabCSS : '' ">
+                    <app-class-match [manualMatchType]="getManualMatchTypeObj(manualMatchType)" [matchList]="getDataBaseOnType(manualMatchList)" (uploadAll)="checkUploadAll($event)" (updateClick)="reloadData($event)" (runLoading)="openLoading($event)"></app-class-match>
+
+                </div>
+                <div id="unmatched" class="tab-pane fade" [ngClass]="activeUnmatchedTab ? contentTabCSS : '' ">
+                    <app-class-unmatch [manualMatchType]="getManualMatchTypeObj(manualMatchType)" [unMatchList]="getDataBaseOnType(manualUnMatchList)" (updateClick)="reloadData($event)" (uploadAll)="checkUploadAll($event)" (runLoading)="openLoading($event)"></app-class-unmatch>
+                </div>
+                <div id="ignored" class="tab-pane fade">
+                    <app-class-ignore [manualMatchType]="getManualMatchTypeObj(manualMatchType)" [ignoredList]="getDataBaseOnType(manualIgnoredList)" (updateClick)="reloadData($event)" (uploadAll)="checkUploadAll($event)" (runLoading)="openLoading($event)"></app-class-ignore>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<fp-upload-completed-dialog #uploadCompleted></fp-upload-completed-dialog>
+
+<div class="modal fade" id="confirm-import" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 *ngIf="!isUploadAll" class="warning-title">No data</h4>
+                <h4 *ngIf="isUploadAll" class="warning-title">Upload Success</h4>
+                <p>Back to Home Page?</p>
+                <button class="btn btn-info" (click)="gotoHomePage()" data-dismiss="modal">Ok</button>
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

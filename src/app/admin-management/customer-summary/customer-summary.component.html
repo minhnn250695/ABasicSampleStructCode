@@ -1,0 +1,107 @@
+<div *ngIf="!isMobile" class="breadcrumb-bar-staff padding-top-50 padding-bottom-10">
+  <div class="container">
+    <a routerLink="/admin">
+      <i class="fas fa-home fa-lg margin-right-5"></i>
+    </a>
+    <i class="fas fa-angle-right margin-right-5"></i>
+    <a routerLink="/admin/customer-list" class="margin-right-5">Customer list</a>
+    <i class="fas fa-angle-right margin-right-5"></i>
+    <span class="active-breadcrumb">Customer summary</span>
+  </div>
+</div>
+
+<div *ngIf="isMobile" class="breadcrumb-bar-staff padding-top-50 margin-top-10 padding-bottom-10">
+  <div class="container">
+    <a routerLink="/admin/customer-list">
+      <i class="fas fa-angle-left margin-right-5"></i> Customer list</a>
+  </div>
+</div>
+
+
+<div class="container padding-top-40 padding-bottom-50">
+  <h1 class="finpal-h1">Customer summary</h1>
+  <div class="row">
+    <div class="col-md-3 padding-top-20">
+      <div class="card">
+        <div class="card-block padding-left-20 padding-right-20 padding-top-30 padding-bottom-20">
+          <img [src]="state.companyLogoUrl()" class="img-thumbnail center-block margin-bottom-20" alt="">
+          <h4 class="finpal-h4">Business phone</h4>
+          <p>
+            {{state.businessPhone()}}
+          </p>
+          <h4 class="finpal-h4">Mobile phone</h4>
+          <p>
+            {{state.mobilePhone()}}
+          </p>
+          <h4 class="finpal-h4">Email</h4>
+          <p>
+            <a href="{{state.email()}}">{{state.email()}}</a>
+          </p>
+          <h2 class="finpal-h3 padding-bottom-10 padding-top-20">Billing</h2>
+          <h4 class="finpal-h4">Monthly billing amount</h4>
+          <p class="finpal-h5">{{state.monthlyBillingAmount()}}</p>
+          <h4 class="finpal-h4 padding-top-10">Next bill</h4>
+          <p>{{state.nextBillDate()}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 padding-top-20">
+      <h2 class="finpal-h3">Users</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="text-center">CRM</th>
+            <th class="text-center">Portal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of state.getCompanyMembers()">
+            <th>
+              <a [tooltip]="member.isAdmin ? 'Admin' : 'Staff'" [tooltipDisabled]="false" [tooltipAnimation]="true" tooltipPlacement="top">
+                <i class="fas margin-right-5" [ngClass]="member.isAdmin ? 'fa-star orange' : 'fa-user medium-gray'"></i>
+              </a>{{getFullName(member)}}</th>
+            <td class="text-center">
+              <label class="switch">
+                <input #checkboxChild type="checkbox" [checked]="member.permissionCRM" (change)="onPermissionChange($event, member, 'crm')">
+                <span class="slider round"></span>
+              </label>
+            </td>
+            <td class="text-center">
+              <label class="switch">
+                <input #checkboxChild type="checkbox" [checked]="member.permissionPortal" (change)="onPermissionChange($event, member, 'portal')">
+                <span class="slider round"></span>
+              </label>
+            </td>
+          </tr>
+
+          <tr>
+            <th></th>
+            <td class="text-center">
+              <p class="small">{{state.getCrmLicenseSummary()}} assigned</p>
+            </td>
+            <td class="text-center">
+              <p class="small">{{state.getPortalLicenseSummary()}} assigned</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="col-md-3 padding-top-20">
+      <licence-status #licenceStatus [licence]="state.getLicenceInfo()" (changeLicence)="changeLicence($event)" (extendTrial)="extendTrial($event)"></licence-status>
+
+      <h2 class="finpal-h3 padding-top-20 padding-bottom-10">Licences</h2>
+
+      <span class="finpal-h5">{{state.getTotalCrmPurchased()}}</span> CRM licences
+      <br/>
+      <span class="finpal-h5">{{state.getTotalPortalPurchased()}}</span> Web portal licences
+      <br/>
+      <span class="finpal-h5">{{state.getTotalBIPurchased()}}</span> Bussiness intelligence license
+      <p>
+        <button class="btn btn-info margin-top-10" (click)="licenceDetails()">Licence details</button>
+      </p>
+    </div>
+  </div>
+</div>

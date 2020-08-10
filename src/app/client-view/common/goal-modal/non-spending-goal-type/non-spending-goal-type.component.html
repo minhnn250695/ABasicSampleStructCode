@@ -1,0 +1,41 @@
+<form #noneSpending="ngForm">
+    <div class="row">
+        <div class="col-md-1">
+            <ul class="icon-list margin-top-bot-5">
+                <li *ngFor="let icon of iconCSSList">
+                    <span *ngIf="iconCSS === icon">
+                        <i class="fa fa-lg dark-gray" [ngClass]="iconCSS"></i>
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-11 padding-0">
+            <h3 class="goal-style">{{goalTypeName}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 padding-top-10">
+            Goal name
+            <input autocomplete="off" type="text" class="form-control" name="goalName" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="goalOutPut.name" required>
+        </div>
+        <div class="col-md-4 padding-top-10">
+            Year
+            <input autocomplete="off" maxlength=4 class="form-control" name="startYear" placeholder="YYYY" [(ngModel)]="goalOutPut.startYear" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 padding-top-10">
+            Goal Description
+            <textarea class="form-control" rows="5" name="description" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="goalOutPut.description" style="resize:vertical;" required>
+            </textarea>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 padding-top-20 padding-bottom-10">
+            <a class="btn btn-default pull-right" data-dismiss="modal">Cancel</a>
+            <button *ngIf="!readOnly" class="btn btn-info pull-right margin-right-5" (click)="emitGoalToSave()" [disabled]=" noneSpending.invalid || !viewDetectChange()">Save changes</button>
+        </div>
+    </div>
+</form>

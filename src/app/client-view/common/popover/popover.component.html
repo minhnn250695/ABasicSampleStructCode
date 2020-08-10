@@ -1,0 +1,13 @@
+<a id="custom-popover" class="btn btn-default btn-sm margin-top-5" rel="popover" data-popover-content="#income-target"
+  onclick="$(this).popover('toggle')">
+  <span>Edit</span>
+</a>
+<div id="income-target" class="hide">
+  <label for="" class="control-label">Edit target</label>
+  <input type="text" class="form-control" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" [placeholder]="moneyTranslate(placeHolder)" id="target-input">
+  <div class="margin-top-10">
+    <button id="popover-save" type="button" class="btn btn-sm btn-primary pink-background"
+      onclick="$('#custom-popover').popover('hide')">Save changes</button>
+    <button type="button" class="btn btn-sm btn-default" onclick="$('#custom-popover').popover('hide')">Close</button>
+  </div>
+</div>

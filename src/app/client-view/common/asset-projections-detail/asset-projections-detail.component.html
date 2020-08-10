@@ -1,0 +1,88 @@
+<fp-client-view-header active="9"> </fp-client-view-header>
+<div class="container m-dark-gray padding-top-30 padding-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="breadcrumb-advice-builder">
+                <a (click)="goToPage('advice-homepage')">Advice</a>
+                <i class="far fa-sm fa-chevron-right chevron"></i>
+                <a (click)="goToPage('advice-strategy')">{{strategy && strategy != '' ? strategy : "Strategy" }}</a>
+                <i class="far fa-sm fa-chevron-right chevron"></i>
+                <a (click)="goToPage('edit-strategy')" *ngIf="strategyId && strategyId != '' && strategyId != currentStrategyId">Edit Strategy</a>
+                <i class="far fa-sm fa-chevron-right chevron" *ngIf="strategyId && strategyId != '' && strategyId != currentStrategyId"></i>
+            </div>
+            <h1 class="font-size-30 margin-top-10">Asset Projections</h1>
+            <div class="table-responsive scrollbar">
+                <table class="table table-condensed fixed-first-column-table">
+                    <tr class="">
+                        <th class="min-width-250 max-width-250 fixed-column border-bottom-6" style="height: 31px"></th>
+                        <th *ngFor="let assetProjection of assetProjections" class="border-bottom-6 bold-text">
+                            {{ assetProjection && assetProjection.year }}</th>
+                    </tr>
+                    <tr *ngFor="let record of displayDetails">
+                        <td class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column" [ngClass]="record.isTitle? 'border-top-1 bold-text' : ''" [style.display]="(record.isTitle || (!record.isTitle && record.id == currentDisplayAsset)) ? null : 'none'">
+                            <a *ngIf="record.isTitle" (click)="showAssetDetails(record.id)" class="link">
+                                <span *ngIf="record.id == currentDisplayAsset"><i
+                                        class="fas fa-xs fa-chevron-up"></i></span>
+                                <span *ngIf="record.id != currentDisplayAsset"><i
+                                        class="fas fa-xs fa-chevron-down"></i></span> {{ record.name }}</a>
+                            <span [style.display]="(!record.isTitle && record.id == currentDisplayAsset) ? null : 'none'">{{ record.name }}</span>
+                        </td>
+                        <td [style.display]="(record.isTitle || record.id == currentDisplayAsset) ? null : 'none'" *ngFor="let data of record.data" [ngClass]="record.isTitle ? 'border-top-1' : ''">
+                            <span>${{data || 0 | number : '1.2-2'}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text border-top-1">Total Investment Asset
+                        </th>
+                        <td *ngFor="let assetProjection of assetProjections" class="border-top-1">
+                            ${{ assetProjection && assetProjection.totalBalance || 0 | number : '1.2-2' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text border-top-1">Total Contributions
+                        </th>
+                        <td *ngFor="let assetProjection of assetProjections" class="border-top-1">
+                            ${{ assetProjection && assetProjection.totalContributions || 0 | number : '1.2-2' }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <a class="btn btn-info pull-right margin-bottom-10 margin-top-10 margin-left-10" (click)=" exportToExcel()">
+                Export to excel
+            </a>
+            <a class="btn btn-info pull-right margin-bottom-10 margin-top-10" (click)="backClicked()">
+                <i class="fas fa-caret-left margin-right-5"></i>Back to {{strategy}}
+            </a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-condensed fixed-first-column-table" id="asset-table" hidden>
+    <tr class="">
+        <th class="min-width-250 max-width-250 fixed-column border-bottom-6" style="height: 31px"></th>
+        <th *ngFor="let assetProjection of assetProjections" class="border-bottom-6 bold-text">
+            {{ assetProjection && assetProjection.year }}</th>
+    </tr>
+    <tr *ngFor="let record of displayDetails">
+        <td class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text">
+            <span>{{ record.name }}</span>
+        </td>
+        <td *ngFor="let data of record.data" [ngClass]="record.isTitle ? 'border-top-1' : ''">
+            <span>${{data || 0 | number : '1.2-2'}}</span>
+        </td>
+    </tr>
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text border-top-1">Total Investment Asset
+        </th>
+        <td *ngFor="let assetProjection of assetProjections" class="border-top-1">
+            ${{ assetProjection && assetProjection.totalBalance || 0 | number : '1.2-2' }}
+        </td>
+    </tr>
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text border-top-1">Total Contributions
+        </th>
+        <td *ngFor="let assetProjection of assetProjections" class="border-top-1">
+            ${{ assetProjection && assetProjection.totalContributions || 0 | number : '1.2-2' }}
+        </td>
+    </tr>
+</table>

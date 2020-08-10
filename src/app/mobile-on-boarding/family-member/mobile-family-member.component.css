@@ -1,0 +1,11 @@
+@import '../../../assets/styles/css/styles-mobile.css';
+
+.scroll-able {
+    overflow: scroll;
+}
+
+::ng-deep .cdk-overlay-container {
+    position: fixed !important;
+    opacity: 1 !important;
+    z-index: 2000 !important;
+}

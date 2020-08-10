@@ -1,0 +1,135 @@
+<div class="table-responsive">
+    <table class="table table-hover table-striped card-client-table table-responsive">
+        <thead>
+            <tr>
+                <th class="col-md-1 col-xs-1"></th>
+                <th class="col-md-2 col-xs-2">HouseHold Name</th>
+                <th class="col-md-2 col-xs-2">Asset name</th>
+                <th class="col-md-3 col-xs-3">Product Provider</th>
+                <th class="col-md-2 col-xs-2">Account #</th>
+                <th class="col-md-1 col-xs-1">Type</th>
+                <th class="col-md-1 col-xs-1"></th>
+            </tr>
+        </thead>
+        <tbody *ngIf="matchList != undefined">
+            <tr *ngFor="let record of matchList">
+                <td class="col-md-1 col-xs-1">
+                    <input type="checkbox" value="" [checked]="record.isSelected" (change)="onRecordSelect(record)">
+                </td>
+                <td class="col-md-2 col-xs-2">{{record.information.houseHoldName}}</td>
+                <td class="col-md-2 col-xs-2">{{record.information.name}}</td>
+                <td class="col-md-3 col-xs-3">{{record.information.financialInstitution.name}}</td>
+                <td class="col-md-2 col-xs-2">{{record.information.number}}</td>
+                <td class="col-md-1 col-xs-1">{{record.information.assetType == 1 ? "Asset" : record.information.assetType == 2 ? "Liability" :
+                    "Unknown"}}</td>
+                <td class="col-md-1 col-xs-1">
+                    <button type="button" class="btn btn-gray btn-xs pull-right" [tooltip]="edit" tooltipPlacement="top"
+                        data-toggle="modal" data-target="#ca-matched-modal" (click)="btnMatchingClick(record)">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <tooltip-content #edit>
+                        <span style="width: 50px; display: inline-block;">Edit record</span>
+                    </tooltip-content>
+
+                    <button type="button" (click)="btnIgnoreClick(record)"
+                        class="btn btn-gray btn-xs pull-right margin-right-5" tooltip="Ignore" [tooltipDisabled]="false"
+                        [tooltipAnimation]="true" tooltipPlacement="top">
+                        <i class="fas fa-eye-slash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <button [ngStyle]="{'cursor': isSelectAll ? '' : 'not-allowed'}" type="button" class="btn btn-info pull-right"
+            (click)="btnImportClick()">Import selected to CRM</button>
+        <button *ngIf="isSelectAll" type="button" class="btn btn-default pull-right margin-right-5"
+            (click)="onRecordSelectAll(false)">Deselect</button>
+        <button *ngIf="!isSelectAll" type="button" class="btn btn-default pull-right margin-right-5"
+            (click)="onRecordSelectAll(true)">Select
+            all</button>
+    </div>
+</div>
+
+<div class="modal fade" id="ca-matched-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h1 class="modal-title finpal-h2" id="MatchModalLabel">Match entity</h1>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table *ngIf="selectedRecord" class="table table-striped revenue-management-table">
+                            <tbody>
+                                <tr>
+                                    <th class="text-right" width="33%">Account Number</th>
+                                    <td>{{ selectedRecord.number ? selectedRecord.number : "N/A" }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-right">Account Name</th>
+                                    <td>
+                                        <div id="ca-group" class="input-group" style="width:100%;">
+                                            <input id="ca-names" class="form-control txtSearch" type="text"
+                                                [placeholder]="accountName" (keyup)="txtSearchChanged()">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-right">CRM HouseHold</th>
+                                    <td>{{ selectedRecord.houseHoldName ? selectedRecord.houseHoldName : "N/A" }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-right">Type</th>
+                                    <td>{{ selectedRecord.assetType == 1 ? "Asset" : selectedRecord.assetType == 2 ?
+                                        "Liability"
+                                        : "Unknow" }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-right">Product Provider</th>
+                                    <td>{{ selectedInstitution ? selectedInstitution.name : "N/A" }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="!isSelectAccountName" type="button" class="btn btn-info"
+                    (click)="btnSaveClick()">Save</button>
+                <!-- <button *ngIf="!isSelectAccountName" type="button" disabled="disabled" class="btn btn-info">Save</button>
+                <button *ngIf="isSelectAccountName" type="button" class="btn btn-info" (click)="btnSaveClick()">Save</button> -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="manual-match-warning" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h1 class="modal-title finpal-h2 padding-bottom-10" id="MatchModalLabel">
+                    <i class="fas fa-exclamation-triangle fa-xs"></i> Warning</h1>
+            </div>
+
+            <div class="modal-body">
+                <p class="padding-bottom-10">{{warningMess}}
+                    <br />Do you want to overwrite it?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-info" (click)="btnYesClick(1)" data-dismiss="modal">Yes</button>
+                <button class="btn btn-default" (click)="btnYesClick(2)" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

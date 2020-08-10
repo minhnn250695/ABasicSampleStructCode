@@ -1,0 +1,54 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <third-party-header active="1"></third-party-header>
+    <div class="container padding-top-40 padding-bottom-50">
+        <h1 class="finpal-h1 m-dark-gray">Third party connections</h1>
+        <div class="row">
+            <div class="col-md-12 padding-top-20">
+                <table width="100%">
+                    <tr valign="bottom" align="center" *ngFor="let row of rowList">
+                        <td width="20%" *ngFor="let column of [0,1,2,3,4]" [ngClass]="row > 0 ? 'padding-top-40' : ''">
+                            <div *ngIf="getProviderAt(row,column)" class="pull-left">
+                                <p>
+                                    <a (click)="onProviderImgClick(row,column)" class="logo-link">
+                                        <img class="img-thumbnail" src="../../../assets/img/{{getProviderAt(row,column).name.toLowerCase()}}.png" />
+                                    </a>
+                                </p>
+                                Status: {{getProviderAt(row,column).enabled ? 'ON' : "OFF"}}
+                            </div>
+
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #mobile>
+    <div class="breadcrumb-bar-generic padding-top-50 margin-top-10 padding-bottom-10">
+        <div class="container">
+            <a href="#">
+                <i class="fas fa-angle-left margin-right-5"></i> Home</a>
+        </div>
+    </div>
+    <div class="container padding-bottom-30">
+        <h1 class="finpal-h2">Third party connections</h1>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <div class="row">
+                    <div *ngFor="let party of providers" class="col-xs-4 padding-top-20">
+                        <p>
+                            <a (click)="goToPage(party)" class="logo-link">
+                                <img [src]="getPartyImg(party)" class="img-thumbnail" />
+                            </a>
+                        </p>
+                        Status: {{party.enabled ? 'ON' : 'OFF'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

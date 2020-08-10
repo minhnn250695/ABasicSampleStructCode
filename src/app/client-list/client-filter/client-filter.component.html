@@ -1,0 +1,90 @@
+<div class="col-md-3">
+    <div class="row padding-bottom-10">
+        <div [ngClass]="isMobile ? 'col-xs-12' : 'col-md-12'">
+            <h3 class="finpal-h3 padding-top-10">Quick search</h3>
+            <form class="padding-top-10 padding-bottom-20">
+                <div class="form-group">
+                    <input type="text" class="form-control" [(ngModel)]="keyword" name="keyword" placeholder="Enter keywords" (keyup.enter)="search()">
+                    <button type="button" class="btn btn-info pull-right margin-top-10" (click)="search()">
+                        <i class="fa fa-search"></i> Search</button>
+                </div>
+            </form>
+        </div>
+        <div *ngIf="!isMobile" class="col-md-12">
+            <h3 class="finpal-h3 padding-top-20">Advanced search</h3>
+            <h4 class="finpal-h5 padding-top-10">Age</h4>
+            <form>
+                <div class="form-group">
+                    <select class="form-control" [(ngModel)]="ageRange" name="ageRange" placeholder="age">
+                        <option>21/30</option>
+                        <option>31/40</option>
+                        <option>41/50</option>
+                        <option>51/60</option>
+                        <option>61/70</option>
+                        <option>71/80</option>
+                        <option>81+ </option>
+                    </select>
+                </div>
+                <h4 class="finpal-h5 padding-top-10">State</h4>
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="state" name="state" class="form-control" placeholder="state">
+                </div>
+                <h4 class="finpal-h5 padding-top-10">Service category</h4>
+
+                <!-- <input type="text" [(ngModel)]="serviceCategory" name="serviceCategory" class="form-control" placeholder=""> -->
+                <auto-complete-input #categoryAuto placeHolder="Service category" [source]="viewState.getCategories()" (onSelect)="onCategorySelect($event)"></auto-complete-input>
+
+            </form>
+            <div class="row">
+                <div class="col-md-12 padding-top-30">
+                    <span class=" pull-right">
+                        <button type="button" class="btn btn-info" (click)="applyAdvanceFilter()">Apply</button>
+                        <button type="button" class="btn btn-default" (click)="resetAdvanceFilter()">Reset</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="isMobile" class="col-xs-12">
+            <a class="finpal-h4 padding-top-20 adv-search" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+                aria-controls="collapseExample">
+                <i class="fas fa-caret-circle-right margin-right-5"></i> Advanced search
+            </a>
+            <div class="collapse" id="collapseExample">
+                <div class="well">
+                    <h4 class="finpal-h5">Age</h4>
+                    <form>
+                        <div class="form-group">
+                            <select class="form-control" [(ngModel)]="ageRange" name="ageRange" placeholder="age">
+                                <option>21/30</option>
+                                <option>31/40</option>
+                                <option>41/50</option>
+                                <option>51/60</option>
+                                <option>61/70</option>
+                                <option>71/80</option>
+                                <option>81+ </option>
+                            </select>
+                        </div>
+                        <h4 class="finpal-h5 padding-top-10">State</h4>
+                        <div class="form-group">
+                            <input type="text" [(ngModel)]="state" name="state" class="form-control" placeholder="state">
+                        </div>
+                        <h4 class="finpal-h5 padding-top-10">Service category</h4>
+
+                        <!-- <input type="text" [(ngModel)]="serviceCategory" name="serviceCategory" class="form-control" placeholder=""> -->
+                        <auto-complete-input #categoryAuto placeHolder="Service category" [source]="viewState.getCategories()" (onSelect)="onCategorySelect($event)"></auto-complete-input>
+
+                    </form>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span class=" pull-right">
+                                <button type="button" class="btn btn-info" (click)="applyAdvanceFilter()">Apply</button>
+                                <button type="button" class="btn btn-default" (click)="resetAdvanceFilter()">Reset</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,177 @@
+<div class="e1-gray-background">
+    <div class="container padding-top-40 padding-bottom-40">
+        <div class="row" *ngIf=" strategicActions && strategicActions.length > 0">
+            <div class="col-md-7">
+                <h2 class="font-size-24 x-dark-gray pull-left">Your strategic actions</h2>
+            </div>
+            <div class="col-md-3 padding-top-8">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label class="sr-only">Show:</label>
+                        <p class="form-control-static">Show:</p>
+                        <select class="form-control input-lg" name="actionFilter" (change)="filterActions($event)" [(ngModel)]="selectActionFilterValue">
+                            <option value="0">All actions</option>
+                            <option value="1">Asset actions</option>
+                            <option value="2">Debt actions</option>
+                            <option value="3">Insurance actions</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2 padding-top-8">
+                <new-action-button style="float: right;"></new-action-button>
+            </div>
+        </div>
+        <!-- empty actions list -->
+        <div *ngIf=" strategicActions && strategicActions.length == 0">
+            <div class="row">
+                <h2 class="finpal-h2 x-dark-gray pull-left">Your strategic actions</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-9 padding-top-15">
+                    <p>Actions will have a significant impact on your strategy timeline and goals. Find out how by adding your first action.</p>
+                </div>
+                <div class="col-md-3 padding-top-8">
+                    <new-action-button style="float: right;"></new-action-button>
+                </div>
+            </div>
+        </div>
+        <!-- dynamic action showing -->
+        <div class="row" *ngIf=" strategicActions && strategicActions.length > 0">
+            <div class="col-md-12">
+                <div id="actions-carousel" class="carousel slide padding-bottom-40" data-interval="false" data-wrap="false">
+                    <ol class="carousel-indicators" [style.display]="actionsRows.length > 1 ? null : 'none'" id="action-indicators">
+                        <li data-target="#actions-carousel" *ngFor="let actionRow of actionsRows; let i = index" [attr.data-slide-to]="i" [ngClass]="i === 0 ? 'active' : ''" (click)="onChangeCarouselSlide(i)"></li>
+                    </ol>
+                    <div class="carousel-inner padding-bottom-20">
+                        <div class="item padding-top-20 carousel-item" *ngFor="let actionRow of actionsRows; let k = index" [ngClass]="k === 0 ? 'active' : ''">
+                            <div class="row">
+                                <div class="col-md-3" *ngFor="let action of actionRow; let i = index">
+                                    <div class="card margin-top-20" (click)="viewAction(action)">
+                                        <div class="card-block text-center padding-left-10 padding-right-10 padding-top-10 padding-bottom-20">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="pull-right">
+                                                        <label class="switch2">
+                                                            <input type="checkbox" [checked]="action.enabled"
+                                                                (click)="toggleActionOnOff(action)">
+                                                            <span class="slider2 round"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="action-icon">
+                                                        <span class="fa-stack fa-lg center-block">
+                                                            <i class="fa fa-stack-1x fa-lg orange"
+                                                                [ngClass]="returnActionIcon(action.type)"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <span class="margin-bottom-5 dark-blue">
+                                                {{returnActionTypeText(action.type)}}
+                                            </span>
+                                            <div class="m-dark-gray margin-bottom-20">
+                                                {{action.actionTitle}}
+                                            </div>
+                                            <div>
+                                                <span class="margin-right-5" data-toggle="tooltip" data-placement="top" title="Edit this action">
+                                                    <a class="btn btn-info btn-circle dakr-blue object-shadow"
+                                                        data-toggle="modal" (click)="handleEditSeletedAction(action)">
+                                                        <i class="fas fa-pencil fa-lg"></i>
+                                                    </a>
+                                                </span>
+                                                <span data-toggle="tooltip" data-placement="top" title="Delete this action">
+                                                    <a class="btn btn-default btn-circle dark-blue object-shadow"
+                                                        data-toggle="modal" data-target="#action-trash"
+                                                        (click)="storageSeletedAction(action)">
+                                                        <i class="fas fa-trash fa-lg"></i>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a *ngIf="actionsRows.length > 1" class="carousel-control-prev" href="#actions-carousel" data-slide="prev" role="button" (click)="changeIndicatorsByClick('prev')">
+                        <span aria-hidden="true"><i class="fas fa-caret-left fa-5x m-dark-gray opacity-03"></i></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a *ngIf="actionsRows.length > 1" class="carousel-control-next" href="#actions-carousel" data-slide="next" role="button" (click)="changeIndicatorsByClick('next')">
+                        <span aria-hidden="true"><i class="fas fa-caret-right fa-5x m-dark-gray opacity-03"></i></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- end dynamic action showing -->
+    </div>
+</div>
+
+<!-- modal for edit action -->
+<asset-modal class="modal fade" id="add-asset" [updateAsset]="assetDetails" [activeAssetList]="activeAssetList" [activeDebtList]="activeDebtList" [frequencyList]="frequencyList" [ownerShipTypes]="ownerShipTypes" [assetTypes]="assetTypes" role="dialog"></asset-modal>
+
+<close-asset-modal class="modal fade" id="close-asset" [updateCloseAsset]="closeAssetDetails" [closedAssetList]="closedAssetList" [activeAssetNotClosedList]="activeAssetList" role="dialog"></close-asset-modal>
+
+<contribute-funds-to-asset-modal class="modal fade" id="contribute-funds-to-asset" [updateContributAsset]="contributeFundToAsset" [notClosedAssetList]="activeAssetList" role="dialog">
+</contribute-funds-to-asset-modal>
+
+<draw-funds-from-asset-modal class="modal fade" id="draw-funds-from-asset" [updateDrawAsset]="drawFundFromAsset" [notClosedAssetList]="activeAssetList" role="dialog"></draw-funds-from-asset-modal>
+
+<transfer-asset-debt class="modal fade" id="transfer-asset-debt" [updateAssetToDebt]="transferAssetToDebtDetails" [activeAssetList]="activeAssetList" [activeDebtList]="activeDebtList" role="dialog"></transfer-asset-debt>
+
+<transfer-asset-to-asset-modal class="modal fade" id="transfer-asset-to-asset" [updateTwoAsset]="transferAssetToAssetDetails" [activeAssetList]="activeAssetList" role="dialog">
+</transfer-asset-to-asset-modal>
+
+
+<debt-modal class="modal fade" id="add-debt" [updateDebt]="debtDetails" [activeAssetList]="activeAssetList" [frequencyList]="frequencyList" [ownerShipTypes]="ownerShipTypes" role="dialog"></debt-modal>
+
+<contribute-funds-to-debt-modal class="modal fade" id="contribute-funds-to-debt" [updateContributeDebt]="contributeFundToDebt" [notClosedDebtList]="activeDebtList" role="dialog">
+</contribute-funds-to-debt-modal>
+
+<draw-funds-from-debt-modal class="modal fade" id="draw-funds-from-debt" [updateDrawDebt]="drawFundFromDebt" [notClosedDebtList]="activeDebtList" role="dialog"></draw-funds-from-debt-modal>
+
+
+<insurance-modal class="modal fade" id="add-change-insurance" [updateInsurancePolicy]="insuranceDetails" [activeInsuranceList]="activeInsuranceList" [insuranceCompanies]="insuranceCompanies" [clientList]="clientList" [frequencyList]="frequencyList" [superannuationAccounts]="superannuationAccounts"
+    role="dialog"></insurance-modal>
+
+<cancel-insurance-modal class="modal fade" id="cancel-insurance" [updateCancelPolicy]="cancelInsuranceDetails" [closedInsuranceList]="closedInsuranceList" [activeInsuranceNotClosedList]="activeInsuranceList" role="dialog">
+</cancel-insurance-modal>
+
+<action-trash-modal class="modal fade" id="action-trash" role="dialog"></action-trash-modal>
+
+
+
+
+<!-- modal for read only -->
+
+<asset-view-modal class="modal fade" id="asset-view" [asset]="assetReadyOnly" [activeAssetList]="activeAssetList" [activeDebtList]="activeDebtList" [frequencyList]="frequencyList" [ownerShipTypes]="ownerShipTypes" [assetTypes]="assetTypes" role="dialog"></asset-view-modal>
+
+<close-asset-view-modal class="modal fade" id="close-asset-view" [closeAsset]="closeAssetReadyOnly" [activeAssetNotClosedList]="activeAssetList" [closedAssetList]="closedAssetList" role="dialog">
+</close-asset-view-modal>
+
+<contribute-funds-to-asset-view-modal class="modal fade" id="contribute-asset-view" [contributeAsset]="contributeAssetReadyOnly" [notClosedAssetList]="activeAssetList" role="dialog">
+</contribute-funds-to-asset-view-modal>
+
+<draw-funds-from-asset-view-modal class="modal fade" id="draw-asset-view" [drawAsset]="drawAssetReadyOnly" [notClosedAssetList]="activeAssetList" role="dialog"></draw-funds-from-asset-view-modal>
+
+<transfer-asset-debt-view-modal class="modal fade" id="transfer-asset-debt-view" [assetToDebt]="transferAssetReadyOnly" [activeAssetList]="activeAssetList" [activeDebtList]="activeDebtList" role="dialog">
+</transfer-asset-debt-view-modal>
+
+<transfer-asset-to-asset-view-modal class="modal fade" id="transfer-two-asset-view" [twoAsset]="transferTwoAssetReadyOnly" [activeAssetList]="activeAssetList" role="dialog">
+</transfer-asset-to-asset-view-modal>
+
+
+<debt-view-modal class="modal fade" id="debt-view" [debt]="debtReadyOnly" [activeAssetList]="activeAssetList" [frequencyList]="frequencyList" [ownerShipTypes]="ownerShipTypes" role="dialog"></debt-view-modal>
+
+<contribute-funds-to-debt-view-modal class="modal fade" id="contribute-debt-view" [contributeDebt]="contributeDebtReadyOnly" [notClosedDebtList]="activeDebtList" role="dialog">
+</contribute-funds-to-debt-view-modal>
+
+<draw-funds-from-debt-view-modal class="modal fade" id="draw-debt-view" [drawDebt]="drawDebtReadyOnly" [notClosedDebtList]="activeDebtList" role="dialog"></draw-funds-from-debt-view-modal>
+
+
+<insurance-view-modal class="modal fade" id="insurance-view" [insurancePolicy]="insuranceReadyOnly" [activeInsuranceList]="activeInsuranceList" [insuranceCompanies]="insuranceCompanies" [clientList]="clientList" [frequencyList]="frequencyList" [superannuationAccounts]="superannuationAccounts"
+    role="dialog">
+</insurance-view-modal>
+
+<cancel-insurance-view-modal class="modal fade" id="cancel-insurance-view" role="dialog" [cancelPolicy]="cancelInsuranceReadyOnly" [closedInsuranceList]="closedInsuranceList" [activeInsuranceNotClosedList]="activeInsuranceList"></cancel-insurance-view-modal>

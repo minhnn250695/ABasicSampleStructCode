@@ -1,0 +1,75 @@
+<div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span class="modal-title finpal-h2 padding-bottom-10 margin-right-5">View action</span>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-1 auto-width">
+                    <ul class="icon-list margin-top-bot-5">
+                        <li>
+                            <span><i class="fas fa-times fa-lg dark-gray"></i></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-11 padding-0">
+                    <h3 class="action-style">Close an Asset</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                        <li class="active">
+                            <a id="close-asset-details-view" data-toggle="pill" href="#close-asset-basic-data-view">Action details</a>
+                        </li>
+                        <li>
+                            <a data-toggle="pill" href="#close-asset-complementary-data-view">Advice comments</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="close-asset-basic-data-view" class="tab-pane fade in active margin-bottom-10">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="control-label">The asset being closed</label>
+                                    <p class="field-info"> {{getClosedAsset()}}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="control-label">The year it will be closed</label>
+                                    <p class="field-info"> {{closeAsset.year || 'N/A'}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" *ngIf="selectedAsset && selectedAsset.accountBalance && selectedAsset.accountBalance > 0">
+                                    <div class="row padding-top-10">
+                                        <div class="col-md-6">
+                                            <label fclass="control-label"> Destination</label>
+                                            <p class="field-info"> {{getDestination()}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="close-asset-complementary-data-view" class="tab-pane fade">
+                            <div>
+                                <label class="control-label">What is this action?</label>
+                                <textarea class="form-control" name="details" [value]="closeAsset.details || 'N/A'" readonly></textarea>
+                            </div>
+                            <div class="padding-top-20">
+                                <label class="control-label">Why are you taking this action?</label>
+                                <textarea class="form-control" name="reason" [value]="closeAsset.reason || 'N/A'" readonly></textarea>
+                            </div>
+                            <div class="padding-top-20">
+                                <label class="control-label">How It improves your situation?</label>
+                                <textarea class="form-control" name="result" [value]="closeAsset.result || 'N/A'" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div [style.display]="(!closeAsset.assetId && adviceBuilderService.isUpdateAction) ? 'block' : 'none'" class="modal-body text-center margin-top-10 margin-bottom-10">
+            <i class="fas fa-spinner fa-pulse"></i>
+        </div>
+    </div>
+</div>

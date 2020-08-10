@@ -1,0 +1,49 @@
+<div class="row">
+	<span rel="popover" [attr.data-popover-content]="'#reset-password' + id" onclick="$(this).popover('toggle')">
+		<a type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Reset password">
+			<i class="fas fa-key fa-lg"></i>
+		</a>
+	</span>
+	<span rel="popover" [attr.data-popover-content]="'#send-invitation' + id" id="sendInvitation{{id}}" onclick="$(this).popover('toggle')">
+		<a type="button" [attr.disabled]="client && client.portalActivateStatus == 1 ? 'disabled' : null" class="btn btn-default btn-sm"
+		 data-toggle="tooltip" data-placement="top" title="Send invitation link">
+			<i class="fas fa-envelope fa-lg"></i>
+		</a>
+	</span>
+	<span rel="popover" [attr.data-popover-content]="'#remove-user' + id" onclick="$(this).popover('toggle')">
+		<a type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Remove">
+			<i class="fas fa-trash fa-lg"></i>
+		</a>
+	</span>
+</div>
+
+
+<!-- Popovers -->
+<div id="reset-password{{id}}" class="hide">
+	<label for="password" class="control-label">New password</label>
+	<p>Must be between 6 and 8 characters (letters and numbers).</p>
+	<input type="text" class="form-control" id="txtPassword" placeholder="">
+	<div class="margin-top-10">
+		<button type="button" class="btn btn-primary reset-popover" ngClass="actionPopover{{id}}">Save changes</button>
+		<button type="button" class="btn btn-default close-popover" data-dismiss="modal">Cancel</button>
+	</div>
+</div>
+<div id="send-invitation{{id}}" class="hide">
+	<label for="password" class="control-label">Invite client</label>
+	<p>Enter personalized invitation message:</p>
+	<textarea class="form-control no-scroll" rows="5" id="txtMessage"></textarea>
+	<div class="margin-top-10">
+		<button type="button" class="btn btn-primary send-popover" ngClass="actionPopover{{id}}">
+			Send
+		</button>
+		<button type="button" class="btn btn-default close-popover" data-dismiss="modal">Cancel</button>
+	</div>
+</div>
+<div id="remove-user{{id}}" class="hide">
+	<label for="password" class="control-label">Are you sure you want to remove this client?</label>
+	<p>This process can't be undone.</p>
+	<div class="margin-top-10">
+		<button type="button" class="btn btn-primary remove-popover" ngClass="actionPopover{{id}}">Remove</button>
+		<button type="button" class="btn btn-default close-popover" data-dismiss="modal">Cancel</button>
+	</div>
+</div>

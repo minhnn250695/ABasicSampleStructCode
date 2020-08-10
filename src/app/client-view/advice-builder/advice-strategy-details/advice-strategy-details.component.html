@@ -1,0 +1,41 @@
+<fp-client-view-header active="9"> </fp-client-view-header>
+
+<strategy-general-information [scenario]="adviceBuilderService.selectedScenario"></strategy-general-information>
+
+
+<div class="full3 inner-shadow">
+    <div class="container padding-top-50 padding-bottom-40">
+        <div class="row">
+            <div class="col-md-9">
+                <h2 class="finpal-h2 margin-bottom-10 white">Your goals over time</h2>
+            </div>
+            <div class="col-md-3 padding-top-8">
+                <new-goal-button style="float: right;" goalModalTitle="Add new goal" [addNewGoal]="addNewGoal" [activeAssetList]="adviceBuilderService.notClosedAssetList" [activeDebtList]="adviceBuilderService.debtList" (updateGoalList)="updateGoalListEvent($event)">
+                </new-goal-button>
+            </div>
+        </div>
+        <div class="row">
+            <app-timeline-v2 goalModalTitle="Update goal" additionalButton="view-detail" [isLandingPage]="false" [activeAssetList]="adviceBuilderService.notClosedAssetList" [activeDebtList]="adviceBuilderService.debtList" [events]="adviceBuilderService.selectedScenario && adviceBuilderService.selectedScenario.goals"
+                [canDeleteGoal]="true" [showDescription]="true" [enabledAddFirstGoal]="true" (addNewGoal)="addGoal($event)">
+            </app-timeline-v2>
+        </div>
+    </div>
+</div>
+
+<my-current-action [strategicActions]="adviceBuilderService.actions" [scenario]="adviceBuilderService.selectedScenario" [activeAssetList]="adviceBuilderService.notClosedAssetList" [closedAssetList]="adviceBuilderService.closedAssetList" [activeDebtList]="adviceBuilderService.debtList"
+    [activeInsuranceList]="adviceBuilderService.activeInsuranceList" [closedInsuranceList]="adviceBuilderService.closedInsuranceList"></my-current-action>
+
+<!-- asset debt income insurance -->
+<div class="container padding-top-40 padding-bottom-50">
+    <div class="row">
+        <div class="col-md-3">
+            <common-client-cash-flow [cashFlow]="adviceBuilderService.selectedScenario.cashFlow"></common-client-cash-flow>
+        </div>
+        <div class="col-md-3">
+            <common-personal-protection [personalProtection]="adviceBuilderService.selectedScenario.personalProtection"></common-personal-protection>
+        </div>
+        <div class="col-md-6">
+            <common-client-assets-debts [asset]="adviceBuilderService.selectedScenario.assets" [debt]="adviceBuilderService.selectedScenario.debt"></common-client-assets-debts>
+        </div>
+    </div>
+</div>

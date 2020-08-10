@@ -1,0 +1,107 @@
+<form #incomeGoal="ngForm">
+    <div class="row">
+        <div class="col-md-1">
+            <ul class="icon-list margin-top-bot-5">
+                <li *ngFor="let icon of iconCSSList">
+                    <span *ngIf="iconCSS === icon">
+                        <i class="fa fa-lg dark-gray" [ngClass]="iconCSS"></i>
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-11 padding-0">
+            <h3 class="goal-style">{{goalTypeName}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 padding-top-10">
+            Goal name
+            <input autocomplete="off" type="text" class="form-control" name="goalName" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="goalOutPut && goalOutPut.name" required>
+        </div>
+    </div>
+    <div class="row">
+        <div *ngIf="clientIncomeList && clientIncomeList.length > 0; else newIncome" class="col-md-8 padding-top-10">
+            Existing income
+            <select class="form-control" name="clientIncome" [(ngModel)]="selectedIncomeId" [attr.readonly]="readOnly ? readOnly : null" (change)="incomeChange($event)">
+                <option hidden value="-1"></option>
+                <option *ngFor="let income of clientIncomeList" [value]="income.id">{{income.name}}</option>
+            </select>
+        </div>
+        <ng-template #newIncome>
+            <div class="col-md-8 padding-top-10">
+                Income name
+                <input type="text" class="form-control" name="incomeName" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="goalOutPut && goalOutPut.income && goalOutPut.income.incomeName" required>
+            </div>
+        </ng-template>
+    </div>
+    <div class="row">
+        <div class="col-md-4 padding-top-10">
+            Household member
+            <select class="form-control" name="householdMember" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="goalOutPut && goalOutPut.contactId" required [disabled]="selectedIncomeId">
+                <option *ngFor="let member of members" [value]="member.contactId">{{member.firstName}}</option>
+            </select>
+        </div>
+        <div class="col-md-4 padding-top-10">
+            Frequency
+            <select class="form-control" name="financeFrequency" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="goalOutPut && goalOutPut.financeFrequency" (change)="financeFrequencyChange($event)" required [disabled]="selectedIncomeId">
+                <option *ngFor="let frequency of financeFrequencyType" [value]="frequency.code">{{frequency.name}}
+                </option>
+            </select>
+        </div>
+        <div class="col-md-4 padding-top-10">
+            Income frequency
+            <select class="form-control" name="incomeFrequency" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]=" goalOutPut && goalOutPut.income && goalOutPut.income.incomeFrequency" required [disabled]="selectedIncomeId">
+                <option *ngFor="let incomeFrequency of incomeFrequencyList" [value]="incomeFrequency.code">
+                    {{incomeFrequency.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 padding-top-10">
+            Income type
+            <select class="form-control" name="incomeType" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="goalOutPut && goalOutPut.income && goalOutPut.income.incomeType" required [disabled]="selectedIncomeId">
+                <option *ngFor="let incomeType of incomeTypeList" [value]="incomeType.code">{{incomeType.name}}</option>
+            </select>
+        </div>
+        <div class="col-md-4 padding-top-10">
+            First Year
+            <input autocomplete="off" maxlength=4 class="form-control" name="startYear" placeholder="YYYY" [(ngModel)]="goalOutPut && goalOutPut.startYear" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+        </div>
+        <div *ngIf="goalOutPut.financeFrequency == 1 && isShowLastYear" class="col-md-4 padding-top-10">
+            Last Year
+            <input autocomplete="off" maxlength=4 class="form-control" name="endYear" placeholder="YYYY" [(ngModel)]="goalOutPut && goalOutPut.endYear" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4  padding-top-10">
+            <div id="search-group">
+                Gross Income
+                <input autocomplete="off" type="text" class="form-control" name="grossIncome" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="grossIncome" oninput="this.value=this.value.replace(/[^0-9]/g,'');" (focus)="onInputFocusIn(grossIncome, 1)" (focusout)="onInputFocusOut(grossIncome, 1)"
+                    (keyup)="onGrossIncomeKeyup($event)" [placeholder]="grossIncome ? '' : ''" required>
+            </div>
+        </div>
+        <div class="col-md-4  padding-top-10">
+            <div id="search-group">
+                Pre-Tax Spending
+                <input autocomplete="off" type="text" class="form-control" name="preTaxSpending" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="preTaxSpending" oninput="this.value=this.value.replace(/[^0-9]/g,'');" (focus)="onInputFocusIn(preTaxSpending, 2)"
+                    (focusout)="onInputFocusOut(preTaxSpending, 2)" (keyup)="onPreTaxKeyup($event)" [placeholder]="preTaxSpending ? '' : ''">
+            </div>
+        </div>
+        <div class="col-md-4  padding-top-10">
+            <div id="search-group">
+                Tax Paid
+                <input autocomplete="off" type="text" class="form-control" name="tax" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="taxPaid" oninput="this.value=this.value.replace(/[^0-9]/g,'');" (focus)="onInputFocusIn(taxPaid, 3)" (focusout)="onInputFocusOut(taxPaid, 3)"
+                    (keyup)="onTaxPaidKeyup($event)" [placeholder]="taxPaid ? '' : ''" required>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 padding-top-20 padding-bottom-10">
+            <a class="btn btn-default pull-right" data-dismiss="modal">Cancel</a>
+            <button *ngIf="!readOnly" class="btn btn-info pull-right margin-right-5" (click)="emitGoalToSave()" [disabled]="incomeGoal.invalid || (goalOutPut.financeFrequency == 1 && !goalOutPut.endYear) || !viewDetectChange()">Save
+                changes</button>
+        </div>
+    </div>
+</form>

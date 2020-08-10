@@ -1,0 +1,27 @@
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #fff !important;
+    background-color: #FF8C00;
+}
+
+a {
+    color: #337ab7 !important;
+}
+
+.modal {
+    color: #666 !important;
+}
+.wait{
+    cursor: wait;
+}
+.modal-body .nav-pills > li > a {
+    font-size: 1em;
+}
+
+.btn-search {
+    border-radius: 0px 4px 4px 0px !important; 
+    border-left: 0px !important;
+}
+
+.btn-refresh {
+    color: #999;
+}

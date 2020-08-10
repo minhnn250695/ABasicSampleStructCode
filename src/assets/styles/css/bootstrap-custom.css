@@ -1,0 +1,188 @@
+﻿.nav-tabs>li>a {
+    line-height: 2.2;
+    font-size: 0.8em;
+    color: #333;
+}
+
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn {
+    background-color: #ccc;
+    border-color: #ccc;
+}
+
+.btn-default {
+    color: #666;
+}
+
+.btn-default:focus,
+.btn-default.focus {
+    color: #666;
+}
+
+.btn-default:hover {
+    color: #666;
+}
+
+.btn-default:active,
+.btn-default.active,
+.open>.dropdown-toggle.btn-default {
+    color: #666;
+}
+
+.btn-primary {
+    background-color: #FF8C00;
+    border-color: #FF8C00;
+}
+
+.btn-primary:hover {
+    background-color: #E98000;
+    border-color: #E98000;
+}
+
+.btn-info {
+    background-color: #00BCF2;
+    border-color: #00BCF2;
+}
+
+.btn-info:hover {
+    border-color: #31b0d5;
+}
+
+.btn-info.disabled:hover,
+.btn-info[disabled]:hover,
+fieldset[disabled] .btn-info:hover,
+.btn-info.disabled:focus,
+.btn-info[disabled]:focus,
+fieldset[disabled] .btn-info:focus,
+.btn-info.disabled.focus,
+.btn-info[disabled].focus,
+fieldset[disabled] .btn-info.focus {
+    background-color: #ccc;
+    border-color: #ccc;
+    opacity: 1;
+}
+
+.nav-tabs {
+    border-bottom: 0;
+}
+
+.navbar {
+    background-color: #fff;
+}
+
+.navbar-inverse {
+    background-color: #F6F6F6;
+    border: none;
+}
+
+.progress {
+    height: 10px;
+}
+
+.progress-bar {
+    background-color: #00BCF2;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-footer {
+    text-align: left;
+    border-top: none;
+}
+
+a.btn.btn-info-inverse:hover {
+    color: #FF8C00 !important;
+}
+
+
+/* top - right - bot -left region*/
+
+.top-15 {
+    top: 15px;
+}
+
+
+/*end region top - right - bot -left region*/
+
+
+/* region for margin */
+
+.margin-0 {
+    margin: 0px;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+.margin-top-30 {
+    margin-top: 30px;
+}
+
+.margin-top-40 {
+    margin-top: 40px;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}
+
+.margin-bottom-20 {
+    margin-bottom: 20px;
+}
+
+.margin-bottom-40 {
+    margin-bottom: 40px;
+}
+
+.margin-left-25 {
+    margin-left: 25px;
+}
+
+
+/* end marin region */
+
+
+/* padding region */
+
+.padding-0 {
+    padding: 0px;
+}
+
+.padding-top-20 {
+    padding-top: 20px;
+}
+
+.padding-right-0 {
+    padding-right: 0;
+}
+
+.padding-right-10 {
+    padding-right: 10px;
+}
+
+.padding-bottom-5 {
+    padding-bottom: 5px
+}
+
+.padding-bottom-20 {
+    padding-bottom: 20px
+}
+
+.padding-bottom-30 {
+    padding-bottom: 30px
+}
+
+.padding-left-0 {
+    padding-left: 0;
+}
+
+
+/* end padding region */

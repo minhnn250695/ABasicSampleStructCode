@@ -1,0 +1,173 @@
+<!-- upload file -->
+<div *ngIf="!isProcessing">
+    <div class="breadcrumb-bar green-background padding-top-50 padding-bottom-10">
+        <div class="container">
+            <a href="#/landing">
+                <i class="fas fa-home fa-lg margin-right-5"></i>
+            </a>
+            <i class="fas fa-angle-right margin-right-5"></i>
+            <span class="active-breadcrumb">Import from file</span>
+        </div>
+    </div>
+    <div class="container padding-top-40 padding-bottom-50">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="finpal-h1">Import from file</h1>
+                <p>Add a spreadsheet that contains feeds data.</p>
+                <app-drop-pick-file #dropFileView class="select_file_box" title="Drop your Excel file here"
+                    formatIcon="fa-file-excel" [expectedFormat]="['xls', 'xlsx']"
+                    (onFileSelected)="onFileSelected($event)"> </app-drop-pick-file>
+                <div class="row">
+                    <div class="col-md-12 padding-top-20">
+                        <p>What type of data are you importing?</p>
+
+                        <div class="slidemenu">
+                            <input type="radio" name="slideItem" id="slide-item-1" class="slide-toggle" />
+                            <label for="slide-item-1">
+                                <a data-toggle="tooltip" data-placement="top" title="Household"
+                                    (click)="selectedEntity('finpal_households')" class="center-block">
+                                    <span class="fa-stack fa-2x">
+                                        <i class="fas fa-circle fa-stack-2x teal-color"></i>
+                                        <i class="fas fa-users fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </label>
+                            <input type="radio" name="slideItem" id="slide-item-2" class="slide-toggle" />
+                            <label for="slide-item-2">
+                                <a data-toggle="tooltip" data-placement="top" title="Contact"
+                                    (click)="selectedEntity('contacts')" class="center-block">
+                                    <span class="fa-stack fa-2x">
+                                        <i class="fas fa-circle fa-stack-2x teal-color"></i>
+                                        <i class="fas fa-user fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </label>
+                            <!--<input type="radio" name="slideItem" id="slide-item-2" class="slide-toggle" />
+                            <label for="slide-item-2">
+                                <a data-toggle="tooltip" data-placement="top" title="XPlan Contact"
+                                    (click)="selectedEntity('xplan_contacts')" class="center-block">
+                                    <span class="fa-stack fa-2x">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fas fa-user fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </label>-->
+                            <input type="radio" name="slideItem" id="slide-item-3" class="slide-toggle" />
+                            <label for="slide-item-3">
+                                <a data-toggle="tooltip" data-placement="top" title="Companies"
+                                    (click)="selectedEntity('accounts')" class="center-block">
+                                    <span class="fa-stack fa-2x">
+                                        <i class="fas fa-circle fa-stack-2x teal-color"></i>
+                                        <i class="fas fa-briefcase fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </label>
+                            <input type="radio" name="slideItem" id="slide-item-4" class="slide-toggle" />
+                            <label for="slide-item-4">
+                                <a data-toggle="tooltip" data-placement="top" title="Client assets"
+                                    (click)="selectedEntity('finpal_clientassets')" class="center-block">
+                                    <span class="fa-stack fa-2x">
+                                        <i class="fas fa-circle fa-stack-2x teal-color"></i>
+                                        <i class="fas fa-home fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </label>
+                            <input type="radio" name="slideItem" id="slide-item-5" class="slide-toggle" />
+                            <label for="slide-item-5">
+                                <a data-toggle="tooltip" data-placement="top" title="Client debts"
+                                    (click)="selectedEntity('finpal_clientdebts')" class="center-block">
+                                    <span class="fa-stack fa-2x">
+                                        <i class="fas fa-circle fa-stack-2x teal-color"></i>
+                                        <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </label>
+                            <input type="radio" name="slideItem" id="slide-item-6" class="slide-toggle" />
+                            <label for="slide-item-6">
+                                <a data-toggle="tooltip" data-placement="top" title="Insurance policies"
+                                    (click)="selectedEntity('finpal_personalinsurances')" class="center-block">
+                                    <span class="fa-stack fa-2x">
+                                        <i class="fas fa-circle fa-stack-2x teal-color"></i>
+                                        <i class="fas fa-umbrella fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </label>
+                            <input type="radio" name="slideItem" id="slide-item-7" class="slide-toggle" />
+                            <label for="slide-item-7">
+                                <a data-toggle="tooltip" data-placement="top" title="Insurance benefits"
+                                    (click)="selectedEntity('finpal_insurancebenefits')" class="center-block">
+                                    <span class="fa-stack fa-2x">
+                                        <i class="fas fa-circle fa-stack-2x teal-color"></i>
+                                        <i class="fas fa-hand-holding-usd fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-info pull-right"
+                    [disabled]="!fileImportService.file || !isSelectedEntity"
+                    (click)="onBtnUploadClick()">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- upload processing -->
+<div *ngIf="isProcessing">
+    <div class="breadcrumb-bar green-background padding-top-50 padding-bottom-10">
+        <div class="container">
+            <a routerLink="/landing">
+                <i class="fas fa-home fa-lg margin-right-5"></i>
+            </a>
+            <i class="fas fa-angle-right margin-right-5"></i>
+            <span class="active-breadcrumb">Import from file</span>
+        </div>
+    </div>
+    <div class="container padding-top-40 padding-bottom-50">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="finpal-h1">Import from file</h1>
+                <div class="row padding-top-10">
+                    <div class="col-md-4">
+                        <p>
+                            <i class="fas fa-circle-notch fa-pulse"></i> Loading file...
+                            <br />
+                            <span class="small">Please hold on.</span>
+                        </p>
+                        <progress-bar></progress-bar>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- warnings modal -->
+<div class="modal fade" id="upload-file-warnings" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button> -->
+                <h4 class="modal-title">Warning</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <p>Import of the following columns is not currently supported. If you continue these columns will be
+                        ignored
+                    </p>
+                </div>
+                <div>
+                    <ul>
+                        <li *ngFor="let name of columnNamesWarning">{{name}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer margin-bottom-15 margin-right-15">
+                <button (click)="warningModalConfirmClick()" data-dismiss="modal" aria-label="Close"
+                    class="btn btn-info pull-right">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>

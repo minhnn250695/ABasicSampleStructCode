@@ -1,0 +1,15 @@
+<form #dateForm="ngForm">
+    <div class="input-group input-append date form_date">
+        <input class="form-control" [matDatepicker]="datePicker" placeholder="dd/mm/yyyy" required name="date" [(ngModel)]="selectedDate"
+            (dateChange)="changeDate($event)" #date="ngModel">
+        <mat-datepicker #datePicker></mat-datepicker>
+        <div class="input-group-addon" (click)="datePicker.open()">
+            <span class="add-on">
+                <i class="fas fa-calendar fa-lg"></i>
+            </span>
+        </div>
+    </div>
+    <div *ngIf="date.errors && (date.dirty || date.touched)">
+        <p *ngIf="date.errors.required" style="color: red">Birthday is required</p>
+    </div>
+</form>

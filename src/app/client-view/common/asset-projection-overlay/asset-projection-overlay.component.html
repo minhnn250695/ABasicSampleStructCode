@@ -1,0 +1,138 @@
+<a class="btn btn-info finpal-h5 white-color square" id="asset-projections" *ngIf="buttonShape === 'square'" (click)="show()">
+    <i class="fas fa-file-chart-line fa-1x" *ngIf="showIcon"></i>
+    <span>Asset projections</span>
+</a>
+
+<a class="white-color circle" id="asset-projections" *ngIf="buttonShape === 'circle'" (click)="show()">
+    <i class="fas fa-info-circle fa-1x dark-blue object-shadow" [style.width.px]="iconWidth" [style.height.px]="iconHeight"></i>
+</a>
+
+<div class="modal fade" id="investment-assets" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: hidden;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title finpal-h3 orange" id="editincome">Asset projections</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tbody>
+                        <tr id="current-investment">
+                            <th>Current investments</th>
+                            <td>${{(assetProjection && assetProjection.currentInvestments || 0) | number : '1.0-2' }}
+                            </td>
+                        </tr>
+                        <tr id="year-to-invest">
+                            <th>Years to invest</th>
+                            <td>
+                                {{ (assetProjection && assetProjection.parameters && assetProjection.parameters.yearsToInvest || 0) | number : '1.0-2'}}
+                                <a rel="popover" data-popover-content="#years-invest" class="margin-left-10" onclick="$(this).popover('toggle')">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <div id="years-invest" class="hide">
+                                    <label for="txtYearToInvest" class="control-label">Years to invest</label>
+                                    <input type="text" class="form-control" id="txtYearToInvest" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="{{ (assetProjection && assetProjection.parameters && assetProjection.parameters.yearsToInvest || 0) | number : '1.0-2'}}">
+                                    <div class="margin-top-10">
+                                        <button type="button" class="btn btn-primary save-changes-popover asset-projection" data-dismiss="modal">Save changes</button>
+                                        <button type="button" class="btn btn-default close-popover" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="dark-blue-background white text-center">Additional Monthly Contribution
+                            </th>
+                        </tr>
+                        <tr id="amount-invested">
+                            <th>Amount invested</th>
+                            <td>
+                                ${{ (assetProjection && assetProjection.parameters && assetProjection.parameters.amountInvested || 0) | number : '1.0-2'}}
+                                <a rel="popover" data-popover-content="#amount-invested-popover" class="margin-left-10" onclick="$(this).popover('toggle')">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <div id="amount-invested-popover" class="hide">
+                                    <label for="txtAmountInvested" class="control-label">Amount invested</label>
+                                    <input type="text" class="form-control" id="txtAmountInvested" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="{{ (assetProjection && assetProjection.parameters && assetProjection.parameters.amountInvested || 0) | number : '1.0-2'}}">
+                                    <div class="margin-top-10">
+                                        <button type="button" class="btn btn-primary save-changes-popover asset-projection" data-dismiss="modal">Save changes</button>
+                                        <button type="button" class="btn btn-default close-popover" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="investment-returns">
+                            <td>Investment returns</td>
+                            <td>
+                                {{ (assetProjection && assetProjection.parameters && assetProjection.parameters.investmentReturns * 100 || 0) | number : '1.0-2' }}%
+                                <a rel="popover" data-popover-content="#investment-returns-popover" class="margin-left-10" onclick="$(this).popover('toggle')">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <div id="investment-returns-popover" class="hide">
+                                    <label for="txtInvestmentReturns" class="control-label">Investment returns</label>
+                                    <input type="text" class="form-control" id="txtInvestmentReturns" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="{{ (assetProjection && assetProjection.parameters && assetProjection.parameters.investmentReturns * 100 || 0) | number : '1.0-2' }}%">
+                                    <div class="margin-top-10">
+                                        <button type="button" class="btn btn-primary save-changes-popover asset-projection" data-dismiss="modal">Save changes</button>
+                                        <button type="button" class="btn btn-default close-popover" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="dark-blue-background white text-center">Projected wealth</th>
+                        </tr>
+                        <tr id="current-projected-wealth">
+                            <td>Current</td>
+                            <td>${{ (assetProjection && assetProjection.currentProjectedWealth || 0) | number : '1.0-2' }}
+                            </td>
+                        </tr>
+                        <tr id="additional-contribution">
+                            <td>"+" Additional Contribution</td>
+                            <td>
+                                ${{ (assetProjection && assetProjection.currentProjectedWealthPlusMonthlyContribution || 0) | number : '1.0-2'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="dark-blue-background white text-center">
+                                {{currentDate.getFullYear()}} equivalent
+                            </th>
+                        </tr>
+                        <tr id="current-projected-wealth-equivalent">
+                            <td>Current</td>
+                            <td>
+                                ${{ (assetProjection && assetProjection.currentProjectedWealthEquivalent || 0) | number : '1.0-2'}}
+                            </td>
+                        </tr>
+                        <tr id="current-projected-wealth-equivalent-plus-month-cpntribution">
+                            <td>"+" Additional Contribution</td>
+                            <td>
+                                ${{ (assetProjection && assetProjection.currentProjectedWealthEquivalentPlusMonthlyContribution || 0) | number : '1.0-2' }}
+                            </td>
+                        </tr>
+                        <tr id="projection-year">
+                            <th>Projection year</th>
+                            <th>{{ (assetProjection && assetProjection.projectionYear || 0) }}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="asset-projection-error" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                <h5 class="modal-title">Error #{{errorObject && errorObject.errorCode ? errorObject.errorCode : 5000}}</h5>
+            </div>
+            <div class="modal-body">
+                <p>{{errorObject && errorObject.errorCode && errorObject.errorMessage}}</p>
+            </div>
+        </div>
+    </div>
+</div>

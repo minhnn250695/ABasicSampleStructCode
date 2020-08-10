@@ -1,0 +1,35 @@
+<fp-header> </fp-header>
+<div class="breadcrumb-bar-generic padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a class="margin-right-5">Get started</a> <i class="fas fa-angle-right margin-right-5"></i> <span class="active-breadcrumb">Step 2</span>
+    </div>
+</div>
+<div class="container padding-top-10 padding-bottom-50">
+    <div class="row">
+        <div class="col-md-12 padding-bottom-20">
+            <h1 class="finpal-h1">Get started</h1>
+            <h2 class="finpal-h3">Step 2</h2>
+        </div>
+    </div>
+    <div class="row" *ngIf="!showErrorMessage">
+        <div class="col-md-1">
+            <img src="../../assets/img/finpal-spinner.png" id="finpal-spinner" />
+        </div>
+        <div class="col-md-5">
+            <p>We are setting things up, this process may take a few minutes.</p>
+            <p *ngIf="step && !step.completed">Completed {{step.progress}} ... Please hold on.</p>
+        </div>
+    </div>
+    <div class="row" *ngIf="showErrorMessage">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-block padding-left-20 padding-right-20 padding-top-30 padding-bottom-20">
+                    <h2 class="finpal-h3 padding-bottom-10"><i class="fas fa-exclamation-triangle"></i> Installation error</h2>
+                    <p>The installation process has failed. Please retry or contact to FinPal administrator if the error continues.</p>
+                    <button type="button" class="btn btn-primary" (click)="retry()">Retry</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<fp-footer> </fp-footer>

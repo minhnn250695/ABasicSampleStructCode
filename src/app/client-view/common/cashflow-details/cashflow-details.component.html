@@ -1,0 +1,338 @@
+<fp-client-view-header active="9"> </fp-client-view-header>
+<div class="container padding-top-30 padding-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="breadcrumb-advice-builder">
+                <a (click)="goToPage('advice-homepage')">Advice</a>
+                <i class="far fa-sm fa-chevron-right chevron"></i>
+                <a (click)="goToPage('advice-strategy')">{{strategy && strategy != '' ? strategy : "Strategy" }}</a>
+                <i class="far fa-sm fa-chevron-right chevron"></i>
+                <a (click)="goToPage('edit-strategy')" *ngIf="strategyId && strategyId != '' && strategyId != currentStrategyId">Edit Strategy</a>
+                <i class="far fa-sm fa-chevron-right chevron" *ngIf="strategyId && strategyId != '' && strategyId != currentStrategyId"></i>
+            </div>
+            <h1 class="font-size-30 margin-top-10">Cash Flow Details</h1>
+            <div class="table-responsive scrollbar">
+                <table class="table table-condensed fixed-first-column-table">
+                    <tr>
+                        <th class="min-width-250 max-width-250 fixed-column border-bottom-6" style="height: 31px"></th>
+                        <th *ngFor="let cashflow of cashFlowDetails" class="border-bottom-6 bold-text">
+                            {{cashflow && cashflow.period.value}}</th>
+                    </tr>
+                    <tr>
+                        <th class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text">
+                            <a (click)="showDetails('Income')" class="link">
+                                <span *ngIf="'Income' == currentDisplayType"><i
+                                        class="fas fa-xs fa-chevron-up"></i></span>
+                                <span *ngIf="'Income' != currentDisplayType"><i
+                                        class="fas fa-xs fa-chevron-down"></i></span> Income</a>
+                        </th>
+                        <td *ngFor="let cashflow of cashFlowDetails; let i=index" class="border-top-1" [style.display]="currentDisplayType != 'Income' ? null : 'none'">
+                            ${{ cashflow && cashflow.totalNetIncome | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Income'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Gross Salary</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.grossSalary | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Income'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Government Benefits</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.governmentBenefits | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Income'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Other Income</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.otherIncome | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Income'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Investment Income</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.investmentIncome | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Income'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Retirement Income Streams</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.retirementIncomeStreams | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Income'">
+                        <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Total Gross Income</th>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.totalGrossIncome | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Income'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Less Pre-Tax Spending</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.preTaxSpending | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Income'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Less Pre-Tax Investment Contributions</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.salarySacrifice | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Income'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Less Income Tax</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.incomeTax | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Income'">
+                        <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text">
+                            Total Net Income</th>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.totalNetIncome | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr>
+                        <th class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text border-top-1">
+                            <a (click)="showDetails('Less Expenses')" class="link">
+                                <span *ngIf="'Less Expenses' == currentDisplayType"><i
+                                        class="fas fa-xs fa-chevron-up"></i></span>
+                                <span *ngIf="'Less Expenses' != currentDisplayType"><i
+                                        class="fas fa-xs fa-chevron-down"></i></span> Less Expenses</a>
+                        </th>
+                        <td *ngFor="let cashflow of cashFlowDetails; let i=index" class="border-top-1">
+                            <span [style.display]="'Less Expenses' != currentDisplayType ? null : 'none'">${{ cashflow && cashflow.totalExpenses | number : '1.2-2'}}</span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Lifestyle Fixed</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.lifestyleNeeds | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Lifestyle Discretionary</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.lifestyleWants | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Lifestyle Goals</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.lifestyleGoals | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Non-Deductible Debt</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.nonDeductibleDebt | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Deductible Debt</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.deductibleDebt | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Investment Expenses</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.investmentExpenses | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Investment Contributions</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.investmentContributions | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                            Personal Insurance</td>
+                        <td *ngFor="let cashflow of cashFlowDetails ">
+                            ${{ cashflow && cashflow.personalInsurance | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                        <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text">
+                            Total Expenses</th>
+                        <td *ngFor="let cashflow of cashFlowDetails">
+                            ${{ cashflow && cashflow.totalExpenses | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr>
+                        <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text border-top-1">Surplus Income
+                        </th>
+                        <td *ngFor="let cashflow of cashFlowDetails" class="border-top-1">
+                            ${{ cashflow && cashflow.surplusIncome | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr>
+                        <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text border-top-1">Weekly Surplus
+                        </th>
+                        <td *ngFor="let cashflow of cashFlowDetails" class="border-top-1">
+                            ${{ cashflow && cashflow.weeklySurplus | number : '1.2-2'}}</td>
+                    </tr>
+                    <tr>
+                        <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text border-top-1">Net Account Transfers
+                        </th>
+                        <td *ngFor="let cashflow of cashFlowDetails" class="border-top-1">
+                            ${{ cashflow && cashflow.netAccountTransfers | number : '1.2-2'}}</td>
+                    </tr>
+                </table>
+            </div>
+            <a class="btn btn-info pull-right margin-bottom-10 margin-top-10 margin-left-10" (click)=" exportToExcel()">
+                Export to excel
+            </a>
+            <a class="btn btn-info pull-right margin-bottom-10 margin-top-10 " (click)="backClicked()">
+                <i class="fas fa-caret-left margin-right-5 "></i>Back to {{strategy}}
+            </a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-condensed fixed-first-column-table" id="cashflow-table" style="display: none;">
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column border-bottom-6" style="height: 31px"></th>
+        <th *ngFor="let cashflow of cashFlowDetails" class="border-bottom-6 bold-text">
+            {{cashflow && cashflow.period.value}}</th>
+    </tr>
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text">
+            Income
+        </th>
+        <td *ngFor="let cashflow of cashFlowDetails; let i=index" class="border-top-1"></td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Gross Salary</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.grossSalary | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Government Benefits</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.governmentBenefits | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Other Income</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.otherIncome | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Investment Income</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.investmentIncome | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Retirement Income Streams</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.retirementIncomeStreams | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Total Gross Income</th>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.totalGrossIncome | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Less Pre-Tax Spending</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.preTaxSpending | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Less Pre-Tax Investment Contributions</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.salarySacrifice | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Less Income Tax</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.incomeTax | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text">
+            Total Net Income</th>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.totalNetIncome | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text border-top-1">
+            Less Expenses
+        </th>
+        <td *ngFor="let cashflow of cashFlowDetails; let i=index" class="border-top-1"></td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Lifestyle Fixed</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.lifestyleNeeds | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Lifestyle Discretionary</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.lifestyleWants | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Lifestyle Goals</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.lifestyleGoals | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Non-Deductible Debt</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.nonDeductibleDebt | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Deductible Debt</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.deductibleDebt | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Investment Expenses</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.investmentExpenses | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Investment Contributions</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.investmentContributions | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+            Personal Insurance</td>
+        <td *ngFor="let cashflow of cashFlowDetails ">
+            ${{ cashflow && cashflow.personalInsurance | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text">
+            Total Expenses</th>
+        <td *ngFor="let cashflow of cashFlowDetails">
+            ${{ cashflow && cashflow.totalExpenses | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text border-top-1">Surplus Income
+        </th>
+        <td *ngFor="let cashflow of cashFlowDetails" class="border-top-1">
+            ${{ cashflow && cashflow.surplusIncome | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text border-top-1">Weekly Surplus
+        </th>
+        <td *ngFor="let cashflow of cashFlowDetails" class="border-top-1">
+            ${{ cashflow && cashflow.weeklySurplus | number : '1.2-2'}}</td>
+    </tr>
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text border-top-1">Net Account Transfers
+        </th>
+        <td *ngFor="let cashflow of cashFlowDetails" class="border-top-1">
+            ${{ cashflow && cashflow.netAccountTransfers | number : '1.2-2'}}</td>
+    </tr>
+</table>

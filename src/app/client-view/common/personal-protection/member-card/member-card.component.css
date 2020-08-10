@@ -1,0 +1,34 @@
+.padding-bottom-70 {
+    padding-bottom: 70px;
+}
+
+.default-cursor {
+    cursor: default;
+}
+
+.avatar-container {
+    position: relative;
+    text-align: center;
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    margin: auto;
+}
+
+.notify-red-badge,
+.notify-blue-badge {
+    right: -5px;
+    top: 70%;
+}
+
+
+/* ===================================================== 
+                        MOBILE
+======================================================== */
+
+.mobile svg {
+    color: #969696;
+}
+
+.mobile svg.thumbs {
+    color: #fff;
+}

@@ -1,0 +1,105 @@
+<div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+        aria-hidden="true">&times;</span></button>
+            <span *ngIf="!adviceBuilderService.isUpdateAction" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">Add New Action</span>
+            <span *ngIf="adviceBuilderService.isUpdateAction" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">Update Action</span>
+        </div>
+        <!-- <div class="modal-body" [style.display]="((debt.debtId && adviceBuilderService.isUpdateAction) || !adviceBuilderService.isUpdateAction) ? 'block' : 'none'"> -->
+        <div class="modal-body" [style.display]="((contributeAsset.actionId && adviceBuilderService.isUpdateAction) || !adviceBuilderService.isUpdateAction) ? 'block' : 'none'">
+            <form #contributeFundToAsset="ngForm">
+                <div class="row">
+                    <div class="col-md-1">
+                        <ul class="icon-list margin-top-bot-5">
+                            <li>
+                                <span><i class="fa fa-arrow-right fa-lg dark-gray"></i></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-11 padding-0">
+                        <h3 *ngIf="!adviceBuilderService.isUpdateAction" class="action-style">Contribute funds to an Asset</h3>
+                        <h3 *ngIf="adviceBuilderService.isUpdateAction" class="action-style">Update contribute funds to an Asset</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                            <li id="basic-data" class="active">
+                                <a id="contribute-funds-asset-details" data-toggle="pill" href="#contribute-asset-basic-data">Action details</a>
+                            </li>
+                            <li id="complementary-data">
+                                <a data-toggle="pill" href="#contribute-asset-complementary-data">Advice comments</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <!-- Policy -->
+                            <div id="contribute-asset-basic-data" class="tab-pane fade in active">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="control-label">Asset record</label>
+                                        <select class="form-control" name='assetRecord' [(ngModel)]="contributeAsset.assetId" required>
+                                            <option hidden value="-1"></option>
+                                            <option *ngFor="let asset of notClosedAssetList" [value]="asset.id" >{{asset.name}}</option>
+                                        </select>
+                                        <!-- <div *ngIf="adviceBuilderService.isUpdateAction">
+                                            <p class="field-info"> {{getContributeAssetName()}}</p>
+                                        </div> -->
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label class="control-label">Type</label><br />
+                                        <label class="radio-inline">
+                                            <input type="radio" name="typePreTax" [value]="true" [(ngModel)]="contributeTypeIsPreTax" (change)="contributionTypeChange(1)"> Pre-tax
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="typePostTax" [value]="false" [(ngModel)]="contributeTypeIsPreTax" (change)="contributionTypeChange(2)"> Post-tax
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row padding-top-20">
+                                    <div class="col-md-4">
+                                        <label class="control-label">Start Year</label>
+                                        <input autocomplete="off" type="text" class="form-control" name="startYear" placeholder="YYYY" maxlength="4" [(ngModel)]="contributeAsset.startYear" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="control-label">End Year</label>
+                                        <input autocomplete="off" type="text" class="form-control" name="endYear" placeholder="YYYY" maxlength="4" [(ngModel)]="contributeAsset.endYear" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="control-label">Annual amount</label>
+                                        <input autocomplete="off" type="text" class="form-control" name="annualAmount" [(ngModel)]="annualAmount" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="$100" (focus)="onAmountFocus(annualAmount)" (focusout)="onAmountFocusOut(annualAmount)"
+                                            (keyup)="onAmountKeyup($event)" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Benefits -->
+                            <div id="contribute-asset-complementary-data" class="tab-pane fade">
+                                <div>
+                                    <label class="control-label">What is this action?</label>
+                                    <textarea class="form-control" rows="3" name="actionWhat" [(ngModel)]="contributeAsset.details" [placeholder]="contributeAsset.details || ''"></textarea>
+                                </div>
+                                <div class="padding-top-20">
+                                    <label class="control-label">Why are you taking this action?</label>
+                                    <textarea class="form-control" rows="3" name="actionWhy" [(ngModel)]="contributeAsset.reason" [placeholder]="contributeAsset.reason || ''"></textarea>
+                                </div>
+                                <div class="padding-top-20">
+                                    <label class="control-label">How It improves your situation?</label>
+                                    <textarea class="form-control" rows="3" name="actionHow" [(ngModel)]="contributeAsset.result" [placeholder]="contributeAsset.result || ''"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 padding-top-20">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info pull-right margin-right-5" [disabled]="contributeFundToAsset.invalid || !viewDetectChange()" (click)="saveChangeFundsContribution()">{{adviceBuilderService.isUpdateAction ? "Save changes" : "Create contribution"}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div [style.display]="(!contributeAsset.actionId && adviceBuilderService.isUpdateAction) ? 'block' : 'none'" class="modal-body text-center margin-top-10 margin-bottom-10">
+            <i class="fas fa-spinner fa-pulse"></i>
+        </div>
+    </div>
+</div>

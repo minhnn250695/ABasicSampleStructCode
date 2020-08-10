@@ -1,0 +1,11 @@
+.error p {
+    color: red
+} 
+
+.color {
+    background-color: #000;
+}
+
+.mat-accent 
+.mat-option.mat-selected,.mat-option.mat-selected.mat-accent
+{background-color:#000}

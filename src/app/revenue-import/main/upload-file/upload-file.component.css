@@ -1,0 +1,12 @@
+@import '../../../../assets/styles/fp-styles.css';
+
+#upload_btn {
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 1.1em;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}

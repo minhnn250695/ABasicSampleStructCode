@@ -1,0 +1,33 @@
+﻿<!-- DESKTOP BREADSCRUMB -->
+<div *ngIf="!isMobile" class="breadcrumb-bar-document padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a routerLink="/landing">
+            <i class="fas fa-home fa-lg margin-right-5"></i>
+        </a>
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <a routerLink="/document/generate-report" class="margin-right-5">Document generator</a>
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <a routerLink="/document/template-manager" class="margin-right-5">Template manager</a>
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <span class="active-breadcrumb">Upload template</span>
+    </div>
+</div>
+
+<!-- MOBILE BREADSCRUMB -->
+<div *ngIf="isMobile" class="breadcrumb-bar-document padding-top-50 margin-top-10 padding-bottom-10">
+    <div class="container">
+        <a routerLink="/document/generate-report">
+            <i class="fas fa-angle-left margin-right-5"></i> Document generator</a>
+    </div>
+</div>
+
+<div class="container padding-top-40 padding-bottom-50">
+    <div class="col-md-6">
+        <h1 class="finpal-h1">Upload a template</h1>
+        <h4>Add a document that contains the template model</h4>
+
+        <app-drop-pick-file #dropFileView class="select_file_box" title="Drop your Word file here" formatIcon="fa-file-word" [expectedFormat]="['docx']"
+            [disableSelectedFile]="false" (click)="onDropViewClick()" (onFileSelected)="onFileSelected($event)"></app-drop-pick-file>
+        <button type="button" class="btn btn-lg btn-info pull-right" [disabled]="isUploadDisabled()" (click)="upload()">Upload</button>
+    </div>
+</div>

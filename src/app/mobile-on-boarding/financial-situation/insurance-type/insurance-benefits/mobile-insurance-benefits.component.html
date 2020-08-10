@@ -1,0 +1,34 @@
+<div style="width:31%;float:left;" class="text-center margin-right-5">
+
+    <a rel="popover" id="update-benefits{{id}}" (click)="initPopoverData()" [attr.data-popover-content]="'#content' + id" data-placement="right" onclick="$(this).popover('toggle')">
+        <div class="card-mini-blue padding-left-10 padding-right-10 padding-top-20 padding-bottom-10">
+            <i [ngClass]="getBenefitClass(benefit.type)"></i>
+            <p class="padding-top-10 small">{{getBenefitTypeName(benefit.type)}}</p>
+            <p>${{benefit.amount}}</p>
+        </div>
+    </a>
+
+    <div id="content{{id}}" class="hide">
+        <label class="control-label small">* Benefit type</label>
+        <select class="form-control input-sm" name="benefitType" id="benefit-type" [(ngModel)]="benefit.type">
+            <option *ngFor="let item of benefitTypes" [value]="item.code">{{item.name}}</option>
+        </select>
+
+        <label class="control-label small">* Person insured</label>
+        <select class="form-control input-sm" name="personInsured" id="person-insured" [(ngModel)]="benefit.lifeInsuredId">
+            <option *ngFor="let item of memberFirstNameList" [value]="item.code">{{item.name}}</option>
+        </select>
+
+        <label class="control-label small">* Amount</label>
+        <input type="text" class="form-control" placeholder="" id="amount" onclick="$(this).focus()">
+
+        <label class="control-label small">* Premium</label>
+        <input type="number" class="form-control input-sm" placeholder="" id="premium" [(ngModel)]="benefit.insurancePremium">
+        <div class="margin-top-10">
+            <button class="btn btn-sm btn-primary update">Save changes</button>
+            <button class="btn btn-sm btn-default remove"><i class="fas fa-trash" aria-hidden="true"></i></button>
+            <button type="button" class="btn btn-sm btn-default close-popover" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+
+</div>

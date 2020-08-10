@@ -1,0 +1,4 @@
+<form #f="ngForm" novalidate>
+    <my-date-picker name="ngModelDate" placeholder="DD/MM/YYYY" [options]="myDatePickerOptions" (inputFieldChanged)="onInputFieldChanged($event)" [(ngModel)]="date" required>
+    </my-date-picker>
+</form>

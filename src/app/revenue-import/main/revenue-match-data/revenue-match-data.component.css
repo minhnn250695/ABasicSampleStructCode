@@ -1,0 +1,21 @@
+
+/* @import '../../style/bootstrap.css'; */
+/* @import '../../style/app-style.css'; */
+
+@import '../../../../assets/styles/fp-styles.css';
+
+::ng-deep .cdk-overlay-container {
+    position: fixed !important;
+    opacity: 1 !important;
+    z-index: 2000 !important;
+}
+
+.body{
+    font-size: 16px;
+    color: #666;
+}
+
+.min-width {
+    min-width: 80px;
+}
+

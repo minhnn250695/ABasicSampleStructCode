@@ -1,0 +1,149 @@
+@import "../../../../assets/styles/css/timeline2.css";
+@import '../../../../assets/styles/css/customize-styles.css';
+.fa-2x {
+    top: -10px;
+}
+
+input:disabled {
+    cursor: not-allowed;
+}
+
+select:disabled {
+    cursor: not-allowed;
+}
+
+.card-content-center {
+    display: flex;
+    justify-content: center;
+}
+
+.card-height-40 {
+    height: 40px;
+}
+
+.card-height-60 {
+    height: 60px;
+}
+
+.card-height-80 {
+    height: 80px;
+}
+
+.card-height-100 {
+    height: 100px;
+}
+
+.card-content {
+    height: 100%;
+}
+
+.card-link-section {
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+    padding-top: 5px;
+}
+
+.card-link-icon {
+    position: absolute;
+    right: -5px;
+    top: 4px;
+}
+
+.card>.card-block>.col-md-1 {
+    width: 12%;
+    height: 100%;
+}
+
+.card>.card-block>.col-md-11 {
+    width: 88%;
+    height: 100%;
+}
+
+.card .card-block.new-goal-card-block {
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.active-node:after {
+    content: "";
+    height: 32px;
+    width: 2px;
+    position: absolute;
+    background-color: white;
+    bottom: -15px;
+    left: 38px;
+}
+
+.opacity-03 {
+    opacity: 0.3;
+}
+
+.time-line.add-goal-node {
+    transition: transform .4s ease-in-out;
+    transform: translateX(472px);
+}
+
+.node:hover {
+    transition: transform .3s ease-in-out;
+    transform: scale(1.2);
+}
+
+.timeline-caret-left {
+    position: absolute;
+    left: -10px;
+    top: -4px;
+}
+
+.timeline-caret-right {
+    position: absolute;
+    right: -25px;
+    top: -4px;
+}
+
+.col-md-1.timeline-caret {
+    width: 0;
+    position: relative;
+    padding-right: 15px;
+    padding-left: 3px;
+}
+
+.col-md-10.time-line-container {
+    width: 96%;
+}
+
+.svg-inline--fa.fa-stack-2x {
+    width: 2em;
+    height: 2em;
+}
+
+.object-shadow {
+    border-radius: 50%;
+}
+
+.goal-title {
+    height: 100%;
+}
+
+.goal-title .col-md-12 {
+    height: 100%;
+    display: table;
+}
+
+.goal-title .col-md-11 {
+    height: 100%;
+    display: table;
+    padding-left: 0;
+}
+
+.goal-title .col-md-1 {
+    height: 100%;
+    display: table;
+    padding: 0;
+    text-align: right;
+}
+
+.goal-title .fa-1x {
+    font-size: 1.072em;
+}

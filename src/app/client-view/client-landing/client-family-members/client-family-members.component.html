@@ -1,0 +1,15 @@
+<div id="myCarousel" class="carousel slide card" data-ride="carousel" *ngIf="houseHoldMembers">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel"  
+            *ngFor="let member of houseHoldMembers; let i = index" 
+            [attr.data-slide-to]="i" [ngClass]="i == 0 ? 'active' : ''"> </li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        <div *ngFor="let contact of houseHoldMembers; let k = index" [ngClass]="k == 0 ? 'active' : ''" class="item">
+            <client-member-card [contact]="contact"></client-member-card>
+        </div>
+    </div>
+</div>

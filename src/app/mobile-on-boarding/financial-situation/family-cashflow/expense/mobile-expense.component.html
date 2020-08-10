@@ -1,0 +1,8 @@
+<div *ngIf="expenseType == 1">
+  <app-mobile-tax #tax (expenseType)="handleExpenseTypeChange($event)"></app-mobile-tax>
+</div>
+
+<div *ngIf="expenseType == 2">
+  <app-mobile-household-spending #houseHoldSpending (expenseType)="handleExpenseTypeChange($event)">
+  </app-mobile-household-spending>
+</div>

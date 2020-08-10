@@ -1,0 +1,249 @@
+h1 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.padding-left-0 {
+    padding-left: 0 !important;
+}
+
+.padding-right-0 {
+    padding-right: 0 !important;
+}
+
+.btn-action {
+    height: 35px;
+    font-size: 16px;
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+select.form-control,
+input[type="text"].form-control {
+    height: 35px;
+    padding: 6px 6px;
+}
+
+
+/******************************************************* 
+                        DOCUMENT
+********************************************************/
+
+.document {
+    background-color: #F6F6F6;
+    border-top: 6px solid #0072C6;
+    position: relative;
+    padding: 10px 15px;
+}
+
+
+/******************************************************* 
+                    DOCUMENT BREADCRUMB
+********************************************************/
+
+.document-breadcrumb {
+    margin: 6px 0;
+    padding: 0 5px;
+}
+
+
+/******************************************************* 
+                    DOCUMENT FILTER
+********************************************************/
+
+.document-filter {
+    border-top: 1px solid #E1E1E1;
+    border-bottom: 1px solid #E1E1E1;
+    padding: 10px 10px 10px 15px;
+}
+
+.document-filter .select-all {
+    padding: 0 10px 0 8px;
+}
+
+select#filterCategories,
+select#filterCategories:focus {
+    width: 76px;
+    display: inline-block;
+    border: 1px solid #AFAFAF;
+    border-radius: 4px;
+    position: relative;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: #FFF url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' width='40' height='20' fill='%230072C6'><path d='M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z'/></svg>") no-repeat;
+    background-position: right -8px top 44%;
+}
+
+.table#filter-actions>tbody>tr>td {
+    border: none;
+    height: 35px;
+}
+
+.table#filter-actions>tbody>tr>td.select-all-option {
+    width: 40px;
+    padding-right: 0;
+}
+
+.table#filter-actions>tbody>tr>td.select-all-option-text {
+    width: 80px;
+    padding-left: 0;
+}
+
+.table#filter-actions>tbody>tr>td.filter-categories {
+    width: 68px;
+}
+
+.table#filter-actions>tbody>tr>td.filter-search {
+    width: 234px;
+}
+
+.table#filter-actions>tbody>tr>td.view-layouts {
+    width: 234px;
+    text-align: right;
+    padding-right: 14px;
+}
+
+.filter-search input {
+    border: 1px solid #AFAFAF;
+    border-right: none;
+}
+
+.filter-search .input-group-addon {
+    color: #0072C6;
+    background: #fff;
+    border: 1px solid #AFAFAF;
+    border-left: none;
+}
+
+.layout-view {
+    width: 30.86px;
+    height: 27px;
+}
+
+a:hover,
+a.active {
+    color: #002050;
+    text-decoration: none;
+}
+
+
+/******************************************************* 
+                    DOCUMENT LIST
+********************************************************/
+
+.documents-list {
+    min-height: 62px;
+    max-height: 298px;
+    overflow-y: auto;
+    /* margin: 30px 0 0px 0; */
+}
+
+
+/* List view */
+
+.table>tbody>tr>td {
+    height: 40px;
+    padding: 0 8px;
+    vertical-align: middle;
+}
+
+.table>tbody>tr>td.col-select {
+    width: 40px;
+}
+
+.table>tbody>tr>td.col-file-name {
+    min-width: 200px;
+}
+
+.table>tbody>tr>td.col-modified-date {
+    text-align: right;
+    display: block;
+    min-width: 250px;
+}
+
+.table>tbody>tr>td.col-modified-date p,
+.table>tbody>tr>td.col-file-size p {
+    padding: 10px 0 8px;
+}
+
+.table>tbody>tr>td.col-file-size {
+    text-align: right;
+    width: 100px;
+}
+
+
+/* Icon view */
+
+.icon-layout-view {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    /* padding-left: 0; */
+    /* padding-right: 0; */
+}
+
+.icon-layout-view .layout-icon {
+    height: 130px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.layout-icon a {
+    word-wrap: break-word;
+}
+
+.layout-icon input[type="checkbox"] {
+    display: block;
+}
+
+
+/* Design 2 */
+
+.icon-layout-item {
+    display: table;
+    height: 200px;
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 0 10px;
+    width: 20%;
+}
+
+.icon-layout-item input[type="checkbox"] {
+    display: none;
+}
+
+.icon-layout-item a {
+    display: table-cell;
+    vertical-align: middle;
+    word-break: break-word;
+    background-color: #fff;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.icon-layout-item a.selected {
+    border: 2px solid #FF8C00;
+    box-shadow: 2px 2px 5px gray;
+}
+
+
+/******************************************************* 
+                    DOCUMENT ACTION
+********************************************************/
+
+.document-actions {
+    text-align: right;
+    margin-top: 5px;
+    padding: 10px;
+}

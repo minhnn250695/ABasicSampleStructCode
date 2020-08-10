@@ -1,0 +1,311 @@
+<div class="container padding-bottom-50 padding-top-40">
+    <h1 [ngClass]="isMobile ? 'finpal-h2' : 'finpal-h1'">Insurance outcomes</h1>
+    <div class="row">
+        <div class="col-md-3">
+            <h3 class="finpal-h3 padding-top-20 padding-bottom-10">Family member</h3>
+            <select id="selectHouseHoldMember" class="form-control" *ngIf="houseHoldMembers" (change)="onMemberSelecting($event.target.value)">
+                <option *ngFor="let member of houseHoldMembers" [value]="member.id">{{ member.firstName || member.lastName }}</option>
+            </select>
+
+            <h3 class="finpal-h3 padding-top-20 padding-bottom-10">If this happens</h3>
+            <select id="selectKindOfHappen" class="form-control" (change)="insuranceTypeSelecting($event.target.value)">
+                <option value="1">Death</option>
+                <option value="2">Temporarily disabled</option>
+                <option value="3">Permanently disabled</option>
+                <option value="4">Medical trauma</option>
+            </select>
+        </div>
+
+        <div class="col-md-5">
+            <h3 class="finpal-h3 padding-top-20 padding-bottom-10">You would like</h3>
+            <div [hidden]="insuranceType == 2">
+                <!-- Debt paid off -->
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <span class="teal-color"><strong>{{ (selectPersonalProtectionOutcome 
+                                && selectPersonalProtectionOutcome.netDebtToClearPercentage || 0) | number: '1.0-2' }}%</strong></span>
+                        <a rel="popover" data-popover-content="#debts-paid-off" id="your-debts-paids-off" onclick="$(this).popover('toggle')">
+                            <i class="fas fa-pencil"></i>
+                        </a>
+                        of your debts paid off
+                        <div id="debts-paid-off" class="hide">
+                            <label for="" class="control-label">% of your debts paid off</label>
+                            <input type="text" class="form-control" id="debts-paid-off-txt" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" placeholder="{{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.netDebtToClearPercentage 
+                                || 0) | number: '1.0-2' }}%">
+                            <div class="margin-top-10">
+                                <button type="button" id="debts-paid-off-btn" onclick="$('#your-debts-paids-off').popover('hide')" class="btn-save btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#your-debts-paids-off').popover('hide')">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Income -->
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <span class="teal-color"><strong>${{ (selectPersonalProtectionOutcome 
+                                && selectPersonalProtectionOutcome.incomeRequired || 0) | number: '1.0-2'}}</strong></span>
+                        <a rel="popover" id="income-required" data-popover-content="#member-income" onclick="$(this).popover('toggle')">
+                            <i class="fas fa-pencil"></i>
+                        </a>
+                        of {{selectedMember.firstName}}'s income for
+                        <div id="member-income" class="hide">
+                            <label for="" class="control-label">$ of {{selectedMember.firstName}}'s income</label>
+                            <input type="text" class="form-control" oninput="this.value=this.value.replace(/[^0-9\.]+/g,'');" placeholder="${{ (selectPersonalProtectionOutcome
+                                    && selectPersonalProtectionOutcome.incomeRequired || 0) | number: '1.0-2'}}">
+                            <div class="margin-top-10">
+                                <button type="button" onclick="$('#income-required').popover('hide')" id="member-income-btn" class="btn-save btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-default" onclick="$('#income-required').popover('hide')" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <span class="teal-color"><strong>{{ (selectPersonalProtectionOutcome 
+                                && selectPersonalProtectionOutcome.timeRequiredYears || 0) }}</strong></span>
+                        <a rel="popover" id="time-required-years" data-popover-content="#years" onclick="$(this).popover('toggle')">
+                            <i class="fas fa-pencil"></i>
+                        </a>
+                        years
+                        <div id="years" class="hide">
+                            <label for="" class="control-label">Amount of years</label>
+                            <input type="text" class="form-control" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="{{ (selectPersonalProtectionOutcome
+                                && selectPersonalProtectionOutcome.timeRequiredYears || 0) }}">
+                            <div class="margin-top-10">
+                                <button type="button" onclick="$('#time-required-years').popover('hide')" id="years-btn" class="btn-save btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-default" onclick="$('#time-required-years').popover('hide')" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Emergency spending -->
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <span class="teal-color"><strong>${{ (selectPersonalProtectionOutcome 
+                                && selectPersonalProtectionOutcome.additionalLumpSumSpending 
+                                || 0) | number: '1.0-2'}}</strong></span>
+                        <a rel="popover" id="sum-spending" data-popover-content="#emergency-spending" onclick="$(this).popover('toggle')">
+                            <i class="fas fa-pencil"></i>
+                        </a> of emergency spending
+                        <div id="emergency-spending" class="hide">
+                            <label for="" class="control-label">Emergency spending</label>
+                            <input type="text" class="form-control" id="" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" placeholder="${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.additionalLumpSumSpending 
+                                || 0) | number: '1.0-2'}}">
+                            <div class="margin-top-10">
+                                <button type="button" onclick="$('#sum-spending').popover('hide')" id="emergency-spending-btn" class="btn-save btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#sum-spending').popover('hide')">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div [hidden]="insuranceType != 2">
+                <!-- Income -->
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <span class="teal-color"><strong>{{ (selectPersonalProtectionOutcome
+                            && selectPersonalProtectionOutcome.incomeToCoverPercentage 
+                            || 0) | number:'1.0-2'}}%</strong></span>
+                        <a rel="popover" data-popover-content="#member-incomePercent" id="member-incomePercent-popover" onclick="$(this).popover('toggle')">
+                            <i class="fas fa-pencil"></i>
+                        </a> of {{ selectedMember.firstName }}'s income for replaced after
+                        <div id="member-incomePercent" class="hide">
+                            <label for="" class="control-label">% of {{ selectedMember.firstName }}'s income</label>
+                            <input onkeypress='return (event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)' type="text" class="form-control" id="textIncomePercent" placeholder="{{ (selectPersonalProtectionOutcome
+                                            && selectPersonalProtectionOutcome.incomeToCoverPercentage 
+                                            || 0) | number:'1.0-2'}}%">
+                            <div class="margin-top-10">
+                                <button type="button" class="btn btn-primary btn-save" id="member-income-2-btn" onclick="$('#member-incomePercent-popover').popover('hide')">Save changes</button>
+                                <button type="button" class="btn btn-default close-popover" data-dismiss="modal" onclick="$('#member-incomePercent-popover').popover('hide')">Close</button>
+                            </div>
+                        </div>
+                        <span class="teal-color"><strong>{{ (selectPersonalProtectionOutcome
+                                && selectPersonalProtectionOutcome.waitingPeriodMonths
+                                || 0) }}</strong></span>
+                        <a rel="popover" data-popover-content="#months" id="months-popover" onclick="$(this).popover('toggle')">
+                            <i class="fas fa-pencil"></i>
+                        </a>
+                        months
+                        <div id="months" class="hide">
+                            <label for="" class="control-label">Amount of months</label>
+                            <input onkeypress='return (event.charCode >= 48 && event.charCode <= 57)' type="text" class="form-control" id="textMonths" placeholder="{{ (selectPersonalProtectionOutcome
+                                    && selectPersonalProtectionOutcome.waitingPeriodMonths
+                                    || 0) }}">
+                            <div class="margin-top-10">
+                                <button type="button" class="btn btn-primary btn-save" id="months-btn" onclick="$('#months-popover').popover('hide')">Save changes</button>
+                                <button type="button" class="btn btn-default close-popover" data-dismiss="modal" onclick="$('#months-popover').popover('hide')">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Superannuation payments -->
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <span class="teal-color"><strong>{{ (selectPersonalProtectionOutcome
+                                    && selectPersonalProtectionOutcome.superContinuationBenefit 
+                                    || 0) | number:'1.0-2'}}%</strong></span>
+                        <a rel="popover" data-popover-content="#superannuationPayments" id="superannuationPayments-popover" onclick="$(this).popover('toggle')">
+                            <i class="fas fa-pencil"></i>
+                        </a>
+                        superannuation payments
+                        <div id="superannuationPayments" class="hide">
+                            <label for="" class="control-label">% Superannuation payments</label>
+                            <input onkeypress='return (event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)' type="text" class="form-control" id="textSuperannuationPayments" placeholder="{{ (selectPersonalProtectionOutcome
+                                    && selectPersonalProtectionOutcome.superContinuationBenefit 
+                                    || 0) | number:'1.0-2'}}%">
+                            <div class="margin-top-10">
+                                <button type="button" class="btn btn-primary btn-save" onclick="$('#superannuationPayments-popover').popover('hide')" id="superannuationPayments-btn">Save
+                                    changes</button>
+                                <button type="button" class="btn btn-default close-popover" data-dismiss="modal" onclick="$('#superannuationPayments-popover').popover('hide')">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 document-output">
+            <div [hidden]="insuranceType == 2">
+                <h3 class="finpal-h3 padding-top-20 padding-bottom-10">You can self insure</h3>
+                <p class="lead">
+                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.selfInsuranceFunds) | number: '1.0-2' }}
+                    <a rel="popover" id="self-insure-popover" data-popover-content="#self-insure" onclick="$(this).popover('toggle')">
+                        <i class="fas fa-pencil"></i>
+                    </a>
+                </p>
+                <div id="self-insure" class="hide">
+                    <label for="" class="control-label">$ of self insure</label>
+                    <input type="text" class="form-control" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" placeholder="${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.selfInsuranceFunds || 0) | number: '1.0-2' }}">
+                    <div class="margin-top-10">
+                        <button type="button" onclick="$('#self-insure-popover').popover('hide')" id="self-insure-btn" class="btn btn-primary btn-save">Save changes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#self-insure-popover').popover('hide')">Close</button>
+                    </div>
+                </div>
+                <h3 class="finpal-h3 padding-top-20 padding-bottom-10">You need</h3>
+                <p class="lead">
+                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.coverRequired) | number: '1.0-2' }}
+                    <a id="you-need-popover" rel="popover" data-popover-content="#you-need" onclick="$(this).popover('toggle')">
+                        <i class="fas fa-question-circle"></i>
+                    </a>
+                </p>
+                <div id="you-need" class="hide">
+                    <h3 class="finpal-h3 padding-bottom-10 padding-top-20">{{ popoverTitle }}</h3>
+                    <table class="table table-condensed">
+                        <tbody>
+                            <tr>
+                                <th>Clear debts</th>
+                                <td class="ng-binding">
+                                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.clearDebts || 0) | number: '1.0-2' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Replace income</th>
+                                <td class="ng-binding">
+                                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.incomeNeeds || 0) | number: '1.0-2' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Emergency spending</th>
+                                <td class="ng-binding">
+                                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.additionalLumpSumSpending || 0) | number: '1.0-2' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Total</th>
+                                <td>${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.clearDebts + selectPersonalProtectionOutcome.incomeNeeds + selectPersonalProtectionOutcome.additionalLumpSumSpending || 0) | number: '1.0-2' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h3 class="finpal-h3 padding-top-20 padding-bottom-10">You have</h3>
+                <p class="lead">
+                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.currentCover) | number: '1.0-2' }}
+                </p>
+            </div>
+            <div [hidden]="insuranceType != 2">
+                <h3 class="finpal-h3 padding-top-20 padding-bottom-10">You can self insure</h3>
+                <p class="lead">
+                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.selfInsuranceIncome) | number: '1.0-2' }}
+                    <a id="self-insure-2-popover" rel="popover" data-popover-content="#self-insure-2" onclick="$(this).popover('toggle')">
+                        <i class="fas fa-pencil"></i>
+                    </a>
+                </p>
+                <div id="self-insure-2" class="hide">
+                    <label for="" class="control-label">$ of self insure</label>
+                    <input type="text" class="form-control" id="" placeholder="${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.selfInsuranceIncome || 0) | number: '1.0-2' }}">
+                    <div class="margin-top-10">
+                        <button type="button" onclick="$('#self-insure-2-popover').popover('hide')" id="self-insure-2-btn" class="btn btn-primary btn-save">Save changes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#self-insure-2-popover').popover('hide')">Close</button>
+                    </div>
+                </div>
+                <h3 class="finpal-h3 padding-top-20 padding-bottom-10">You need</h3>
+                <p class="lead">
+                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.coverRequiredMonthly) | number: '1.0-2' }}
+                    <a rel="popover" data-popover-content="#you-need-2" onclick="$(this).popover('toggle')">
+                        <i class="fas fa-question-circle"></i>
+                    </a>
+                </p>
+                <div id="you-need-2" class="hide">
+                    <h3 class="finpal-h3 padding-bottom-10 padding-top-20">{{ popoverTitle }}</h3>
+                    <table class="table table-condensed">
+                        <tbody>
+                            <tr>
+                                <th>Current income (p/m)</th>
+                                <td class="ng-binding">
+                                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.incomeToCoverPerMonth || 0) | number: '1.0-2' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Replace income</th>
+                                <td class="ng-binding">
+                                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.coverDesired || 0) | number: '1.0-2' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Superannuation</th>
+                                <td class="ng-binding">
+                                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.incomeToCoverPerMonth * selectPersonalProtectionOutcome.superContinuationBenefit || 0) | number: '1.0-2' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Total</th>
+                                <td>${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.incomeToCoverPerMonth * selectPersonalProtectionOutcome.superContinuationBenefit + selectPersonalProtectionOutcome.coverDesired + selectPersonalProtectionOutcome.incomeToCoverPerMonth
+                                    || 0) | number: '1.0-2' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h3 class="finpal-h3 padding-top-20 padding-bottom-10">You have</h3>
+                <p class="lead">
+                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.currentCover) | number: '1.0-2' }}
+                </p>
+            </div>
+        </div>
+
+        <!-- thumps up -->
+        <ng-container *ngIf="!isMobile">
+            <div class="col-md-1 document-output padding-top-50">
+                <span *ngIf="selectPersonalProtectionOutcome && (selectPersonalProtectionOutcome.onTrack == 509000000 || selectPersonalProtectionOutcome.onTrack == 509000002)" class="fa-stack fa-3x">
+                    <i class="fas fa-circle fa-stack-2x light-blue"></i>
+                    <i class="fas fa-flag fa-stack-1x fa-thumbs-up white-color"></i>
+                </span>
+                <span *ngIf="selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.onTrack == 509000001" class="fa-stack fa-3x">
+                    <i class="fas fa-circle fa-stack-2x gray999-color"></i>
+                    <i class="fas fa-flag fa-stack-1x fa-thumbs-down white-color"></i>
+                </span>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="isMobile" class="row">
+            <div class="col-xs-12 text-center document-output">
+                <span *ngIf="!selectPersonalProtectionOutcome || selectPersonalProtectionOutcome.onTrack == 509000000 || selectPersonalProtectionOutcome.onTrack == 509000002" class="fa-stack fa-3x">
+                    <i class="fas fa-circle fa-stack-2x light-blue"></i>
+                    <i class="fas fa-flag fa-stack-1x fa-thumbs-up white-color"></i>
+                </span>
+                <span *ngIf="selectPersonalProtectionOutcome.onTrack == 509000001" class="fa-stack fa-3x">
+                    <i class="fas fa-circle fa-stack-2x gray999-color"></i>
+                    <i class="fas fa-flag fa-stack-1x fa-thumbs-down white-color"></i>
+                </span>
+            </div>
+        </ng-container>
+
+    </div>
+</div>

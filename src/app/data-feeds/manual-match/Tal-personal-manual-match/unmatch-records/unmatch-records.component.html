@@ -1,0 +1,331 @@
+<!-- UNMATCHED LIST -->
+<table class="table table-hover table-striped card-client-table table-responsive">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                Number
+            </th>
+            <th>
+                Primary client
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Issue date
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let record of unMatchRecords">
+            <td>
+                <input type="checkbox" value="" [checked]="record.isSelected" (change)="onRecordSelect(record)">
+            </td>
+            <td>{{record.information.policyNumber}}</td>
+            <td>{{(record.information.policyOwner.lastName !== undefined &&
+                record.information.policyOwner.firstName !==
+                undefined) ? (record.information.policyOwner.lastName + ", " +
+                record.information.policyOwner.firstName)
+                : "N/A"}}</td>
+            <td>{{record.information.policyType}}</td>
+            <td>{{record.information.policyStatus}}</td>
+            <td>{{record.information.issueDate | date:'dd/MM/yyyy'}}</td>
+            <td>
+                <span data-toggle="modal" data-target="#match-modal">
+                    <button type="button" class="btn btn-gray btn-xs pull-right" [tooltip]="match"
+                        tooltipPlacement="top" tooltipPlacement="top" (click)="btnMatchingClick(record)">
+                        <i class="fas fa-wrench"></i>
+                    </button>
+                    <tooltip-content #match>
+                        <span style="width: 50px; display: inline-block;">Manual match</span>
+                    </tooltip-content>
+                </span>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+<button *ngIf="!isSelectAll" type="button" class="btn btn-default" (click)="onRecordSelectAll(true)">Select all</button>
+<button *ngIf="isSelectAll" type="button" class="btn btn-default" (click)="onRecordSelectAll(false)">Deselect</button>
+<button *ngIf="isSelectAll" type="button" class="btn btn-default" (click)="btnDeleteClick()">Delete selected</button>
+<button *ngIf="!isSelectAll" type="button" class="btn btn-default" style="cursor:not-allowed">Delete selected</button>
+
+<!-- MANUAL MATCH MODAL -->
+<div class="modal fade" id="match-modal" (blur)="closeModel()" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" (click)="closeModel()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h1 class="modal-title finpal-h2" id="MatchModalLabel">Match entity</h1>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="unmatch-group" class="input-group">
+                            <input id="tags" class="form-control" type="text" placeholder="Personal insurance">
+                            <div *ngIf="isSearching" class="input-group-addon btn-search">
+                                <i class="fas fa-spinner fa-spin fa-lg"></i>
+                            </div>
+                            <div *ngIf="!isSearching" class="input-group-addon btn-search">
+                                <i class="fas fa-search fa-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 padding-top-30">
+                        <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                            <li id="Policy" class="active">
+                                <a data-toggle="pill" href="#policy">Policy</a>
+                            </li>
+                            <li id="Benefits">
+                                <a *ngIf="!isSearching" data-toggle="pill" href="#benefits">Benefits</a>
+                                <a *ngIf="isSearching" disabled class="wait">Benefits</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+
+                            <!-- Policy -->
+                            <div id="policy" class="tab-pane fade in active">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-right" width="33%"></th>
+                                                <th>
+                                                    <h3 class="finpal-h3">Provider</h3>
+                                                </th>
+                                                <th>
+                                                    <h3 class="finpal-h3">CRM</h3>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-right" width="33%">Policy number</th>
+                                                <td>{{informationOfSelectedEntity.policyNumber ?
+                                                    informationOfSelectedEntity.policyNumber
+                                                    : "-"}}</td>
+                                                <td>{{compareInsuranceFromCRM.policyNumber ?
+                                                    compareInsuranceFromCRM.policyNumber
+                                                    : "-"}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-right" width="33%">Primary client</th>
+                                                <td>{{informationOfSelectedEntity.policyOwner ?
+                                                    informationOfSelectedEntity.policyOwner.lastName
+                                                    + ", " + informationOfSelectedEntity.policyOwner.firstName : "-"}}
+                                                </td>
+                                                <td>{{compareInsuranceFromCRM.policyOwner ?
+                                                    compareInsuranceFromCRM.policyOwner.lastName
+                                                    + ", " + compareInsuranceFromCRM.policyOwner.firstName: "-"}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-right" width="33%">Policy type</th>
+                                                <td>{{informationOfSelectedEntity.policyType ?
+                                                    informationOfSelectedEntity.policyType
+                                                    : "-"}}</td>
+                                                <td>{{compareInsuranceFromCRM.policyType ?
+                                                    compareInsuranceFromCRM.policyType
+                                                    : "-"}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-right" width="33%">Policy status</th>
+                                                <td>{{informationOfSelectedEntity.policyStatus ?
+                                                    informationOfSelectedEntity.policyStatus
+                                                    : "-"}}</td>
+                                                <td>{{compareInsuranceFromCRM.policyStatus ?
+                                                    compareInsuranceFromCRM.policyStatus
+                                                    : "-"}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-right" width="33%">Issue date</th>
+                                                <td>{{informationOfSelectedEntity.issueDate ?
+                                                    (informationOfSelectedEntity.issueDate
+                                                    | date:'dd/MM/yyyy') : "-"}}
+                                                </td>
+                                                <td>{{compareInsuranceFromCRM.issueDate ?
+                                                    (compareInsuranceFromCRM.issueDate
+                                                    | date:'dd/MM/yyyy') : "-"}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Benefits -->
+                            <div id="benefits" class="tab-pane fade">
+
+                                <!-- TAL benefits -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 class="finpal-h3">Provider</h3>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Life insured</th>
+                                                        <th>Benefit amount</th>
+                                                        <th>Benefit type</th>
+                                                        <th>Premium type</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of benefitsOfSelectedEntity">
+                                                        <td>{{(item.lifeInsured.firstName != undefined &&
+                                                            item.lifeInsured.lastName
+                                                            != undefined) ? (item.lifeInsured.lastName + ", " +
+                                                            item.lifeInsured.firstName)
+                                                            : "-" }}
+                                                        </td>
+                                                        <td>{{item.benefit}}</td>
+                                                        <td>{{item.benefitType}}</td>
+                                                        <td>{{getPremiumType(item.premiumType)}}</td>
+                                                        <td *ngIf="item.matches">
+                                                            <button type="button" (click)="btnCheckClick(item)"
+                                                                [attr.disabled]="checkDisable(item)"
+                                                                class="btn btn-default btn-sm" tooltipPlacement="top"
+                                                                [tooltip]="getToolTipLabel(item)"
+                                                                [tooltipDisabled]="false" [tooltipAnimation]="true">
+                                                                <i class="fas fa-check fa-lg"></i>
+                                                            </button>
+                                                        </td>
+                                                        <td *ngIf="!item.matches">
+                                                            <button type="button" (click)="btnIClick(item)"
+                                                                [attr.disabled]="checkDisable(item)"
+                                                                class=" btn btn-default btn-sm" tooltipPlacement="top"
+                                                                [tooltip]="getToolTipLabel(item)"
+                                                                [tooltipDisabled]="false" [tooltipAnimation]="true">
+                                                                <i class="fas fa-arrows-h fa-lg "></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- CRM benefits -->
+                                <div class="row ">
+                                    <div class="col-md-12 ">
+                                        <span class="finpal-h3 margin-right-5">CRM</span>
+                                        <a *ngIf="benefitsOfCompareInsurance && benefitsOfCompareInsurance.length > 0  && !isSearching"
+                                            class="btn-refresh" (click)="btnRefreshClick()" tooltipPlacement="top"
+                                            tooltip="Refresh" [tooltipDisabled]="false" [tooltipAnimation]="true">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </a>
+                                        <a *ngIf="benefitsOfCompareInsurance && benefitsOfCompareInsurance.length > 0  && isSearching"
+                                            class="btn-refresh" (click)="btnRefreshClick()" tooltipPlacement="top"
+                                            tooltip="Refresh" [tooltipDisabled]="false" [tooltipAnimation]="true">
+                                            <i class="fas fa-sync-alt fa-spin"></i>
+                                        </a>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Life insured</th>
+                                                    <th>Benefit amount</th>
+                                                    <th>Benefit type</th>
+                                                    <th>Premium type</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of benefitsOfCompareInsurance">
+                                                    <td>
+                                                        {{(item.lifeInsured.firstName != undefined &&
+                                                        item.lifeInsured.lastName != undefined) ?
+                                                        (item.lifeInsured.lastName + ", "
+                                                        + item.lifeInsured.firstName) : "-" }}
+                                                    </td>
+                                                    <td>{{item.benefit}}</td>
+                                                    <td>{{item.benefitType}}</td>
+                                                    <td>{{item.premiumType}}</td>
+                                                    <td>
+                                                        <div *ngIf="isManualMatch">
+                                                            <button *ngIf="!item.matches" (click)="btnMapClick(item)"
+                                                                type="button" class="btn btn-default btn-sm"
+                                                                tooltipPlacement="top" tooltip="Map"
+                                                                [tooltipDisabled]="false" [tooltipAnimation]="true">
+                                                                <i class="fas fa-link fa-lg"></i>
+                                                            </button>
+                                                        </div>
+
+                                                        <div *ngIf="isUnlink">
+                                                            <button
+                                                                *ngIf="item.matches && item.id == selectedCRMUnlink.crmId"
+                                                                (click)="btnUnlinkClick(item)" type="button"
+                                                                class="btn btn-default btn-sm" tooltipPlacement="top"
+                                                                tooltip="Unlink" [tooltipDisabled]="false"
+                                                                [tooltipAnimation]="true">
+                                                                <i class="fas fa-unlink fa-lg"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="isValidtoSave" type="button" class="btn btn-info" (click)="btnSaveClick()">Save</button>
+                <button *ngIf="!isValidtoSave" type="button" class="btn btn-info" disabled="disabled">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DELETE WARNING -->
+<div class="modal fade" id="deleteUnMatch" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="warning-title" id="MatchModalLabel">Warning!</h4>
+                <p>Do you want to delete?</p>
+                <button class="btn btn-info" (click)="btnOKClick()" data-dismiss="modal">Yes</button>
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DUPLICATED WARNING -->
+<div class="modal fade" id="tal-unmatch-warning" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h1 class="modal-title finpal-h2 padding-bottom-10" id="MatchModalLabel">
+                    <i class="fas fa-exclamation-triangle fa-xs"></i> Warning</h1>
+
+                <p class="padding-bottom-10">The selected insurance policy is already matched with another record.
+                    <br />Do you want to overwrite it?</p>
+
+                <button class="btn btn-info" (click)="btnYesClick(1)" data-dismiss="modal">Yes</button>
+                <button class="btn btn-default" (click)="btnYesClick(2)" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

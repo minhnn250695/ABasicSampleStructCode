@@ -1,0 +1,137 @@
+<div class="table-responsive">
+  <table class="table table-hover table-striped card-client-table table-responsive">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th>
+          Primary Client
+        </th>
+        <th>
+          Product Provider
+        </th>
+        <th>
+          Account #
+        </th>
+        <th>
+          Type
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of matchList">
+        <td><input type="checkbox" value="" [disabled]="record.inImportProgress" [checked]="record.isSelected"
+            (change)="onRecordSelect(record)"></td>
+        <td>
+          <div *ngIf="record.inImportProgress">
+            <i class="fas fa-clock fa-lg medium-gray margin-right-10"></i> Pending
+          </div>
+        </td>
+        <td>{{getClientName(record.platformData)}}</td>
+        <td>Desktop Broker</td>
+        <td>{{record.platformData.accountData.accountID}}</td>
+        <td>Asset</td>
+        <td>
+          <span data-toggle="modal" data-target="#ca-matched-modal">
+            <button type="button" class="btn btn-gray btn-xs pull-right" [disabled]="record.inImportProgress"
+              [tooltip]="edit" tooltipPlacement="top" (click)="btnMatchingClick(record)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <tooltip-content #edit>
+              <span style="width: 50px; display: inline-block;">Edit record</span>
+            </tooltip-content>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <button [ngStyle]="{'cursor': isSelectAll ? '' : 'not-allowed'}" type="button" class="btn btn-info pull-right"
+      (click)="btnImportClick()">Import selected to CRM</button>
+    <button *ngIf="isSelectAll" type="button" class="btn btn-default pull-right margin-right-5"
+      (click)="onRecordSelectAll(false)">Deselect</button>
+    <button *ngIf="!isSelectAll" type="button" class="btn btn-default pull-right margin-right-5"
+      (click)="onRecordSelectAll(true)">Select
+      all</button>
+  </div>
+</div>
+
+<div class="modal fade" id="ca-matched-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h1 class="modal-title finpal-h2" id="MatchModalLabel">Match entity</h1>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table *ngIf="selectedRecord" class="table table-striped revenue-management-table">
+              <tbody>
+                <tr>
+                  <th class="text-right" width="33%">Account Number</th>
+                  <td>{{selectedRecord.accountData && selectedRecord.accountData.accountID ?
+                                      selectedRecord.accountData.accountID : "N/A" }}</td>
+                </tr>
+                <tr>
+                  <th class="text-right">Account Name</th>
+                  <td>
+                    <div id="search-group" class="input-group" style="width:100%;">
+                      <input id="search-names" class="form-control txtSearch" type="text"
+                        [placeholder]="getPlaceHolder()" [disabled]="isDisableSearchBox" (keyup)="txtSearchChanged()">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="text-right">Client Name</th>
+                  <td>{{getClientName(selectedRecord)}}</td>
+                </tr>
+                <tr>
+                  <th class="text-right">Type</th>
+                  <td>Asset</td>
+                </tr>
+                <tr>
+                  <th class="text-right">Product Provider</th>
+                  <td>{{ selectedRecord.providerName ? selectedRecord.providerName : "N/A" }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button [disabled]="!isSelectAccountName" type="button" class="btn btn-info"
+          (click)="btnSaveClick()">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="overwrite-match-warning" tabindex="-1" role="dialog" aria-labelledby="WarningModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h1 class="modal-title finpal-h2" id="WarningModalLabel">Warning</h1>
+      </div>
+
+      <div class="modal-body">
+        <p>The selected client asset is already matched with another record.</p>
+        <p>Do you want to overwrite it? </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-info" (click)="btnYesClick(1)" data-dismiss="modal">Yes</button>
+        <button class="btn btn-default" (click)="btnYesClick(2)" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>

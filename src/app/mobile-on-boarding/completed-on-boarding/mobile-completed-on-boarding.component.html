@@ -1,0 +1,49 @@
+<div class="progress-menu-container">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="steps-form-2">
+          <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+            <div class="steps-step-2">
+              <a href="#/mobile-on-boarding/personal-information" type="button" class="btn btn-completed-step btn-circle-2"
+                data-toggle="tooltip" data-placement="top" title="Personal info"><i class="fas fa-user fa-lg"
+                  aria-hidden="true"></i></a>
+            </div>
+            <div class="steps-step-2">
+              <a href="#/mobile-on-boarding/family-member" type="button" class="btn btn-completed-step btn-circle-2"
+                data-toggle="tooltip" data-placement="top" title="Family members"><i class="fas fa-users fa-lg"
+                  aria-hidden="true"></i></a>
+            </div>
+            <div class="steps-step-2">
+              <a href="#/mobile-on-boarding/financial-situation" type="button" class="btn btn-completed-step btn-circle-2"
+                data-toggle="tooltip" data-placement="top" title="Financial situation"><i class="fas fa-money-bill-alt fa-lg"
+                  aria-hidden="true"></i></a>
+            </div>
+            <div class="steps-step-2">
+              <a href="#/mobile-on-boarding/your-goal" type="button" class="btn btn-completed-step btn-circle-2"
+                data-toggle="tooltip" data-placement="top" title="Your goals"><i class="fas fa-flag-checkered fa-lg"
+                  aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>
+<div *ngIf="!onLoadComponent; then component else waiting"></div>
+<ng-template #component>
+  <div class="container padding-top-30 padding-bottom-30">
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <i class="fas fa-thumbs-up fa-5x dark-blue padding-top-20" aria-hidden="true"></i>
+        <h2 class="finpal-h3 padding-bottom-10 padding-top-20">Good job!</h2>
+        <p>To see our initial analysis, click on the button below. Otherwise you can log back in any time.</p>
+        <a href="#/client-view" (click)="updateFactFindStatus()" class="btn btn-primary">Let's go!</a>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #waiting>
+  <app-mobile-waiting></app-mobile-waiting>
+</ng-template>

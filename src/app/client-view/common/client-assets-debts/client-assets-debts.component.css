@@ -1,0 +1,96 @@
+.finpal-h3 {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.finpal-h4 {
+    margin-bottom: 10px;
+}
+
+.m-dark-gray {
+    color: #505050 !important;
+}
+
+.btn-info {
+    height: 40px;
+    width: 100%;
+    padding: 9px 12px;
+}
+
+
+/* ==========================================
+                THUMB FLAG
+=============================================*/
+
+.thumb-flag {
+    height: 40px;
+    width: 40px;
+    margin-right: 24px;
+    text-align: center;
+    display: table;
+}
+
+.thumb-icon {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 22px;
+}
+
+
+/* ==========================================
+                    CARD
+=============================================*/
+
+.card {
+    color: unset;
+}
+
+.default-cursor {
+    cursor: default;
+}
+
+.details-button a {
+    text-align: center;
+}
+
+#editDesireYear {
+    margin-left: 6px;
+}
+
+@media(max-width: 992px) {
+    .card {
+        margin-bottom: 15px;
+    }
+}
+
+.card-header-xs-2-mobile {
+    color: #fff;
+    font-size: 1.1em;
+    line-height: 1em;
+    min-height: 8px;
+    padding: 0;
+}
+
+
+/* ==========================================
+                FOR MOBILE
+=============================================*/
+
+.asset-card {
+    background-color: #f6f6f6;
+    margin: 20px 0px 30px 0px;
+}
+
+.debt-card {
+    background-color: #f6f6f6;
+    margin: 0px 0px 30px 0px;
+}
+
+.thumb-top-position {
+    position: relative;
+    top: 8px;
+}
+
+.border-top-e1-gray {
+    border-top: 2px solid #e1e1e1;
+}

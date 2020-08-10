@@ -1,0 +1,130 @@
+<p class="card-label">RETIREMENT</p> 
+ <div class="row">
+    <div class="col-xs-12 col-md-6">
+        <div class="card">
+            <div
+                class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-10 text-center card-bottom-border">
+                <h4 class="card-big-number violet-color padding-top-30">Year</h4>
+                <div class="row">
+                    <div ngClass="p{{getRetirementYearPercent()}}" class="c100 small center">
+                        <span>{{getRetirementYearPercent()}}%</span>
+                        <div class="slice">
+                            <div class="bar"></div>
+                            <div class="fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-block padding-left-20 padding-right-20">
+                <div class="row">
+                    <div class="col-xs-6 col-md-6 card-right-border padding-top-30 padding-bottom-30 text-center">
+                        Current
+                        <br />
+                        <span class="violet-color">{{currentYear ? currentYear : 'N/A'}}</span>
+                    </div>
+                    <div class="col-xs-6 col-md-6 padding-top-30 padding-bottom-30 text-center">
+                        Target
+                        <br />
+                        <span class="violet-color">{{retirmentYear ? retirmentYear : 'N/A'}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-6" [ngClass]="isMobile ? 'padding-top-20' : 'null'">
+        <div class="card">
+            <div
+                class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-10 text-center card-bottom-border">
+                <a href="" routerLink="/client-view/retirement-report" [hidden]="!isInvestfitThirdPartyEnabled">
+                    <img src="../../../../assets/img/investfit-fingerprint.png" class="pull-right" />
+                </a>
+
+                <h4 class="card-big-number pink-color padding-top-30">Income</h4>
+                <div class="row">
+                    <div ngClass="p{{getRetirementIncomePercentage() | number : '1.0-0'}}"
+                        class="c100 pink small center">
+                        <span>{{ getRetirementIncomePercentage() | number : '1.0-0'}}%</span>
+                        <div class="slice">
+                            <div class="bar"></div>
+                            <div class="fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-block padding-left-20 padding-right-20">
+                <div class="row">
+                    <div class="col-xs-6 col-md-6 card-right-border padding-top-30 padding-bottom-30 text-center">
+                        Current
+                        <br />
+                        <span class="pink-color">${{getCurrentIncome() | number : '1.2-2'}}</span>
+                        <a rel="popover" id="retirementDetailsPopover" data-popover-content="#retirement-details"
+                            onclick="$(this).popover('toggle')">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                        <!--  popover content -->
+                        <div id="retirement-details" class="hide">
+                            <h3 class="finpal-h3 padding-top-10 padding-bottom-10">Retirement</h3>
+                            <table class="table" onclick="$('#retirementDetailsPopover').popover('hide')">
+                                <tbody>
+                                    <tr>
+                                        <th>Years until retirement</th>
+                                        <td>{{ yearsUntilRetirement() }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Retirement Year</th>
+                                        <td>{{ retirmentYear }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Years in retirement</th>
+                                        <td>{{yearsInRetirement()}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Life Expectancy Year</th>
+                                        <td>{{lifeExpectencyYear()}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Retirement capital</th>
+                                        <td>${{ retirementCapital() | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{currentYear}} equivalent capital</th>
+                                        <td>${{retirementCapitalEquivalent() | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Retirement income</th>
+                                        <td>${{retirementIncome() | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{currentYear}} equivalent income</th>
+                                        <td>${{retirementIncomeEquivalent() | number : '1.2-2'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-md-6 padding-top-30 padding-bottom-30 text-center">
+                        Target
+                        <br />
+                        <span class="pink-color">${{ getRetirementIncome() | number : '1.2-2'}}</span>
+                        <a rel="popover" id="incomeTargetPopover" data-popover-content="#income-target"
+                            onclick="$(this).popover('toggle')">
+                            <i class="fas fa-pencil"></i>
+                        </a>
+                        <div id="income-target" class="hide">
+                            <label for="" class="control-label">Target</label>
+                            <input type="text" class="form-control" id="textRetirementIncome"
+                                onkeypress='return (event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)'
+                                placeholder="${{ getRetirementIncome() | number : '1.2'}}">
+                            <div class="margin-top-10">
+                                <button type="button" class="btn btn-primary save-changes">Save changes</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal"
+                                    onclick="$('#incomeTargetPopover').popover('hide')">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

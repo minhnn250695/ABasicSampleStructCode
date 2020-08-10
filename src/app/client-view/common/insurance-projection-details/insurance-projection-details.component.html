@@ -1,0 +1,58 @@
+<fp-client-view-header active="9"> </fp-client-view-header>
+<div class="container m-dark-gray padding-top-30 padding-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="breadcrumb-advice-builder">
+                <a (click)="goToPage('advice-homepage')">Advice</a>
+                <i class="far fa-sm fa-chevron-right chevron"></i>
+                <a (click)="goToPage('advice-strategy')">{{strategy && strategy != '' ? strategy : "Strategy" }}</a>
+                <i class="far fa-sm fa-chevron-right chevron"></i>
+                <a (click)="goToPage('edit-strategy')" *ngIf="strategyId && strategyId != '' && strategyId != currentStrategyId">Edit Strategy</a>
+                <i class="far fa-sm fa-chevron-right chevron" *ngIf="strategyId && strategyId != '' && strategyId != currentStrategyId"></i>
+            </div>
+            <h1 class="font-size-30 margin-top-10">Personal Insurance Projections</h1>
+            <div class="table-responsive scrollbar">
+                <table class="table table-condensed fixed-first-column-table">
+                    <div [style.display]="displayedInsurances.length == 0 ? null : 'none'">There is no insurance</div>
+                    <div [style.display]="displayedInsurances.length > 0 ? null : 'none'" *ngFor="let insurance of displayedInsurances; let i = index">
+                        <tr [style.display]="i == 0 ? 'default' : 'none'">
+                            <th class="min-width-250 max-width-250 fixed-column border-bottom-6" style="height: 31px">
+                            </th>
+                            <th *ngFor="let period of displayedPeriods" class="border-bottom-6 bold-text">{{period}}</th>
+                        </tr>
+                        <tr>
+                            <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text border-top-1">
+                                {{insurance && insurance.policyName}}
+                            </th>
+                            <td *ngFor="let insurancePeriod of insurance.personalInsurancePeriods" class="border-top-1">
+                                ${{ insurancePeriod && insurancePeriod.totalPremiums || 0 | number : '1.2-2'}}</td>
+                        </tr>
+                    </div>
+                </table>
+            </div>
+            <a class="btn btn-info pull-right margin-bottom-10 margin-top-10 margin-left-10" (click)=" exportToExcel()">
+                Export to excel
+            </a>
+            <a class="btn btn-info pull-right margin-bottom-10 margin-top-10" (click)="backClicked()">
+                <i class="fas fa-caret-left margin-right-5"></i>Back to {{strategy}}
+            </a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-condensed fixed-first-column-table" id="insurance-table" hidden>
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column border-bottom-6" style="height: 31px">
+        </th>
+        <th *ngFor="let period of displayedPeriods" class="border-bottom-6 bold-text">{{period}}</th>
+    </tr>
+    <div *ngFor="let insurance of displayedInsurances; let i = index">
+        <tr>
+            <th class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text border-top-1">
+                {{insurance && insurance.policyName}}
+            </th>
+            <td *ngFor="let insurancePeriod of insurance.personalInsurancePeriods" class="border-top-1">
+                ${{ insurancePeriod && insurancePeriod.totalPremiums || 0 | number : '1.2-2'}}</td>
+        </tr>
+    </div>
+</table>

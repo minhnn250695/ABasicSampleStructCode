@@ -1,0 +1,9 @@
+a {
+    color: #0072C6;
+}
+
+.padding-left-right-none{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+

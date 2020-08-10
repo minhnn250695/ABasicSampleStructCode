@@ -1,0 +1,135 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+  <form #registerForm="ngForm" novalidate>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="text-center">
+                <img style="height:50px" [src]="companyLogoUrl" alt="company logo" />
+              </h1>
+              <h4 class="h4 text-center padding-top-30">Set your password</h4>
+              <p>Please set the password for
+                <strong>{{email}}</strong>
+              </p>
+              <p class="small">Must be at least 8 characters long and include one uppercase letter and one numeric
+                digit.</p>
+              <div class="form-group padding-top-10">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="fas fa-key"></i>
+                  </span>
+                  <input type="password" class="form-control" id="txtNewPass" name="txtNewPass" #txtNewPass="ngModel"
+                    placeholder="New password" [(ngModel)]="newPass" required minlength="8"
+                    (ngModelChange)="onRePassChange()">
+                </div>
+
+                <div class="input-group padding-top-10">
+                  <span class="input-group-addon">
+                    <i class="fas fa-key"></i>
+                  </span>
+                  <input type="password" class="form-control" name="txtRePass" id="txtRePass" #txtRePass="ngModel"
+                    placeholder="Confirm new password" [(ngModel)]="rePass" (ngModelChange)="onRePassChange()" required
+                    compare="txtNewPass">
+                </div>
+
+                <!-- Validation Warnings -->
+                <div class="padding-top-10">
+                  <div *ngIf="txtNewPass.invalid && (txtNewPass.dirty || txtNewPass.touched)" class="text-danger">
+                    <i class="fas fa-exclamation-triangle margin-right-5"></i>
+                    Password does not meet requirements.
+                  </div>
+                  <div *ngIf="txtRePass.invalid && (txtRePass.dirty || txtRePass.touched)" class="text-danger">
+                    <div *ngIf="txtRePass.errors['compare']">
+                      <i class="fas fa-exclamation-triangle margin-right-5"></i>
+                      Passwords do not match.
+                    </div>
+                    <div *ngIf="txtRePass.errors['required']">
+                      <i class="fas fa-exclamation-triangle margin-right-5"></i>
+                      Password confirm is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button type="submit" [disabled]="registerForm.invalid" class="btn btn-info pull-right"
+                (click)="btnSetPassClick()">Set
+                password</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #mobile>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <div class="row">
+          <div class="col-xs-12">
+            <h1 class="text-center">
+              <img style="height:30px" [src]="companyLogoUrl" alt="company logo" />
+            </h1>
+            <h4 class="h4 text-center padding-top-10">Set your password</h4>
+            <p>Please set the password for
+              <strong>{{email}}</strong></p>
+            <p class="small">Must be at least 8 characters long and include one uppercase character.</p>
+            <form #registerForm="ngForm" novalidate>
+              <div class="form-group padding-top-10">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="fas fa-key"></i>
+                  </span>
+                  <input type="password" class="form-control" id="txtNewPass" name="txtNewPass" #txtNewPass="ngModel"
+                    placeholder="New password" [(ngModel)]="newPass" required minlength="8"
+                    (ngModelChange)="onRePassChange()">
+                </div>
+                <div class="input-group padding-top-10">
+                  <span class="input-group-addon">
+                    <i class="fas fa-key"></i>
+                  </span>
+                  <input type="password" class="form-control" name="txtRePass" id="txtRePass" #txtRePass="ngModel"
+                    placeholder="Confirm new password" [(ngModel)]="rePass" (ngModelChange)="onRePassChange()" required
+                    compare="txtNewPass">
+                </div>
+              </div>
+              <!-- Validation Warnings -->
+              <div class="padding-top-10">
+                <div *ngIf="txtNewPass.invalid && (txtNewPass.dirty || txtNewPass.touched)" class="text-danger">
+                  <i class="fas fa-exclamation-triangle margin-right-5"></i>
+                  Password does not meet requirements.
+                </div>
+                <div *ngIf="txtRePass.invalid && (txtRePass.dirty || txtRePass.touched)" class="text-danger">
+                  <div *ngIf="txtRePass.errors['compare']">
+                    <i class="fas fa-exclamation-triangle margin-right-5"></i>
+                    Passwords do not match.
+                  </div>
+                  <div *ngIf="txtRePass.errors['required']">
+                    <i class="fas fa-exclamation-triangle margin-right-5"></i>
+                    Password confirm is required.
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row padding-bottom-30">
+          <div class="col-xs-12">
+            <button type="submit" [disabled]="registerForm.invalid" class="btn btn-info pull-right"
+              (click)="btnSetPassClick()">Set
+              password</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<fp-spinner-loading #loadingSpinner></fp-spinner-loading>

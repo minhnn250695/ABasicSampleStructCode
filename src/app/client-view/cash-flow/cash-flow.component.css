@@ -1,0 +1,209 @@
+/* SUMMARY */
+
+.summary-icon {
+    margin-right: 15px;
+    margin-top: 5px;
+}
+
+.summary-cash-flow .finpal-h2 {
+    font-size: 25px;
+}
+
+.summary-cash-flow .fa-2x {
+    font-size: 2.5em;
+}
+
+
+/* CASHFLOW DETAILS */
+
+.cash-flow-details-item {
+    height: 562px;
+}
+
+.cash-flow-total {
+    height: 84px;
+}
+
+.cash-flow-total {
+    text-align: center;
+}
+
+.item-value {
+    text-align: right;
+    padding: 8px 0;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #E1E1E1;
+}
+
+.table>tbody>tr>td {
+    border: none;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.height-80 {
+    height: 80px;
+}
+
+.height-60 {
+    height: 60px;
+}
+
+
+/* CARD */
+
+.card {
+    color: #505050;
+    position: relative;
+}
+
+.card-header-xs-2 {
+    min-height: 6px;
+}
+
+
+/* FLAG SHAPE */
+
+.shape-wrapper {
+    top: 6px;
+    right: 35px;
+}
+
+.flag-shape.red-background::before {
+    border-top: 24px solid #E81123;
+}
+
+.flag-shape.dark-green-background::before {
+    border-top: 24px solid #009E49;
+}
+
+.wrapper {
+    position: absolute;
+    top: 6px;
+    right: 20px;
+}
+
+.triangle {
+    height: 50px;
+    width: 65px;
+    text-align: center;
+    padding-top: 13px;
+}
+
+.triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 33px solid transparent;
+    border-right: 32px solid transparent;
+}
+
+.triangle-down.dark-green {
+    border-top: 25px solid #009E49;
+}
+
+.triangle-down.red {
+    border-top: 25px solid #E81123;
+}
+
+
+/* MEDIA */
+
+@media(max-width:992px) {
+    .summary-cash-flow>.col-xs-12.col-sm-6.col-md-6 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    .cash-flow-details-item {
+        height: 730px;
+    }
+    .cash-flow-detail {
+        margin-bottom: 15px;
+    }
+    .summary-item-content {
+        width: 70%;
+    }
+}
+
+@media(min-width:992px) {
+    .summary-item#surplus {
+        float: right !important;
+    }
+    .summary-item#weekly-surplus {
+        float: left !important;
+    }
+}
+
+
+/**************************************
+                MOBILE
+**************************************/
+
+.cashflow-mobile {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.cashflow-mobile .card {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 20px 15px;
+    margin-bottom: 25px;
+}
+
+.cashflow-mobile p {
+    margin: 0;
+}
+
+.cashflow-mobile .cashflow-overview .overview-icon {
+    padding-right: 0;
+}
+
+.cashflow-mobile .cashflow-overview .overview-text {
+    padding-left: 10px;
+}
+
+.cashflow-mobile .card.last-item {
+    margin-bottom: 60px;
+}
+
+.cashflow-mobile .cashflow-income-expense .income-expense-overview-icon {
+    padding-right: 0;
+    padding-top: 5px;
+    text-align: center;
+}
+
+.cashflow-mobile .cashflow-income-expense .income-expense-overview-text {
+    padding-left: 5px;
+}
+
+.cashflow-mobile .cashflow-income-expense .income-expense-overview-expand {
+    text-align: right;
+}
+
+.cashflow-mobile .cashflow-income-expense .card h3 {
+    padding-bottom: 5px;
+}
+
+.cashflow-mobile .cashflow-income-expense .card svg {
+    transition: all .5s linear;
+}
+
+.cashflow-mobile .cashflow-income-expense .card .opened svg {
+    transform: rotate(180deg);
+}
+
+.cashflow-mobile .cashflow-income-expense .card .cashflow-details {
+    display: none;
+    opacity: 0;
+    transition: visibility 0s linear 0.33s, opacity 0.33s linear;
+}
+
+.cashflow-mobile .cashflow-income-expense .card .cashflow-details.opened {
+    display: unset;
+    opacity: 1;
+    transition-delay: 0s;
+}

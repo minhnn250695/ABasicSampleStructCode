@@ -1,0 +1,67 @@
+<div class="x-dark-blue-background">
+    <div class="container">
+        <div class="row padding-top-40">
+            <div class="col-md-12">
+                <div class="breadcrumb-advice-builder back-to-advice">
+                    <a (click)="goToPage('advice-homepage')">Advice</a>
+                    <i class="far fa-sm fa-chevron-right chevron"></i>
+                    <a (click)="goToPage('advice-strategy')">{{scenario.scenarioName && scenario.scenarioName !== "" ? scenario.scenarioName : "N/A"}}</a>
+                    <i class="far fa-sm fa-chevron-right chevron"></i>
+                </div>
+                <h1 class="font-size-30 margin-top-15 white pull-left">
+                    Edit {{scenario.scenarioName && scenario.scenarioName !== "" ? scenario.scenarioName : "N/A"}}</h1>
+                <a type="button" class="btn btn-info-inverse btn-circle dark-blue object-shadow margin-top-15 margin-left-10" rel="popover" data-popover-content="#licence-name" onclick="$(this).popover('toggle')"><i
+                        class="fas fa-pencil"></i></a>
+                <div id="licence-name" class="hide">
+                    <label for="email" class="control-label">Strategy name</label>
+                    <input type="text" class="form-control" id="strategyName" [placeholder]="scenario.scenarioName">
+                    <div class="margin-top-5">
+                        <button type="button" class="btn btn-primary save-changes-popover strategy-name">Save
+                            changes</button>
+                        <button type="button" class="btn btn-default close-popover">Cancel</button>
+                    </div>
+                </div>
+                <a class="btn btn-info-inverse object-shadow pull-right margin-top-10 margin-bottom-10 white-color x-dark-blue-background font-size-16" id="delete-strategy" (click)="confirmDeleteStrategy()"><i class="fa fa-1x fa-trash "></i> Delete
+                    strategy</a>
+            </div>
+        </div>
+        <div class="row padding-top-10 padding-bottom-20 m-dark-gray" id="member-profile">
+            <div class="col-md-6" *ngFor="let member of scenario.familyMembers; let i = index">
+                <div class="card">
+                    <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                <img [src]="imgUrl(member && member.profileImageUrl)" class="img-circle" width="74" height="74" alt="" />
+                                <h4 class="finpal-h4 m-dark-gray">
+                                    {{member.firstName}}</h4>
+                                <p class="m-dark-gray">{{member.age ? member.age : 'N/A'}} years</p>
+                            </div>
+                            <div class="col-md-4 margin-top-30">
+                                <p class="margin-bottom-5"><strong>Retirement age</strong></p>
+                                <div class="row">
+                                    <div class="col-md-5 padding-right-5">
+                                        <input type="text" maxlength="4" class="form-control" name="retirement-age" oninput="this.value=this.value.replace(/[^0-9]/g,'')" [(ngModel)]="member.retirementAge">
+                                    </div>
+                                    <div class="col-md-7 padding-left-0">
+                                        <button type="submit" class="btn btn-info font-size-16" id="btn-save-retirement-age" (click)="editScenario(i)">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <p>Retirement year<br><strong>{{member.retirementYear}}</strong>
+                                </p>
+                                <p>Life expectancy<br><strong>{{scenario.lifeExpectancy}} years</strong>
+                                </p>
+                                <p>Strategy Duration<br><strong>{{scenario.numberOfYears}}</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alert change to Edit mode -->
+<fp-basic-modal #alertModal title="Delete strategy" [body]="getAlertMessage()" actionString="Delete" (action)="deleteStrategy()" buttonStyle="btn-info"></fp-basic-modal>

@@ -1,0 +1,79 @@
+<div class="card">
+    <div class="card-header-xs teal-background padding-left-20 padding-right-20">
+        <span class="finpal-h4 white-color">Personal protection</span>
+    </div>
+    <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-10">
+        <div class="row">
+            <div class="col-md-4 padding-top-5">
+                <fp-cirle-img [img]="memberImgUrl()" [name]="getClientFullName()"></fp-cirle-img>
+            </div>
+            <div class="col-md-8">
+                <h4 class="teal-color">{{getClientFullName()}}</h4>
+                <i [ngClass]="contact.gender==1 ? 'fa fa-male' : 'fas fa-female'"></i>
+                {{contact.age}} years
+            </div>
+        </div>
+    </div>
+    <div class="card-block padding-left-20 padding-right-20 padding-bottom-10">
+        <div class="row">
+            <div class="col-md-3 padding-top-10 text-center">
+                <a data-toggle="tooltip" data-placement="top" title="Life insurance" onclick=""><i
+                        class="fa fa-heart"></i></a>
+            </div>
+            <div class="col-md-9 padding-top-10">
+                <a>
+                    ${{lifeInsuranceTotal() | number : '1.2-2'}}
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 padding-top-10 text-center">
+                <a data-toggle="tooltip" data-placement="top" title="Permanent disability" onclick=""><i
+                        class="fa fa-wheelchair"></i></a>
+            </div>
+            <div class="col-md-9 padding-top-10">
+                <a>
+                    ${{tpdInsuranceTotal() | number : '1.2-2'}}
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 padding-top-10 text-center">
+                <a data-toggle="tooltip" data-placement="top" title="Trauma insurance" onclick=""><i
+                        class="fa fa-ambulance"></i></a>
+            </div>
+            <div class="col-md-9 padding-top-10">
+                <a>
+                    ${{traumaInsuranceTotal() | number : '1.2-2'}}
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 padding-top-10 text-center">
+                <a data-toggle="tooltip" data-placement="top" title="Temporary Disability" onclick=""><i
+                        class="fa fa-money-bill"></i></a>
+            </div>
+            <div class="col-md-9 padding-top-10">
+                <a>
+                    ${{incomeProtectionTotal() | number : '1.2-2'}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-10">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <span *ngIf="contact.onTrack == 509000000 || contact.onTrack == 509000002" class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x teal-color"></i>
+                    <i class="fa fa-flag fa-stack-1x white-color fa-thumbs-up"></i>
+                </span>
+                <span *ngIf="contact.onTrack == 509000001" class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x teal-color"></i>
+                    <i class="fa fa-flag fa-stack-1x white-color fa-thumbs-down"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+    </div>
+</div>

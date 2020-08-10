@@ -1,0 +1,44 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+
+
+<!-- <fp-match-dialog #matchDialog *ngIf="showDialog" [entity]="selectedEntity" (keyPress)="onEscapePress($event)"
+    (onDialogResult)="onManualDialogResult($event)" (onDialogCancel)="onDialogCancel($event)"> </fp-match-dialog> -->
+
+<div class="breadcrumb-bar-revenue padding-top-40 padding-bottom-20">
+    <div class="container">
+        <a routerLink="/revenue/upload">
+            <i class="fas fa-home fa-lg margin-right-5"></i>
+        </a>
+        <i class="fas fa-angle-right margin-right-5"></i> Import revenues
+    </div>
+</div>
+
+<div class="container padding-top-40 padding-bottom-50">
+    <h1 class="finpal-h1">Match revenue data</h1>
+    <p>Automatic matching process has completed. The following items need your attention.</p>
+
+    <div>
+        <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+            <li [ngClass]="activeMatchedTab ? 'active' : '' " (click)="tabClick()">
+                <a data-toggle="pill" href="#matched">Matched records ({{matchedRevenueDataList ?
+                    matchedRevenueDataList.length : 0}})</a>
+            </li>
+            <li [ngClass]="!activeMatchedTab ? 'active' : '' " (click)="tabClick()">
+                <a data-toggle="pill" href="#unmatched">Unmatched records ({{unmatchedRevenueDataList ?
+                    unmatchedRevenueDataList.length : 0}})</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="matched" class="tab-pane" [ngClass]="{'active' : activeMatchedTab == true, 'fade' : activeMatchedTab == false}">
+                <match-revenue-data [matchedList]="matchedRevenueDataList" (reloadData)="reloadMatchedData($event)" (runLoading)="openLoading($event)"></match-revenue-data>
+            </div>
+            <div id="unmatched" class="tab-pane " [ngClass]="{'active' : activeMatchedTab == false, 'fade' : activeMatchedTab == true}">
+                <unmatch-revenue-data [unMatchList]="unmatchedRevenueDataList" (reloadData)="reloadUnmatchedData($event)" (runLoading)="openLoading($event)"></unmatch-revenue-data>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

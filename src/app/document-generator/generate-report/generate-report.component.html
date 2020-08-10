@@ -1,0 +1,160 @@
+﻿<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <div class="breadcrumb-bar-document padding-top-50 padding-bottom-10">
+        <div class="container">
+            <a routerLink="/landing">
+                <i class="fas fa-home fa-lg margin-right-5"></i>
+            </a>
+            <i class="fas fa-angle-right margin-right-5"></i>
+            <span class="active-breadcrumb">Document generator</span>
+        </div>
+    </div>
+    <div class="row sub-menu">
+        <div class="container">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-default pull-right" (click)="reportManager()">
+                    <i class="fas fa-folder-open margin-right-5"></i> Saved reports</button>
+                <button type="button" class="btn btn-default pull-right margin-right-5" (click)="templateManager()">
+                    <i class="fas fa-list-alt margin-right-5"></i> Template manager</button>
+            </div>
+        </div>
+    </div>
+    <div class="container padding-top-40 padding-bottom-50">
+        <div class="col-md-12">
+            <h1 class="finpal-h1">Generate a new report</h1>
+            <div class="row padding-top-20">
+                <div class="col-md-5">
+                    <div class="row padding-bottom-10">
+                        <div class="col-md-6">
+                            <h3 class="finpal-h3 padding-top-10 dark-blue">Select a template</h3>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <search-box placeholder="Template search" (searchClick)="filterTemplates($event)">
+                                </search-box>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-v-scroll">
+                                <table class="table table-striped card-client-table">
+                                    <tr *ngFor="let template of templates">
+                                        <td>
+                                            <i class="fas fa-caret-right fa-lg light-orange margin-right-10"></i>
+                                            <a (click)="selectTemplate(template)">{{template.name}}</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="row padding-bottom-10">
+                        <div class="col-md-6">
+                            <h3 class="finpal-h3 padding-top-10 dark-blue">Select a client</h3>
+                        </div>
+                        <div class="col-md-6">
+                            <drop-down-search-box placeHolder="Client search" [source]="clientPairs" (onSelect)="onDropBoxItemClick($event)" iconSize="fa-lg" iconColor="m-dark-gray">
+                            </drop-down-search-box>
+                            <!-- <search-box placeholder="Client search" (searchClick)="filterClients($event)"></search-box> -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-v-scroll">
+                                <table class="table table-striped card-client-table">
+                                    <tr *ngFor="let client of recentClients">
+                                        <td>
+                                            <i class="fas fa-caret-right fa-lg light-orange margin-right-10"></i>
+                                            <a (click)="selectClient(client)">{{client.name}}</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 document-output">
+                    <h3 class="finpal-h3 padding-top-10 padding-bottom-10 dark-blue">Output</h3>
+                    <p>Selected template</p>
+                    <p class="lead">{{selectedTemplateName}}</p>
+                    <p>Selected client</p>
+                    <p class="lead">{{selectedClientName}}</p>
+                    <fp-loading *ngIf="generatingReport" class="loading" title="Generating report..."></fp-loading>
+                    <p *ngIf="failed" class="small"><i class="fas fa-exclamation-circle red"></i> The report could not be generated.</p>
+                    <button type="button" class="btn btn-info btn-lg" [disabled]="isGenerationDisabled()" (click)="generate()">Generate report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #mobile>
+    <div class="breadcrumb-bar-document padding-top-50 margin-top-10 padding-bottom-10">
+        <div class="container">
+            <a href="#">
+                <i class="fas fa-angle-left margin-right-5"></i> Home</a>
+        </div>
+    </div>
+    <div class="container padding-bottom-30">
+
+        <h1 class="finpal-h2">Generate a new report</h1>
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="finpal-h3 padding-top-10 padding-bottom-10">Select a template</h3>
+                <div class="input-group">
+                    <search-box placeholder="Template search" (searchClick)="filterTemplates($event)"></search-box>
+                </div>
+                <div class="table-v-scroll margin-top-10">
+                    <table class="table table-striped card-client-table">
+                        <tr *ngFor="let template of templates">
+                            <td>
+                                <i class="fas fa-caret-right fa-lg light-orange margin-right-10"></i>
+                                <a (click)="selectTemplate(template)">{{template.name}}</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="finpal-h3 padding-top-30 padding-bottom-10">Select a client</h3>
+                <div class="input-group">
+                    <drop-down-search-box placeHolder="Client search" [source]="clientPairs" (onSelect)="onDropBoxItemClick($event)" iconSize="fa-lg" iconColor="m-dark-gray"> </drop-down-search-box>
+                </div>
+                <div class="table-v-scroll margin-top-10">
+                    <table class="table table-striped card-client-table">
+                        <tr *ngFor="let client of recentClients">
+                            <td>
+                                <i class="fas fa-caret-right fa-lg light-orange margin-right-10"></i>
+                                <a (click)="selectClient(client)">{{client.name}}</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row padding-top-30">
+            <div class="col-xs-12 document-output">
+                <h3 class="finpal-h3 padding-top-10 padding-bottom-10">Output</h3>
+                <p>Selected template
+                    <span class="orange">{{selectedTemplateName}}</span>
+                </p>
+                <p>Selected client
+                    <span class="orange">{{selectedClientName}}</span>
+                </p>
+                <span class="pull-right">
+                    <!-- <button type="button" class="btn btn-info" onclick="window.location.href=''">Generate report</button> -->
+                    <fp-loading *ngIf="generatingReport" class="loading" title="Generating report..."></fp-loading>
+                    <button type="button" class="btn btn-info" [disabled]="isGenerationDisabled()"
+                        (click)="generate()">Generate report</button>
+                </span>
+            </div>
+        </div>
+
+    </div>
+</ng-template>

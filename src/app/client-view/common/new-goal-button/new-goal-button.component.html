@@ -1,0 +1,78 @@
+<!-- <a id="addGoalButton" href="#collapGoalMenu" class="btn btn-primary btn-lg" data-toggle="collapse" data-parent="#mainmenu" (click)="onClickAddGoalButton()">
+    <i class="fas fa-bullseye-arrow"></i> Add new goal
+</a> -->
+<a type="button" id="addGoalButton" href="#collapGoalMenu" class="btn btn-info-inverse btn-lg object-shadow" data-toggle="collapse" data-parent="#mainmenu" (click)="onClickAddGoalButton()">
+    <i class="fas fa-bullseye-arrow fa-lg"></i> Add new goal
+</a>
+<div class="collapse pos-absolute well menu-width" id="collapGoalMenu">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="goal-search-group" class="input-groups">
+                <input id="search-goal" class="form-control" name="search-text" placeholder="Search">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 padding-top-10">
+            <div class="border-bottom-4">
+                <a class="sub-item" data-toggle="collapse" href="#lifestyle-family" data-parent="#lifestyle-family" (click)="hideAnotherGoalSubcategory('lifestyle-family')">
+                    <strong>Lifestyle/family</strong><i class="fas fa-angle-down pull-right dark-blue"></i>
+                </a>
+                <div class="collapse" id="lifestyle-family">
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.HouseRenovation, GoalTypeEnum.spending, GoalCategoryTypeEnum.Lifestyle)"><i class="fas fa-paint-brush dark-blue"></i> House renovation</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.ChildrenEducation, GoalTypeEnum.spending, GoalCategoryTypeEnum.Lifestyle)"><i class="fas fa-university dark-blue"></i> Children's education</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.NewChild, GoalTypeEnum.spending, GoalCategoryTypeEnum.Lifestyle)"><i class="fas fa-child dark-blue"></i> A new child</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.SaveForHome, GoalTypeEnum.spending, GoalCategoryTypeEnum.Lifestyle)"><i class="fas fa-home dark-blue"></i> Save for a home</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.SaveForHoliday, GoalTypeEnum.spending, GoalCategoryTypeEnum.Lifestyle)"><i class="fas fa-plane dark-blue"></i> Save for a holiday</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.SaveForACar, GoalTypeEnum.spending, GoalCategoryTypeEnum.Lifestyle)"><i class="fas fa-car dark-blue"></i> Save for a car</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.Other, GoalTypeEnum.spending, GoalCategoryTypeEnum.Lifestyle)"><i class="fas fa-ellipsis-h dark-blue"></i> Other</a>
+                </div>
+            </div>
+            <div class="border-bottom-4">
+                <a class="sub-item" data-toggle="collapse" href="#employment" data-parent="#employment" (click)="hideAnotherGoalSubcategory('employment')">
+                    <strong>Employment</strong><i class="fas fa-angle-down pull-right dark-blue"></i>
+                </a>
+                <div class="collapse" id="employment">
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.IncreaseIncome, GoalTypeEnum.income, GoalCategoryTypeEnum.Employment)"><i class="fas fa-arrow-up dark-blue"></i> Increase in income</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.DecreaseIncome, GoalTypeEnum.income, GoalCategoryTypeEnum.Employment)"><i class="fas fa-arrow-down dark-blue"></i> Decrease in income</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.CareerChange, GoalTypeEnum.income, GoalCategoryTypeEnum.Employment)"><i class="fas fa-map-signs dark-blue"></i> Career change</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.ExtendedLeave, GoalTypeEnum.income, GoalCategoryTypeEnum.Employment)"><i class="fas fa-rocket dark-blue"></i> Extended leave</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.ReceiveInheritance, GoalTypeEnum.income, GoalCategoryTypeEnum.Employment)"><i class="fas fa-hands-usd dark-blue"></i> Receive inheritance</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.Other, GoalTypeEnum.income, GoalCategoryTypeEnum.Employment)"><i class="fas fa-ellipsis-h dark-blue"></i> Other</a>
+                </div>
+            </div>
+            <div class="border-bottom-4">
+                <a class="sub-item" data-toggle="collapse" href="#financial" data-parent="#financial" (click)="hideAnotherGoalSubcategory('financial')">
+                    <strong>Financial</strong><i class="fas fa-angle-down pull-right dark-blue"></i>
+                </a>
+                <div class="collapse" id="financial">
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.BudgetManagement, GoalTypeEnum.non_spending, GoalCategoryTypeEnum.Financial)"><i class="fas fa-money-bill dark-blue"></i> Budget management</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.PurchaseProperty, GoalTypeEnum.spending, GoalCategoryTypeEnum.Financial)"><i class="fas fa-building dark-blue"></i> Purchase property</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.InvestShares, GoalTypeEnum.spending, GoalCategoryTypeEnum.Financial)"><i class="fas fa-suitcase dark-blue"></i> Invest in shares</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.Other, GoalTypeEnum.spending, GoalCategoryTypeEnum.Financial)"><i class="fas fa-ellipsis-h dark-blue"></i> Other</a>
+                </div>
+            </div>
+            <div class="border-bottom-4">
+                <a class="sub-item" data-toggle="collapse" href="#risk-management" data-parent="#risk-management" (click)="hideAnotherGoalSubcategory('risk-management')">
+                    <strong>Risk management</strong><i class="fas fa-angle-down pull-right dark-blue"></i>
+                </a>
+                <div class="collapse" id="risk-management">
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.Wills, GoalTypeEnum.non_spending, GoalCategoryTypeEnum.Riskmanagement)"><i class="fas fa-file-alt dark-blue"></i> Wills</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.PowersOfAttorney, GoalTypeEnum.non_spending, GoalCategoryTypeEnum.Riskmanagement)"><i class="fas fa-user dark-blue"></i> Powers of attorney</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.Other, GoalTypeEnum.non_spending, GoalCategoryTypeEnum.Riskmanagement)"><i class="fas fa-ellipsis-h dark-blue"></i> Other</a>
+                </div>
+            </div>
+            <div>
+                <a class="sub-item" data-toggle="collapse" href="#thefuture" data-parent="#thefuture" (click)="hideAnotherGoalSubcategory('thefuture')">
+                    <strong>The future</strong><i class="fas fa-angle-down pull-right dark-blue"></i>
+                </a>
+                <div class="collapse" id="thefuture">
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.EstatePlanning, GoalTypeEnum.non_spending, GoalCategoryTypeEnum.TheFuture)"><i class="fas fa-wheelchair dark-blue"></i> Estate planning</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.LeaveInheritance, GoalTypeEnum.spending, GoalCategoryTypeEnum.TheFuture)"><i class="fas fa-hand-holding-usd dark-blue"></i> Leave inheritance</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.AgedCare, GoalTypeEnum.non_spending, GoalCategoryTypeEnum.TheFuture)"><i class="fas fa-blind dark-blue"></i> Aged care</a>
+                    <a class="sub-item" (click)="selectFinancial_GoalType( GoalSubCategoryTypeEnum.Other, GoalTypeEnum.non_spending, GoalCategoryTypeEnum.TheFuture)"><i class="fas fa-ellipsis-h dark-blue"></i> Other</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

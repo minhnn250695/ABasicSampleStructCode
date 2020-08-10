@@ -1,0 +1,5 @@
+@import '../../../../../../../assets/styles/css/customize-styles.css';
+textarea {
+    resize: vertical;
+    min-height: 35px;
+}

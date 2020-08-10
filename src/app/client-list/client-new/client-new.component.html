@@ -1,0 +1,81 @@
+<div class="breadcrumb-bar-staff padding-top-50 padding-bottom-10">
+  <div *ngIf="!isMobile" class="container">
+    <a routerLink="/landing">
+      <i class="fa fa-home fa-lg margin-right-5"></i>
+    </a>
+    <i class="fa fa-angle-right margin-right-5"></i>
+    <a routerLink="/client-list" class="margin-right-5">Client list</a>
+    <i class="fa fa-angle-right margin-right-5"></i>
+    <span class="active-breadcrumb">New client/s</span>
+  </div>
+
+  <div *ngIf="isMobile" class="container margin-top-10">
+    <a routerLink="/client-list">
+      <i class="fas fa-angle-left margin-right-5"></i> Clients</a>
+  </div>
+</div>
+
+<div class="container padding-top-40 padding-bottom-50">
+  <h1 class="finpal-h1">New client/s</h1>
+  <div class="row">
+    <client-filter (filter)="filterChange($event)"></client-filter>
+
+    <div class="col-md-8 col-md-offset-1 padding-top-10">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name
+                <a (click)="searchBy('Name')">
+                  <i class="fa fa-sort margin-right-10"></i>
+                </a>
+              </th>
+              <th>Gender
+                <a (click)="searchBy('Gender')">
+                  <i class="fa fa-sort margin-right-10"></i>
+                </a>
+              </th>
+              <th>Age
+                <a (click)="searchBy('Age')">
+                  <i class="fa fa-sort margin-right-10"></i>
+                </a>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let client of state.clients; let i = index">
+              <td>
+                <input type="checkbox" [checked]="client.isSelected" (change)="onRecordSelect(client)">
+              </td>
+              <td>
+                <i class="fa fa-caret-right fa-lg light-blue margin-right-10"></i>
+                <a>{{client && client.fullName}}</a>
+              </td>
+              <td *ngIf="client.gender == 'Male'">
+                <i class="fa fa-male fa-lg medium-gray"></i>
+              </td>
+              <td *ngIf="client.gender != 'Male'">
+                <i class="fa fa-female fa-lg medium-gray"></i>
+              </td>
+              <td>{{client && client.age}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-md-4 margin-top-10">
+          <button type="button" class="btn btn-default" (click)="btnSelectALL()">Select all</button>
+          <button type="button" class="btn btn-primary" (click)="btnAddClick()">Add selected</button>
+        </div>
+        <div class="col-md-8 margin-top-10">
+          <nav class="pull-right">
+            <fp-paging #paging [currentPage]="state.currentPage" (searchPage)="getClientsForPage($event)"></fp-paging>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<fp-success-dialog #mySuccessDialog></fp-success-dialog>

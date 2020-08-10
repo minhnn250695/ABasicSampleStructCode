@@ -1,0 +1,63 @@
+<form #spendingGoal="ngForm">
+    <div class="row">
+        <div class="col-md-1">
+            <ul class="icon-list margin-top-bot-5">
+                <li *ngFor="let icon of iconCSSList">
+                    <span *ngIf="iconCSS === icon">
+                        <i class="fa fa-lg dark-gray" [ngClass]="iconCSS"></i>
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-11 padding-0">
+            <h3 class="goal-style">{{goalTypeName}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 padding-top-10">
+            <label for="name">Goal name</label>
+            <p class="field-info" id="name">{{goalOutPut.name == undefined ? 'N/A' : goalOutPut.name}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 padding-top-10">
+            <label for="first-year">First Year</label>
+            <p class="field-info" id="first-year">{{goalOutPut.startYear == undefined ? 'N/A' : goalOutPut.startYear}}</p>
+        </div>
+        <div *ngIf="goalOutPut.financeFrequency == 1 && isShowLastYear" class="col-md-4 padding-top-10">
+            <label for="last-year">Last Year</label>
+            <p class="field-info" id="last-year">{{goalOutPut.endYear == undefined ? 'N/A' : goalOutPut.endYear}}</p>
+        </div>
+        <div class="col-md-4 padding-top-10">
+            <label for="amount">Amount?</label>
+            <p class="field-info" id="amount">{{goalOutPut.amount == undefined ? 'N/A' : "$" + (goalOutPut.amount | number:'1.2-2')}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 padding-top-10">
+            <label for="funded-from">Funded From</label>
+            <p class="field-info" id="funded-from">{{getFundedFrom()}}</p>
+        </div>
+        <div class="col-md-4 padding-top-10">
+            <label for="frequency">Frequency</label>
+            <p class="field-info" id="frequency">{{getFinanceFrequency()}}</p>
+        </div>
+    </div>
+    <div class="row" *ngIf="goalOutPut.fundedFrom != 0 && goalOutPut.fundedFrom != undefined && sourceName != ''">
+        <div id="search-group" class="input-groups col-md-4 padding-top-10">
+            <label for="source">Draw funds from</label>
+            <p class="field-info" id="source">{{sourceName}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 padding-top-10">
+            <label for="goal-description">Goal Description</label>
+            <p class="field-info" id="goal-description">{{goalOutPut.description == undefined ? 'N/A' : goalOutPut.description}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 padding-top-20 padding-bottom-10">
+            <a class="btn btn-info pull-right" data-dismiss="modal">Close</a>
+        </div>
+    </div>
+</form>

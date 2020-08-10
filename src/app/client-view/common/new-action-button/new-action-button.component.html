@@ -1,0 +1,58 @@
+<!-- <a id="addActionButton" href="#menuActions" class="btn btn-primary btn-lg" data-toggle="collapse" (click)="onClickAddNewActions()">
+    <i class="fas fa-running margin-right-5"></i> Add new action
+</a> -->
+<a id="addActionButton" href="#menuActions" class="btn btn-info-inverse btn-lg object-shadow" data-toggle="collapse" (click)="onClickAddNewActions()">
+    <i class="fas fa-running fa-lg margin-right-5"></i> Add new action
+</a>
+<!-- content of menu action -->
+<div class="collapse pos-absolute well menu-width" id="menuActions">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="action-search-group" class="input-groups">
+                <input id="search-action" class="form-control" name="search-text" placeholder="Search">
+            </div>
+        </div>
+        <!-- <div class="col-md-3 padding-left-0">
+            <button type="submit" class="btn btn-info">Go</button>
+        </div> -->
+    </div>
+    <div class="row">
+        <div class="col-md-12 padding-top-10">
+            <div class="border-bottom-4">
+                <a class="sub-item" data-toggle="collapse" href="#assets-actions" (click)="hideAnotherActionSubcategory('assets-actions')">
+                    <strong>Assets</strong><i class="fas fa-angle-down dark-blue pull-right"></i>
+                </a>
+                <div class="collapse" id="assets-actions">
+                    <a class="sub-item" data-toggle="modal" data-target="#add-asset" (click)="focusOutActionMenu()"><i class="fas fa-gem dark-blue margin-right-5"></i> Create new Asset</a>
+                    <a class="sub-item" data-toggle="modal" data-target="#close-asset" (click)="focusOutActionMenu()"><i class="fas fa-times dark-blue margin-right-5"></i> Close an existing Asset</a>
+                    <a class="sub-item" data-toggle="modal" data-target="#contribute-funds-to-asset" (click)="focusOutActionMenu()"><i class="fas fa-arrow-right dark-blue margin-right-5"></i> Contribute funds to an Asset</a>
+                    <a class="sub-item" data-toggle="modal" data-target="#draw-funds-from-asset" (click)="focusOutActionMenu()"><i class="fas fa-arrow-left dark-blue margin-right-5"></i> Draw funds from an Asset</a>
+                    <a class="sub-item" data-toggle="modal" data-target="#transfer-asset-debt" (click)="focusOutActionMenu()"><i class="fas fa-arrow-alt-right dark-blue margin-right-5"></i> Transfer funds from asset to debt record</a>
+                    <a class="sub-item" data-toggle="modal" data-target="#transfer-asset-to-asset" (click)="focusOutActionMenu()"><i class="fas fa-exchange dark-blue margin-right-5"></i> Transfer funds between two assets</a>
+                </div>
+            </div>
+            <div class="border-bottom-4">
+                <a class="sub-item" data-toggle="collapse" href="#debt-actions" (click)="hideAnotherActionSubcategory('debt-actions')">
+                    <strong>Debt</strong><i class="fas fa-angle-down dark-blue pull-right"></i>
+                </a>
+                <div class="collapse" id="debt-actions">
+                    <a class="sub-item" data-toggle="modal" data-target="#add-debt" (click)="focusOutActionMenu()"><i class="fas fa-usd-circle dark-blue margin-right-5"></i> Create new Debt</a>
+                    <a class="sub-item" data-toggle="modal" data-target="#contribute-funds-to-debt" (click)="focusOutActionMenu()"><i class="fas fa-arrow-right dark-blue margin-right-5"></i> Contribute funds to a Debt</a>
+                    <a class="sub-item" data-toggle="modal" data-target="#draw-funds-from-debt" (click)="focusOutActionMenu()"><i class="fas fa-arrow-left dark-blue margin-right-5"></i> Draw funds from a Debt</a>
+                </div>
+            </div>
+            <div>
+                <a class="sub-item" data-toggle="collapse" href="#insurance-actions" (click)="hideAnotherActionSubcategory('insurance-actions')">
+                    <strong>Insurance policies</strong><i class="fas fa-angle-down dark-blue pull-right"></i>
+                </a>
+                <div class="collapse" id="insurance-actions">
+                    <a class="sub-item" data-toggle="modal" data-target="#add-change-insurance" (click)="isChangeInsurancePolicy(false)"><i class="fas fa-umbrella dark-blue margin-right-5"></i> Recommend New Insurance Policy</a>
+                    <a class="sub-item" data-toggle="modal" data-target="#add-change-insurance" (click)="isChangeInsurancePolicy(true)"><i class="fas fa-pencil dark-blue margin-right-5"></i> Changes to an existing Insurance Policy</a>
+                    <a class="sub-item" data-toggle="modal" data-target="#cancel-insurance" (click)="focusOutActionMenu()"><i class="fas fa-times dark-blue margin-right-5"></i> Cancel an existing policy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="btn-none" [hidden]="true"></button>

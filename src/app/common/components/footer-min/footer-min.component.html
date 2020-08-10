@@ -1,0 +1,105 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<!-- DESKTOP -->
+<ng-template #desktop>
+    <footer [ngClass]="customClass ? customClass : 'footer-login'">
+        <div class="container">
+            <div class="row padding-top-20 padding-bottom-10">
+                <div class="col-md-4 padding-top-10">
+                    <p class="small">Powered by
+                        <a href="http://Fin365.com.au/" target="_blank">
+                            <img src="../../../assets/img/Fin365-logo-white.svg" alt="FinPal" width="100" />
+                        </a>
+                    </p>
+                </div>
+                <div class="col-md-4 social">
+                    <h4>
+                        Connect
+                        <ul class="social-network social-circle">
+                            <li>
+                                <a href="https://www.facebook.com/Fin365Software/" target="_blank" class="icoFacebook" title="Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://vimeo.com/Fin365software/" target="_blank" class="icoVimeo" title="Vimeo">
+                                    <i class="fab fa-vimeo-v"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.linkedin.com/company/Fin365-pty-ltd" target="_blank" class="icoLinkedin" title="Linkedin">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </h4>
+                </div>
+                <div class="col-md-4 social">
+                    <h4>
+                        Contact
+                        <ul class="social-network social-circle">
+                            <li>
+                                <a href="mailto:info@Fin365.com.au" target="_blank">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tel:1300-346-725" target="_blank">
+                                    <i class="fas fa-phone"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://goo.gl/maps/NExm8QxgmDN7d1Gx8" target="_blank">
+                                    <i class="fas fa-map-marker"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </footer>
+</ng-template>
+
+<!-- MOBILE -->
+<ng-template #mobile>
+    <footer class="footer">
+        <div class="container">
+            <div class="row padding-top-30 padding-bottom-30 text-center">
+                <div class="col-xs-12">
+                    <h4>Powered by
+                        <img src="../../assets/img/Fin365-logo-white.svg" alt="Fin365" width="100" />
+                    </h4>
+                    <p class="small">
+                        <i class="fas fa-map-marker-alt"></i> Studio 1, 2-6 Rutland St Newtown, VIC, 3220
+                        <br />
+                        <i class="fas fa-mobile-alt"></i>
+                        <a href="tel:1300-346-725">1300 FIN365 (1300 346 365)</a>
+                        <br />
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:info@Fin365.com.au">info@fin365.com.au</a>
+                    </p>
+                </div>
+                <div class="col-xs-12 social padding-top-20">
+                    <ul class="social-network social-circle">
+                        <li>
+                            <a href="#" class="icoFacebook" title="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="icoVimeo" title="Vimeo">
+                                <i class="fab fa-vimeo-v"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="icoLinkedin" title="Linkedin">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</ng-template>

@@ -1,0 +1,100 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <div class="col-md-3">
+        <div class="card">
+            <!-- <div class="card-header-revenue padding-top-30 padding-left-20 padding-right-20">Revenue management</div>
+            <div (click)="onDropViewClick()" class="card-block padding-left-20 padding-right-20 padding-top-10 padding-bottom-10">
+                <div fp-DnDFile [defaultBackground]="background" class="upload-drop-zone padding-top-40 hand-pointer" id="drop-zone" (onFilesChanged)="onFileSelected($event)">
+                    <i class="fas fa-file-excel fa-2x margin-bottom-10"></i>
+                    <h4>Drop your Excel file here</h4>
+                    <p>Or click to pick one from your local drive</p>
+                </div>
+            </div> -->
+            <div class="card-header green-background padding-top-30 padding-left-20 padding-right-20">Import data</div>
+            <div class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                <a (click)="onDropViewClick()">
+                    <div class="row">
+                        <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                            <i class="fas fa-chart-line fa-2x medium-gray"></i>
+                        </div>
+                        <div class="col-md-9 padding-top-10 padding-bottom-10">
+                            <h4 class="h4 padding-top-5">Import revenues</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                <a (click)='onFromFileClick()'>
+                    <div class="row">
+                        <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                            <i class="fas fa-paperclip fa-2x medium-gray"></i>
+                        </div>
+                        <div class="col-md-9 padding-top-10 padding-bottom-10">
+                            <h4 class="h4 padding-top-5">From file</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                <a (click)='onExternalSoftwareClick()'>
+                    <div class="row">
+                        <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                            <i class="fas fa-desktop fa-2x medium-gray"></i>
+                        </div>
+                        <div class="col-md-9 padding-top-10 padding-bottom-10">
+                            <h4 class="h4 padding-top-5">External Software</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- <div class="card-block-link padding-left-20 padding-right-20">
+                <a>
+                    <div class="row">
+                        <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                            <i class="fas fa-desktop fa-2x medium-gray"></i>
+                        </div>
+                        <div class="col-md-9 padding-top-10 padding-bottom-10">
+                            <h4 class="h4 padding-top-5">External software</h4>
+                        </div>
+                    </div>
+                </a>
+            </div> -->
+
+            <div *ngIf="totalDataMigrationRecords.length > 0">
+                <div class="card-block padding-left-20 padding-right-20 padding-top-20">
+                    <span class="finpal-h4">Summaries</span>
+                </div>
+                <div *ngFor="let record of getSummaryOfRecords()">
+                    <div *ngIf="record.quantity > 0" class="card-block-link padding-left-20 padding-right-20">
+                        <a (click)="btnViewDetail()">
+                            <div class="row">
+                                <div class="col-md-3 padding-top-10 text-center">
+                                    <span class="pink-color card-big-number">{{record.quantity}}</span>
+                                </div>
+                                <div class="col-md-9 padding-top-10">
+                                    <p class="small">{{record.description}}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #mobile>
+    <div class="col-xs-12 margin-top-20">
+        <div class="card">
+            <div class="card-header-revenue padding-top-20 padding-left-20 padding-right-20">Revenue management</div>
+            <div class="card-block padding-left-20 padding-right-20 padding-top-10 padding-bottom-10">
+                <h4>
+                    <i class="fas fa-file-excel fa-sm"></i> Upload an Excel file</h4>
+                <a class="btn btn-default btn-sm" (click)="onDropViewClick()" (onFilesChanged)="onFileSelected($event)">Browse
+                    file...</a>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>

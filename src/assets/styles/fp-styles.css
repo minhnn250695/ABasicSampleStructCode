@@ -1,0 +1,55 @@
+@import './css/styles.css';
+/* @import './css/bootstrap-custom.css'; */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import './css/circle.css';
+@import './css/sidebar.css';
+
+.hand-pointer {
+    cursor: pointer;
+
+}
+
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+html .ui-autocomplete {
+    height: 100px;
+}
+
+.table-fixed-header tbody {
+    max-height: 400px;
+    overflow-y: auto;
+    width: 100%;
+    min-width: 940px;
+}
+
+.table-fixed-header thead,
+.table-fixed-header tbody,
+.table-fixed-header tr,
+.table-fixed-header td,
+.table-fixed-header th {
+    display: block;
+}
+.table-fixed-header tr:after {
+    content: "";
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+.table-fixed-header tbody td,
+.table-fixed-header thead > tr > th {
+    float: left;
+    min-height: 40px;
+}
+
+input:disabled {
+    cursor: not-allowed;
+}
+
+select:disabled {
+    cursor: not-allowed;
+}

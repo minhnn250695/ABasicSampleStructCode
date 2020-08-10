@@ -1,0 +1,6 @@
+
+@import '../../../assets/styles/css/styles-mobile.css';
+
+.goal-card-bottom-border {
+    border-bottom: 1px solid #fff;
+}

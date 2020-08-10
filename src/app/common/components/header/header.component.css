@@ -1,0 +1,28 @@
+.header-logo {
+    height: 77px;
+    width: 155px;
+}
+
+.divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+
+.profile-caret {
+    width: 12px;
+    height: 18px;
+}
+
+.navbar-nav.navbar-right {
+    margin-right: 0;
+}
+
+.navbar-brand {
+    padding: 10px 15px;
+}
+
+.border-bottom-1 {
+    border-color: #0072C6;
+}

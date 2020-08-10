@@ -1,0 +1,17 @@
+<div *ngIf="showPages && showPages.length > 1">
+  <ul [id]="id" class="pagination">
+    <li *ngIf="currentPage != 1">
+      <a aria-label="Previous" (click)="goBack()">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li [ngClass]="{'active': page == currentPage}" *ngFor="let page of showPages" (click)="getSelectedPage(page)">
+      <a>{{page}}</a>
+    </li>
+    <li *ngIf="currentPage != totalPages">
+      <a aria-label="Next" (click)="goNext()">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</div>

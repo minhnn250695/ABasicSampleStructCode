@@ -1,0 +1,11 @@
+<div class="form-group">
+    <input type="text" style="margin-top: 0px" class="form-control" [ngClass]="isValidValue ? '' : 'invalid-field'" [placeholder]="placeHolder" [(ngModel)]="selected" (focus)="inputFocus()" matInput [matAutocomplete]="auto" [formControl]="dataFormCtrl">
+</div>
+
+<mat-autocomplete #auto="matAutocomplete">
+    <div id="myAutoComplete">
+        <mat-option *ngFor="let name of filteredData" [value]="name.value" (onSelectionChange)="onOptionClick(name)" (click)="onOptionClick(name)">
+            {{ name.value }}
+        </mat-option>
+    </div>
+</mat-autocomplete>

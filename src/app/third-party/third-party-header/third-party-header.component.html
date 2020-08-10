@@ -1,0 +1,17 @@
+<div class="breadcrumb-bar-third-party padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a href="#">
+            <i class="fas fa-home fa-lg margin-right-5"></i>
+        </a>
+
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <span [ngClass]="getClass(1)" class="hand-pointer" routerLink="/third-party/landing">Third party connections</span>
+
+        <i *ngIf="isActive(2)" class="fas fa-angle-right margin-right-5"></i>
+        <span *ngIf="isActive(2)" [ngClass]="getClass(2)" class="hand-pointer">TAL Settings</span>
+
+        <i *ngIf="isActive(3)" class="fas fa-angle-right margin-right-5"></i>
+        <span *ngIf="isActive(3)" [ngClass]="getClass(3)" class="hand-pointer">Investfit Settings</span>
+
+    </div>
+</div>

@@ -1,0 +1,199 @@
+<div class="progress-menu-container padding-top-50">
+
+    <!-- Progress bar -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="steps-form-2">
+                    <div class="background-line"></div>
+                    <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+                        <div class="steps-step-2">
+                            <button type="button" class="btn btn-completed-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Personal info" [disabled]="onLoadComponent" (click)="navigateToStep('/on-boarding/personal-information')">
+                             <i class="fas fa-check fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="steps-step-2">
+                            <button type="button" class="btn btn-active-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Family members">
+                              <i class="fas fa-users fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="steps-step-2">
+                            <button type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Financial situation" [disabled]="onLoadComponent" (click)="navigateToStep('/on-boarding/financial-situation')">
+                              <i class="fas fa-money-bill-alt fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="steps-step-2">
+                            <button type="button" class="btn btn-default-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Your goals" [disabled]="onLoadComponent" (click)="navigateToStep('/on-boarding/your-goal')">
+                              <i class="fas fa-flag-checkered fa-2x" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>
+<crop-image #cropImage (croppedImage)="handleCroppedImage($event)"></crop-image>
+
+<div *ngIf="!onLoadComponent; then component else waiting"></div>
+
+<ng-template #component>
+    <form #testForm="ngForm">
+        <div class="container padding-top-40 padding-bottom-50">
+            <div class="row padding-bottom-20">
+                <div class="col-md-12">
+                    <h2 class="finpal-h1 dark-gray">Family members</h2>
+                    <p>Please click on each member and update any missing/incorrect information. Please also add missing family members.
+                    </p>
+                </div>
+            </div>
+
+            <!-- User list -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div *ngFor="let member of memberList" class="col-md-1 text-center">
+                        <a (click)="changeMember(member)">
+                            <span *ngIf="(selectedMember.id == member.id && testForm.valid && datePicker?.isValid) || checkAllRequiredCompleted(member)" class="notify-badge">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span *ngIf="(selectedMember.id == member.id && (testForm.invalid || !datePicker?.isValid)) || !checkAllRequiredCompleted(member)" class="notify-badge2">
+                                 <i class="fas fa-question"></i>
+                             </span>
+                            <img [src]="initProfileImg(member.profileImageUrl)" class="img-thumbnail img-responsive" />
+                        </a>
+                        <p>{{member.firstName}}</p>
+                    </div>
+                    <div class="col-md-1 text-center">
+                        <a (click)="changeMember()">
+                            <img src="../../../assets/img/add-member.png" class="img-thumbnail img-responsive" />
+                        </a>
+                        <p>New</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <a (click)="btnContinueClick()" class="btn btn-info pull-right">
+                        Continue <i class="fas fa-angle-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Edit member section -->
+            <div *ngIf="isNewMember" class="row">
+                <div class="col-md-12">
+                    <hr>
+                    <h2 class="finpal-h3 padding-bottom-10">New family member</h2>
+                </div>
+            </div>
+            <div *ngIf="!isNewMember && selectedMember" class="row">
+                <div class="col-md-12">
+                    <hr>
+                    <h2 class="finpal-h3 padding-bottom-10">{{selectedMember.fullName}}</h2>
+                </div>
+            </div>
+
+            <!-- Profile img -->
+            <div *ngIf="selectedMember" class="row">
+                <div class="col-md-2">
+                    <img id="profileImage" [src]="initProfileImg(selectedMember.profileImageUrl)" class="img-thumbnail img-responsive" width="100%" />
+                    <!-- <div *ngIf="showCropperImg" id="upload-demo" width="100%"></div> -->
+
+                    <p class="text-center">
+                        <label for="uploadFromFile">
+                            <span class="btn btn-default btn-sm margin-top-10">New profile picture</span>
+                        </label>
+                        <input type="file" id="uploadFromFile" name="pic" accept="image/*" class="sr-only" (change)="handleUploadImage($event)">
+                    </p>
+                </div>
+
+                <!-- Edit fields -->
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="firstname" class="control-label">* First name</label>
+                            <input type="text" class="form-control" name="firstname" [(ngModel)]="firstName" required tabindex="1">
+                            <label for="birthday" class="control-label padding-top-10">* Date of birth</label>
+                            <app-datepicker #datePicker id="birthday" [disableSinceToday]="true" [inputDate]="dateOfBirth"></app-datepicker>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="lastname" class="control-label">* Last name</label>
+                            <input type="text" class="form-control" name="lastname" [(ngModel)]="lastName" required tabindex="2">
+
+                            <!-- For Primary client -->
+                            <div *ngIf="primaryClientId && selectedMember.id == primaryClientId">
+                                <label for="maritalstatus" class="control-label padding-top-10">* Marital Status</label>
+                                <select class="form-control" name="maritalStatus" required [(ngModel)]="maritalStatus" tabindex="5">
+                                    <option *ngFor='let option of maritalStatuses' [value]="option.code">{{option.name}}</option>
+                                </select>
+                            </div>
+
+                            <!-- For Other members -->
+                            <div *ngIf="!primaryClientId || selectedMember.id != primaryClientId">
+                                <label for="maritalstatus" class="control-label padding-top-10">* Role</label>
+                                <select class="form-control" required name="role" tabindex="5" [(ngModel)]="role">
+                                    <option *ngFor='let option of roles' [value]="option">{{option}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="gender" class="control-label">* Gender</label>
+                            <select class="form-control" required name="gender" [(ngModel)]="gender" tabindex="3">
+                                <option *ngFor='let option of genderTypes' [value]="option.code">{{option.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="control-label">Mobile phone</label>
+                            <input type="text" class="form-control" name="mobilePhone" (keydown)="checkNumbersOnly($event)" id="mobilephone" [(ngModel)]="mobilePhone" tabindex="6">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">Home phone</label>
+                            <div *ngIf="isNotPrimaryClient(); else isPrimaryClient">
+                                <input type="text" [attr.disabled]="isPrimaryPhoneChecked ? 'disabled': null" class="form-control" name="homePhone" id="homephone" [(ngModel)]="homePhone" (keydown)="checkNumbersOnly($event)" tabindex="7">
+                                <label>
+                                    <input type="checkbox" [checked]="isPrimaryPhoneChecked" (change)="btnPrimaryClick(2)"> Use primary
+                                </label>
+                            </div>
+                            <!-- member is primary client -->
+                            <ng-template #isPrimaryClient class="checkbox">
+                                <input type="text" class="form-control" name="homePhone" id="homephone" [(ngModel)]="homePhone" (keydown)="checkNumbersOnly($event)" tabindex="7">
+                            </ng-template>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="street1" class="control-label">* Email address</label>
+                            <input type="text" [attr.disabled]="isPrimaryEmailChecked || (primaryClientId && selectedMember.id == primaryClientId) ? 'disabled': null" class="form-control" name="email" [(ngModel)]="email" required tabindex="8">
+                            <div *ngIf="!primaryClientId || !selectedMember || !selectedMember.id || selectedMember.id != primaryClientId" class="checkbox">
+                                <label>
+                                    <input type="checkbox" [checked]="isPrimaryEmailChecked" (change)="btnPrimaryClick(1)"> Use primary
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row padding-top-20">
+                        <div *ngIf="isNewMember" class="col-md-12">
+                            <button (click)="btnAddClick()" [disabled]="testForm.invalid || !datePicker?.isValid" class="btn btn-info-light pull-right">
+                                <i class="fas fa-user-plus" aria-hidden="true"></i> Add member</button>
+                        </div>
+                        <div *ngIf="!isNewMember" class="col-md-12">
+                            <button (click)="btnSaveClick()" [disabled]="testForm.invalid || !datePicker?.isValid || (!changeInformationDetection() && !changeImageDetection())" class="btn btn-info-light pull-right">
+                                <i class="fas fa-save margin-right-5" aria-hidden="true"></i> Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #waiting>
+    <app-waiting></app-waiting>
+</ng-template>

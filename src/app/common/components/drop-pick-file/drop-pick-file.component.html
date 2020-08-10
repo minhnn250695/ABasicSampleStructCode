@@ -1,0 +1,44 @@
+<div class="upload-drop-zone padding-top-40 margin-top-20" id="drop-zone" fp-DnDFile (onFilesChanged)="onFileDrop($event)">
+
+  <input #chooseFile type="file" value="" style="display: none" (change)="onFileChanged($event)" [accept]="toInputAllowedFileExtension()">
+
+  <i class="fas {{formatIcon}} fa-2x margin-bottom-10"></i>
+
+
+  <div *ngIf="!isFileSelected" [style.visibility]="loading ? 'hidden' : 'visible'">
+    <p>
+      {{title}}
+      <br />
+      <span class="small">Or click to pick one from your local drive</span>
+    </p>
+    <button type="button" class="btn btn-sm btn-default" (click)="onClick()">Select file...</button>
+  </div>
+
+  <!--  Loading -->
+  <div *ngIf="loading">
+    <p>
+      <span class="lead">Uploading file</span>
+      <br /> Please hold on
+    </p>
+    <div class="row">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-10">
+        <progress-bar #progressBar></progress-bar>
+      </div>
+    </div>
+  </div>
+
+  <!-- show file name -->
+  <!-- [style.visibility]="loading ? 'hidden' : 'visible'" -->
+  <div *ngIf="isFileSelected">
+    <div *ngIf="isFileCorrectFormat && !loading">
+      <p>{{fileName}}</p>
+      <button type="button" class="btn btn-sm btn-default" (click)="onClick()">Replace file...</button>
+    </div>
+
+    <div class="error" *ngIf="!isFileCorrectFormat" [style.visibility]="loading ? 'hidden' : 'visible'">
+      <p>{{ fileName }} is not an {{expectedFormat}} file</p>
+    </div>
+  </div>
+</div>

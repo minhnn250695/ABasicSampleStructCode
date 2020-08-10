@@ -1,0 +1,75 @@
+<form #spendingGoal="ngForm">
+    <div class="row">
+        <div class="col-md-1">
+            <ul class="icon-list margin-top-bot-5">
+                <li *ngFor="let icon of iconCSSList">
+                    <span *ngIf="iconCSS === icon">
+                        <i class="fa fa-lg dark-gray" [ngClass]="iconCSS"></i>
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-11 padding-0">
+            <h3 class="goal-style">{{goalTypeName}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 padding-top-10">
+            Goal name
+            <input type="text" class="form-control" name="goalName" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="goalOutPut.name" autocomplete="off" required>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 padding-top-10">
+            First Year
+            <input autocomplete="off" maxlength=4 class="form-control" name="startYear" placeholder="YYYY" [(ngModel)]="goalOutPut.startYear" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+        </div>
+        <div *ngIf="goalOutPut.financeFrequency == 1 && isShowLastYear" class="col-md-4 padding-top-10">
+            Last Year
+            <input autocomplete="off" maxlength=4 class="form-control" name="endYear" placeholder="YYYY" [(ngModel)]="goalOutPut.endYear" oninput="this.value=this.value.replace(/[^0-9]/g,'');" [required]="goalOutPut.financeFrequency == 1">
+        </div>
+        <div class="col-md-4 padding-top-10">
+            Amount?
+            <input autocomplete="off" type="text" class="form-control" name="amount" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="goalAmount" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" (focus)="onAmountFocus(goalAmount)" (focusout)="onAmountFocusOut(goalAmount)"
+                (keyup)="onAmountKeyup($event)" required>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 padding-top-10">
+            Funded from
+            <select autocomplete="off" class="form-control" name="fundedFromType" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="goalOutPut.fundedFrom" (change)="onFundedFromChange(false)" required>
+                <option *ngFor="let funded of fundedFromList" [value]="funded.code">{{funded.name}}</option>
+            </select>
+        </div>
+        <div class="col-md-4 padding-top-10">
+            Frequency
+            <select autocomplete="off" class="form-control" name="financeFrequency" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="goalOutPut.financeFrequency" (change)="frequencyChange($event)" required>
+                <option *ngFor="let frequency of financeFrequencyType" [value]="frequency.code">{{frequency.name}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <!-- Client asset debt search with dropdown list -->
+    <div class="row" *ngIf="goalOutPut.fundedFrom == FundedFromType.AssetBalance || goalOutPut.fundedFrom == FundedFromType.LoanBalance ||  goalOutPut.fundedFrom == FundedFromType.LoanOffsetAccount">
+        <div id="search-group" class="input-groups col-md-8 padding-top-15 padding-left-15">
+            Draw funds from
+            <auto-complete-input [placeHolder]="searchTextPH" [source]="sources" [selected]="sourceName" (onSelect)="onSourceChange($event)">
+            </auto-complete-input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 padding-top-10">
+            Goal Description
+            <textarea style="resize:vertical;" class="form-control" rows="5" name="description" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="goalOutPut.description" required>
+            </textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 padding-top-20 padding-bottom-10">
+            <a class="btn btn-default pull-right" data-dismiss="modal">Cancel</a>
+            <button *ngIf="!readOnly" class="btn btn-info pull-right margin-right-5" (click)="emitGoalToSave()" [disabled]="spendingGoal.invalid || !viewDetectChange()">Save
+                changes</button>
+        </div>
+    </div>
+</form>

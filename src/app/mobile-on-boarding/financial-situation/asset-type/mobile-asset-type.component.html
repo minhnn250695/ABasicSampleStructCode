@@ -1,0 +1,124 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+      aria-hidden="true">&times;</span></button>
+    <span *ngIf="!assetFromClick || !assetFromClick.id" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">New
+    asset
+  </span>
+    <!-- <span *ngIf="assetFromClick && assetFromClick.id" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">{{ _financialService.getName() }}</span> -->
+    <span *ngIf="assetFromClick && assetFromClick.id" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">{{ financialService.getName() }}</span>
+</div>
+
+<div class="modal-body">
+    <form #testForm="ngForm" appIdentityRevealed>
+        <!-- Asset Type -->
+        <div class="row">
+            <div class="col-xs-12">
+                <label class="control-label">* Asset type</label>
+                <select class="form-control" required id="asset-type" name="asset-type" (change)="onAssetTypeChange()" [(ngModel)]="selectedAssetType">
+          <option *ngFor="let option of assetTypes" [value]="option.value">{{option.label}}</option>
+        </select>
+            </div>
+        </div>
+        <!-- Ownershipe Type -->
+        <div class="row">
+            <div class="col-xs-12 padding-top-20">
+                <label class="control-label">* Ownership type</label>
+                <select class="form-control" required id="ownership-type" name="ownership-type" (change)="onOwnershipChange($event)" [(ngModel)]="ownership">
+          <option *ngFor='let option of ownerShipTypes' [value]="option.code">
+            {{option.name}}
+          </option>
+        </select>
+            </div>
+        </div>
+        <!-- Asset Name -->
+        <div class="row">
+            <div class="col-xs-12 padding-top-20">
+                <label fclass="control-label">* Asset name</label>
+                <input type="text" autocomplete="off" required class="form-control" name="assetName" [(ngModel)]="assetFromClick.name">
+            </div>
+        </div>
+        <!-- Current Asset Balance -->
+        <div class="row">
+            <div class="col-xs-12 padding-top-20">
+                <label fclass="control-label">* Current asset balance</label>
+                <input autocomplete="off" type="text" class="form-control" name="currentBalance" placeholder="$0" [(ngModel)]="assetBalance" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" (focus)="onAmountFocus(assetBalance, 'assetBalance')" (focusout)="onAmountFocusOut(assetBalance, 'assetBalance')"
+                    (keyup)="onAmountKeyup($event, 'currentBalance')" required>
+            </div>
+        </div>
+        <!-- Receives contributions from your employer? -->
+        <div *ngIf="isShowEmployerQuestion" class="row">
+            <div class="col-xs-12 padding-top-20">
+                <label class="control-label small">Receives contributions from your employer?</label>
+            </div>
+            <div class="col-xs-12">
+                <label class="radio-inline">
+          <input type="radio" name="empQuest" [value]="true" (change)="onQuestionsChange(1, true)"
+            [(ngModel)]="assetFromClick.employerContribution">
+          Yes
+        </label>
+                <label class="radio-inline">
+          <input type="radio" name="empQuest" [value]="false" (change)="onQuestionsChange(1, false)"
+            [(ngModel)]="assetFromClick.employerContribution">
+          No
+        </label>
+            </div>
+        </div>
+        <!-- Do you make any contributions to this account? -->
+        <div *ngIf="isShowPersonalQuestion" class="row">
+            <div class="col-xs-12 padding-top-20">
+                <label class="control-label small">Do you make any contributions to this account?</label>
+            </div>
+            <div class="col-xs-12">
+                <label class="radio-inline">
+          <input type="radio" name="persQuest" (change)="onQuestionsChange(2, true)" [value]="true"
+            [(ngModel)]="assetFromClick.personalContribution">
+          Yes
+        </label>
+                <label class="radio-inline">
+          <input type="radio" name="persQuest" (change)="onQuestionsChange(2, false)" [value]="false"
+            [(ngModel)]="assetFromClick.personalContribution">
+          No
+        </label>
+            </div>
+        </div>
+        <div *ngIf="isShowPersonalQuestion && assetFromClick.personalContribution">
+            <!-- Contribution Type -->
+            <div class="row">
+                <div class="col-xs-12 padding-top-20">
+                    <label fclass="control-label margin-top-10">Contribution Type</label>
+                    <select class="form-control" id="contribution-type" name="contribution-type" [(ngModel)]="contributionType">
+            <option *ngFor="let option of contributionTypes" [value]="option.code">{{option.name}}</option>
+          </select>
+                </div>
+            </div>
+            <!-- Contribution Amount -->
+            <div class="row">
+                <div class="col-xs-12 padding-top-20">
+                    <label class="control-label">Contribution Amount</label>
+                    <!-- <input type="number" min="0" oninput="this.value=this.value.replace(/[^0-9]/g,'');" class="form-control" placeholder="$0" name="contributionAmount" [(ngModel)]="contributionAmount"> -->
+                    <input autocomplete="off" type="text" class="form-control" name="contributionAmount" placeholder="$0" autocomplete="off" [(ngModel)]="contributionAmount" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" (focus)="onAmountFocus(contributionAmount, 'contributionAmount')"
+                        (focusout)="onAmountFocusOut(contributionAmount, 'contributionAmount')" (keyup)="onAmountKeyup($event, 'contributionAmount')" required>
+                </div>
+            </div>
+            <!-- Frequency -->
+            <div class="row">
+                <div class="col-xs-12 padding-top-20">
+                    <label class="control-label">Frequency</label>
+                    <!-- <select class="form-control" id="frequency" name="frequency" [(ngModel)]="frequency">
+            <option *ngFor='let option of getFrequencyType()' [value]="option.code">{{option.name}}</option>
+          </select> -->
+                    <select class="form-control" name="frequency" [(ngModel)]="frequency">
+            <option *ngFor='let option of frequencyTypes' [ngValue]="option.code">{{option.name}}</option>
+          </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 padding-top-20">
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                <button *ngIf="!assetFromClick || !assetFromClick.id" [disabled]="testForm.invalid" (click)="btnAddItemClick(1)" type="button" class="btn btn-info pull-right margin-right-5">Add asset</button>
+                <button *ngIf="assetFromClick && assetFromClick.id" [disabled]="testForm.invalid  || !detectSaveChanges()" (click)="btnAddItemClick(2)" class="btn btn-info pull-right margin-right-5">Save changes</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,22 @@
+<div class="col-md-4 padding-top-30">
+  <div class="card">
+    <div class="hovercard">
+        <div class="background-green">
+        </div>
+        <div class="avatar">
+          <img [src]="getUrl()" class="img-circle" alt="" />
+        </div>
+        <div class="info">
+          <div class="title padding-bottom-10"> {{ history ? history.name : 'N/A'}}</div>
+        </div>
+        <div class="bottomxs">
+          <table class="table" *ngIf="history && history.periods">                    
+            <tr *ngFor="let data of displayList">
+                  <th>{{data && data.key}}</th>
+                  <td>{{(data || data && data.value == 0 )? '$' + (data.value | number : '1.2-2') : ""}}</td>
+            </tr>
+          </table>
+        </div>
+    </div>
+  </div>  
+</div>

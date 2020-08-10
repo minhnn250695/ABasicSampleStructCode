@@ -1,0 +1,115 @@
+﻿<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <div class="container padding-top-50 padding-bottom-50">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 text-center padding-top-50">
+                <h2 class="finpal-h1 padding-bottom-10">
+                    <i class="far fa-user-circle"></i> This user does not exist</h2>
+                <p *ngIf="!individual" class="finpal-h4 padding-bottom-20">Please contact FinPal support. </p>
+                <p *ngIf="individual" class="finpal-h4 padding-bottom-20">Please contact your adviser. </p>
+                <a href="" routerLink="/login" class="btn btn-info">Back to login​​​​​​​</a>
+            </div>
+        </div>
+    </div>
+    <footer class="footer-login">
+        <div class="container">
+            <div class="row padding-top-10">
+                <div class="col-md-4">
+                    <h4 class="">
+                        Powered by
+                        <img src="../../../assets/img/finpal-logo.png" alt="FinPal" />
+                    </h4>
+                    <p>© Copyright 2017 - All rights reserved </p>
+                </div>
+                <div class="col-md-4 social padding-top-20">
+                    <h4>
+                        Connect
+                        <ul class="social-network social-circle">
+                            <li>
+                                <a href="#" class="icoFacebook" title="Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="icoVimeo" title="Vimeo">
+                                    <i class="fab fa-vimeo-v"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="icoLinkedin" title="Linkedin">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </h4>
+                </div>
+                <div class="col-md-4">
+                    <h4>Contact FinPal</h4>
+                    <p class="small">
+                        <i class="fas fa-map-marker-alt"></i> Studio 1, 2-6 Rutland St Newtown, VIC, 3220
+                        <br />
+                        <i class="fas fa-mobile-alt"></i> 1300 FINPAL (1300 346 725)
+                        <br />
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:info@finpal.com.au">info@finpal.com.au</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</ng-template>
+
+<ng-template #mobile>
+    <div class="container">
+        <div class="row padding-top-50 padding-bottom-30">
+            <div class="col-xs-10 col-xs-offset-1 text-center">
+
+                <i class="far fa-user-circle finpal-h1"></i>
+                <h2 class="finpal-h2 padding-bottom-10">This user does not exist</h2>
+                <p class="finpal-h4 padding-bottom-20">Please make sure you are registered. </p>
+                <a href="" routerLink="/login" class="btn btn-info">Back to login​​​​​​​</a>
+
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="row padding-top-30 padding-bottom-30 text-center">
+                <div class="col-xs-12">
+                    <h4>Powered by
+                        <img src="../../../assets/img/finpal-logo.png" alt="FinPal" />
+                    </h4>
+                    <p class="small">
+                        <i class="fas fa-map-marker-alt"></i> Unit 1, 2-6 Rutland St, Newtown, VIC, 3220
+                        <br />
+                        <i class="fas fa-mobile-alt"></i>
+                        <a href="tel:1300-346-725">1300 FINPAL (1300 346 725)</a>
+                        <br />
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:info@finpal.com.au">info@finpal.com.au</a>
+                    </p>
+                </div>
+                <div class="col-xs-12 social padding-top-20">
+                    <ul class="social-network social-circle">
+                        <li>
+                            <a href="#" class="icoFacebook" title="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="icoVimeo" title="Vimeo">
+                                <i class="fab fa-vimeo-v"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="icoLinkedin" title="Linkedin">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</ng-template>

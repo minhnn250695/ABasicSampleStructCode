@@ -1,0 +1,10 @@
+@import '../assets/styles/fp-styles.css';
+
+.ui-widget-content {
+    color: #999;
+}
+
+.ui-widget {
+    font-family: inherit;
+    font-size: 0.9em !important;
+}

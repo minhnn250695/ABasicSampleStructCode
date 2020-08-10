@@ -1,0 +1,122 @@
+<div class="member-details">
+    <mat-drawer-container autosize>
+        <div class="col-xs-6 col-sm-6 section-actions">
+            <a class="btn btn-info btn-sections object-shadow" (click)="onSelectSection('personalInformation')">
+                <i class="fas fa-address-card fa-lg margin-right-5"></i>Personal
+            </a>
+        </div>
+        <div class="col-xs-6 col-sm-6 section-actions">
+            <a class="btn btn-info btn-sections object-shadow" (click)="onSelectSection('contact')">
+                <i class="fas fa-envelope-open-text fa-lg margin-right-5"></i>Contact
+            </a>
+        </div>
+        <div class="col-xs-6 col-sm-6 section-actions">
+            <a class="btn btn-info btn-sections object-shadow" (click)="onSelectSection('employment')">
+                <i class="fas fa-briefcase fa-lg margin-right-5"></i>Employment
+            </a>
+        </div>
+        <div class="col-xs-6 col-sm-6 section-actions">
+            <a class="btn btn-info btn-sections object-shadow" (click)="onSelectSection('health')">
+                <i class="fas fa-user-injured fa-lg margin-right-5"></i>Health
+            </a>
+        </div>
+    </mat-drawer-container>
+    <mat-drawer #drawer class="section-sidebar" mode="side">
+        <div class="sidebar-header">
+            <div class="title pull-right padding-top-15 padding-bottom-10">
+                <span>{{ title }}</span>
+                <a class="pull-right padding-right-20 padding-left-20" (click)="closeSideBar()"><i
+                        class="fas fa-times fa-lg dark-gray"></i></a>
+            </div>
+        </div>
+        <div class="sidebar-content">
+            <a class="btn btn-info btn-circle object-shadow btn-save" (click)="saveChanges(selectedSection)" [class.disabled]="detectSaveChanges(selectedSection)"><i class="fas fa-save fa-2x"></i></a>
+            <div class="container">
+                <div class="profile margin-top-30 margin-bottom-10">
+                    <fp-cirle-img [img]="memberImgUrl()" [name]="getClientFullName()" [imgHeight]="98" [imgWidth]="98">
+                    </fp-cirle-img>
+                    <h4 class="finpal-h4">{{ getClientFullName() }}</h4>
+                </div>
+                <div class="member-info" [ngClass]="showAddressFields ? 'margin-bottom-80' : 'margin-bottom-10'">
+                    <div *ngFor="let item of displayedFields" [style.display]="(!item.isAddressField || (item.isAddressField && showAddressFields)) ? '' : 'none'">
+                        <div *ngIf="item.fieldId === 'age' || item.fieldId === 'birthday'" class="col-xs-6 col-sm-6 margin-bottom-30" [attr.id]="item.id" [ngClass]="item.fieldId == 'age' ? 'padding-left-0 padding-right-5' : 'padding-right-0 padding-left-5'">
+                            <ng-container *ngTemplateOutlet="card, context: {$implicit: item}">
+                            </ng-container>
+                        </div>
+                        <!-- </div> -->
+
+                        <div class *ngIf="item.fieldId !== 'age' && item.fieldId !== 'birthday'" [ngClass]="isShowInFullRow(item) ? '' : 'col-xs-6 col-sm-6 padding-left-0'">
+                            <div class="row info-item" [attr.id]="item.id">
+                                <div class="col-xs-1 col-sm-1 field-icon" *ngIf="item && item.icon && item.icon !== ''">
+                                    <span><i class="fas fa-1x margin-right-5" [ngClass]="'fa-' + item.icon"></i></span>
+                                </div>
+                                <div class="field-input" *ngIf="item.enabledEdit" [ngClass]="item && item.icon && item.icon !== '' ? 'col-xs-11 col-sm-11' : 'col-xs-12 col-sm-12'">
+                                    <h5 class="finpal-h5" [ngClass]="item.type == 'address' ? 'readonly' : ''">
+                                        <strong>{{ item.mobileLabel ? item.mobileLabel : item.label }}</strong>
+                                        <a class="pull-right" (click)="toggleAddressFields()" *ngIf="item.type == 'address'">
+                                            <span [ngClass]="showAddressFields ? 'opened' : ''">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </span></a>
+                                    </h5>
+                                    <!-- Text -->
+                                    <input *ngIf="(item.type === '' && !item.isAddressField)" type="text" class="form-control" [value]="item.value ? item.value : ''" [placeholder]="getPlaceHolder(client[item.fieldId])" (change)="onChangeClientInfo($event, item)">
+                                    <input *ngIf="(item.type === '' && item.isAddressField && showAddressFields)" type="text" class="form-control" [value]="item.value ? item.value : ''" [placeholder]="getPlaceHolder(client[item.fieldId])" (change)="onChangeClientInfo($event, item)">
+
+                                    <!-- Number Field -->
+                                    <input *ngIf="item.type === 'number'" type="number" min="0" step="1" class="form-control input-number-without-arrow" [value]="item.value ? item.value : ''" [placeholder]="getPlaceHolder(client[item.fieldId])" (change)="onChangeClientInfo($event, item)"
+                                        oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                                    <!-- Address -->
+                                    <p *ngIf="item.type == 'address' && !showAddressFields">
+                                        {{ item.displayValue }}
+                                    </p>
+
+                                    <!-- Marital Status Selectbox -->
+                                    <select *ngIf="item.type === 'selectOptions'" [name]="item.label" class="form-control" (change)="onChangeClientInfo($event, item)">
+                                        <option hidden>Unknown</option>
+                                        <option [value]="getMaritalStatusCode(status)"
+                                            [selected]="item.value==getMaritalStatusCode(status)"
+                                            *ngFor="let status of getMaritalStatusList()">
+                                            {{status}}
+                                        </option>
+                                    </select>
+                                    <!-- True/False Selectbox -->
+                                    <select *ngIf="item.type === 'trueFalse'" [name]="item.label" class="form-control" (change)="onChangeClientInfo($event, item)" [id]="item.id">
+                                        <option value="" [selected]="item.value==undefined || item.value==null">
+                                        </option>
+                                        <option value='true' [selected]="item.value==true">Yes</option>
+                                        <option value='false' [selected]="item.value==false">No</option>
+                                    </select>
+                                </div>
+                                <div class="field-readonly" *ngIf="!item.enabledEdit" [ngClass]="item.icon === '' ? 'col-xs-12 col-sm-12' : 'col-xs-11 col-sm-11'">
+                                    <h5 class="finpal-h5 readonly">
+                                        <strong>{{ item.mobileLabel ? item.mobileLabel : item.label }}</strong></h5>
+                                    <p *ngIf="item.type != 'address' && (item.type != 'currency' || (item.type == 'currency' && (item.value == undefined || item.value == 'N/A')))">
+                                        {{ item.fieldId === 'bmi' ? bmi : item.displayValue }}
+                                    </p>
+                                    <p *ngIf="item.type == 'currency' && item.value != undefined && item.value != 'N/A'">
+                                        ${{ item.value | number: '1.2-2'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-drawer>
+</div>
+
+<!-- Fields Template -->
+<ng-template #card let-item>
+    <div class="card light-gray-background">
+        <div class="row">
+            <div class="col-xs-4 col-sm-6 icon"><i class="fas fa-2x pull-right" [ngClass]="'fa-' + item.icon"></i>
+            </div>
+            <div class="col-xs-8 col-sm-6 content">
+                <h5 class="finpal-h5"><strong>{{ item.label }}</strong></h5>
+                <p *ngIf="item.type !== 'date'">{{ item.displayValue }}</p>
+                <p *ngIf="item.type === 'date'">
+                    {{ item.value | birthday }}</p>
+            </div>
+        </div>
+    </div>
+</ng-template>

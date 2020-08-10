@@ -1,0 +1,141 @@
+<fp-client-view-header active="9"> </fp-client-view-header>
+
+<div class="container padding-top-30 padding-bottom-30" id="compare-strategies">
+    <div class="dark-blue compare-strategies-breadcrumb">
+        <a class="underline" (click)="goToPage(currentStrategyId)">Advice</a>
+        <i class="far fa-sm fa-chevron-right chevron"></i>
+        <a class="underline" (click)="goToPage(compareStrategy.scenarioId)">{{ compareStrategy ? compareStrategy.scenarioName : 'N/A'}}</a>
+        <i class="far fa-sm fa-chevron-right chevron"></i>
+    </div>
+
+    <div class="row">
+        <div class="col-md-9">
+            <h2 class="font-size-30 margin-top-15 margin-bottom-20">Compare Strategies</h2>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-info font-size-16 pull-right" (click)="durationSaveChanges()" [disabled]="duration!==0 && !duration">Apply</button>
+            <input type="number" class="duration-input light-gray font-size-14 margin-right-10 pull-right" maxlength="2" name="advice-duration" [(ngModel)]="duration">
+            <span class="m-dark-gray margin-right-10 padding-left-20">Advice Duration</span>
+            <p class="m-dark-gray font-size-14 padding-left-20">(in years)</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div *ngFor="let strategy of strategies; let i = index" [attr.id]="'strategy-' + i" class="col-xs-12 col-md-6 compare-strategy-details margin-bottom-10">
+            <div class="card default-cursor">
+                <div class="card-header-xs-2 padding-left-20 padding-right-20" [ngClass]="i === 0 ? 'light-blue-background': 'green-background'">
+                    <div class="shape-wrapper">
+                        <div class="card pull-right flag-shape x-dark-blue-background">{{ i === 0 ? 'A' : 'B' }}</div>
+                    </div>
+                </div>
+                <div class="card-block padding-left-20 padding-right-20 padding-top-5 padding-bottom-5">
+                    <h1 class="finpal-h1 m-dark-gray margin-top-30 margin-bottom-10">{{ strategy.scenarioName }}</h1>
+                </div>
+                <div class="card-block padding-left-20 padding-right-20 padding-bottom-20">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12 margin-bottom-20">
+                                    <ng-container *ngTemplateOutlet="cardItem, context: {$implicit: strategy.cashFlow, type: 'Cash Flow', onTrack: strategy.cashFlow.onTrack}">
+                                    </ng-container>
+                                </div>
+                                <div class="col-xs-12 col-md-12 margin-bottom-20">
+                                    <ng-container *ngTemplateOutlet="cardItem, context: {$implicit: strategy.cashFlow, type: 'Insurance', onTrack: strategy.personalProtection.onTrack}">
+                                    </ng-container>
+                                </div>
+                                <div class="col-xs-12 col-md-12 margin-bottom-20">
+                                    <ng-container *ngTemplateOutlet="cardItem, context: {$implicit: strategy.debt, type: 'Debt', onTrack: strategy.debt.onTrack}">
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <h3 class="finpal-h3">Goals</h3>
+                            <p>{{ strategy && strategy.goals ? strategy.goals.length : 0 }} goals</p>
+                            <div class="margin-bottom-20">
+                                <div *ngFor="let goal of strategy.goals" class="margin-top-10">
+                                    <div class="row margin-bottom-10">
+                                        <div class="col-xs-1 col-md-1 padding-top-10 padding-right-0">
+                                            <span *ngIf="goal.onTrack === 509000000 || goal.onTrack === 509000002"><i
+                                                    class="fas fa-thumbs-up dark-green"></i></span>
+                                            <span *ngIf="goal.onTrack === 509000001"><i
+                                                    class="fas fa-thumbs-down red"></i></span>
+                                        </div>
+                                        <div class="col-xs-11 col-md-11">
+                                            <p><strong class="m-dark-gray">{{goal && goal.startYear ? goal.startYear : 'No Date'}}</strong>
+                                            </p>
+                                            <a class="dark-blue" data-toggle="modal" data-target="#goal-modal" (click)="getGoalDetail(goal.goalId, strategy.scenarioId)">
+                                                {{ goal && goal.name ? goal.name : 'N/A' }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <a *ngIf="strategy.scenarioId != currentStrategyId" class="btn btn-info object-shadow btn-action" (click)="changeToEditMode(strategy)" [attr.disabled]="isDisabled"><i class="fas fa-1x fa-pencil margin-right-5"></i> Edit
+                                    strategy</a>
+                                <a *ngIf="strategy.scenarioId != currentStrategyId" [attr.disabled]="isDisabled" class="btn btn-info object-shadow btn-action dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-1x fa-file-alt margin-right-5"></i> Generate
+                                    Report <i class="fas fa-1x fa-caret-down margin-left-5"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a *ngFor="let template of templates" (click)="generateReport(strategy, template, i+1)">{{ template.name }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <fp-loading *ngIf="generatingReport1 && i === 0" class="loading" title="Generating report...">
+                                </fp-loading>
+                                <p [style.display]="i === 0 && failed1 ? null : 'none'"><i class="fas fa-exclamation-circle red"></i> The report could not be generated.
+                                </p>
+
+                                <fp-loading *ngIf="generatingReport2 && i === 1" class="loading" title="Generating report...">
+                                </fp-loading>
+                                <p *ngIf="i === 1" [style.display]="failed2 ? null : 'none'"><i class="fas fa-exclamation-circle red"></i> The report could not be generated.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Goal Modal -->
+<goal-modal id="goal-modal" class="modal fade" role="dialog" [activeAssetList]="adviceBuilderService.notClosedAssetList" [activeDebtList]="adviceBuilderService.debtList" goalModalTitle="Your goal" [selectedGoal]="selectedGoal" [readOnly]="true" [isCreateGoal]="false"
+    [isLandingPage]="false">
+</goal-modal>
+
+<!-- Alert change to Edit mode -->
+<fp-basic-modal #alertModal title="Leaving Compare tool" [body]="getAlertMessage()" actionString="Edit Strategy" (action)="confirmChangeToEditMode()" buttonStyle="btn-info"></fp-basic-modal>
+
+<!-- Card template -->
+<ng-template #cardItem let-item let-type="type" let-onTrack="onTrack">
+    <div class="card default-cursor m-dark-gray light-gray-background item-card">
+        <div class="card pull-right thumb-flag orange-background">
+            <span class="thumb-icon" *ngIf="(onTrack === 509000000 || onTrack === 509000002)"><i
+                    class="fas fa-thumbs-up white"></i></span>
+            <span class="thumb-icon" *ngIf="onTrack === 509000001"><i
+                    class="fas fa-thumbs-down white"></i></span>
+        </div>
+        <div class="card-block item-card padding-left-20 padding-right-20 padding-top-40 padding-bottom-10">
+            <h3 class="finpal-h3 m-dark-gray">{{ type }}</h3>
+        </div>
+        <div class="card-block item-card padding-left-20 padding-right-20 padding-bottom-10 padding-top-5 m-dark-gray">
+            <!-- Cashflow -->
+            <p *ngIf="type === 'Cash Flow'">Surplus Income: ${{item && item.surplusIncome || 0 | number: '1.2-2'}} p/a
+            </p>
+            <p *ngIf="type === 'Cash Flow'">Net Income: ${{item && item.netIncome || 0 | number: '1.2-2'}} p/a</p>
+            <p *ngIf="type === 'Cash Flow'">Total Expenses: ${{item && item.totalExpenses || 0 | number: '1.2-2'}} p/a
+            </p>
+            <!-- Insurance -->
+            <p *ngIf="type === 'Insurance'">Total Premiums: ${{ getCashFlowTotalPremiums(item) | number: '1.2-2'}} p/a
+            </p>
+            <p *ngIf="type === 'Insurance'">Paid from cashflow: ${{item && item.details[0].insurancePaidByYou || 0 | number: '1.2-2'}} p/a</p>
+            <p *ngIf="type === 'Insurance'">Paid from superannuation: ${{item && item.details[0].insurancePaidBySuperAnnuation || 0 | number: '1.2-2'}} p/a</p>
+            <!-- Debt -->
+            <p *ngIf="type === 'Debt'">Total Debt: ${{item && item.totalDebt || 0 | number: '1.2-2'}}</p>
+            <p *ngIf="type === 'Debt'">Total Payment: ${{ item && item.totalPayment | number: '1.2-2'}}</p>
+            <p *ngIf="type === 'Debt'">Years to pay: {{item && item.yearsToPay || 'N/A'}}</p>
+        </div>
+    </div>
+</ng-template>

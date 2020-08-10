@@ -1,0 +1,129 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <div class="card">
+        <div class="filter margin-bottom-10">
+            <h1 class="finpal-h1 margin-bottom-10">Filter</h1>
+            <!-- Show when list type is  Asset/Debt  -->
+            <div class="selection-owner" *ngIf="objectValue.type == 1 || objectValue.type == 2">
+                <label class="control-label light-gray">{{objectValue.textType}}</label>
+                <select class="form-control light-gray margin-bottom-10" id="asset-type" [(ngModel)]="selectedType" (change)="selectTypeChange($event)">
+                    <option value="-1" selected>All types</option>
+                    <option *ngFor="let type of itemTypes" [value]="type.value">{{type.label}}</option>
+                </select>
+            </div>
+            <!-- Show when list type is  Asset/Debt/Insurance  -->
+            <div class="selection-owner">
+                <label class="control-label light-gray">Owner</label>
+                <select class="form-control light-gray margin-bottom-10" id="asset-owner" [(ngModel)]="selectedOwner" (change)="selectOwnerChange($event)">
+                    <option value="-1" selected>All owners ({{listItems && listItems.length || 0}})</option>
+                    <option *ngFor="let owner of listOwner_view" [value]="owner.id">{{owner.fullName}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="list-item">
+            <h1 class="finpal-h1">{{ objectValue.title }} List</h1>
+            <p class="asset-style light-gray">{{ listItems_view.length }} items</p>
+            <ul class="list-group">
+                <a class="list-group-item" *ngFor="let item of listItems_view; let i = index" [ngClass]="currentItem == i ? 'bold-text' : '' " (click)="checkSelectedItem(i)">
+                    <div class="row">
+                        <div class="col-md-2 arrow-icon">
+                            <i class="fas fa-caret-right fa-lg margin-right-5"></i>
+                        </div>
+                        <div class="col-md-10 padding-0">
+                            <span *ngIf="objectValue.type != 3">
+                                {{item.name}}
+                            </span>
+                            <span *ngIf="objectValue.type == 3">
+                                {{item.combineInsuranceName}}
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </ul>
+        </div>
+    </div>
+    <!-- <div class="asset-menu card" [ngClass]="isMobile ? 'margin-bottom-20' : ''">
+        <div class="item-container padding-bottom-5">
+            <h3>Filter</h3>
+            <div *ngIf="objectValue.type == 1 || objectValue.type == 2">
+                <label class="control-label asset-style">{{objectValue.textType}}</label>
+                <select class="form-control asset-style margin-bottom-10" id="asset-type" [(ngModel)]="selectedType"
+                    (change)="selectTypeChange($event)">
+                    <option value="-1" selected>All types</option>
+                    <option *ngFor="let type of itemTypes" [value]="type.value">{{type.label}}</option>
+                </select>
+            </div>
+            <label class="control-label asset-style">Owner</label>
+            <select class="form-control asset-style margin-bottom-10" id="asset-owner" [(ngModel)]="selectedOwner"
+                (change)="selectOwnerChange($event)">
+                <option value="-1" selected>All owners ({{listItems && listItems.length || 0}})</option>
+                <option *ngFor="let owner of listOwner_view" [value]="owner.id">{{owner.fullName}}</option>
+            </select>
+
+            <div>
+                <h3>{{objectValue.title}} List</h3>
+                <p class="asset-style">{{listItems_view.length }} items</p>
+            </div>
+
+            <ul class="list-group">
+                <a class="list-group-item" *ngFor="let item of listItems_view; let i = index"
+                    [ngClass]="currentItem == i ? 'bold-text' : '' " (click)="checkSelectedItem(i)">
+                    <div class="row">
+                        <div class="col-md-2 arrow-icon">
+                            <i class="fas fa-caret-right fa-lg margin-right-5"></i>
+                        </div>
+                        <div class="col-md-10 padding-0">
+                            <span *ngIf="objectValue.type != 3">
+                                {{item.name}}
+                            </span>
+                            <span *ngIf="objectValue.type == 3">
+                                {{item.combineInsuranceName}}
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </ul>
+        </div>
+    </div> -->
+</ng-template>
+
+
+<ng-template #mobile>
+    <div class="mobile-menu">
+        <h4 class="finpal-h4">{{ objectValue.mobileTitle }} <small class="m-dark-gray">({{listItems_view.length }}
+                items)</small></h4>
+        <div class="filter margin-top-10 margin-bottom-10">
+            <!-- Asset/Debt Type -->
+            <select *ngIf="objectValue.type == 1 || objectValue.type == 2" class="form-control margin-bottom-10 margin-right-5" id="types" [(ngModel)]="selectedType" (change)="selectTypeChange($event)">
+                <option value="-1" selected>All types</option>
+                <option *ngFor="let type of itemTypes" [value]="type.value">{{type.label}}</option>
+            </select>
+            <!-- Asset Owner -->
+            <select class="form-control margin-bottom-10" id="owners" [(ngModel)]="selectedOwner" (change)="selectOwnerChange($event)">
+                <option value="-1" selected>All owners</option>
+                <option *ngFor="let owner of listOwner_view" [value]="owner.id">{{owner.fullName}}</option>
+            </select>
+        </div>
+        <div class="list">
+            <mat-drawer-container autosize>
+                <ul class="list-group" [hidden]="showSideBar">
+                    <a class="list-group-item" *ngFor="let item of listItems_view; let i = index" (click)="checkSelectedItem(i)">
+                        <div class="row">
+                            <div>
+                                <i class="fas fa-caret-right fa-lg margin-right-5"></i>
+                                <span *ngIf="objectValue.type != 3">
+                                    {{item.name}}
+                                </span>
+                                <span *ngIf="objectValue.type == 3">
+                                    {{item.combineInsuranceName}}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </ul>
+            </mat-drawer-container>
+        </div>
+    </div>
+
+</ng-template>

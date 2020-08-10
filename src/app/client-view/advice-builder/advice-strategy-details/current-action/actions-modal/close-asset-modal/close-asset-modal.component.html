@@ -1,0 +1,138 @@
+<div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <span *ngIf="!adviceBuilderService.isUpdateAction" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">Add new action</span>
+            <span *ngIf="adviceBuilderService.isUpdateAction" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">Update action</span>
+        </div>
+        <div class="modal-body" [style.display]="((closeAsset.assetId && adviceBuilderService.isUpdateAction) || !adviceBuilderService.isUpdateAction) ? 'block' : 'none'">
+            <form #closeAssetForm="ngForm">
+                <div class="row">
+                    <div class="col-md-1 auto-width">
+                        <ul class="icon-list margin-top-bot-5">
+                            <li>
+                                <span><i class="fas fa-times fa-lg dark-gray"></i></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-11 padding-0">
+                        <h3 *ngIf="!adviceBuilderService.isUpdateAction" class="action-style">Close an Asset</h3>
+                        <h3 *ngIf="adviceBuilderService.isUpdateAction" class="action-style">Update close an Asset</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                            <li class="active">
+                                <a id="close-asset-details" data-toggle="pill" href="#close-asset-basic-data">Action
+                                    details</a>
+                            </li>
+                            <li>
+                                <a data-toggle="pill" href="#close-asset-complementary-data">Advice comments</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="close-asset-basic-data" class="tab-pane fade in active">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label">Choose the Asset you want to close</label>
+                                        <!-- create action -->
+                                        <div [hidden]="adviceBuilderService.isUpdateAction">
+                                            <select class="form-control" name="assetToClose" [(ngModel)]="closeAsset.assetId" (change)="selectedAssetChange($event)" required>
+                                                <option hidden value="-1"></option>
+                                                <option *ngFor="let asset of assetListToClose" [value]="asset.id">
+                                                    {{asset.name}}</option>
+                                            </select>
+                                        </div>
+                                        <!-- update action -->
+                                        <div [hidden]="!adviceBuilderService.isUpdateAction">
+                                            <select class="form-control" name="assetToClose" (change)="selectedAssetChange($event)" [(ngModel)]="closeAsset.assetId" required>
+                                                <option hidden value="-1"></option>
+                                                <option *ngFor="let asset of assetListToUpdate" [value]="asset.id">
+                                                    {{asset.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label">When do you want to close it?</label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="margin-top-5">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" name="transfertime"
+                                                            (change)="onYearClick(1)" [value]="false"
+                                                            [(ngModel)]="selectOnYearTyping"> Now
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <label class="radio-inline">
+                                                    <span class="pull-left margin-top-5"><input type="radio"
+                                                            name="transfertime" (change)="onYearClick(2)" [value]="true"
+                                                            [(ngModel)]="selectOnYearTyping"> On year</span>
+                                                    <input type="number"
+                                                        class="form-control input-number-without-arrow pull-left margin-left-10"
+                                                        min="1900" style="width:60px;" placeholder="YYYY" name="onYear"
+                                                        [(ngModel)]="typingYear" [disabled]="!selectOnYearTyping"
+                                                        [required]="selectOnYearTyping">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" [style.display]="selectedAsset && selectedAsset.accountBalance && selectedAsset.accountBalance > 0">
+                                        <div class="row padding-top-10">
+                                            <div class="col-md-6">
+                                                <label fclass="control-label">* Destination</label>
+                                                <!-- create action -->
+                                                <select *ngIf="!adviceBuilderService.isUpdateAction" class="form-control" name="destinationId" [(ngModel)]="closeAsset.destinationId" required>
+                                                    <option hidden value="-1"></option>
+                                                    <option *ngFor="let destination of assetListToClose"
+                                                        [hidden]="destination.id == selectedAsset.id"
+                                                        [value]="destination.id">{{destination.name}}</option>
+                                                </select>
+                                                <!-- update action -->
+                                                <select *ngIf="adviceBuilderService.isUpdateAction" class="form-control" name="destinationId" [(ngModel)]="closeAsset.destinationId" required>
+                                                    <option hidden value="-1"></option>
+                                                    <option *ngFor="let destination of assetListToUpdate"
+                                                        [hidden]="destination.id == selectedAsset.id"
+                                                        [value]="destination.id">{{destination.name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="close-asset-complementary-data" class="tab-pane fade">
+                                <div>
+                                    <label class="control-label">What is this action?</label>
+                                    <textarea class="form-control" rows="4" name="details" [(ngModel)]="closeAsset.details" [placeholder]="closeAsset.details || ''"></textarea>
+                                </div>
+                                <div class="padding-top-20">
+                                    <label class="control-label">Why are you taking this action?</label>
+                                    <textarea class="form-control" rows="4" name="reason" [(ngModel)]="closeAsset.reason" [placeholder]="closeAsset.reason || ''"></textarea>
+                                </div>
+                                <div class="padding-top-20">
+                                    <label class="control-label">How It improves your situation?</label>
+                                    <textarea class="form-control" rows="4" name="result" [(ngModel)]="closeAsset.result" [placeholder]="closeAsset.result || ''"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 padding-top-30">
+                        <hr>
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info pull-right margin-right-5" [disabled]="closeAssetForm.invalid || !viewDetectChange()" (click)="saveChangeCloseAsset()">{{adviceBuilderService.isUpdateAction ? 'Save changes' : 'Confirm closure'}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div [style.display]="(!closeAsset.assetId && adviceBuilderService.isUpdateAction) ? 'block' : 'none'" class="modal-body text-center margin-top-10 margin-bottom-10">
+            <i class="fas fa-spinner fa-pulse"></i>
+        </div>
+    </div>
+</div>

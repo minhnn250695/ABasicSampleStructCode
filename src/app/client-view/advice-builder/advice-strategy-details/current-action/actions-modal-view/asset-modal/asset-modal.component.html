@@ -1,0 +1,141 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <span class="modal-title finpal-h2 padding-bottom-10 margin-right-5">View action</span>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-1 auto-width">
+                    <ul class="icon-list margin-top-bot-5">
+                        <li>
+                            <span><i class="fa fa-gem fa-lg dark-gray"></i></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-11 padding-0">
+                    <h3 class="action-style">Asset</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                        <li class="active">
+                            <a id="asset-details-view" data-toggle="pill" href="#asset-basic-data-view">Action details</a>
+                        </li>
+                        <li>
+                            <a data-toggle="pill" href="#asset-complementary-data-view">Advice comments</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="asset-basic-data-view" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label fclass="control-label"> Asset name</label>
+                                    <p class="field-info">{{asset.assetName || 'N/A'}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 padding-top-20">
+                                    <label class="control-label"> Asset type</label>
+                                    <p class="field-info">{{getAssetTypeText(asset.assetType)}}</p>
+                                </div>
+                                <div class="col-md-4 padding-top-20">
+                                    <label class="control-label"> Ownership type</label>
+                                    <p class="field-info">{{getOwnershipTypeText(asset.ownershipType)}}</p>
+                                </div>
+                                <div class="col-md-4 padding-top-20">
+                                    <label fclass="control-label"> Starting year</label>
+                                    <p class="field-info">{{asset.startYear || 'N/A'}}</p>
+                                </div>
+                            </div>
+                            <div class="row padding-top-20">
+                                <div class="col-md-6">
+                                    <label class="control-label">Will you make any contributions to this
+                                            account?</label><br />
+                                    <label class="radio-inline">
+                                            <input type="radio" name="makeContributionsYes" [value]="true"
+                                                [(ngModel)]="makeContribution" disabled> Yes
+                                        </label>
+                                    <label class="radio-inline">
+                                            <input type="radio" name="makeContributionsNo" [value]="false"
+                                                [(ngModel)]="makeContribution" disabled> No
+                                        </label>
+                                </div>
+                                <!-- Only show if Asset Type = Superannuation -->
+                                <div class="col-md-6" *ngIf="asset.assetType == 2">
+                                    <label class="control-label">Receive contributions from your
+                                            employer?</label><br />
+                                    <label class="radio-inline">
+                                            <input type="radio" name="receiveContributionsYes" [value]="true"
+                                                [(ngModel)]="receiveContribution" disabled> Yes
+                                        </label>
+                                    <label class="radio-inline">
+                                            <input type="radio" name="receiveContributionsNo" [value]="false"
+                                                [(ngModel)]="receiveContribution" disabled> No
+                                        </label>
+                                </div>
+                            </div>
+                            <div class="row padding-top-20" *ngIf="makeContribution">
+                                <div class="col-md-4">
+                                    <label fclass="control-label margin-top-10">Contribution type</label>
+                                    <p class="field-info">{{getContributionTypeText(asset.contributionType)}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label fclass="control-label">Amount</label>
+                                    <p class="field-info">${{asset.contributionAmount || 0 | number : '1.2-2'}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label">Frequency</label>
+                                    <p class="field-info">{{getFrequencyText(asset.contributionFrequency)}}</p>
+                                </div>
+                            </div>
+                            <div class="row padding-top-20">
+                                <div class="col-md-4">
+                                    <label class="control-label"> Investment type</label>
+                                    <p class="field-info">{{getInvestmentTypeText(asset.investmentStyle)}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label">Estimated net returns (%)</label>
+                                    <p class="field-info">{{asset.netReturns || 'N/A'}}%</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label fclass="control-label"> Starting asset balance</label>
+                                    <p class="field-info">${{asset.accountBalance || 0 | number: '1.2-2'}}</p>
+                                </div>
+                            </div>
+                            <div class="row padding-top-20">
+                                <div [style.display]="asset.accountBalance > 0 ? 'block' : 'none'">
+                                    <div class="col-md-4">
+                                        <label class="control-label">Funded from</label>
+                                        <p class="field-info">{{getFundFromText(asset.sourceOfFunds)}}</p>
+                                    </div>
+                                    <div class="input-groups col-md-8" *ngIf="getFundFromText(asset.sourceOfFunds) != 'Cash Flow'">
+                                        <label class="control-label">Draw Fund From</label>
+                                        <p *ngIf="isValidValue" class="field-info">{{getSourceText(asset.sourceId)}}</p>
+                                        <p *ngIf="!isValidValue"><i class="fas fa-exclamation-triangle red"></i>Fund source has been inactived or deleted. Please select another one.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="asset-complementary-data-view" class="tab-pane fade">
+                            <div>
+                                <label class="control-label">What is this action?</label>
+                                <textarea class="form-control" rows="4" name="details" [value]="asset.details || 'N/A'" readonly></textarea>
+                            </div>
+                            <div class="padding-top-20">
+                                <label class="control-label">Why are you taking this action?</label>
+                                <textarea class="form-control" rows="4" name="reason" [value]="asset.reason || 'N/A'" readonly></textarea>
+                            </div>
+                            <div class="padding-top-20">
+                                <label class="control-label">How It improves your situation?</label>
+                                <textarea class="form-control" rows="4" name="result" [value]="asset.result || 'N/A'" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

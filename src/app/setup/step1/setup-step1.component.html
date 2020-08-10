@@ -1,0 +1,85 @@
+<fp-header> </fp-header>
+<div class="breadcrumb-bar-generic padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a class="margin-right-5">Get started</a> <i class="fas fa-angle-right margin-right-5"></i> <span class="active-breadcrumb">Step 1</span>
+    </div>
+</div>
+<div class="container padding-top-10 padding-bottom-50">
+    <div class="row">
+        <div class="col-md-12 padding-bottom-20">
+            <h1 class="finpal-h1">Get started</h1>
+            <h2 class="finpal-h3">Step 1</h2>
+        </div>
+    </div>
+    <div class="row" *ngIf="!showConfirmMessage">
+        <div class="col-md-3">
+            <form>
+                <div class="form-group">
+                    <label for="">First name</label>
+                    <input type="text" class="form-control" name="firstname" [(ngModel)]="step.firstName" required placeholder="First Name" #firstname="ngModel">
+                </div>
+                <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="form-group" style="color: red">
+                    <div *ngIf="firstname.errors.required">required</div>
+                </div>
+                <div class="form-group">
+                    <label for="">Last name</label>
+                    <input type="text" class="form-control" name="lastname" [(ngModel)]="step.lastName" required placeholder="Last Name" #lastname="ngModel">
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3">
+            <form>
+                <div class="form-group">
+                    <label for="">Company name</label>
+                    <input type="text" class="form-control" name="companyName" [(ngModel)]="step.companyName" required placeholder="Company Name" #companyName="ngModel">                    
+                </div>
+                <div *ngIf="companyName.invalid && (companyName.dirty || companyName.touched)" class="form-group" style="color: red">
+                    <div *ngIf="companyName.errors.required">required</div>
+                </div>
+                <div *ngIf="showCompanyNameExistError" class="form-group" style="color: red">
+                    <div>the company name is not available</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="">CRM url</label>
+                    <input type="text" class="form-control" name="crmUrl" [disabled]="step.isUpdate" [(ngModel)]="step.crmUrl" required placeholder="CRM Url" #crmUrl="ngModel">
+                </div>
+                <div *ngIf="crmUrl.invalid && (crmUrl.dirty || crmUrl.touched)" class="form-group" style="color: red">
+                    <div *ngIf="crmUrl.errors.required">required</div>
+                </div>
+                <button type="submit" class="btn btn-info pull-right" (click)="saveStep1()" [disabled]="showConfirmMessage || showPrivilegesError || showCRMConnectionError || firstname.invalid || companyName.invalid || crmUrl.invalid">Continue</button>
+            </form>
+        </div>
+        <div class="col-md-3" *ngIf="showPrivilegesError">
+            <div class="card">
+                <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+                    <h2 class="finpal-h3 padding-bottom-10">More privileges needed</h2>
+                    <p>The user has not sufficient permissions to install FinPal.</p>
+                    <button type="submit" class="btn btn-primary margin-right-5" (click)="cancel()">OK</button>                    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" *ngIf="showCRMConnectionError">
+            <div class="card">
+                <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+                    <h2 class="finpal-h3 padding-bottom-10">CRM connection error</h2>
+                    <p>Make sure CRM Url and user password are correct.</p>
+                    <button type="submit" class="btn btn-primary margin-right-5" (click)="hideError()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="showConfirmMessage">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-block padding-left-20 padding-right-20 padding-top-30 padding-bottom-20">
+                    <h2 class="finpal-h3 padding-bottom-10"><i class="fas fa-exclamation-triangle"></i> Installation needed</h2>
+                    <p>FinPal's customisations have not yet been installed in your Dynamics CRM environment. Click Install and we'll get everything set up correctly for you.</p>
+                    <button type="button" class="btn btn-primary" (click)="continue()">Install</button>
+                    <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<fp-footer> </fp-footer>

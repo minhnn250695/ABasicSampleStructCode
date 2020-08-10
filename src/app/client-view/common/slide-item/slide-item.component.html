@@ -1,0 +1,11 @@
+ 
+
+ <input type="checkbox" name="slideItem" id="slide-item-{{id}}" class="slide-toggle" [checked]="client.isDisplayedInUi" 
+        (change)="itemStateChanged($event)"/>
+        
+ <label for="slide-item-{{id}}"> 
+
+    <fp-cirle-img [img]="imageUrl"
+                [name]="getClientFullName()"></fp-cirle-img>
+    
+ </label>

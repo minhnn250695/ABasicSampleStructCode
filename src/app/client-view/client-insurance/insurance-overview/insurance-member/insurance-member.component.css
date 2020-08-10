@@ -1,0 +1,50 @@
+.padding-bottom-70 {
+    padding-bottom: 70px;
+}
+
+.default-cursor {
+    cursor: default;
+}
+
+.static-button:hover {
+    background-color: #0072C6;
+    cursor: pointer;
+}
+
+.insurance-block {
+    padding: 0 15px 15px 15px;
+}
+
+.padding-bottom-25 {
+    padding-bottom: 25px;
+}
+
+
+/* .total-cost-icon{
+    float: left;
+    margin-left: 8px;
+}
+
+.total-cost-value{
+    margin-left: -32px;
+} */
+
+.btn-info {
+    height: 40px;
+    width: 100%;
+    padding: 9px 12px;
+}
+
+.avatar-container {
+    position: relative;
+    text-align: center;
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    margin: auto;
+}
+
+.notify-red-badge,
+.notify-blue-badge {
+    right: -5px;
+    top: 70%;
+}

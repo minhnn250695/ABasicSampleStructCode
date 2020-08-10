@@ -1,0 +1,15 @@
+<input type="checkbox" name="slideItem" id="slide-item-{{id}}" class="slide-toggle" [checked]="client.isDisplayedInUi" (change)="itemStateChanged($event)" />
+
+
+<label for="slide-item-{{id}}"> 
+
+    
+     <ngu-letter-avatar *ngIf="!isHasAvatar()" [avatar-data]='getClientFullName()'
+                        avatar-char-count="2"  avatar-shape="round" 
+                        class="img-circle"
+                        avatar-height="60px"
+                        avatar-width="60px"
+                        [avatar-custom-bg-color]="getAvatarColor()"></ngu-letter-avatar>
+     <img  *ngIf="isHasAvatar()" [src]="memberImgUrl()" class="img-circle" alt="" />
+    
+ </label>

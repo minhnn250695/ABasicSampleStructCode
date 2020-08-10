@@ -1,0 +1,39 @@
+<div class="row padding-top-30">
+    <div class="col-md-12 text-left">
+        <form #houseHoldForm="ngForm">
+            <div class="row">
+                <div class="col-md-4">
+                    <label fclass="control-label">* Expense type</label>
+                    <select [disabled]="houseHoldSpendingFromClick ? 'disabled' : null" class="form-control" (change)="onExpenseTypeChange($event)" required>
+            <!-- <option value="1">Tax</option> -->
+            <option selected value="2">Household spending</option>
+          </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="control-label">* Spending type</label>
+                    <select id="selectedSpendingType" class="form-control" [(ngModel)]="houseHoldSpendingUpdate.expenseType" name="household-type">
+            <option *ngFor="let type of spendingTypeList" value={{type.code}}>{{type.name}}</option>
+          </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="control-label">* Amount (annual)</label>
+                    <!-- <input type="number" class="form-control" placeholder="$"
+            name="amount" (keydown)="checkNumbersOnly($event)" [(ngModel]="houseHoldSpendingUpdate.expenseAmount" required> -->
+                    <input autocomplete="off" type="text" class="form-control" name="amount" placeholder="$0" [(ngModel)]="expenseAmount" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" (focus)="onAmountFocus(expenseAmount, 'expenseAmount')" (focusout)="onAmountFocusOut(expenseAmount, 'expenseAmount')"
+                        (keyup)="onAmountKeyup($event, 'expenseAmount')" required>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 padding-top-20">
+        <button type="button" class="btn btn-default pull-right" data-dismiss="modal" (click)="resetValues()">Cancel</button>
+        <button type="button" *ngIf="!houseHoldSpendingFromClick" [disabled]="houseHoldForm.invalid" (click)="btnAddClick(1)" class="btn btn-info pull-right margin-right-5">Add
+      expense
+    </button>
+        <button type="button" *ngIf="houseHoldSpendingFromClick" [disabled]="houseHoldForm.invalid || !detectDataChanges()" (click)="btnAddClick(2)" class="btn btn-info pull-right margin-right-5">Save
+      changes
+    </button>
+    </div>
+</div>

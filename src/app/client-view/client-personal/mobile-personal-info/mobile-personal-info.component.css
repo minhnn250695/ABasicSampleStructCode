@@ -1,0 +1,171 @@
+/*========================================================
+                        FOR MOBILE
+==========================================================*/
+
+.margin-bottom-80 {
+    margin-bottom: 80px;
+}
+
+.mat-drawer-container {
+    background-color: #ffffff;
+}
+
+.member-details .section-actions {
+    background: transparent;
+    padding: 0 5px;
+}
+
+.member-details .btn-sections {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    line-height: 2.429;
+    margin: 5px 0;
+}
+
+.member-details .btn-sections svg.fa-lg {
+    font-size: 1.5em;
+}
+
+.member-details .mat-drawer {
+    left: 0;
+    width: 100%;
+    background: transparent;
+}
+
+.member-details .section-sidebar .sidebar-header {
+    height: 49px;
+}
+
+.member-details .section-sidebar .sidebar-header .title {
+    background: #ffffff;
+    font-size: 16px;
+    width: calc(100% - 100.7px);
+    height: 50px;
+}
+
+.member-details .section-sidebar .sidebar-content {
+    min-height: calc(100% - 50px);
+    background: #ffffff;
+    border-top: 1px solid#E1E1E1;
+    position: relative;
+}
+
+
+/* ACTIONS */
+
+.member-details .section-sidebar .sidebar-content .actions {
+    position: relative;
+}
+
+.member-details .section-sidebar .sidebar-content .btn-save {
+    position: absolute;
+    height: 45px;
+    width: 45px;
+    padding: 9px 0;
+    bottom: 80px;
+    right: 25px;
+    z-index: 1;
+}
+
+.member-details .section-sidebar .sidebar-content .profile {
+    text-align: center;
+}
+
+.member-details .section-sidebar .sidebar-content .profile h4 {
+    margin: 15px 0;
+}
+
+
+/* INFO CARD */
+
+.member-details .section-sidebar .sidebar-content .member-info h5.readonly {
+    margin-bottom: 10px;
+}
+
+.member-details .section-sidebar .sidebar-content .member-info .info-item {
+    margin-bottom: 15px;
+}
+
+.member-details .section-sidebar .sidebar-content .member-info svg {
+    color: #FF8C00;
+}
+
+.member-details .section-sidebar .sidebar-content .member-info svg.fa-2x {
+    font-size: 1.8em;
+}
+
+
+/* INFO under card theme */
+
+.member-details .section-sidebar .sidebar-content .member-info .icon {
+    padding: 0;
+    margin-top: 4px;
+}
+
+.member-details .section-sidebar .sidebar-content .member-info .card {
+    height: 65px;
+    border-radius: 4px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.member-details .section-sidebar .sidebar-content .member-info .card .info-details {
+    margin: 0;
+}
+
+.member-details .section-sidebar .sidebar-content .member-info .card p {
+    margin: 0;
+}
+
+
+/* INFO Select option field */
+
+.member-details .section-sidebar .sidebar-content .member-info input,
+.member-details .section-sidebar .sidebar-content .member-info input:focus {
+    border: none;
+    box-shadow: none;
+    border-bottom: 1px solid #E1E1E1;
+    -webkit-box-shadow: none;
+    padding: 6px 0;
+}
+
+.member-details .section-sidebar .sidebar-content .member-info select.form-control,
+.member-details .section-sidebar .sidebar-content .member-info select.form-control:focus {
+    border: none;
+    border-bottom: 1px solid #E1E1E1;
+    box-shadow: none;
+    padding: 6px 0;
+    -webkit-box-shadow: none;
+    position: relative;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: white url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' width='50' height='25' fill='%230072C6'><path d='M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z'/></svg>") no-repeat;
+    background-position: right -18px top 50%;
+}
+
+.member-details .section-sidebar .sidebar-content .member-info .field-icon {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.member-details .section-sidebar .sidebar-content .member-info .field-input.col-xs-11.col-sm-11 {
+    padding-left: 10px;
+}
+
+.member-details .section-sidebar .sidebar-content .member-info .field-input svg {
+    transition: all .5s linear;
+}
+
+.member-details .section-sidebar .sidebar-content .member-info .field-input svg.fa-chevron-down {
+    color: #0072C6;
+}
+
+.member-details .section-sidebar .sidebar-content .member-info .field-input .opened svg {
+    transform: rotate(180deg);
+}
+
+.member-details .section-sidebar .sidebar-content .member-info .field-input.col-xs-11.col-sm-11 h5 {
+    padding-left: 3px;
+}

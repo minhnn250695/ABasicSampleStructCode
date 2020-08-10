@@ -1,0 +1,279 @@
+<!-- Mobile -->
+<div [style.display]="isMobile ? '' : 'none'">
+    <div id="asset" class="row card asset-card m-dark-gray">
+        <div class="row margin-0">
+            <div class="card-header-xs-2-mobile dark-pink-background ">
+            </div>
+            <h3 class="finpal-h3 padding-left-20 padding-top-5">Assets</h3>
+        </div>
+        <div class="row margin-0">
+            <div class="card-block">
+                <div class="col-xs-2">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x light-blue"></i>
+                        <i class="fas fa-hands-usd fa-stack-1x white-color"></i>
+                    </span>
+                </div>
+                <div class="col-xs-10">
+                    <h5 class="finpal-h5">Total Assets</h5>
+                    <p class="font-size-20" id="total-asset">${{ asset && asset.totalAssets || 0 | number : '1.2-2'}}
+                    </p>
+                    <div class="row">
+                        <div class="col-xs-5 padding-0 padding-bottom-10">
+                            <div class="col-xs-2 text-center">
+                                <span>
+                                    <i class="fa fa-car light-gray"></i>
+                                </span>
+                            </div>
+                            <div class="col-xs-8 font-size-12 m-dark-gray">
+                                <div class=""><strong>Lifestyle</strong></div>
+                                <span id="asset-lifestyle">
+                                    ${{asset && asset.lifestyle || 0 | number : '1.2-2'}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-5 padding-0 padding-bottom-10">
+                            <div class="col-xs-2 text-center">
+                                <span>
+                                    <i class="fa fa-chart-line light-gray"></i>
+                                </span>
+                            </div>
+                            <div class="col-xs-8 font-size-12 m-dark-gray">
+                                <div class=""><strong>Investment</strong></div>
+                                <span id="asset-investment">
+                                    ${{ asset && asset.investments || 0 | number : '1.2-2'}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-0 border-top-e1-gray">
+            <div class="card-block margin-top-10">
+                <div class="col-xs-2">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x light-blue"></i>
+                        <i class="fas fa-piggy-bank fa-stack-1x white-color"></i>
+                    </span>
+                </div>
+                <div class="col-xs-10 padding-bottom-10">
+                    <h5 class="finpal-h5 ">Net contributions</h5>
+                    <p class="font-size-20" id="asset-net-contribution">
+                        ${{asset && asset.netContributions || 0 | number : '1.2-2'}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="debt " class="row card debt-card m-dark-gray">
+        <div class="row margin-0">
+            <div class="">
+                <div class="card-header-xs-2-mobile light-orange-background">
+                    <div class="card white-color pull-right thumb-flag orange-background thumb-top-position">
+                        <span class="thumb-icon" *ngIf="debt && (debt.onTrack === 509000000 || debt.onTrack === 509000002)">
+                            <i class="fas fa-thumbs-up"></i>
+                        </span>
+                        <span class="thumb-icon" *ngIf="debt && debt.onTrack === 509000001">
+                            <i class="fas fa-thumbs-down"></i>
+                        </span>
+                    </div>
+                </div>
+                <h3 class="finpal-h3 padding-left-20 padding-top-5">Debt</h3>
+            </div>
+        </div>
+        <div class="row margin-0">
+            <div class="card-block">
+                <div class="col-xs-2">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x light-blue"></i>
+                        <i class="fas fa-hands-usd fa-stack-1x white-color"></i>
+                    </span>
+                </div>
+                <div class="col-xs-10">
+                    <h5 class="finpal-h5">Total debt</h5>
+                    <p class="font-size-20" id="debt-total">${{ debt && debt.totalDebt || 0 | number : '1.2-2'}}</p>
+                    <div class="row">
+                        <div class="col-xs-5 padding-0 padding-bottom-10">
+                            <div class="col-xs-2 text-center">
+                                <span>
+                                    <i class="fa fa-car light-gray"></i>
+                                </span>
+                            </div>
+                            <div class="col-xs-8 font-size-12 m-dark-gray">
+                                <div><strong>Deductible</strong></div>
+                                <span id="deductible-debt">
+                                    ${{ debt && debt.deductibleDebt || 0 | number : '1.2-2'}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-7 padding-0 padding-bottom-10">
+                            <div class="col-xs-2 text-center">
+                                <span>
+                                    <i class="fa fa-chart-line light-gray"></i>
+                                </span>
+                            </div>
+                            <div class="col-xs-9 font-size-12 m-dark-gray">
+                                <div><strong>Non Deductible</strong></div>
+                                <span id="non-deductible-debt">
+                                    ${{ debt && debt.nonDeductibleDebt || 0 | number : '1.2-2'}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row margin-0 border-top-e1-gray margin-bottom-20">
+            <div class="card-block margin-top-10">
+                <div class="col-xs-2">
+                    <span class="fa-stack fa-lg">
+                        <i class="fas fa-circle fa-stack-2x light-blue"></i>
+                        <i class="fas fa-calendar-star fa-stack-1x white-color"></i>
+                    </span>
+                </div>
+                <div class="col-xs-10">
+                    <div class="m-dark-gray">
+                        <span>Desire years to pay</span>
+                        <span id="plus-button" [ngClass]="debt && debt.wishedYearsToPay != 1 ? 'dark-blue' : 'light-gray'" class="margin-left-15" (click)="onclickMinus()">
+                            <i class="fas fa-minus-square"></i>
+                        </span>
+
+                        <span class="field-info margin-left-5 margin-right-5">{{debt && debt.wishedYearsToPay || 1}}</span>
+
+                        <span id="plus-button" (click)="onclickPlus()">
+                            <i class="fas fa-plus-square dark-blue"></i>
+                        </span>
+                    </div>
+                    <div>Years to pay
+                        <strong *ngIf="debt.finish">{{ debt && debt.yearsToPay || 0 }}</strong>
+                        <strong *ngIf="!debt.finish">never</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Desktop -->
+<div class="row" [style.display]="!isMobile ? '' : 'none'">
+    <div class="col-xs-12 col-md-6">
+        <div class="card default-cursor m-dark-gray">
+            <div class="card-header-xs-2 dark-pink-background padding-left-20 padding-right-20">
+            </div>
+            <div class="card-block card-bottom-border padding-left-20 padding-right-20 padding-top-20 padding-bottom-10">
+                <h3 class="finpal-h3 m-dark-gray">Asset</h3>
+                <div class="finpal-h5 m-dark-gray">Total assets</div>
+                <div class="finpal-h4 m-dark-gray" id="asset-total">
+                    ${{ asset && asset.totalAssets || 0 | number : '1.0-0'}}</div>
+            </div>
+            <div class="card-block padding-left-20 padding-right-20 padding-bottom-10 card-bottom-border">
+                <div class="row">
+                    <div class="col-xs-2 col-md-3 padding-top-10 padding-right-5 text-center">
+                        <span data-toggle="tooltip" data-placement="top" title="Investment"><i
+                                class="fa fa-chart-line"></i></span>
+                    </div>
+                    <div class="col-xs-10 col-md-9 padding-top-10 padding-left-5">
+                        <span id="asset-investment" data-toggle="tooltip" data-placement="right" title="Investment">
+                            ${{ asset && asset.investments || 0 | number : '1.2-2'}}
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2 col-md-3 padding-top-10 padding-right-5 text-center">
+                        <span data-toggle="tooltip" data-placement="top" title="Lifestyle"><i
+                                class="fa fa-car"></i></span>
+                    </div>
+                    <div class="col-xs-10 col-md-9 padding-top-10 padding-left-5">
+                        <span id="asset-lifestyle" data-toggle="tooltip" data-placement="right" title="Lifestyle">
+                            ${{asset && asset.lifestyle || 0 | number : '1.2-2'}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+                <div class="finpal-h5 m-dark-gray">Net contributions</div>
+                <div class="finpal-h4 m-dark-gray" id="asset-net-contribution">
+                    ${{asset && asset.netContributions || 0 | number : '1.0-0'}}
+                </div>
+                <div class="details-button" *ngIf="!isAdviceBuilderPage">
+                    <common-asset-projection-overlay [showIcon]="false"></common-asset-projection-overlay>
+                </div>
+                <div class="details-button" id="asset-projections" *ngIf="isAdviceBuilderPage">
+                    <a href="/#/client-view/advice-builder/asset-projections-detail" class="btn btn-info finpal-h5 white-color" id="asset-projections">Asset Projections</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-6">
+        <div class="card default-cursor m-dark-gray">
+            <div class="card-header-xs-2 light-orange-background padding-left-20 padding-right-20">
+                <div class="card white-color pull-right thumb-flag orange-background">
+                    <span class="thumb-icon" *ngIf="debt.onTrack === 509000000 || debt.onTrack === 509000002">
+                        <i class="fas fa-thumbs-up"></i>
+                    </span>
+                    <span class="thumb-icon" *ngIf="debt.onTrack === 509000001">
+                        <i class="fas fa-thumbs-down"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="card-block card-bottom-border padding-left-20 padding-right-20 padding-top-20 padding-bottom-10">
+                <h3 class="finpal-h3 m-dark-gray">Debt</h3>
+                <div class="finpal-h5 m-dark-gray">Total debt</div>
+                <div class="finpal-h4 m-dark-gray" id="total-debt">${{ debt && debt.totalDebt || 0 | number : '1.0-0'}}
+                </div>
+            </div>
+            <div class="card-block padding-left-20 padding-right-20  padding-bottom-10 card-bottom-border">
+                <div class="row">
+                    <div class="col-xs-2 col-md-3 padding-top-10 padding-right-5 text-center">
+                        <span data-toggle="tooltip" data-placement="top" title="Tax Deductible Debt"><i
+                                class="fa fa-check"></i></span>
+                    </div>
+                    <div class="col-xs-10 col-md-9 padding-top-10 padding-left-5">
+                        <span id="deductible-debt" data-toggle="tooltip" data-placement="right" title="Tax Deductible Debt">
+                            ${{ debt && debt.deductibleDebt || 0 | number : '1.2-2'}}
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2 col-md-3 padding-top-10 padding-right-5 text-center">
+                        <span data-toggle="tooltip" data-placement="top" title="Non-Deductible Debt"><i
+                                class="fa fa-times"></i></span>
+                    </div>
+                    <div class="col-xs-10 col-md-9 padding-top-10 padding-left-5">
+                        <span id="non-deductible-debt" data-toggle="tooltip" data-placement="right" title="Non-Deductible Debt">
+                            ${{ debt && debt.nonDeductibleDebt || 0 | number : '1.2-2'}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20 card-bottom-border">
+                <div>Desire years to pay
+                    <strong>{{ debt && debt.wishedYearsToPay || 0 }}</strong>
+                    <a type="button" id="edit-desire-year" class="btn btn-info-inverse btn-circle dark-blue object-shadow margin-left-10" rel="popover" data-placement="top" data-popover-content="#desire-year" onclick="$(this).popover('toggle')"><i class="fas fa-pencil"></i></a>
+                </div>
+                <div id="desire-year" class="hide">
+                    <label for="email" class="control-label">Desire years to pay</label>
+                    <input type="text" class="form-control" id="year-to-pay" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                    <div class="margin-top-5">
+                        <button type="button" class="btn btn-primary save-changes-popover desire-year">Save
+                            changes</button>
+                        <button type="button" class="btn btn-default close-popover">Cancel</button>
+                    </div>
+                </div>
+                <div>Years to pay
+                    <strong *ngIf="debt.finish">{{ debt && debt.yearsToPay || 0 }}</strong>
+                    <strong *ngIf="!debt.finish">never</strong>
+                </div>
+                <div *ngIf="!isAdviceBuilderPage" class="margin-top-10">
+                    <common-debts-projections-overlay [showIcon]="false"></common-debts-projections-overlay>
+                </div>
+                <div *ngIf="isAdviceBuilderPage" class="margin-top-10" id="debt-projections">
+                    <a href="/#/client-view/advice-builder/debt-projection-details" class="btn btn-info finpal-h5 white-color" id="debt-projections">Debt Projections</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

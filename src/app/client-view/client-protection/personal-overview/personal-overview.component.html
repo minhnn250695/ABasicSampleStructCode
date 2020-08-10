@@ -1,0 +1,12 @@
+<div class="container padding-bottom-50 padding-top-40">
+    <h1 class="finpal-h1">Insurance summary</h1>
+
+    <div class="row" *ngFor="let row of state.rows">
+        <personal-overview-tile *ngFor="let insurance of getInsuranceForRow(row); let column = index"
+            [id]="createId(row, column)" [insurance]="insurance"
+            [objective]="state.getObjective(insurance.primaryOwnerId)"
+            [outcome]="state.getOutcome(insurance.primaryOwnerId)"
+            [contact]="state.getClient(insurance.primaryOwnerId)">
+        </personal-overview-tile>
+    </div>
+</div>

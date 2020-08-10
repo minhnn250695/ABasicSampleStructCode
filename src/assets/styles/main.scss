@@ -1,0 +1,18 @@
+﻿/************************************************
+ 
+ Import the files cross application
+
+************************************************/
+
+// globat charset
+@charset "UTF-8";
+
+//Import global settings and vars
+@import "~/_settings";
+
+// Import our custom mixins
+@import "~/mixins";
+
+// Global App styles: ;
+@import "~/global";
+

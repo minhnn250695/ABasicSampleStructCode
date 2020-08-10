@@ -1,0 +1,72 @@
+<div class="card default-cursor m-dark-gray">
+    <div class="card-header-xs-2  green-background padding-left-20 padding-right-20">
+        <div class="card white-color pull-right thumb-flag orange-background">
+            <span class="thumb-icon" [style.display]="(cashFlow.onTrack == 509000000 || cashFlow.onTrack == 509000002) ? null : 'none'"><i
+                    class="fas fa-thumbs-up"></i></span>
+            <span class="thumb-icon" [style.display]="cashFlow.onTrack == 509000001 ? null : 'none'"><i
+                    class="fas fa-thumbs-down"></i></span>
+        </div>
+    </div>
+    <div class="card-block card-bottom-border padding-left-20 padding-right-20 padding-top-20 padding-bottom-10">
+        <h3 class="finpal-h3 m-dark-gray">Cash Flow</h3>
+        <div class="finpal-h5 m-dark-gray">Net income</div>
+        <div class="finpal-h4 m-dark-gray" id="cashflow-net-income">
+            ${{ cashFlow && cashFlow.netIncome || 0 | number : '1.2-2'}}</div>
+        <p class="small">
+            Gross income: ${{ cashFlow && cashFlow.grossIncome || 0 | number : '1.2-2'}}<br /> Pre-tax deductions: ${{ cashFlow && cashFlow.preTaxDeductions || 0 | number : '1.2-2'}}<br /> Tax paid: ${{ cashFlow && cashFlow.taxPaid || 0 | number : '1.2-2'}}
+        </p>
+    </div>
+    <div class="card-block card-bottom-border padding-left-20 padding-right-20 padding-top-20 padding-bottom-10">
+        <div class="finpal-h5 m-dark-gray">Total expenses</div>
+        <div class="finpal-h4 m-dark-gray" id="cashflow-total-expenses">${{ cashFlow && cashFlow.totalExpenses || 0 | number : '1.2-2'}}</div>
+        <div class="row">
+            <div class="col-xs-2 col-md-3 padding-top-10 padding-right-5 text-center">
+                <span data-toggle="tooltip" data-placement="top" title="Lifestyle"><i class="fa fa-music"></i></span>
+            </div>
+            <div class="col-xs-10 col-md-9 padding-top-10 padding-left-5">
+                <span id="cashflow-lifestyle" data-toggle="tooltip" data-placement="right" title="Lifestyle">
+                    ${{cashFlow && cashFlow.lifestyle || 0 | number: '1.2-2'}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 col-md-3 padding-top-10 padding-right-5 text-center">
+                <span data-toggle="tooltip" data-placement="top" title="Credit"><i class="fa fa-credit-card"></i></span>
+            </div>
+            <div class="col-xs-10 col-md-9 padding-top-10 padding-left-5">
+                <span id="cashflow-credit" data-toggle="tooltip" data-placement="right" title="Credit">
+                    ${{cashFlow && cashFlow.credit || 0 | number : '1.2-2'}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 col-md-3 padding-top-10 padding-right-5 text-center">
+                <span data-toggle="tooltip" data-placement="top" title="Investment"><i
+                        class="fa fa-money-bill-alt"></i></span>
+            </div>
+            <div class="col-xs-10 col-md-9 padding-top-10 padding-left-5">
+                <span id="cashflow-investment" data-toggle="tooltip" data-placement="right" title="Investment">
+                    ${{cashFlow && cashFlow.investment || 0 | number : '1.2-2'}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 col-md-3 padding-top-10 padding-right-5 text-center">
+                <span data-toggle="tooltip" data-placement="top" title="Insurance"><i class="fa fa-umbrella"></i></span>
+            </div>
+            <div class="col-xs-10 col-md-9 padding-top-10 padding-left-5">
+                <span id="cashflow-insurance" data-toggle="tooltip" data-placement="right" title="Insurance">
+                    ${{ cashFlow && cashFlow.insurance || 0 | number : '1.2-2'}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+        <div class="finpal-h5 m-dark-gray">Surplus income</div>
+        <div class="finpal-h4 m-dark-gray" id="cashflow-surplus-income">${{ cashFlow && cashFlow.surplusIncome || 0 | number : '1.0-0'}}</div>
+        <div class="details-button">
+            <a class="btn btn-info finpal-h5 white-color" id="cashflow-projections" href="/#/client-view/advice-builder/cash-flow-details">Cash
+                Flow Projections</a>
+        </div>
+    </div>
+</div>

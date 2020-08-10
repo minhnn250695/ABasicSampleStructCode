@@ -1,0 +1,407 @@
+<fp-header> </fp-header>
+<div class="breadcrumb-bar-generic padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a routerLink="/landing"><i class="fas fa-home fa-lg margin-right-5"></i></a> <i
+            class="fas fa-angle-right margin-right-5"></i>
+        <span class="active-breadcrumb">Settings</span>
+    </div>
+</div>
+<div class="container padding-top-40 padding-bottom-50">
+    <h1 class="finpal-h1">Settings</h1>
+    <div class="row">
+        <!-- Company details -->
+        <div class="col-md-6">
+            <h2 class="finpal-h3 padding-top-20 padding-bottom-10">Company details</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="finpal-h4">Identification</h2>
+                    <ul class="list-unstyled">
+                        <li class="margin-bottom-5">Registered name:
+                            <a id="pRegisteredName" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#registeredNameModal">
+                                {{companyResource.registerName}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="registeredNameModal" class="hide">
+                                <label class="control-label">Registered name</label>
+                                <input type="text" class="form-control input-sm" id="registeredName"
+                                    placeholder="{{companyResource.registerName}}">
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs"
+                                            onclick="$('#pRegisteredName').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="margin-bottom-5">Registration number:
+                            <a id="pRegisteredNumber" onclick="$(this).popover('toggle')" class="blue-link"
+                                rel="popover" data-popover-content="#registerNumberModal">
+                                {{companyResource.registerNumber ? companyResource.registerNumber : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="registerNumberModal" class="hide">
+                                <label class="control-label">Registered number</label>
+                                <input type="text" class="form-control input-sm" id="registerNumber"
+                                    placeholder="{{ companyResource.registerNumber ? companyResource.registerNumber : 'n/a'}}">
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs"
+                                            onclick="$('#pRegisteredNumber').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="margin-bottom-5">Licence number:
+                            <a id="pClientNumber" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#clientNumberModal">
+                                {{companyResource.licenseNumber ? companyResource.licenseNumber : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="clientNumberModal" class="hide">
+                                <label class="control-label">Client number</label>
+                                <input type="text" class="form-control input-sm" id="clientNumber"
+                                    placeholder="{{companyResource.licenseNumber ? companyResource.licenseNumber : 'n/a'}}">
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs close-popover"
+                                            onclick="$('#pClientNumber').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="margin-bottom-5">CRM URL:<br />
+                            <a (click)="onCrmUrlClick()" class="small dark-blue">{{companyResource.crmurl
+                                ? companyResource.crmurl : 'N/A'}}</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company logo -->
+                <div class="col-md-6 padding-top-20">
+                    <span class="finpal-h4">Company logo </span><a id="logoToolTip" data-toggle="tooltip"
+                        data-placement="right" title="Recommended size 150 x 50 pixels">
+                        <i class="fas fa-info-circle green-color fa-sm" aria-hidden="true"></i></a>
+                    <img id="logoImage" *ngIf="companyResource.companyLogoPath" [src]="companyResource.companyLogoPath"
+                        class="img-thumbnail padding-20" width="150" alt="Company Logo" />
+                    <label for="uploadFromFile">
+                        <span class="btn btn-default btn-sm margin-top-10">New company logo</span>
+                    </label>
+                    <input type="file" id="uploadFromFile" name="pic" accept="image/*" class="sr-only" (change)="handleUploadImage($event)">
+                </div>
+            </div>
+
+            <!-- Contact information -->
+            <div class="row padding-top-20">
+                <div class="col-md-6">
+                    <h3 class="finpal-h4">Contact information</h3>
+                    <p class="small">This information will be displayed in the Contact us section</p>
+                    <ul class="list-unstyled small">
+                        <li class="margin-bottom-5">Address 1:
+                            <a id="pAddress1" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#address1Modal">
+                                {{companyResource.addressLine1 ? companyResource.addressLine1 : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="address1Modal" class="hide">
+                                <label class="control-label">Address 1</label>
+                                <input type="text" class="form-control input-sm" id="address1"
+                                    placeholder="{{companyResource.addressLine1 ? companyResource.addressLine1 : 'n/a'}}">
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs"
+                                            onclick="$('#pAddress1').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="margin-bottom-5">Address 2:
+                            <a id="pAddress2" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#address2Modal">
+                                {{companyResource.addressLine2 ? companyResource.addressLine2 : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="address2Modal" class="hide">
+                                <label class="control-label">Address 2</label>
+                                <input type="text" class="form-control input-sm" id="address2"
+                                    placeholder="{{companyResource.addressLine2 ? companyResource.addressLine2 : 'n/a'}}">
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs"
+                                            onclick="$('#pAddress2').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="margin-bottom-5">City:
+                            <a id="pCity" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#cityModal">
+                                {{companyResource.city ? companyResource.city : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="cityModal" class="hide">
+                                <label class="control-label">City</label>
+                                <input type="text" class="form-control input-sm" id="city"
+                                    placeholder="{{companyResource.city ? companyResource.city : 'n/a'}}">
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs"
+                                            onclick="$('#pCity').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="margin-bottom-5">State:
+                            <a id="pState" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#stateModal">
+                                {{companyResource.stateOrProvince ? companyResource.stateOrProvince : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="stateModal" class="hide">
+                                <label class="control-label">State</label>
+                                <input type="text" class="form-control input-sm" id="state"
+                                    placeholder="{{companyResource.stateOrProvince ? companyResource.stateOrProvince : 'n/a'}}">
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs"
+                                            onclick="$('#pState').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="margin-bottom-5">Postal code:
+                            <a id="pPostalCode" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#postal-code-Modal">
+                                {{companyResource.postalCode ? companyResource.postalCode : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="postal-code-Modal" class="hide">
+                                <label class="control-label">Postal code</label>
+                                <input type="text" class="form-control input-sm" id="postal-code"
+                                    placeholder=" {{companyResource.postalCode ? companyResource.postalCode : 'n/a'}}">
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs"
+                                            onclick="$('#pPostalCode').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="margin-bottom-5">Email:
+                            <a id="pEmail" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#email-address-Modal">
+                                {{companyResource.email ? companyResource.email : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="email-address-Modal" class="hide">
+                                <label class="control-label">Email</label>
+                                <input type="text" class="form-control input-sm" id="email-address"
+                                    placeholder="{{companyResource.email ? companyResource.email : 'n/a'}}">
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs"
+                                            onclick="$('#pEmail').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="margin-bottom-5">Phone:
+                            <a id="pPhone" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#phoneModal">
+                                {{companyResource.phone ? companyResource.phone : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="phoneModal" class="hide">
+                                <label class="control-label">Phone</label>
+                                <input type="text" class="form-control input-sm" id="phone"
+                                    placeholder="{{companyResource.phone ? companyResource.phone : 'n/a'}}">
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs"
+                                            onclick="$('#pPhone').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Web information -->
+                <div class="col-md-6">
+                    <h2 class="finpal-h4">Web information</h2>
+                    <p class="small">Connect your web portal with social</p>
+                    <ul class="list-unstyled small">
+                        <li class="margin-bottom-5"><i class="fab fa-facebook fa-sm"></i>
+                            Facebook:
+                            <a id="pFacebook" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#facebookModal">
+                                {{facebook ? facebook : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="facebookModal" class="hide">
+                                <label class="control-label">Facebook</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon input-sm"><i class="fab fa-facebook fa-lg"></i></div>
+                                    <input type="text" class="form-control input-sm" id="facebook"
+                                        placeholder="{{facebook ? facebook : 'n/a'}}">
+                                </div>
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs  save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs" data-dismiss="modal"
+                                            onclick="$('#pFacebook').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="margin-bottom-5"><i class="fab fa-twitter fa-sm"></i>
+                            Twitter:
+                            <a id="pTwitter" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#twitterModal">
+                                {{twitter ? twitter : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="twitterModal" class="hide">
+                                <label for="twitter" class="control-label">Twitter</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon input-sm"><i class="fab fa-twitter fa-lg"></i></div>
+                                    <input type="text" class="form-control input-sm" id="twitter"
+                                        placeholder="{{twitter ? twitter : 'n/a'}}">
+                                </div>
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs"
+                                            onclick="$('#pTwitter').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="margin-bottom-5"><i class="fab fa-youtube fa-sm"></i>
+                            Youtube:
+                            <a id="pYoutube" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#youtubeModal">
+                                {{youtube ? youtube : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="youtubeModal" class="hide">
+                                <label class="control-label">Youtube</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon input-sm"><i class="fab fa-youtube fa-lg"></i></div>
+                                    <input type="text" class="form-control input-sm" id="youtube"
+                                        placeholder="{{youtube ? youtube : 'n/a'}}">
+                                </div>
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs"
+                                            onclick="$('#pYoutube').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="margin-bottom-5"><i class="fab fa-linkedin fa-sm"></i>
+                            Linkedin:
+                            <a id="pLinkedin" onclick="$(this).popover('toggle')" class="blue-link" rel="popover"
+                                data-popover-content="#linkedinModal">
+                                {{linkedin ? linkedin : 'n/a'}}
+                                <i class="fas fa-pencil"></i>
+                            </a>
+                            <div id="linkedinModal" class="hide">
+                                <label class="control-label">Linkedin</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon input-sm"><i class="fab fa-linkedin fa-lg"></i></div>
+                                    <input type="text" class="form-control input-sm" id="linkedin"
+                                        placeholder="{{linkedin ? linkedin : 'n/a'}}">
+                                </div>
+                                <div class="margin-top-5">
+                                    <p class="pull-right">
+                                        <button type="button" class="btn btn-primary btn-xs save-change">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default btn-xs"
+                                            onclick="$('#pLinkedin').popover('hide')">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- <div class="row padding-top-20">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- User details -->
+        <div class="col-md-6">
+            <h2 class="finpal-h3 padding-top-20 padding-bottom-10">Users details</h2>
+            <table class="table table-striped table-condensed table-responsive small">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td class="text-center">CRM license</td>
+                        <td class="text-center">Portal licence</td>
+                        <td class="text-center">Portal admin</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of userList">
+                        <td><i class="fas fa-user margin-right-5 medium-gray"></i>{{user.firstName}} {{user.lastName}}
+                        </td>
+
+                        <td class="text-center">
+                            <i class="fas fa-check-circle fa-lg" [ngClass]="getCRMLicense(user)"></i>
+                        </td>
+
+                        <td class="text-center">
+                            <i class="fas fa-check-circle fa-lg" [ngClass]="getPortalLicense(user)"></i>
+                        </td>
+
+                        <td class="text-center">
+                            <label class="switch">
+                                <input type="checkbox" [checked]="getPortalAdminValue(user)"
+                                    (change)="updatePortalAdminValue(user)">
+                                <span class="slider round"></span>
+                            </label>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<fp-footer></fp-footer>
+
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>
+<crop-image #cropImage [customWidth]="customWidth" [customHeight]="customHeight"
+    (croppedImage)="handleFinalImage($event)"></crop-image>

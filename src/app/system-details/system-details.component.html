@@ -1,0 +1,41 @@
+<fp-header> </fp-header>
+<div class="breadcrumb-bar-generic padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a href="#"><i class="fas fa-home fa-lg margin-right-5"></i></a> <i class="fas fa-angle-right margin-right-5"></i> <span class="active-breadcrumb">System details</span>
+    </div>
+</div>
+<div class="container padding-top-40 padding-bottom-50">
+    <h1 class="finpal-h1">System details</h1>
+    <div class="row">
+        <div class="col-md-3 padding-top-20" *ngFor="let component of systemDetails.components; let i = index">
+            <div class="card">
+                <div class="card-header-xs" [ngClass]="getBackgroundColor(i)">
+                    {{component.name}}
+                </div>
+                <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+                    <p>
+                        <strong>Version {{component.version}}</strong>
+                    </p>
+                    <div *ngIf="!component.hasNewVersionAvailable()">
+                        <p *ngIf="component.updateAllowed" class="small">Last updated on {{component.getLastUpdate()}}</p>                        
+                        <p class="small" *ngIf="component.isUpToDate()"><i class="fas fa-check-circle green-color"></i> {{component.name}} is up to date.</p>
+                        <button type="button" *ngIf="component.showCheckForUpdatesAction()" class="btn btn-gray btn-xs margin-right-5" (click)="component.checkUpdates()">Check for updates</button>
+                    </div>
+                    <div *ngIf="component.hasNewVersionAvailable()">
+                        <p *ngIf="component.showNewVersionAvailableMessage()" class="small"><i class="fas fa-exclamation-circle light-orange"></i> A new version is available.</p>
+                        <p *ngIf="component.requestedUpdate" class="small">Update requested on {{component.getRequestedUpdateOn()}}</p>
+                        <p *ngIf="component.updating" class="small"><i class="fas fa-circle-notch fa-pulse"></i> Updating... please hold on.</p>
+                        <p *ngIf="component.updateFailed" class="small"><i class="fas fa-exclamation-circle red"></i> Update failed.</p>
+                        <p *ngIf="component.updateHasNotStarted" class="small"><i class="fas fa-exclamation-circle red"></i> Update has not started correctly.</p>
+                        <p *ngIf="!component.updating && !canBeUpdated(component)" class="small"><i class="fas fa-exclamation-circle red"></i> A FinPal CRM licence is required to perform this upgrade. Please contact FinPal Support if further assistance is required.</p>
+                        <a *ngIf="component.updateFailed || component.updateHasNotStarted" class="btn btn-gray btn-xs margin-right-5" (click)="update(component)">Try again</a><a *ngIf="component.updateFailed" class="btn btn-gray-light btn-xs" target="_blank" href="https://support.finpal.com.au/contact-us/">Get help</a>
+                        <button type="button" *ngIf="component.showUpdateAction()" class="btn btn-gray btn-xs margin-right-5" (click)="update(component)" [disabled]="updateDisabled(component)">Update now</button>
+                        <a *ngIf="component.showMoreInformationLink()" class="btn btn-gray-light btn-xs" target="_blank" href="{{component.whatsNewLink}}">What's new?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<iframe [src]="landingSetupUrl" frameborder="0" style="width:0px;height:0px"></iframe>  
+<fp-footer> </fp-footer>

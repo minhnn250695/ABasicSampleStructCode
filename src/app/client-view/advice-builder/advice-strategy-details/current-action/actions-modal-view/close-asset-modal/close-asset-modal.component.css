@@ -1,0 +1,10 @@
+@import '../../../../../../../assets/styles/css/customize-styles.css';
+textarea {
+    resize: vertical;
+    min-height: 35px;
+    resize: none;
+}
+
+.radio-inline {
+    cursor: auto;
+}

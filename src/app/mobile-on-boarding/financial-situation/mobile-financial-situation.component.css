@@ -1,0 +1,5 @@
+@import '../../../assets/styles/css/styles-mobile.css';
+
+.scroll-able {
+    overflow: scroll;
+}

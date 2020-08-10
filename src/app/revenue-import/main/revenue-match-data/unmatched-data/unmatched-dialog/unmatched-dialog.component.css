@@ -1,0 +1,14 @@
+
+/* @import '../../../style/bootstrap.css'; */
+/* @import '../../../style/app-style.css'; */
+
+@import '../../../../../../assets/styles/fp-styles.css';
+
+
+.modal{
+    overflow-y: auto;
+}
+
+.modal-footer{
+    text-align: left;
+}

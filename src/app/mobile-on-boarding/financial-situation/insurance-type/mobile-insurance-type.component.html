@@ -1,0 +1,211 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+      aria-hidden="true">&times;</span></button>
+    <span *ngIf="!insuranceFromClick || !insuranceFromClick.id" class="modal-title finpal-h2 padding-bottom-10 margin-right-5" id="MatchModalLabel">New insurance</span>
+    <span *ngIf="insuranceFromClick && insuranceFromClick.id" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">{{itemName}}</span>
+    <!-- <a rel="popover" data-popover-content="#insurance-info" data-placement="right" onclick="$(this).popover('toggle')"><i
+      class="fas fa-info-circle" aria-hidden="true"></i></a>
+  <div id="insurance-info" class="hide">
+    <p class="dark-gray">Please provide information about any personal insurance policies such as life, disability,
+      trauma
+      and income protection. Most people have some personal insurance inside their superannuation.</p>
+  </div> -->
+</div>
+
+<div class="modal-body">
+    <form #test="ngForm" appIdentityRevealed>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label class="control-label">* Policy name</label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="Life, TPD, IP" name="friendlyName" required (change)="onPolicyNameChange($event.target.value)" [(ngModel)]="policyName">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 padding-top-20">
+                        <label class="control-label">Policy ID</label>
+                        <input autocomplete="off" type="text" class="form-control" placeholder="" name="policyNumber" [(ngModel)]="insuranceFromClick.number">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 padding-top-20">
+                        <label fclass="control-label">Insurance company</label>
+                        <select class="form-control" placeholder="" name="insuranceCompany" [(ngModel)]="insuranceFromClick.productProviderId">
+              <option *ngFor="let item of lifeInsuranceCompanies" [value]="item.id">{{item.value}}</option>
+            </select>
+                    </div>
+                    <div class="col-xs-12 padding-top-20">
+                        <label class="control-label" for="ownerShipType">* Premiums paid from</label>
+                        <select id="ownerShipType" name="ownerShipType" class="form-control" required [(ngModel)]="insuranceFromClick.ownershipType">
+              <option *ngFor="let item of premiums" [value]="item.code">{{item.name}}</option>
+            </select>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 padding-top-20">
+                        <label class="control-label" for="premiumFrequency">* Premium frequency</label>
+                        <select id="premiumFrequency" name="premiumFrequency" class="form-control" required [(ngModel)]="insuranceFromClick.premiumFrequency">
+              <option *ngFor="let item of frequency" [value]="item.code">{{item.name}}</option>
+            </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <hr />
+                    </div>
+                    <div class="col-xs-8">
+                        <span class="finpal-h3 margin-right-5">Insurance benefits</span>
+                    </div>
+                    <div class="col-xs-4">
+                        <a *ngIf="!isEditBenefit" data-toggle="collapse" data-target="#add-benefit" aria-expanded="false" aria-controls="add-benefit" class="btn btn-gray btn-sm pull-right">New
+              <i class="fas fa-plus" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+
+                <div class="row collapse" id="add-benefit">
+                    <form #benefitsForm="ngForm">
+                        <div class="col-xs-12">
+                            <div class="row padding-top-10">
+                                <div class="col-xs-6">
+                                    <label class="control-label">* Benefit type</label>
+                                    <select name="benefitType" class="form-control" required [(ngModel)]="generalBenefitType">
+                    <option *ngFor="let item of benefitTypes" [value]="item.code">{{item.name}}</option>
+                  </select>
+                                </div>
+                                <div class="col-xs-6">
+                                    <label class="control-label" for="personInsure">* Person insured</label>
+                                    <select name="personInsure" class="form-control" required [(ngModel)]="generalPersonInsured">
+                    <option *ngFor="let item of memberFirstNameList" [value]="item.code">{{item.name}}</option>
+                  </select>
+                                </div>
+                                <div class="col-xs-6 padding-top-20">
+                                    <label class="control-label">* Amount</label>
+                                    <!-- <input type="number" required class="form-control" name="amount" [(ngModel)]="generalAmount"> -->
+                                    <input autocomplete="off" type="text" class="form-control" name="amount" placeholder="$0" [(ngModel)]="generalAmount" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" (focus)="onAmountFocus(generalAmount, 'generalAmount')" (focusout)="onAmountFocusOut(generalAmount, 'generalAmount')"
+                                        required>
+                                </div>
+                                <div class="col-xs-6 padding-top-20">
+                                    <label class="control-label">* Premium</label>
+                                    <!-- <input type="number" class="form-control" required name="premium" [(ngModel)]="generalPremium"> -->
+                                    <input autocomplete="off" type="text" class="form-control" name="premium" placeholder="$0" [(ngModel)]="generalPremium" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" (focus)="onAmountFocus(generalPremium, 'generalPremium')" (focusout)="onAmountFocusOut(generalPremium, 'generalPremium')"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="row padding-top-10">
+                                <!-- Add new benefit -->
+                                <div *ngIf="!isEditBenefit" class="col-xs-12">
+                                    <button class="btn btn-info-light btn-sm pull-right" [disabled]="benefitsForm.invalid" (click)="btnAddBenefitClick()">
+                    Add benefit
+                  </button>
+                                </div>
+
+                                <!-- Edit benefit -->
+                                <div *ngIf="isEditBenefit" class="col-xs-12">
+                                    <button class="btn btn-default btn-sm pull-right" (click)="btnCancelEditBenefitClick()">
+                    Cancel
+                  </button>
+
+                                    <button class="btn btn-gray btn-sm pull-right margin-right-5" (click)="btnRemoveBenefitClick()">
+                    Remove
+                  </button>
+
+                                    <button class="btn btn-gray btn-sm pull-right margin-right-5" [disabled]="benefitsForm.invalid" (click)="btnEditBenefitClick()">
+                    Save changes
+                  </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="row padding-top-20">
+                    <div class="col-xs-12">
+                        <div *ngFor="let benefit of insuranceFromClick.benefits; let i=index">
+                            <div style="width:31%;float:left;" class="text-center margin-right-5">
+                                <a (click)="benefitItemClick(i)">
+                                    <div class="card-mini-blue padding-left-10 padding-right-10 padding-top-20 padding-bottom-10">
+                                        <i [ngClass]="getBenefitIcon(benefit.type)"></i>
+                                        <p class="padding-top-10 small">{{getBenefitTypeName(benefit.type)}}</p>
+                                        <p>${{benefit.amount | number: '1.0-2'}}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <div class="row padding-top-20">
+          <div class="col-xs-12">
+            <hr />
+          </div>
+          <div class="col-xs-6">
+            <span class="finpal-h3 margin-right-5">Insurance benefits</span>
+          </div>
+          <div class="col-xs-6">
+            <a class="btn btn-gray btn-sm pull-right" (click)="btnAddBenefitClick()">New
+              <i class="fas fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="row padding-top-20">
+          <div class="col-xs-6 padding-bottom-20" *ngFor="let benefit of insuranceFromClick.benefits; let i = index">
+            <div class="card">
+              <div class="card-block padding-left-10 padding-right-10 padding-top-20 padding-bottom-20">
+                <span class="finpal-h4">Benefit #{{i + 1}}</span>
+                <a (click)="btnRemoveBenefitClick(i)" class="btn btn-xs btn-default pull-right"><i class="fas fa-trash"
+                    aria-hidden="true"></i></a>
+                <div class="row padding-top-10">
+                  <div class="col-xs-12">
+                    <label class="control-label small">* Benefit type</label>
+                    <select id="benefitType{{i}}" name="benefitType{{i}}" class="form-control input-sm" required
+                      (change)="onBenefitTypeChange()" [(ngModel)]="insuranceFromClick.benefits[i].type">
+                      <option *ngFor="let item of benefitTypes" [value]="item.code">{{item.name}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row padding-top-10">
+                  <div class="col-xs-12">
+                    <label class="control-label small" for="personInsure">* Person insured</label>
+                    <select id="personInsure{{i}}" name="personInsure{{i}}" class="form-control input-sm" required
+                      [(ngModel)]="insuranceFromClick.benefits[i].lifeInsuredId">
+                      <option *ngFor="let item of memberFirstNameList" [value]="item.code">{{item.name}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row padding-top-10">
+                  <div class="col-xs-12">
+                    <label class="control-label small">* Insurance amount</label>
+                    <input type="number" class="form-control input-sm" placeholder="" oninput="this.value=this.value.replace(/[^0-9]/g, '');"
+                      required name="insuranceAmount{{i}}" [(ngModel)]="insuranceFromClick.benefits[i].amount">
+                  </div>
+                </div>
+                <div class="row padding-top-10">
+                  <div class="col-xs-12">
+                    <label class="control-label small">* Insurance premium</label>
+                    <input type="number" class="form-control input-sm" oninput="this.value=this.value.replace(/[^0-9]/g, '');"
+                      placeholder=" " required name="insurancePremium{{i}}" [(ngModel)]="insuranceFromClick.benefits[i].insurancePremium">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 padding-top-20">
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                <button *ngIf="!insuranceFromClick || !insuranceFromClick.id" [disabled]="test.invalid" (click)="btnAddClick()" type="button" class="btn btn-info pull-right margin-right-5">Add insurance</button>
+                <button *ngIf="insuranceFromClick && insuranceFromClick.id" [disabled]="test.invalid || !detectDataChanges()" (click)="btnEditClick()" class="btn btn-info pull-right margin-right-5">Save
+          Changes
+        </button>
+            </div>
+        </div>
+    </form>
+</div>

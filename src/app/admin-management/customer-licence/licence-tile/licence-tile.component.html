@@ -1,0 +1,61 @@
+<!-- <div [ngClass]="isMobile ? 'col-xs-12' : 'col-md-3'"> -->
+<div class="col-md-3" [ngClass]="isMobile ? 'margin-top-30' : ''">
+    <div class="card">
+        <div class="card-header padding-top-30 padding-left-20 padding-right-20" [ngClass]="color">{{title}}</div>
+        <div class="card-block padding-left-20 padding-right-20 padding-top-10 padding-bottom-10 card-bottom-border text-center">
+            <h4 class="finpal-h4">Monthly price</h4>
+            <span class="finpal-h2" rel="popover" id="priceWarningPopover{{id}}" [attr.data-popover-content]="'#price-warning' + id">${{monthlyPrice()}}</span>
+
+            <a rel="popover" id="licencePopover{{id}}" [attr.data-popover-content]="'#licence-popover' + id" onclick="$(this).popover('toggle')">
+                <i class="fa fa-pencil"></i>
+            </a>
+        </div>
+        <div class="card-block padding-left-20 padding-right-20 card-bottom-border">
+            <div class="row">
+                <div class="col-xs-6 col-md-6 card-right-border padding-top-30 padding-bottom-30 text-center">
+                    <a>
+                        <span class="finpal-h2">{{purchased()}}</span>
+                        <h4 class="finpal-h4">Purchased</h4>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-md-6 padding-top-30 padding-bottom-30 text-center">
+                    <a>
+                        <span class="finpal-h2">{{assigned()}}</span>
+                        <h4 class="finpal-h4">Assigned</h4>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-block padding-left-20 padding-right-20 padding-top-10 padding-bottom-10 text-center">
+            <h4 class="finpal-h4">Add / Remove</h4>
+            <div class="btn-group" data-toggle="buttons">
+                <button type="button" class="btn btn-default" (click)="increase()">+</button>
+                <button type="button" class="btn btn-default" (click)="decrease()">-</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Popovers-->
+<div id="licence-popover{{id}}" class="hide">
+    <h4>{{title}} cost</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <input type="number" class="form-control input-sm" id="txtMonthlyPrice" value="{{monthlyPrice()}}" onkeypress='return (event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46)'>
+        </div>
+        <div class="col-md-6">
+            <button type="button" class="btn btn-sm btn-default">Set to default</button>
+        </div>
+    </div>
+    <hr/>
+    <div class="margin-top-10">
+        <button type="button" ngClass="licencePopover{{id}}" class="btn btn-primary save-change">Save changes</button>
+        <button type="button" ngClass="licencePopover{{id}}" class="btn btn-default close-popover" data-dismiss="modal">Close</button>
+    </div>
+</div>
+
+<div id="price-warning{{id}}" class="hide close-popover">
+    <h4>Price must be greater than 0</h4>
+</div>
+<!--End of popovers-->

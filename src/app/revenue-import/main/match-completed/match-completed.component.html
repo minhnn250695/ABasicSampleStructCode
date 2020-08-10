@@ -1,0 +1,40 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+  <div class="breadcrumb-bar-revenue padding-top-40 padding-bottom-20">
+    <div class="container">
+      <a routerLink="/revenue/upload">
+        <i class="fas fa-home fa-lg margin-right-5"></i>
+      </a>
+      <i class="fas fa-angle-right margin-right-5"></i> Import revenues
+    </div>
+  </div>
+  <div class="container padding-top-40 padding-bottom-50">
+    <div class="col-md-12">
+      <h1 class="finpal-h1">Match revenue data</h1>
+      <p>
+        <i class="fas fa-check margin-right-5 green-color"></i> Automatic matching process has completed.</p>
+      <button type="button" class="btn btn-info" (click)="addNewOne()">Import another one</button>
+      <a routerLink="/landing" type="button" class="btn btn-default">Back to home page</a>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #mobile>
+  <div class="breadcrumb-bar-revenue padding-top-50 margin-top-10 padding-bottom-10">
+    <div class="container">
+      <a routerLink="/revenue/upload">
+        <i class="fas fa-angle-left margin-right-5"></i> Import revenues</a>
+    </div>
+  </div>
+  <div class="container padding-bottom-30">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1 class="finpal-h2">Match revenue data</h1>
+        <p>
+          <i class="fas fa-check fa-lg margin-right-5 green-color"></i> Automatic matching process has completed.</p>
+        <button type="button" class="btn btn-info" (click)="addNewOne()">Import another one</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

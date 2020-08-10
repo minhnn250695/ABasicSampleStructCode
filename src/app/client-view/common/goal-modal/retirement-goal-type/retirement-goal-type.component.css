@@ -1,0 +1,9 @@
+@import '../../../../../assets/styles/css/customize-styles.css';
+
+.card-link-icon{
+    margin-left: -10px;
+}
+
+.card-link-icon img{
+    height: 40px;
+}

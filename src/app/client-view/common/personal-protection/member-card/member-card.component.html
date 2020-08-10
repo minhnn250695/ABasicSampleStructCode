@@ -1,0 +1,154 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #mobile>
+    <div class="mobile m-dark-gray">
+        <div class="card-block padding-left-20 padding-right-20 padding-bottom-20">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 text-center padding-top-5">
+                    <div class="avatar-container">
+                        <span *ngIf="contact && contact.onTrack == 509000001" class="notify-red-badge">
+                            <i class="fas fa-thumbs-down fa-xs thumbs white"></i>
+                        </span>
+                        <span *ngIf="contact && contact.onTrack == 509000000 || contact && contact.onTrack == 509000002" class="notify-blue-badge">
+                            <i class="fas fa-thumbs-up fa-xs thumbs white"></i>
+                        </span>
+                        <fp-cirle-img [img]="memberImgUrl()" [name]="contact && contact.fullName" [imgHeight]="96.25" [imgWidth]="96.25"></fp-cirle-img>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h4 class="m-dark-gray">{{contact && contact.fullName}}</h4>
+                        <i [ngClass]="contact && contact.gender==1 ? 'fa fa-male' : 'fas fa-female'"></i> {{contact && contact.age || 0}} years
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-block padding-left-20 padding-right-20 padding-bottom-20">
+            <div class="row">
+                <div class="col-xs-6 padding-0 padding-bottom-10">
+                    <div class="col-xs-2 text-center">
+                        <span data-toggle="tooltip" data-placement="top" title="Life insurance"><i
+                                class="fa fa-heart"></i></span>
+                    </div>
+                    <div class="col-xs-9 font-size-12">
+                        <div id="life-insurance"><strong>Life insurance</strong></div>
+                        <span>
+                            ${{contact && contact.lifeInsurance || 0 | number : '1.2-2'}}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-6 padding-0 padding-bottom-10">
+                    <div class="col-xs-2 text-center">
+                        <span data-toggle="tooltip" data-placement="top" title="TPD"><i
+                                class="fa fa-wheelchair"></i></span>
+                    </div>
+                    <div class="col-xs-9 font-size-12">
+                        <div class=""><strong>TPD</strong></div>
+                        <span id="insurance-permanent-disability">
+                            ${{contact && contact.permanentDisability || 0 | number : '1.2-2'}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 padding-0 padding-bottom-10">
+                    <div class="col-xs-2 text-center">
+                        <span data-toggle="tooltip" data-placement="top" title="Trauma insurance"><i
+                                class="fa fa-ambulance"></i></span>
+                    </div>
+                    <div class="col-xs-9 font-size-12 ">
+                        <div><strong>Trauma insurance</strong></div>
+                        <span id="trauma-insurance">
+                            ${{contact && contact.traumaInsurance || 0 | number : '1.2-2'}}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-6 padding-0 padding-bottom-10">
+                    <div class="col-xs-2 text-center">
+                        <span data-toggle="tooltip" data-placement="top" title="Income protection"><i
+                                class="fa fa-money-bill"></i></span>
+                    </div>
+                    <div class="col-xs-9 font-size-12">
+                        <div class=""><strong>Income protection</strong></div>
+                        <span id="insurance-temporary-disability">
+                            ${{contact && contact.temporaryDisability || 0 | number : '1.2-2'}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #desktop>
+    <div class="card-block padding-left-20 padding-right-20 padding-bottom-20 card-bottom-border">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 text-center padding-top-5">
+                <div class="avatar-container">
+                    <span *ngIf="contact && contact.onTrack == 509000001" class="notify-red-badge">
+                        <i class="fas fa-thumbs-down fa-xs"></i>
+                    </span>
+                    <span *ngIf="contact && contact.onTrack == 509000000 || contact && contact.onTrack == 509000002" class="notify-blue-badge">
+                        <i class="fas fa-thumbs-up fa-xs"></i>
+                    </span>
+                    <fp-cirle-img [img]="memberImgUrl()" [name]="contact && contact.fullName" [imgHeight]="96.25" [imgWidth]="96.25"></fp-cirle-img>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h4 class="m-dark-gray">{{contact && contact.fullName}}</h4>
+                    <i [ngClass]="contact && contact.gender==1 ? 'fa fa-male' : 'fas fa-female'"></i> {{contact && contact.age || 0}} years
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-block padding-left-20 padding-right-20 padding-top-20  padding-bottom-20">
+        <div class="row">
+            <div class="col-xs-2 col-md-3 padding-top-10 padding-right-5 text-center">
+                <span data-toggle="tooltip" data-placement="top" title="Life insurance"><i
+                        class="fa fa-heart"></i></span>
+            </div>
+            <div class="col-xs-10 col-md-9 padding-top-10 padding-left-5">
+                <span id="life-insurance" data-toggle="tooltip" data-placement="right" title="Life insurance">
+                    ${{contact && contact.lifeInsurance || 0 | number : '1.2-2'}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 col-md-3 padding-top-10 padding-right-5 text-center">
+                <span data-toggle="tooltip" data-placement="top" title="TPD"><i class="fa fa-wheelchair"></i></span>
+            </div>
+            <div class="col-xs-10 col-md-9 padding-top-10 padding-left-5">
+                <span id="insurance-permanent-disability" data-toggle="tooltip" data-placement="right" title="TPD">
+                    ${{contact && contact.permanentDisability || 0 | number : '1.2-2'}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 col-md-3 padding-top-10 padding-right-5 text-center">
+                <span data-toggle="tooltip" data-placement="top" title="Trauma insurance"><i
+                        class="fa fa-ambulance"></i></span>
+            </div>
+            <div class="col-xs-10 col-md-9 padding-top-10 padding-left-5">
+                <span id="trauma-insurance" data-toggle="tooltip" data-placement="right" title="Trauma insurance">
+                    ${{contact && contact.traumaInsurance || 0 | number : '1.2-2'}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 col-md-3 padding-top-10 padding-right-5 text-center">
+                <span data-toggle="tooltip" data-placement="top" title="Income protection"><i
+                        class="fa fa-money-bill"></i></span>
+            </div>
+            <div class="col-xs-10 col-md-9 padding-top-10 padding-left-5">
+                <span id="insurance-temporary-disability" data-toggle="tooltip" data-placement="right" title="Income protection">
+                    ${{contact && contact.temporaryDisability || 0 | number : '1.2-2'}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="bottom padding-bottom-10" *ngIf="!isAdviceBuilderPage">
+    </div>
+    <div class="bottom padding-bottom-70" *ngIf="isAdviceBuilderPage">
+    </div>
+</ng-template>

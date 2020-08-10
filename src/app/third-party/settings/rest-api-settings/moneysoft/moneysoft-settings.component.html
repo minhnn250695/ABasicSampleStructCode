@@ -1,0 +1,176 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <div class="breadcrumb-bar-third-party padding-top-50 padding-bottom-10">
+        <div class="container">
+            <a href="#">
+                <i class="fas fa-home fa-lg margin-right-5"></i>
+            </a>
+            <i class="fas fa-angle-right margin-right-5"></i>
+            <a href="/#/third-party/landing" class="margin-right-5">Third party connections</a>
+            <i class="fas fa-angle-right margin-right-5"></i>
+            <span class="active-breadcrumb">Moneysoft Settings</span>
+        </div>
+    </div>
+
+    <div class="container padding-top-40 padding-bottom-50">
+        <h1 class="finpal-h1 m-dark-gray">MoneySoft settings</h1>
+        <div class="row">
+            <div class="col-md-2 padding-top-10">
+                <div class="row">
+                    <div class="col-md-12">
+                        <img src="../../../../../assets/img/moneysoft.png" class="margin-bottom-10 img-thumbnail" alt="Moneysoft logo" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="switch pull-left">
+                                    <input type="checkbox" [checked]="config.settings.enabled"
+                                        (change)="onSettingSelect(1)">
+                                    <span class="slider3 round"></span>
+                                </label>
+                                <span class="padding-left-10 small">Off / On</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 padding-top-5">
+                                <label class="switch pull-left">
+                                    <input type="checkbox" [checked]="config.settings.mode == 0"
+                                        (change)="onSettingSelect(2)">
+                                    <span class="slider3 round"></span>
+                                </label>
+                                <span class="padding-left-10 small">Manual / Auto</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="card margin-top-20">
+					<div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+						<form #validateForm="ngForm">
+							<div class="form-group">
+								<label>Username</label>
+								<input class="form-control" name="txtUsername" [(ngModel)]="config.connection.username" required>
+							</div>
+							<div class="form-group">
+								<label>Password</label>
+								<input class="form-control" type="password" name="txtPass" [(ngModel)]="config.connection.password" required>
+							</div>
+							<button [disabled]="validateForm.invalid" type="submit" class="btn btn-primary" (click)="btnSaveClick()">Save</button>
+						</form>
+					</div>
+				</div> -->
+            <form #validateForm="ngForm">
+                <div class="col-md-5 padding-top-10">
+                    <h3 class="finpal-h3 padding-bottom-10">Connection data</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div [ngClass]="config.connection.username && !config.connectionStatus ? 'form-group has-error' : 'form-group'">
+                                <label for="username" class="small">Username</label>
+                                <input class="form-control input-sm" name="txtUsername" [(ngModel)]="config.connection.username" required>
+                                <p *ngIf="config.connection.username && !config.connectionStatus" class="red small padding-top-10"><i class="fas fa-exclamation-circle"></i> MoneySoft account is expired.
+                                    <button type="button" class="btn btn-xs btn-danger margin-top-5" onclick="window.location.href='https://www.moneysoft.com.au/support/'">
+                                        MoneySoft support</button></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="password" class="small">Password</label>
+                            <input class="form-control input-sm" type="password" name="txtPass" [(ngModel)]="config.connection.password" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="referer" class="small">Referer</label>
+                            <input class="form-control input-sm" type="text" name="txtReferer" [(ngModel)]="config.connection.referer" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- <button [disabled]="validateForm.invalid" type="submit" class="btn btn-primary btn-sm margin-top-10" (click)="btnSaveClick()">Save</button> -->
+                            <button [disabled]="validateForm.invalid" type="submit" class="btn btn-info pull-right btn-sm margin-top-10" (click)="btnSaveClick()">Save
+                                changes</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #mobile>
+    <div class="breadcrumb-bar-third-party padding-top-50 margin-top-10 padding-bottom-10">
+        <div class="container">
+            <a href="/#/third-party/landing">
+                <i class="fas fa-angle-left margin-right-5"></i> Third party connections</a>
+        </div>
+    </div>
+    <div class="container padding-bottom-30">
+        <h1 class="finpal-h2">Settings</h1>
+        <div class="row">
+            <div class="col-xs-4">
+                <img src="../../../../../assets/img/moneysoft.png" class="margin-bottom-20 img-thumbnail" alt="Moneysoft logo" />
+            </div>
+            <div class="col-xs-8 padding-top-20">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label class="switch">
+                            <input type="checkbox" [checked]="config.settings.enabled" (change)="onSettingSelect(1)">
+                            <span class="slider3 round"></span>
+                        </label>
+                    </div>
+                    <div class="col-xs-7">
+                        Off/On
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label class="switch">
+                            <input type="checkbox" [checked]="config.settings.mode == 0" (change)="onSettingSelect(2)">
+                            <span class="slider3 round"></span>
+                        </label>
+                    </div>
+                    <div class="col-xs-7">
+                        Manual/Auto
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="card margin-top-20">
+                    <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+                        <form #validateForm="ngForm">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input class="form-control" name="txtUsername" [(ngModel)]="config.connection.username" (ngModelChange)="onChange()" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input class="form-control" type="password" name="txtPass" [(ngModel)]="config.connection.password" (ngModelChange)="onChange()" required>
+                            </div>
+                            <button [disabled]="validateForm.invalid" type="submit" class="btn btn-primary" (click)="btnSaveClick()">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 padding-top-30">
+                <h3 class="finpal-h3 padding-bottom-10">What is Moneysoft?</h3>
+                <p>Moneysoft market-leading platform, supports financial professionals with dedicated solutions that enable them to provide financial management services, including cash flow, budgeting, saving and goal-tracking services.</p>
+                <p>Built around the end-user and focused upon supporting the trusted adviser-to-client relationship, these solutions facilitate smarter and more accurate financial decisions through which, a shared responsibility toward achieving clients’
+                    financial goals, is promoted.</p>
+                <p>This is all backed by user-friendly platforms, supported by one single dynamic view of up to date, accurate financial data.
+                </p>
+                <p>
+                    <a href="https://www.moneysoft.com.au/" target="_blank" class="btn btn-info" role="button">You can
+                        access a
+                        no-obligation
+                        free trial, here.</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,23 @@
+
+
+<div class="input-group">
+  <!-- <input type="text" class="form-control" placeholder={{placeholder}}  [(ngModel)]="input" > -->
+  
+  <input type="text" style="margin-top: 0px" class="form-control" 
+        [placeholder]="placeHolder" 
+        (focus)="inputFocus()"
+        matInput 
+        [matAutocomplete]="auto" 
+        [formControl]="dataFormCtrl">
+  <div class="input-group-addon"><i class="fas fa-search fa-lg"></i></div>
+</div>
+
+  <mat-autocomplete #auto="matAutocomplete">
+      <div id="myAutoComplete">
+          <mat-option *ngFor="let name of getSource()" [value]="name.value" (click)="onOptionClick(name)">
+              {{ name.value }}
+          </mat-option>
+      </div>
+  </mat-autocomplete>
+
+

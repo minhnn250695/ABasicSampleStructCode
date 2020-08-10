@@ -1,0 +1,78 @@
+@media only screen and (min-width: 992px) {
+    .menu-width {
+        width: 262.5px;
+    }
+    .pos-absolute {
+        position: absolute;
+        z-index: 999;
+    }
+    .sub-item {
+        display: block;
+        color: #333;
+        font-size: 14px;
+        padding: 8px 8px 8px 20px;
+    }
+    .pos-absolute a:hover {
+        color: #E98000;
+    }
+}
+
+.padding-left-15 {
+    padding-left: 15px !important;
+}
+
+.padding-top-25 {
+    padding-top: 25px;
+}
+
+.padding-left-0 {
+    padding-left: 0px;
+}
+
+.padding-top-25 {
+    padding-top: 25px;
+}
+
+.padding-top-8 {
+    padding-top: 8px;
+}
+
+.padding-0 {
+    padding: 0px;
+}
+
+.dark-gray {
+    color: #666666;
+}
+
+.goal-style,
+.action-style {
+    color: #666666;
+    font-size: 1.875em;
+    padding: 0;
+    margin: 0;
+}
+
+.icon-list {
+    list-style-type: none;
+    padding: 0px;
+}
+
+.margin-top-bot-5 {
+    margin: 5px 0;
+}
+
+.auto-width {
+    width: auto;
+}
+
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:hover,
+.nav-pills>li.active>a:focus {
+    color: #fff !important;
+    background-color: #FF8C00;
+}
+
+.modal-dialog {
+    min-width: 650px;
+}

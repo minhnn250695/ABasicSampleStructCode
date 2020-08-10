@@ -1,0 +1,140 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <div class="breadcrumb-bar-datafeeds padding-top-50 padding-bottom-10">
+        <div class="container">
+            <a href="#">
+                <i class="fas fa-home fa-lg margin-right-5"></i>
+            </a>
+            <i class="fas fa-angle-right margin-right-5"></i>
+            <span class="active-breadcrumb">Data feeds</span>
+        </div>
+    </div>
+    <div class="container padding-top-40 padding-bottom-50">
+        <h1 class="finpal-h1">Data feeds</h1>  
+        <div class="row padding-top-20">
+            <!-- Item requires attention -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header-xs light-orange-background">
+                        Items require your attention
+                    </div>
+                    <div *ngFor="let record of unmatched" class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                        <a (click)="btnResolveClick(record)">
+                            <div class="row">
+                                <div class="col-md-3 padding-top-10 padding-bottom-10 text-center">
+                                    <span class="orange card-big-number">{{record.data}}</span>
+                                </div>
+                                <div class="col-md-9 padding-top-10">
+                                    <p class="small">
+                                        records from {{getDataFeedName(record.name)}} need to be matched to CRM records
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ready for import -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header-xs green-background">
+                        Ready for import
+                    </div>
+                    <div *ngFor="let record of matched" class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+                        <a (click)="btnResolveClick(record)">
+                            <div class="row">
+                                <div class="col-md-3 padding-top-10 padding-bottom-10 text-center">
+                                    <span class="orange card-big-number">{{record.data}}</span>
+                                </div>
+                                <div class="col-md-9 padding-top-10">
+                                    <p class="small">{{record.status}} {{record.type}}(s) for {{getDataFeedName(record.name)}}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third parties icons -->
+            <div class="col-md-3 col-md-offset-1">
+                <span class="finpal-h3">Active providers</span>
+                <div class="row">
+                    <div *ngFor="let obj of thirdPartiesImg" class="col-md-6 padding-top-20">
+                        <a class="logo-link" (click)="goToPage(obj.provider)">
+                            <img [src]="obj.linkImage" class="img-thumbnail" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #mobile>
+    <div class="breadcrumb-bar-datafeeds padding-top-50 margin-top-10 padding-bottom-10">
+        <div class="container">
+            <a href="#">
+                <i class="fas fa-angle-left margin-right-5"></i> Home</a>
+        </div>
+    </div>
+    <div class="container padding-bottom-30">
+        <h1 class="finpal-h2">Data feeds</h1>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="card margin-bottom-20">
+                    <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+                        <h3 *ngIf="!isEmpty" class="finpal-h3 padding-top-20 padding-bottom-20">These items require your attention</h3>
+                        <h3 *ngIf="isEmpty" class="finpal-h3 padding-top-20 padding-bottom-20">There are no items in the list</h3>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table class="table table-striped">
+                                    <tr *ngFor="let record of unmatched">
+                                        <td>
+                                            <strong>{{record.data}}</strong> items failed to retrieve feed from {{getDataFeedName(record.name)}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-default btn-sm" tooltip="Resolve" [tooltipDisabled]="false" [tooltipAnimation]="true"
+                                                tooltipPlacement="top" (click)="btnResolveClick(record)">
+                                                <i class="fas fa-wrench fa-lg"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <h3 class="finpal-h3 padding-bottom-20">Ready for import</h3>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table class="table table-striped">
+                                    <tr *ngFor="let record of matched">
+                                        <td>
+                                            <strong>{{record.data}}</strong> {{record.status}} {{record.type}}(s) for {{getDataFeedName(record.name)}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-default btn-sm" tooltip="Resolve" [tooltipDisabled]="false" [tooltipAnimation]="true"
+                                                tooltipPlacement="top" (click)="btnResolveClick(record)">
+                                                <i class="fas fa-wrench fa-lg"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row padding-top-10">
+            <div class="col-xs-12">
+                <span class="finpal-h3">Active providers</span>
+                <div class="row">
+                    <div *ngFor="let obj of thirdPartiesImg" class="col-xs-3 padding-top-10">
+                        <a class="logo-link" [href]="obj.link">
+                            <img [src]="obj.linkImage" class="img-thumbnail" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

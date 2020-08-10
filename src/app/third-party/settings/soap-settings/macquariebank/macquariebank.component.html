@@ -1,0 +1,93 @@
+<div class="breadcrumb-bar-third-party padding-top-50 padding-bottom-10">
+    <div class="container">
+        <a href="#">
+            <i class="fas fa-home fa-lg margin-right-5"></i>
+        </a>
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <a href="/#/third-party/landing" class="margin-right-5">Third party connections</a>
+        <i class="fas fa-angle-right margin-right-5"></i>
+        <span class="active-breadcrumb">Macquarie Bank Settings</span>
+    </div>
+</div>
+
+<div class="container padding-top-40 padding-bottom-50">
+    <h1 class="finpal-h1 m-dark-gray">Macquarie Bank settings</h1>
+    <div class="row">
+        <div class="col-md-2 padding-top-10">
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="../../../../../assets/img/macquarie.png" class="margin-bottom-10 img-thumbnail" alt="Macquarie Bank logo" />
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-12 padding-top-10">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="switch pull-left">
+                                <input type="checkbox" [checked]="config.settings.enabled"
+                                    (change)="onSettingSelect(1)">
+                                <span class="slider3 round"></span>
+                            </label>
+                            <span class="padding-left-10 small">Off / On</span>
+                        </div>
+                    </div>
+                    <div class="row padding-top-5">
+                        <div class="col-md-12">
+                            <label class="switch pull-left">
+                                <input type="checkbox" [checked]="config.settings.mode == 0"
+                                    (change)="onSettingSelect(2)">
+                                <span class="slider3 round"></span>
+                            </label>
+                            <span class="padding-left-10 small">Manual / Auto</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 padding-top-10">
+            <h3 class="finpal-h3 padding-bottom-10">Connection data</h3>
+            <form #validateForm="ngForm">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="'form-group'">
+                            <select class="form-control margin-bottom-10" name="Connection Type" id="third-party-connection-type" [(ngModel)]="connectionType" (change)="onChangeConnectionType()">
+                                <option value="cash-account">Cash Accounts</option>
+                                <option value="wrap-account">Wrap Accounts</option>
+                            </select>
+                            <!-- <div class="login" *ngIf="connectionType == 'cash-account' ? cashAccount else wrapAccount"></div> -->
+                        </div>
+                        <ng-template [ngIf]="connectionType == 'cash-account'">
+                            <div class="form-group  margin-bottom-10">
+                                <label for="cashAuthCode" class="small">Authentication Code</label>
+                                <input autocomplete="off" type="text" class="form-control input-sm" id="cashAuthCode" name="cashAuthCode" [(ngModel)]="configOutput.connection.cashAuthCode" required>
+                            </div>
+                            <div class="form-group  margin-bottom-10">
+                                <label for="cashAuthPass" class="small">Authentication Password
+                                </label>
+                                <input autocomplete="off" type="password" class="form-control input-sm" id="cashAuthPass" name="cashAuthPass" [(ngModel)]="configOutput.connection.cashPassword" required>
+                            </div>
+                        </ng-template>
+                        <ng-template [ngIf]="connectionType == 'wrap-account'">
+                            <div class="form-group  margin-bottom-10">
+                                <label for="wrapAuthCode" class="small">Authentication Code
+                                </label>
+                                <input autocomplete="off" type="text" class="form-control input-sm" id="wrapAuthCode" name="wrapAuthCode" [(ngModel)]="configOutput.connection.wrapAuthCode" required>
+                            </div>
+                            <div class="form-group  margin-bottom-10">
+                                <label for="wrapAuthPass" class="small">Authentication Password
+                                </label>
+                                <input autocomplete="off" type="password" class="form-control input-sm" id="wrapAuthPass" name="wrapAuthPass" [(ngModel)]="configOutput.connection.wrapPassword" required>
+                            </div>
+                        </ng-template>
+                        <div>
+                            <button type="submit" class="btn btn-info pull-right btn-sm margin-top-10" (click)="btnSaveClick()">
+                                Save changes
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-8"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

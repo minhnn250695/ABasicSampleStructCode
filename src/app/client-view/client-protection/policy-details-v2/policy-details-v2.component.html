@@ -1,0 +1,174 @@
+<div class="container padding-bottom-50 padding-top-40">
+  <h1 [ngClass]="isMobile ? 'finpal-h2' : 'finpal-h1'">Insurance policy details</h1>
+ 
+  <!-- Select fields -->
+  <div class="row">
+    <div class="col-md-4">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label for="" class="col-md-5 control-label">Family member</label>
+          <div class="col-md-7">
+            <select class="form-control" (change)="memberSelecting($event)">
+              <option *ngFor="let member of houseHoldMembers, let i = index" value="{{i}}">{{getMemberTitle(member)}}</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label for="" class="col-md-2 control-label">Policy</label>
+          <div class="col-md-7">
+            <select class="form-control" (change)="insuranceSelecting($event)">
+              <option *ngFor="let insurance of insuranceInfoList, let i = index" value="{{i}}">{{getTileTitle(insurance)}}</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+  <hr/>
+
+  <!-- Details -->
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="hovercard">
+          <div class="background">
+            <a *ngIf="selectedInsurance && selectedInsurance.dataFeedsConnected" tooltip="Connected" [tooltipDisabled]="false" [tooltipAnimation]="true"
+              tooltipPlacement="left" class="pull-right margin-right-10 margin-top-10">
+              <span class="fa-stack fa-sm">
+                <i class="fas fa-circle fa-stack-2x fa-inverse"></i>
+                <i class="fas fa-link fa-stack-1x"></i>
+              </span>
+            </a>
+          </div>
+          <div class="avatar">
+            <fp-cirle-img #cirleImg [img]="profileUrl()" [name]="getFullName()"></fp-cirle-img>
+          </div>
+          <div class="info">
+            <div class="title padding-bottom-10">{{getTileTitle(selectedInsurance)}}</div>
+          </div>
+          <div class="bottomxs">
+            <table class="table text-left">
+              <tr>
+                <th>Benefit premiums</th>
+                <td>${{ (selectedInsurance && selectedInsurance.benefitPremiums || 0) | number:'1.2-2' }}</td>
+              </tr>
+              <tr>
+                <th>Policy fee</th>
+                <td>
+                  ${{ (selectedInsurance && selectedInsurance.policyFee || 0) | number:'1.2-2' }}
+                </td>
+              </tr>
+              <tr>
+                <th>Total premium</th>
+                <td>${{ (selectedInsurance && selectedInsurance.totalPremium || 0) | number:'1.2-2' }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5 padding-top-50">
+      <h3 class="finpal-h3 padding-bottom-10">Benefits</h3>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Life insured</th>
+              <th>Amount</th>
+              <th>Premium</th>
+              <th>Annualized</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let benefit of benefits()">
+              <td>{{getBenefitTypeString(benefit)}}</td>
+              <td>{{benefit && benefit.lifeInsuredName ? benefit.lifeInsuredName : "N/A"}}</td>
+              <td>${{(benefit.amount || 0) | number:'1.2-2'}}</td>
+              <td>{{ getPremiumTypeString(benefit)}}</td>
+              <td>${{(benefit.annualizedPremium || 0) | number:'1.2-2'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-3 padding-top-50">
+      <h3 class="finpal-h3 padding-bottom-10">Files</h3>
+      <p *ngIf="!dislayedFiles || dislayedFiles.length == 0">There are no files attached to this policy.</p>
+
+      <table *ngIf="dislayedFiles && dislayedFiles.length > 0" class="table">
+        <tbody>
+          <tr *ngFor="let file of dislayedFiles">
+            <td>
+              <a (click)="downloadFile(file)"> {{file.name}}</a>
+            </td>
+            <td class="text-right">
+              <button folderModifyPermission type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Delete" (click)="deleteDoc(file)">
+                <i class="fa fa-trash fa-lg"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- upload file -->
+      <button folderModifyPermission type="button" class="btn btn-info pull-right" (click)="uploadFileClick()">Upload file...</button>
+      <input #chooseFile type="file" value="" style="display: none" (change)="onFileChanged($event)">
+    </div>
+  </div>
+</div>
+
+<fp-basic-modal #warningDeletemodal title="Delete ..." body="Are you sure you want to delete the selected file(s)?" actionString="Delete"
+  (action)="modalDeleteConfirmed()"></fp-basic-modal>
+
+
+<!-- Uploading Modals -->
+<div class="modal fade" id="upload-file" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">File upload</h4>
+      </div>
+      <div class="modal-body text-center">
+        <p>
+          <span class="lead">Loading file</span>
+          <br /> Please hold on
+        </p>
+        <div *ngIf="isLoading" class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-10">
+            <progress-bar></progress-bar>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of modals -->
+
+<!-- Complete Upload Modals -->
+<div class="modal fade" id="complete-upload-file" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">File upload</h4>
+      </div>
+      <div class="modal-body text-center">
+        <p class="lead">
+          <i class="fa fa-check fa-lg margin-right-5 green-color"></i> File upload is completed!</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of modals -->

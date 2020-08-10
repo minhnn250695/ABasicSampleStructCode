@@ -1,0 +1,42 @@
+<div class="x-dark-blue-background white">
+    <div class="container padding-top-30 padding-bottom-40">
+        <div class="breadcrumb-advice-builder">
+            <a (click)="backToPreviousPage()">Assets</a>
+            <i class="far fa-sm fa-chevron-right"></i>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <h1 class="font-size-30 margin-top-5">Assets History</h1>
+            </div>
+            <div class="col-xs-12 col-md-6 filter">
+                <select id="period-filter" class="form-control" (change)="onChangePeriodFilter($event)" [(ngModel)]="selectedPeriodFilter">
+                    <option value="1">Monthly</option>
+                    <option value="2">Bi-Monthly</option>
+                    <option value="3">Quarterly</option>
+                    <option value="6">Half-Yearly</option>
+                    <option value="12">Yearly</option>
+                    <option value="24">Bi-Annually</option>
+                </select>
+                <select id="assets-filter" class="form-control" (change)="onChangeAssetFilter()" [(ngModel)]="selectedAssetsFilter">
+                    <option value=1000>All Assets</option>
+                    <option [value]=i *ngFor="let asset of displayedHistories; let i = index">{{ asset.name }}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row padding-top-20 padding-bottom-20">
+            <div class="chartWrapper">
+                <a *ngIf="periodKeyFilter && periodKeyFilterValue && periodKeyFilter.length > 0" class="caret-left" (click)="scrollLeft()">
+                    <i class="fas fa-caret-left fa-5x white-color opacity-03"></i>
+                </a>
+                <div #chartAreaWrapper class="chartAreaWrapper">
+                    <canvas id="lineChart" height="400" width="1400" #lineChart></canvas>
+                </div>
+                <canvas id="lineChartAxis" height="400" width="0" #lineChartAxis></canvas>
+                <a *ngIf="periodKeyFilter && periodKeyFilterValue && periodKeyFilter.length > 0" class="pull-right caret-right" (click)="scrollRight()">
+                    <i class="fas fa-caret-right fa-5x white-color opacity-03"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

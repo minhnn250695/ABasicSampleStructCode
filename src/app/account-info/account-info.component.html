@@ -1,0 +1,245 @@
+<fp-header> </fp-header>
+
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<!-- DESKTOP -->
+<ng-template #desktop>
+  <div class="breadcrumb-bar-generic padding-top-50 padding-bottom-10">
+    <div class="container">
+      <a href="">
+        <i class="fas fa-home fa-lg margin-right-5"></i>
+      </a>
+      <i class="fas fa-angle-right margin-right-5"></i>
+      <span class="active-breadcrumb">Account</span>
+    </div>
+  </div>
+  <div class="container padding-top-40 padding-bottom-50">
+    <h1 class="finpal-h1">Account</h1>
+    <div class="row">
+      <div class="col-md-3 padding-top-20">
+        <div class="card">
+          <div class="card-block padding-left-20 padding-right-20 padding-top-30 padding-bottom-20">
+            <h2 class="finpal-h3 padding-bottom-10 text-center">{{userName}}</h2>
+            <img [src]="profilePhotoUrl()" class="img-thumbnail center-block" />
+            <p class="text-center">
+              <btn-upload-file #updateProfile placeHolder="New profile picture" [expectedFormat]="['png', 'jpg']"
+                (fileChange)="updateProfileImg($event)"></btn-upload-file>
+            </p>
+            <h2 class="finpal-h3 padding-top-20 padding-bottom-10">Login information</h2>
+            <p>
+              <strong>Company name:</strong> {{companyName}}
+            </p>
+            <p>
+              <strong>CRM URL:</strong> {{crmUrl}}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 padding-top-20">
+        <h3 class="finpal-h3 padding-bottom-10">Company logo</h3>
+        <p class="padding-bottom-20">Recommended size 150 x 50 pixels</p>
+        <img [src]="companyLogo" class="img-thumbnail light-gray-background padding-20" />
+        <p *ngIf="isAdmin" class="text-center">
+          <btn-upload-file isTheSecondInput = 'true' placeHolder="New company logo" #updateLogo [expectedFormat]="['png', 'jpg']" (fileChange)="updateCompanyLogo($event)"></btn-upload-file>
+        </p>
+        <h3 class="finpal-h3 padding-top-20 padding-bottom-10">Social media</h3>
+        <p class="padding-bottom-10">Connect your web portal with social</p>
+        <form class="form-inline">
+          <div class="form-group padding-bottom-10">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fab fa-facebook fa-lg"></i>
+              </div>
+              <input type="text" class="form-control" id="exampleInputAmount" placeholder="Facebook" name="facebook"
+                [(ngModel)]="facebook" [attr.disabled]="!isAdmin ? 'disabled':null">
+            </div>
+          </div>
+          <div class="form-group padding-bottom-10">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fab fa-twitter fa-lg"></i>
+              </div>
+              <input type="text" class="form-control" id="exampleInputAmount" placeholder="Twitter" name="twitter"
+                [(ngModel)]="twitter" [attr.disabled]="!isAdmin ? 'disabled':null">
+            </div>
+          </div>
+          <div class="form-group padding-bottom-10">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fab fa-youtube fa-lg"></i>
+              </div>
+              <input type="text" class="form-control" id="exampleInputAmount" placeholder="Youtube" name="youtube"
+                [(ngModel)]="youtube" [attr.disabled]="!isAdmin ? 'disabled':null">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fab fa-linkedin fa-lg"></i>
+              </div>
+              <input type="text" class="form-control" id="exampleInputAmount" placeholder="LinkedIn" name="linkedin"
+                [(ngModel)]="linkedin" [attr.disabled]="!isAdmin ? 'disabled':null">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6 padding-top-20">
+        <h3 class="finpal-h3 padding-bottom-10">Contact information</h3>
+        <p class="padding-bottom-20">This information will be displayed in the Contact us section</p>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="street1" class="control-label">Address 1</label>
+            <input type="text" class="form-control" id="street1" placeholder="" name="addr1" [(ngModel)]="address1"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+            <label for="street2" class="control-label padding-top-10">Address 2</label>
+            <input type="text" class="form-control" id="street2" placeholder="" name="addr2" [(ngModel)]="address2"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+            <label for="city" class="control-label padding-top-10">City</label>
+            <input type="text" class="form-control" id="city" placeholder="" name="city" [(ngModel)]="city"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+            <label for="state" class="control-label padding-top-10">State</label>
+            <input type="text" class="form-control" id="state" placeholder="" name="stateOrProvince" [(ngModel)]="stateCity"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+          </div>
+          <div class="col-md-6">
+            <label for="postalcode" class="control-label">Postal code</label>
+            <input type="text" class="form-control" id="postalcode" placeholder="" name="PC" [(ngModel)]="postalCode"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+            <label for="email" class="control-label padding-top-10">Email</label>
+            <input type="text" class="form-control" id="email" placeholder="" name="email" [(ngModel)]="email"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+            <label for="phone" class="control-label padding-top-10">Phone</label>
+            <input type="text" class="form-control" id="phone" placeholder="" name="phone" [(ngModel)]="phone"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isAdmin" class="row">
+      <div class="col-md-3 pull-right">
+        <button type="button" class="btn btn-info btn-lg pull-right" (click)="btnSaveClick()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- MOBILE -->
+<ng-template #mobile>
+  <div class="breadcrumb-bar-generic padding-top-50 margin-top-10 padding-bottom-10">
+    <div class="container">
+      <a href="#">
+        <i class="fas fa-angle-left margin-right-5"></i> Home</a>
+    </div>
+  </div>
+  <div class="container padding-bottom-30">
+    <h1 class="finpal-h2">Account</h1>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="card">
+          <div class="card-block padding-left-20 padding-right-20 padding-top-30 padding-bottom-20">
+            <h2 class="finpal-h3 padding-bottom-10 text-center">{{userName}}</h2>
+            <img [src]="profilePhotoUrl()" class="img-thumbnail center-block" />
+            <p class="text-center">
+              <btn-upload-file placeHolder="New profile picture" [expectedFormat]="['png', 'jpg']" (fileChange)="updateProfileImg($event)"></btn-upload-file>
+            </p>
+            <h2 class="finpal-h3 padding-top-20 padding-bottom-10">Login information</h2>
+            <p>
+              <strong>Company name:</strong> {{companyName}}
+            </p>
+            <p>
+              <strong>CRM URL:</strong> {{crmUrl}}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 padding-top-30">
+        <h3 class="finpal-h3 padding-bottom-10">Company logo</h3>
+        <p>Recommended size 150 x 50 pixels</p>
+        <img [src]="companyLogo" class="img-thumbnail light-gray-background padding-20" />
+        <p *ngIf="isAdmin">
+          <btn-upload-file placeHolder="New company logo" [expectedFormat]="['png', 'jpg']" (fileChange)="updateCompanyLogo($event)"></btn-upload-file>
+        </p>
+        <h3 class="finpal-h3 padding-top-20 padding-bottom-10">Social media</h3>
+        <p class="padding-bottom-10">Connect your web portal with social</p>
+        <form class="form-inline">
+          <div class="form-group padding-bottom-10">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fab fa-facebook fa-lg"></i>
+              </div>
+              <input type="text" class="form-control" id="exampleInputAmount" placeholder="facebook" name="facebook"
+                [(ngModel)]="facebook" [attr.disabled]="!isAdmin ? 'disabled':null">
+            </div>
+          </div>
+          <div class="form-group padding-bottom-10">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fab fa-twitter fa-lg"></i>
+              </div>
+              <input type="text" class="form-control" id="exampleInputAmount" placeholder="twitter" name="twitter"
+                [(ngModel)]="twitter" [attr.disabled]="!isAdmin ? 'disabled':null">
+            </div>
+          </div>
+          <div class="form-group padding-bottom-10">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fab fa-youtube fa-lg"></i>
+              </div>
+              <input type="text" class="form-control" id="exampleInputAmount" placeholder="youtube" name="youtube"
+                [(ngModel)]="youtube" [attr.disabled]="!isAdmin ? 'disabled':null">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fab fa-linkedin fa-lg"></i>
+              </div>
+              <input type="text" class="form-control" id="exampleInputAmount" placeholder="LinkedIn" name="linkedin"
+                [(ngModel)]="linkedin" [attr.disabled]="!isAdmin ? 'disabled':null">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-xs-12 padding-top-20">
+        <h3 class="finpal-h3 padding-bottom-10">Contact information</h3>
+        <p class="padding-bottom-20">This information will be displayed in the Contact us section</p>
+        <div class="row">
+          <div class="col-xs-6">
+            <label for="street1" class="control-label">Address 1</label>
+            <input type="text" class="form-control" id="street1" placeholder="" name="addr1" [(ngModel)]="address1"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+            <label for="street2" class="control-label padding-top-10">Address 2</label>
+            <input type="text" class="form-control" id="street2" placeholder="" name="addr2" [(ngModel)]="address2"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+            <label for="city" class="control-label padding-top-10">City</label>
+            <input type="text" class="form-control" id="city" placeholder="" name="city" [(ngModel)]="city"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+            <label for="state" class="control-label padding-top-10">State</label>
+            <input type="text" class="form-control" id="state" placeholder="" name="stateOrProvince" [(ngModel)]="stateCity"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+          </div>
+          <div class="col-xs-6">
+            <label for="postalcode" class="control-label">Postal code</label>
+            <input type="text" class="form-control" id="postalcode" placeholder="" name="PC" [(ngModel)]="postalCode"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+            <label for="email" class="control-label padding-top-10">Email</label>
+            <input type="text" class="form-control" id="email" placeholder="" name="email" [(ngModel)]="email"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+            <label for="phone" class="control-label padding-top-10">Phone</label>
+            <input type="text" class="form-control" id="phone" placeholder="" name="phone" [(ngModel)]="phone"
+              [attr.disabled]="!isAdmin ? 'disabled':null">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isAdmin" class="row">
+      <div class="col-xs-12 pull-right">
+        <button type="button" class="btn btn-info pull-right" (click)="btnSaveClick()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>
+
+<fp-footer></fp-footer>

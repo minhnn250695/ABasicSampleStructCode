@@ -1,0 +1,182 @@
+<div class="col-xs-12 col-md-12 padding-0 m-dark-gray">
+    <div class="col-xs-12 col-md-12 member-info-section member-personal-information">
+        <h1 class="font-size-30 border-bottom-1 margin-bottom-20 margin-top-0">Personal Information</h1>
+        <a *ngIf="!editPersonalInformation" class="btn btn-info object-shadow btn-action" (click)="changeToEditMode('personalInformation')"><i class="fas fa-lg fa-pencil"></i></a>
+        <a *ngIf="editPersonalInformation" class="btn btn-primary btn-action btn-edit object-shadow" (click)="saveChanges('personalInformation')" [class.disabled]="detectSaveChanges('personalInformation')"><i
+                class="fas fa-lg fa-save"></i></a>
+        <a *ngIf="editPersonalInformation" class="btn btn-info btn-action object-shadow" (click)="cancelEditClientInfo('personalInformation')"><i class="fas fa-lg fa-times"></i></a>
+        <div class="padding-0" class="col-xs-12 col-md-1">
+            <div id="member-profile-image">
+                <fp-cirle-img [img]="memberImgUrl()" [name]="getClientFullName()" [imgHeight]="80" [imgWidth]="80">
+                </fp-cirle-img>
+            </div>
+        </div>
+        <div id="member-personal-info-details" class="col-xs-12 col-md-11">
+            <h1 class="font-size-24 margin-top-0" id="member-name">{{ getClientFullName() }}</h1>
+            <div class="row">
+                <div class="col-xs-6 col-md-3">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Age'), inEditMode: editPersonalInformation}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Birthday'), inEditMode: editPersonalInformation}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('MaritalStatus'), inEditMode: editPersonalInformation}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Retirement'), inEditMode: editPersonalInformation}">
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-12 member-info-section member-contact">
+        <h4 class="font-size-20 border-bottom-1 margin-bottom-20 margin-top-0">Contact</h4>
+        <a *ngIf="!editContact" class="btn btn-info object-shadow btn-action" (click)="changeToEditMode('contact')"><i
+                class="fas fa-lg fa-pencil"></i></a>
+        <a *ngIf="editContact" class="btn btn-primary btn-action btn-edit object-shadow" (click)="saveChanges('contact')" [class.disabled]="detectSaveChanges('contact')"><i
+                class="fas fa-lg fa-save"></i></a>
+        <a *ngIf="editContact" class="btn btn-info btn-action object-shadow" (click)="cancelEditClientInfo('contact')"><i class="fas fa-lg fa-times"></i></a>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 margin-bottom-10">
+                <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Address'), inEditMode: editContact}">
+                </ng-container>
+            </div>
+            <div class="col-xs-12 col-md-6 margin-bottom-10">
+                <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Phone'), inEditMode: editContact}">
+                </ng-container>
+            </div>
+            <div class="col-xs-12 col-md-6 margin-bottom-10">
+                <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Email'), inEditMode: editContact}">
+                </ng-container>
+            </div>
+            <div class="col-xs-12 col-md-6 margin-bottom-10">
+                <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Mobile'), inEditMode: editContact}">
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-12 col-md-6 member-info-section member-employment">
+            <h4 class="font-size-20 border-bottom-1 margin-bottom-20 margin-top-0">Employment</h4>
+            <a *ngIf="!editEmployment" class="btn btn-info object-shadow btn-action" (click)="changeToEditMode('employment')"><i class="fas fa-lg fa-pencil"></i></a>
+            <a *ngIf="editEmployment" class="btn btn-primary btn-action btn-edit object-shadow" (click)="saveChanges('employment')" [class.disabled]="detectSaveChanges('employment')"><i
+                    class="fas fa-lg fa-save"></i></a>
+            <a *ngIf="editEmployment" class="btn btn-info btn-action object-shadow" (click)="cancelEditClientInfo('employment')"><i class="fas fa-lg fa-times"></i></a>
+            <div class="row">
+                <div class="col-xs-6 col-md-6 margin-bottom-10">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Employer'), inEditMode: editEmployment}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-6 margin-bottom-10">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Role'), inEditMode: editEmployment}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-6 margin-bottom-10">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('GrossSalary'), inEditMode: editEmployment}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-6 margin-bottom-10">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('SalaryPackaging'), inEditMode: editEmployment}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-6 margin-bottom-10">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('GovermentIncome'), inEditMode: editEmployment}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-6 margin-bottom-10">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('OtherIncome'), inEditMode: editEmployment}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-6 margin-bottom-10">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('IncomeTax'), inEditMode: editEmployment}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-6 margin-bottom-10">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Superannuation'), inEditMode: editEmployment}">
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6 member-info-section member-health">
+
+            <h4 class="font-size-20 border-bottom-1 margin-bottom-20 margin-top-0">Health</h4>
+            <a *ngIf="!editHealth" class="btn btn-info object-shadow btn-action" (click)="changeToEditMode('health')"><i
+                    class="fas fa-lg fa-pencil"></i></a>
+            <a *ngIf="editHealth" class="btn btn-primary btn-action btn-edit object-shadow" (click)="saveChanges('health')" [class.disabled]="detectSaveChanges('health')"><i
+                    class="fas fa-lg fa-save"></i></a>
+            <a *ngIf="editHealth" class="btn btn-info btn-action object-shadow" (click)="cancelEditClientInfo('health')"><i class="fas fa-lg fa-times"></i></a>
+            <div class="row">
+                <div class="col-xs-6 col-md-6 margin-bottom-10">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Smoke'), inEditMode: editHealth}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-6 margin-bottom-10">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Height'), inEditMode: editHealth}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-6 margin-bottom-10">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('Weight'), inEditMode: editHealth}">
+                    </ng-container>
+                </div>
+                <div class="col-xs-6 col-md-6 margin-bottom-10">
+                    <ng-container *ngTemplateOutlet="clientInfo, context: {$implicit: getClientDisplayInfo('BMI'), inEditMode: editHealth}">
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #clientInfo let-item let-inEditMode="inEditMode">
+    <div *ngIf="item.icon != ''" class="col-xs-1 col-md-1 info-icon">
+        <div class="icon">
+            <i class="fas fa-1x orange" [ngClass]="'fa-' + item.icon"></i>
+        </div>
+    </div>
+    <div [ngClass]="item.icon == '' ? 'col-xs-12 col-md-12 padding-0' : 'info-details col-xs-11 col-md-11'">
+        <!-- Display in View Mode -->
+        <ng-template [ngIf]="(inEditMode && !item.enabledEdit) || (!inEditMode && item.enabledEdit) || (!editField && !item.enabledEdit)">
+            <label [for]="item.id" class="margin-0">{{ item.label }}</label>
+            <p *ngIf="item.type != 'date' && (item.type != 'currency' || (item.type == 'currency' && (item.value == undefined || item.value == 'N/A')))" [id]="item.id">
+                {{ item.displayValue }}
+            </p>
+            <p *ngIf="item.type == 'currency' && item.value != undefined && item.value != 'N/A'" [id]="item.id">
+                ${{ item.value | number: '1.2-2'}}</p>
+            <p *ngIf="item.type == 'date'" [id]="item.id">
+                {{ item.value | birthday }}</p>
+        </ng-template>
+        <!-- Display in Edit Mode -->
+        <ng-template [ngIf]="inEditMode && item.enabledEdit">
+            <label *ngIf="item.type != 'address'" [for]="item.id">{{ item.label }}</label>
+            <!-- Input for -->
+            <!-- Address -->
+            <div [style.display]="item.type === 'address' ? null : 'none'" *ngFor="let address of getClientAddressDetails()" class="margin-bottom-10">
+                <label [for]="address.id">{{ address.label }}</label>
+                <input type="text" class="form-control" [value]="address.value ? address.value : ''" [placeholder]="getPlaceHolder(client[address.fieldId])" (change)="onChangeClientInfo($event, address)">
+            </div>
+            <!-- Text -->
+            <input *ngIf="item.type === ''" type="text" class="form-control" [id]="item.id" [value]="item.value ? item.value : ''" [placeholder]="getPlaceHolder(client[item.fieldId])" (change)="onChangeClientInfo($event, item)">
+            <!-- Number -->
+            <input *ngIf="item.type === 'number'" type="number" min="0" step="1" class="form-control input-number-without-arrow" [id]="item.id" [value]="item.value ? item.value : ''" [placeholder]="getPlaceHolder(client[item.fieldId])" (change)="onChangeClientInfo($event, item)"
+                oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+            <!-- Marital Status Selectbox -->
+            <select *ngIf="item.type === 'selectOptions'" [name]="item.label" [id]="item.id" class="form-control" (change)="onChangeClientInfo($event, item)" [id]="item.id">
+                <option hidden>Unknown</option>
+                <option [value]="getMaritalStatusCode(status)" [selected]="item.value==getMaritalStatusCode(status)"
+                    *ngFor="let status of getMaritalStatusList()">
+                    {{status}}
+                </option>
+            </select>
+            <!-- True/False Selectbox -->
+            <select *ngIf="item.type === 'trueFalse'" [name]="item.label" class="form-control" (change)="onChangeClientInfo($event, item)" [id]="item.id">
+                <option value="" [selected]="item.value==undefined || item.value==null"></option>
+                <option value='true' [selected]="item.value==true">Yes</option>
+                <option value='false' [selected]="item.value==false">No</option>
+            </select>
+        </ng-template>
+    </div>
+</ng-template>

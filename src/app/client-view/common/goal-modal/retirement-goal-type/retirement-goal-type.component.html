@@ -1,0 +1,86 @@
+<form #retirementGoal="ngForm">
+    <div class="row">
+        <div class="col-md-1">
+            <ul class="icon-list margin-top-bot-5">
+                <li *ngFor="let icon of iconCSSList">
+                    <span *ngIf="iconCSS === icon">
+                        <i class="fa fa-lg dark-gray" [ngClass]="iconCSS"></i>
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-11 padding-0">
+            <h3 class="goal-style col-md-11">Retirement</h3>
+            <a (click)="goToInvestfit()" *ngIf="isShowInvestfit()" class="card-link-icon">
+                <img src="../../../../assets/img/investfit-fingerprint.png" />
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 padding-top-10">
+            <label for="retirementYear">Household retirement year</label>
+            <p class="field-info" id="retirementYear">{{goalOutPut.retirementYear ? goalOutPut.retirementYear: 'N/A'}}
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 padding-top-10">
+            <label>{{primaryMember && primaryMember.firstName || 'N/A'}}'s retirement age</label>
+            <p class="field-info" name="primaryRetirementAge">{{primaryMember ? primaryMember.retirementAge: 'N/A'}}
+            </p>
+        </div>
+        <div *ngIf="spouseMember && spouseMember.firstName" class="col-md-6 padding-top-10">
+            <label>{{spouseMember && spouseMember.firstName || 'N/A'}}'s retirement age</label>
+            <p class="field-info" name="spouseRetirementAge">{{spouseMember ? spouseMember.retirementAge: 'N/A'}}
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 padding-top-10">
+            <label for="currentIncome">Estimated Retirement Income</label>
+            <p class="field-info">
+                {{goalOutPut.target ? '$' + (goalOutPut.target | number : '1.0-0'): 'N/A'}}</p>
+        </div>
+        <div class="col-md-6 padding-top-10">
+            <label>Desired Retirement Income</label>
+            <input autocomplete="off" type="text" class="form-control" name="target" [attr.readonly]="readOnly ? readOnly : null" [(ngModel)]="desireRetirementIncome" [placeholder]="desireRetirementIncome ? desireRetirementIncome : ''" (focus)="onAmountFocus(desireRetirementIncome)"
+                oninput="this.value=this.value.replace(/[^0-9]/g,'');" (focusout)="onAmountFocusOut(desireRetirementIncome)" (keyup)="onAmountKeyup($event)" required>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 padding-top-10">
+            <label>Investment capital at retirement</label>
+        </div>
+        <div class="col-md-6 padding-top-10">
+            <p class="field-info" name="currentCapital">
+                {{goalOutPut.currentCapital ? '$' + (goalOutPut.currentCapital | number : '1.0-0'): 'N/A'}} equivalent capital
+            </p>
+        </div>
+        <div class="col-md-6 padding-top-10">
+            <p class="field-info" name="currentIncome">
+                {{goalOutPut.currentIncome ? '$' + (goalOutPut.currentIncome | number : '1.0-0'): 'N/A'}} equivalent income
+            </p>
+        </div>
+    </div>
+    <div class="row" *ngIf="!isLandingPage">
+        <div class="col-md-12 padding-top-10">
+            <label>Goal description</label>
+            <p class="field-info" name="goalDescription">{{goalOutPut.description ? goalOutPut.description: 'N/A'}}
+            </p>
+        </div>
+    </div>
+    <div class="row" *ngIf="!isLandingPage">
+        <div class="col-md-12 padding-top-10">
+            <label>Adviser comments</label>
+            <p class="field-info" name="goalComment">{{goalOutPut.adviserComment ? goalOutPut.adviserComment: 'N/A'}}
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 padding-top-20 padding-bottom-10">
+            <a class="btn btn-default pull-right" data-dismiss="modal">Cancel</a>
+            <button *ngIf="!readOnly" class="btn btn-info pull-right margin-right-5" (click)="emitGoalToSave()" [disabled]="retirementGoal.invalid || !viewDetectChange()">Save changes</button>
+        </div>
+    </div>
+</form>

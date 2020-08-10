@@ -1,0 +1,7 @@
+::ng-deep .cdk-overlay-container {
+    z-index: 9999 !important;
+}
+
+.invalid-field {
+    border: 1px solid #f44336;
+}

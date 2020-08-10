@@ -1,0 +1,90 @@
+<p *ngIf="events && events.length == 0 && showDescription" class="padding-left-15 font-size-18 white">What are your priorities in life? This timeline will help you plan the best strategy. Learn how by adding your first goal.</p>
+
+<div class="row" [ngClass]="events && events.length == 0 && showDescription ? 'margin-top-40' : 'margin-top-20'">
+    <div class="col-md-1 timeline-caret">
+        <a *ngIf="curPost > 0" class="pull-left timeline-caret-left" (click)="selectPeriod(curPost - 1)">
+            <i class="fas fa-caret-left fa-5x white-color opacity-03"></i>
+        </a>
+    </div>
+    <div class="col-md-10 padding-top-10 padding-bottom-10 time-line-container">
+        <div class="whitebar"></div>
+        <ul [style.display]="events && events.length > 0 ? '' : 'none'" id="period-nodes" [ngStyle]="{'width.px': timeLineWidth}" class="time-line">
+            <li *ngFor="let event of events; let i = index" (click)="selectPeriod(i)" [ngClass]="curPost === i ? 'active-node': 'node'">
+                <a *ngIf="i === curPost" class="fa-stack fa-2x">
+                    <i class="fas fa-circle fa-stack-2x orange object-shadow"></i>
+                    <i class="fas fa-stack-1x white-color" [ngClass]="returnGoalIconCSS(event.subCategory, event.type)"></i>
+                </a>
+                <a *ngIf="i !== curPost" class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x white-color object-shadow"></i>
+                    <i class="fas fa-stack-1x dark-blue" [ngClass]="returnGoalIconCSS(event.subCategory, event.type)"></i>
+                </a>
+            </li>
+        </ul>
+        <ul [style.display]="events && events.length == 0 ? '' : 'none'" id="period-nodes" [ngStyle]="{'width.px': timeLineWidth}" class="time-line add-goal-node">
+            <li class="active-node">
+                <a class="fa-stack fa-2x">
+                    <i class="fas fa-circle fa-stack-2x orange object-shadow"></i>
+                    <i class="fas fa-plus fa-stack-1x white-color"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-1 timeline-caret">
+        <a *ngIf=" events && curPost < events.length - 1" class="pull-right timeline-caret-right" (click)="selectPeriod(curPost + 1)">
+            <i class="fas fa-caret-right fa-5x white-color opacity-03"></i>
+        </a>
+    </div>
+</div>
+
+<div [ngClass]="events && events.length > 0 ? 'col-md-4 col-md-offset-4' : 'col-md-2 col-md-offset-5'">
+    <div class="card row">
+        <div *ngIf="events && events.length > 0" class="card-block" [ngClass]="setContentHeight()">
+            <div class="col-md-1" [ngClass]="selectingPeriod.onTrack==509000001 ? 'red-background' : 'orange-background'">
+                <span *ngIf="selectingPeriod.onTrack==509000000" class="fa-lg card-content">
+                    <i class="fa fa-thumbs-up fa-stack-1x white-color"></i>
+                </span>
+                <span *ngIf="selectingPeriod.onTrack==509000001" class="fa-lg card-content">
+                    <i class="fa fa-thumbs-down fa-stack-1x white-color"></i>
+                </span>
+            </div>
+            <div class="col-md-11">
+                <div class="row goal-title">
+                    <div class="col-md-12">
+                        <div [ngClass]="canDeleteGoal ? 'col-md-11' : 'col-md-12'">
+                            <a *ngIf="showGoalModal && (events && events.length > 0)" class="finpal-h4 dark-blue card-link-section" data-toggle="modal" data-target="#update-goal" (click)="getGoalDetail()">
+                                {{ getDisplayGoalContent() }}
+                            </a>
+                            <a *ngIf="!showGoalModal && (events && events.length > 0)" class="finpal-h4 dark-blue card-link-section">
+                                {{ getDisplayGoalContent() }}
+                            </a>
+                            <span *ngIf="events && events.length == 0" class="finpal-h4 dark-blue card-link-section">
+                                There is no goal
+                            </span>
+                            <a (click)="goToInvestfit()" *ngIf="isShowInvestfit()" class="card-link-icon">
+                                <img src="../../../../assets/img/investfit-fingerprint.png" />
+                            </a>
+                        </div>
+                        <div *ngIf="canDeleteGoal && selectingPeriod.name !='Retirement Income'" class="col-md-1">
+                            <a class="dark-blue  card-link-section" (click)="deleteGoal()">
+                                <i class="fa fa-1x fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="events && events.length == 0" class="card-block new-goal-card-block" [ngClass]="setContentHeight()">
+            <div class="col-md-12">
+                <a *ngIf="enabledAddFirstGoal" class="finpal-h4 dark-blue" (click)="openAddNewGoalList()">
+                    Add my first goal
+                </a>
+                <p *ngIf="!enabledAddFirstGoal" class="dark-blue">Add my first goal</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="btn-goal-modal" data-toggle="modal" data-target="#update-goal" [hidden]="true"></button>
+<goal-modal id="update-goal" class="modal fade" role="dialog" [showInvestfit]="showInvestfit" [activeAssetList]="activeAssetList" [activeDebtList]="activeDebtList" [goalModalTitle]="goalModalTitle" [selectedGoal]="goalModalContent" [readOnly]="readOnly"
+    [isCreateGoal]="isCreateGoal" [isLandingPage]="isLandingPage" (reloadLandingPage)="reloadGoalsInLandingPage($event)">
+</goal-modal>

@@ -1,0 +1,95 @@
+<div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span *ngIf="!adviceBuilderService.isUpdateAction" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">Add new action</span>
+            <span *ngIf="adviceBuilderService.isUpdateAction" class="modal-title finpal-h2 padding-bottom-10 margin-right-5">Update action</span>
+        </div>
+        <!-- <div class="modal-body" [style.display]="((debt.debtId && adviceBuilderService.isUpdateAction) || !adviceBuilderService.isUpdateAction) ? 'block' : 'none'"> -->
+        <div class="modal-body" [style.display]="((drawAsset.actionId && adviceBuilderService.isUpdateAction) || !adviceBuilderService.isUpdateAction) ? 'block' : 'none'">
+            <form #drawFundFromAsset="ngForm">
+                <div class="row">
+                    <div class="col-md-1">
+                        <ul class="icon-list margin-top-bot-5">
+                            <li>
+                                <span><i class="fa fa-arrow-left fa-lg dark-gray"></i></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-11 padding-0">
+                        <h3 *ngIf="!adviceBuilderService.isUpdateAction" class="action-style">Draw funds from an Asset</h3>
+                        <h3 *ngIf="adviceBuilderService.isUpdateAction" class="action-style">Update draw funds from an Asset</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 padding-top-10">
+                        <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                            <li id="basic-data" class="active">
+                                <a id="draw-fund-asset-details" data-toggle="pill" href="#draw-fund-asset-basic-data">Action details</a>
+                            </li>
+                            <li id="complementary-data">
+                                <a data-toggle="pill" href="#draw-fund-asset-complementary-data">Advice comments</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <!-- Policy -->
+                            <div id="draw-fund-asset-basic-data" class="tab-pane fade in active">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="control-label">Asset record</label>
+                                        <select class="form-control" name='assetRecord' [(ngModel)]="drawAsset.assetId" required>
+                                            <option hidden value="-1"></option>
+                                            <option *ngFor="let asset of notClosedAssetList" [value]="asset.id" >{{asset.name}}</option>
+                                        </select>
+                                        <!-- <div *ngIf="adviceBuilderService.isUpdateAction">
+                                            <p class="field-info"> {{getDrawAssetName()}}</p>
+                                        </div> -->
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="control-label">Start Year</label>
+                                        <input autocomplete="off" type="text" class="form-control" name="startYear" maxlength="4" placeholder="YYYY" [(ngModel)]="drawAsset.startYear" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="control-label">End Year</label>
+                                        <input autocomplete="off" type="text" class="form-control" name="endYear" maxlength="4" placeholder="YYYY" [(ngModel)]="drawAsset.endYear" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+                                    </div>
+                                </div>
+                                <div class="row padding-top-20">
+                                    <div class="col-md-4">
+                                        <label class="control-label">Annual amount</label>
+                                        <input type="text" class="form-control" name="annualAmount" [(ngModel)]="annualAmount" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="$100" (focus)="onAmountFocus(annualAmount)" (focusout)="onAmountFocusOut(annualAmount)" (keyup)="onAmountKeyup($event)"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Benefits -->
+                            <div id="draw-fund-asset-complementary-data" class="tab-pane fade">
+                                <div>
+                                    <label class="control-label">What is this action?</label>
+                                    <textarea class="form-control" rows="3" name="actionWhat" [(ngModel)]="drawAsset.details" [placeholder]="drawAsset.details || ''"></textarea>
+                                </div>
+                                <div class="padding-top-20">
+                                    <label class="control-label">Why are you taking this action?</label>
+                                    <textarea class="form-control" rows="3" name="actionWhy" [(ngModel)]="drawAsset.reason" [placeholder]="drawAsset.reason || ''"></textarea>
+                                </div>
+                                <div class="padding-top-20">
+                                    <label class="control-label">How It improves your situation?</label>
+                                    <textarea class="form-control" rows="3" name="actionHow" [(ngModel)]="drawAsset.result" [placeholder]="drawAsset.result || ''"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 padding-top-20">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info pull-right margin-right-5" [disabled]="drawFundFromAsset.invalid || !viewDetectChange()" (click)="saveChangeDrawFunds()">{{adviceBuilderService.isUpdateAction ? "Save changes" : "Draw fund"}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div [style.display]="(!drawAsset.actionId && adviceBuilderService.isUpdateAction) ? 'block' : 'none'" class="modal-body text-center margin-top-10 margin-bottom-10">
+            <i class="fas fa-spinner fa-pulse"></i>
+        </div>
+    </div>
+</div>

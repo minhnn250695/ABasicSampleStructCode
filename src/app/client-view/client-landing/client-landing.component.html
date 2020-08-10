@@ -1,0 +1,54 @@
+<fp-client-view-header active="1"> </fp-client-view-header>
+
+<div *ngIf="!isMobile || (isMobile && events && events.length >0)" class="e1-gray-background" [ngClass]="isMobile ? '' : 'full3 inner-shadow'">
+    <div class="container padding-top-40" [ngClass]="isMobile ? 'padding-bottom-20' : 'padding-bottom-50'">
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h2 class="finpal-h2" [ngClass]="isMobile ? 'm-dark-gray' : 'white-color'">Your goals over time
+                        </h2>
+                    </div>
+                    <div *ngIf="!isMobile" class="col-md-3">
+                        <button type="button" class="btn btn-info font-size-16 pull-right" (click)="durationSaveChanges()" [disabled]="duration!==0 && !duration">Apply</button>
+                        <input type="number" class="light-gray font-size-14 margin-right-10 pull-right" maxlength="2" name="advice-duration" [(ngModel)]="duration">
+                        <span class="white-color margin-right-10 padding-left-20">Advice Duration</span>
+                        <p class="white-color font-size-14 padding-left-20">(in years)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div *ngIf="isMobile; then timelineMobile else timeline"></div>
+            <!-- Desktop timeline -->
+            <ng-template #timeline>
+                <app-timeline-v2 [activeAssetList]="adviceBuilderService.notClosedAssetList" [activeDebtList]="adviceBuilderService.debtList" additionalButton="view-detail" goalModalTitle="View details" [readOnly]="false" [showInvestfit]="isInvestfitThirdPartyEnabled"
+                    [events]="events" [isLandingPage]="true" (reloadLandingPage)="reloadLandingPage($event)">
+                </app-timeline-v2>
+            </ng-template>
+            <!-- Mobile timeline -->
+            <ng-template #timelineMobile>
+                <app-timeline-mobile [events]="events" [allowEditRetirementIncome]="true" [showInvestfit]="isInvestfitThirdPartyEnabled" [retirementProjection]="retirementProjection" (retirementIncomeTargetSave)="IncomeTargetSaveClick($event)">
+                </app-timeline-mobile>
+            </ng-template>
+        </div>
+    </div>
+</div>
+<div [ngClass]="isMobile ? 'e1-gray-background' : 'dark-blue-background'">
+    <div class="container padding-top-40" [ngClass]="isMobile ? 'padding-bottom-20' : 'padding-bottom-50'">
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <fp-client-cash-flow [cashFlow]="cashFlow"></fp-client-cash-flow>
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <common-personal-protection [isAdviceBuilderPage]="false" [personalProtection]="personalProtection">
+                </common-personal-protection>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <common-client-assets-debts [isAdviceBuilderPage]="false" [asset]="assets" [debt]="debt" [showThumbsUpDown]="false"></common-client-assets-debts>
+            </div>
+        </div>
+    </div>
+</div>
+
+<fp-footer *ngIf="userRole != 'PortalBusinessClient' && isMobile" [isShow]="true"></fp-footer>

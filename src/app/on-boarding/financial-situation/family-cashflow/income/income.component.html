@@ -1,0 +1,84 @@
+<div class="row padding-top-30">
+    <div class="col-md-12 text-left">
+
+        <form #incomeForm="ngForm">
+            <div class="row">
+                <!-- Family member -->
+                <div class="col-md-4">
+                    <label class="control-label">* Family member</label>
+                    <select id="familyMember" [disabled]="incomeFromClick ? 'disabled' : null" name="familyMember" class="form-control" [(ngModel)]="incomeUpdate.contactId" (change)="onFamilyMemberChange($event.target.value)" required>
+            <option *ngFor='let option of familyMembers' [value]="option.code">
+              {{option.name}}
+            </option>
+          </select>
+                </div>
+
+                <!-- Gross income -->
+                <div class="col-md-4">
+                    <label class="control-label">* Gross annual income</label>
+                    <!-- <input type="number" [(ngModel)]="incomeUpdate.grossIncome" class="form-control"
+          (keydown)="checkNumbersOnly($event)" name="grossAnnualIncome" placeholder="$" required> -->
+                    <input autocomplete="off" type="text" class="form-control" name="grossAnnualIncome" placeholder="$0" [(ngModel)]="grossAnnualIncome" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" (focus)="onAmountFocus(grossAnnualIncome, 'grossAnnualIncome')"
+                        (focusout)="onAmountFocusOut(grossAnnualIncome, 'grossAnnualIncome')" (keyup)="onAmountKeyup($event, 'grossIncome')" required>
+                </div>
+
+                <!-- Income source -->
+                <div class="col-md-4">
+                    <label fclass="control-label">* Income source</label>
+                    <!-- (change)="onIncomeSourceChange($event.target.value)" -->
+                    <select *ngIf="incomeUpdate.contactId != 100000001" id="income-source" [disabled]="incomeFromClick ? 'disabled' : null" name="income-source" class="form-control" [(ngModel)]="incomeUpdate.incomeType" required>
+            <option *ngFor="let type of incomeSourceList" [value]="type.code">
+              {{type.name}}
+            </option>
+          </select>
+                    <!-- new require => only can add "investment" income  when member is JOINT  -->
+                    <select *ngIf="incomeUpdate.contactId == 100000001" id="income-source" [disabled]="incomeFromClick ? 'disabled' : null" name="income-source" class="form-control" [(ngModel)]="incomeUpdate.incomeType" required>
+            <option selected value="100000000">
+              Investment Income
+            </option>
+          </select>
+                </div>
+            </div>
+
+            <div class="row padding-top-20">
+                <!-- Employment type -->
+                <!-- <div *ngIf="selectedIncomeSource == 509000000 " class="col-md-4">
+          <label class="control-label">Employment type</label>
+          <select class="form-control" (change)="onEmploymentTypeChange($event.target.value)" name="employment-type"
+            [(ngModel)]="selectedEmployeeType">
+            <option *ngFor="let type of employmentTypeList" [value]="type.code">
+              {{type.name ? type.name : ""}}
+            </option>
+          </select>
+        </div> -->
+
+                <!-- Investment type/Matching asset -->
+                <div *ngIf="incomeUpdate.incomeType == 100000000">
+                    <div class="col-md-4">
+                        <label class="control-label">Matching asset</label>
+                        <select id="matching-asset" [disabled]="incomeFromClick ? 'disabled' : null" name="matching-asset" required class="form-control" [(ngModel)]="incomeUpdate.id">
+              <option *ngFor="let asset of showingAssets" [value]="asset.id">
+                {{asset.name ? asset.name : ""}}
+              </option>
+            </select>
+                        <p *ngIf="!showingAssets || showingAssets.length == 0" class="margin-top-10">
+                            No assets have been added yet.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 padding-top-20">
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal" (click)="resetValues()">Cancel</button>
+                    <button *ngIf="!incomeFromClick" type="button" [disabled]="incomeForm.invalid" (click)="btnAddClick(1)" class="btn btn-info pull-right margin-right-5">
+            Add income
+          </button>
+                    <button *ngIf="incomeFromClick" type="button" [disabled]="incomeForm.invalid || !detectDataChanges()" (click)="btnAddClick(2)" class="btn btn-info pull-right margin-right-5">
+            Save changes
+          </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

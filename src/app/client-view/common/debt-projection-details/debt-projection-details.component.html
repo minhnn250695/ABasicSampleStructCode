@@ -1,0 +1,110 @@
+<fp-client-view-header active="9"> </fp-client-view-header>
+<div class="container m-dark-gray padding-top-30 padding-bottom-50">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="breadcrumb-advice-builder">
+                <a (click)="goToPage('advice-homepage')">Advice</a>
+                <i class="far fa-sm fa-chevron-right chevron"></i>
+                <a (click)="goToPage('advice-strategy')">{{strategy && strategy != '' ? strategy : "Strategy" }}</a>
+                <i class="far fa-sm fa-chevron-right chevron"></i>
+                <a (click)="goToPage('edit-strategy')" *ngIf="strategyId && strategyId != '' && strategyId != currentStrategyId">Edit Strategy</a>
+                <i class="far fa-sm fa-chevron-right chevron" *ngIf="strategyId && strategyId != '' && strategyId != currentStrategyId"></i>
+            </div>
+            <h1 class="font-size-30 margin-top-10">Debt Projections</h1>
+            <div class="table-responsive scrollbar">
+                <table class="table table-condensed fixed-first-column-table">
+                    <div *ngFor="let debt of debtDetails; let i = index">
+                        <tr [style.display]="i == 0 ? 'default' : 'none'">
+                            <th class="min-width-250 max-width-250 fixed-column border-bottom-6" style="height: 31px">
+                            </th>
+                            <th *ngFor="let debtPeriod of debt.debtPeriods" class="border-bottom-6 bold-text">
+                                {{debtPeriod && debtPeriod.year}}</th>
+                        </tr>
+                        <tr>
+                            <th class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text border-top-1">
+                                <a (click)="showDebtDetails(i)" class="link">
+                                    <span *ngIf="currentDisplayDebt == i"><i
+                                            class="fas fa-xs fa-chevron-up"></i></span>
+                                    <span *ngIf="currentDisplayDebt != i"><i
+                                            class="fas fa-xs fa-chevron-down"></i></span> {{ debt && debt.debtName}}</a>
+                            </th>
+                            <td *ngFor="let debtPeriod of debt.debtPeriods; let i = index" class="border-top-1">
+                                ${{ debtPeriod && debtPeriod.loanBalance || 0 | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayDebt == i">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Offset Account</td>
+                            <td *ngFor="let debtPeriod of debt.debtPeriods">
+                                ${{ debtPeriod && debtPeriod.offsetAccount || 0 | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayDebt == i">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Annual Payment</td>
+                            <td *ngFor="let debtPeriod of debt.debtPeriods">
+                                ${{ debtPeriod && debtPeriod.annualPayment || 0 | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayDebt == i">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Net Interest</td>
+                            <td *ngFor="let debtPeriod of debt.debtPeriods">
+                                ${{ debtPeriod && debtPeriod.netInterest || 0 | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayDebt == i">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Transfer</td>
+                            <td *ngFor="let debtPeriod of debt.debtPeriods">
+                                ${{ debtPeriod && debtPeriod.transfer || 0 | number : '1.2-2'}}</td>
+                        </tr>
+                    </div>
+                </table>
+            </div>
+            <a class="btn btn-info pull-right margin-bottom-10 margin-top-10 margin-left-10" (click)=" exportToExcel()">
+                Export to excel
+            </a>
+            <a class="btn btn-info pull-right margin-bottom-10 margin-top-10" (click)="backClicked()">
+                <i class="fas fa-caret-left margin-right-5"></i>Back to {{strategy}}
+            </a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-condensed fixed-first-column-table" id="debt-table" hidden>
+    <tr>
+        <th class="min-width-250 max-width-250 fixed-column border-bottom-6" style="height: 31px"></th>
+        <th *ngFor="let debtPeriod of (debtDetails[0] && debtDetails[0].debtPeriods)" class="border-bottom-6 bold-text">
+            {{debtPeriod && debtPeriod.year}}</th>
+    </tr>
+    <div *ngFor="let debt of debtDetails; let i = index">
+        <tr>
+            <th class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text border-top-1">
+                {{ debt && debt.debtName}}
+            </th>
+            <td *ngFor="let debtPeriod of debt.debtPeriods; let i = index" class="border-top-1">
+                ${{ debtPeriod && debtPeriod.loanBalance || 0 | number : '1.2-2'}}</td>
+        </tr>
+        <tr>
+            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                Offset Account</td>
+            <td *ngFor="let debtPeriod of debt.debtPeriods">
+                ${{ debtPeriod && debtPeriod.offsetAccount || 0 | number : '1.2-2'}}</td>
+        </tr>
+        <tr>
+            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                Annual Payment</td>
+            <td *ngFor="let debtPeriod of debt.debtPeriods">
+                ${{ debtPeriod && debtPeriod.annualPayment || 0 | number : '1.2-2'}}</td>
+        </tr>
+        <tr>
+            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                Net Interest</td>
+            <td *ngFor="let debtPeriod of debt.debtPeriods">
+                ${{ debtPeriod && debtPeriod.netInterest || 0 | number : '1.2-2'}}</td>
+        </tr>
+        <tr>
+            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                Transfer</td>
+            <td *ngFor="let debtPeriod of debt.debtPeriods">
+                ${{ debtPeriod && debtPeriod.transfer || 0 | number : '1.2-2'}}</td>
+        </tr>
+    </div>
+</table>

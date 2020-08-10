@@ -1,0 +1,56 @@
+/* CSS for total number region */
+
+.total-container {
+    width: 100%;
+    background-color: #fff;
+}
+
+.card-total {
+    padding: 20px 15px 30px 15px;
+    color: #505050;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.card-total .col-md-9 {
+    top: 10px;
+}
+
+.card-total .col-md-9 h2 {
+    margin-top: 0px;
+}
+
+.svg-inline--fa.fa-stack-2x {
+    height: 2.8em;
+    width: 2.6em;
+}
+
+#debt-projection-icon .fa-info-circle {
+    height: 20px;
+    width: 20px;
+}
+
+@media (max-width: 992px) {
+    .card-total {
+        padding: 40px 15px;
+        color: #505050;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .total-container {
+        width: 100%;
+        height: 265px;
+        background-color: #fff;
+    }
+    .card-wrapper {
+        margin-bottom: 5px;
+    }
+}
+
+
+/* ==================================================================
+                                FOR MOBILE
+===================================================================== */
+
+#debt-projection-icon .fa-info-circle.mobile {
+    height: 15px;
+    width: 15px;
+}

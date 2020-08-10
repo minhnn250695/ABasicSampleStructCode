@@ -1,0 +1,382 @@
+<div *ngIf="isMobile; then mobile else desktop">
+
+</div>
+
+<ng-template #mobile>
+    <div class="container padding-top-30 padding-bottom-30 margin-bottom-50 mobile-insurance-outcomes">
+        <h4 class="finpal-h4 margin-bottom-10">Insurance Outcomes Calculator</h4>
+        <form #outcome="ngForm">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 family-member">
+                    <h5 class="finpal-h5"><strong>Family Member</strong></h5>
+                    <select id="selectHouseHoldMember" class="form-control" *ngIf="houseHoldMembers" (change)="onMemberSelecting($event.target.value)">
+                        <option *ngFor="let member of houseHoldMembers" [value]="member.id">
+                            {{ member.firstName || member.lastName }}</option>
+                    </select>
+                </div>
+                <div class="col-xs-6 col-sm-6 if-this-happens">
+                    <h5 class="finpal-h5"><strong>If this happens</strong></h5>
+                    <select id="selectKindOfHappen" class="form-control" (change)="insuranceTypeSelecting($event.target.value)">
+                        <option value="1">Death</option>
+                        <option value="2">Temporarily disabled</option>
+                        <option value="3">Permanently disabled</option>
+                        <option value="4">Medical trauma</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row margin-top-20 you-would-like">
+                <div class="col-xs-12 col-sm-12" *ngIf="insuranceType != 2">
+                    <h5 class="finpal-h5 margin-bottom-10"><strong>You would like</strong></h5>
+
+                    <!-- Debt paid off -->
+                    <div id="debt-paid-off">
+                        <input type="text" class="form-control margin-right-3 inline percent-input" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="netDebt" [(ngModel)]="netDebtToClearPercentage" (focus)="focusOnInput(netDebtToClearPercentage,'netDebtToClearPercentage')"
+                            (focusout)="focusOutInput(netDebtToClearPercentage,'netDebtToClearPercentage')" (keyup)="keyupInput(netDebtToClearPercentage,'netDebtToClearPercentage')" required>
+                        <span class="span-text"> of your debts paid off </span>
+                    </div>
+                    <!-- Income -->
+                    <div id="income">
+                        <input type="text" class="form-control margin-right-3  inline" name="incomeRequired" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" [(ngModel)]="incomeRequired" (focus)="focusOnInput(incomeRequired,'incomeRequired')" (focusout)="focusOutInput(incomeRequired,'incomeRequired')"
+                            (keyup)="keyupInput(incomeRequired,'incomeRequired')" required>
+                        <span class="span-text"> of income for</span>
+                        <input type="text" class="form-control year-input inline" name="protectionOutcome" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" [(ngModel)]="selectPersonalProtectionOutcome 
+                    && selectPersonalProtectionOutcome.timeRequiredYears" required>
+                        <span class="span-text">years</span>
+                    </div>
+                    <!-- Emergency spending -->
+                    <div id="emergency-spending">
+                        <input type="text" class="form-control margin-right-3 inline" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="additionalLumpSumSpending" [(ngModel)]="additionalLumpSumSpending" (focus)="focusOnInput(additionalLumpSumSpending,'additionalLumpSumSpending')"
+                            (focusout)="focusOutInput(additionalLumpSumSpending,'additionalLumpSumSpending')" (keyup)="keyupInput(additionalLumpSumSpending,'additionalLumpSumSpending')" required>
+                        <span class="span-text"> of emergency spending</span>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12" *ngIf="insuranceType == 2">
+                    <h5 class="finpal-h5 margin-bottom-10"><strong>You would like</strong></h5>
+
+                    <!-- Income -->
+                    <div id="income">
+                        <div *ngIf="isMobile; then tempDisabledMobile else tempDisabledDesk"></div>
+                        <ng-template #tempDisabledMobile>
+                            <div class="col-md-12 padding-top-10">
+                                <input type="text" class="form-control margin-right-3 inline " oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="incomeToCoverPercentage" [(ngModel)]="incomeToCoverPercentage" (focus)="focusOnInput(incomeToCoverPercentage,'incomeToCoverPercentage')"
+                                    (focusout)="focusOutInput(incomeToCoverPercentage,'incomeToCoverPercentage')" (keyup)="keyupInput(incomeToCoverPercentage,'incomeToCoverPercentage')" required>
+                                <span class="span-text"> of income for replaced after</span>
+                                <input type="text" class="form-control margin-right-3 inline year-input margin-top-10" name="waitingPeriodMonths" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" [(ngModel)]="selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.waitingPeriodMonths"
+                                    required>
+                                <span class="span-text padding-top-10">months</span>
+                            </div>
+                        </ng-template>
+                        <ng-template #tempDisabledDesk>
+                            <div class="col-md-12 padding-top-10">
+                                <input type="text" class="form-control margin-right-3 inline " oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="incomeToCoverPercentage" [(ngModel)]="incomeToCoverPercentage" (focus)="focusOnInput(incomeToCoverPercentage,'incomeToCoverPercentage')"
+                                    (focusout)="focusOutInput(incomeToCoverPercentage,'incomeToCoverPercentage')" (keyup)="keyupInput(incomeToCoverPercentage,'incomeToCoverPercentage')" required>
+                                <span class="span-text"> of income for replaced</span>
+                            </div>
+                            <div class="col-md-12">
+                                <span class="col-md-3"></span>
+                                <span class="span-text">after</span>
+                                <input type="text" class="form-control margin-right-3 inline year-input" name="waitingPeriodMonths" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" [(ngModel)]="selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.waitingPeriodMonths"
+                                    required>
+                                <span class="span-text">months</span>
+                            </div>
+                        </ng-template>
+                    </div>
+                    <!-- Supperannuation payments -->
+                    <div id="superannuation-payments">
+                        <input type="text" class="form-control margin-right-3 inline " oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="superContinuationBenefit" [(ngModel)]="superContinuationBenefit" (focus)="focusOnInput(superContinuationBenefit,'superContinuationBenefit')"
+                            (focusout)="focusOutInput(superContinuationBenefit,'superContinuationBenefit')" (keyup)="keyupInput(superContinuationBenefit,'superContinuationBenefit')" required>
+                        <span class="span-text"> superannuation payments</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-top-20 self-insure">
+                <div class="col-xs-12 col-sm-12" *ngIf="insuranceType != 2">
+                    <h5 class="finpal-h5 margin-bottom-10"><strong>You can self insure</strong></h5>
+                    <input type="text" class="form-control margin-right-3 inline " oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="selfInsuranceFunds" [(ngModel)]="selfInsuranceFunds" (focus)="focusOnInput(selfInsuranceFunds,'selfInsuranceFunds')" (focusout)="focusOutInput(selfInsuranceFunds,'selfInsuranceFunds')"
+                        (keyup)="keyupInput(selfInsuranceFunds,'selfInsuranceFunds')" required>
+                </div>
+                <div class="col-xs-12 col-sm-12" *ngIf="insuranceType == 2">
+                    <h4 class="finpal-h5 padding-top-10 padding-bottom-10 bold-text">You can self insure</h4>
+                    <input type="text" class="form-control inline margin-right-3  " oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="selfInsuranceIncome" [(ngModel)]="selfInsuranceIncome" (focus)="focusOnInput(selfInsuranceIncome,'selfInsuranceIncome')" (focusout)="focusOutInput(selfInsuranceIncome,'selfInsuranceIncome')"
+                        (keyup)="keyupInput(selfInsuranceIncome,'selfInsuranceIncome')" required>
+                </div>
+            </div>
+            <button class="col-md-12 btn btn-info margin-top-20" (click)="calculateInsurance()" [disabled]="outcome.invalid">Calculate</button>
+        </form>
+        <div class="row margin-top-10">
+            <div class="col-xs-6 col-sm-6 padding-right-5">
+                <div class="card light-gray-background" id="total-you-need">
+                    <div class="card-block text-center padding-left-10 padding-right-10 padding-top-30 padding-bottom-20">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-2 col-md-12 icon">
+                                <span><i class="fas fa-money-bill fa-2x red"></i></span>
+                            </div>
+                            <div class="col-xs-8 col-sm-10 col-md-12 text-align-left content">
+                                <h4 [ngClass]="isMobile ? 'finpal-h6' : 'finpal-h3'">You Need
+                                    <span>
+                                        <a class="margin-left-10" rel="popover" data-popover-content="#you-need-details"
+                                            data-placement="top" onclick="$(this).popover('toggle')">
+                                            <i class="fas fa-info-circle object-shadow object-shadow-circle"></i>
+                                        </a>
+                                    </span>
+                                </h4>
+                                <p>
+                                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.coverRequired) || 0 | number: '1.2-2' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="you-need-details" class="hide">
+                    <h3 class="finpal-h3 padding-bottom-10 padding-top-20">
+                        {{ popoverTitle }}</h3>
+                    <table class="table table-condensed">
+                        <tbody>
+                            <tr>
+                                <th>Clear debts</th>
+                                <td class="ng-binding">
+                                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.clearDebts || 0) | number: '1.2-2' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Replace income</th>
+                                <td class="ng-binding">
+                                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.incomeNeeds || 0) | number: '1.2-2' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Emergency spending</th>
+                                <td class="ng-binding">
+                                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.additionalLumpSumSpending || 0) | number: '1.2-2' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Total</th>
+                                <td>${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.clearDebts + selectPersonalProtectionOutcome.incomeNeeds + selectPersonalProtectionOutcome.additionalLumpSumSpending || 0) | number: '1.2-2' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 padding-left-5">
+                <div class="card light-gray-background" id="total-you-have">
+                    <div class="card-block text-center padding-left-10 padding-right-10 padding-top-30 padding-bottom-20">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-2 col-md-12 icon">
+                                <span><i class="fas fa-2x"
+                                        [ngClass]="checkTotalAmountYouHave(selectPersonalProtectionOutcome) ? 'fa-thumbs-up dark-green' : 'fa-thumbs-down red'"></i></span>
+                            </div>
+                            <div class="col-xs-8 col-sm-10 col-md-12 text-align-left content">
+                                <h4 [ngClass]="isMobile ? 'finpal-h6' : 'finpal-h3'">You Have</h4>
+                                <p>
+                                    ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.currentCover) || 0 | number: '1.2-2' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #desktop>
+    <div class="container padding-bottom-50 padding-top-40">
+        <div class="col-md-12">
+            <h1 [ngClass]="isMobile ? 'finpal-h2' : 'finpal-h1'">Insurance Outcomes Calculator</h1>
+        </div>
+        <div class="col-md-12">
+            <form #outcome="ngForm">
+                <div class="col-md-3 padding-left-0">
+                    <h4 class="finpal-h5 padding-top-40 padding-bottom-10 bold-text">Family Member</h4>
+                    <select id="selectHouseHoldMember" class="form-control font-size-14" *ngIf="houseHoldMembers" (change)="onMemberSelecting($event.target.value)">
+                        <option *ngFor="let member of houseHoldMembers" [value]="member.id">
+                            {{ member.firstName || member.lastName }}</option>
+                    </select>
+                    <h4 class="finpal-h5 padding-top-10 padding-bottom-10 bold-text">If this happens</h4>
+                    <select id="selectKindOfHappen" class="form-control font-size-14" (change)="insuranceTypeSelecting($event.target.value)">
+                        <option value="1">Death</option>
+                        <option value="2">Temporarily disabled</option>
+                        <option value="3">Permanently disabled</option>
+                        <option value="4">Medical trauma</option>
+                    </select>
+
+                    <h4 class="finpal-h5 padding-top-10 padding-bottom-10 bold-text">You would like</h4>
+                    <!-- <div [hidden]="insuranceType == 2"> -->
+                    <div *ngIf="insuranceType != 2">
+                        <!-- Debt paid off -->
+                        <div class="row">
+                            <div class="col-md-12 padding-top-10">
+                                <input type="text" class="form-control margin-right-3 inline " oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="netDebt" [(ngModel)]="netDebtToClearPercentage" (focus)="focusOnInput(netDebtToClearPercentage,'netDebtToClearPercentage')" (focusout)="focusOutInput(netDebtToClearPercentage,'netDebtToClearPercentage')"
+                                    (keyup)="keyupInput(netDebtToClearPercentage,'netDebtToClearPercentage')" required>
+                                <span class="span-text"> of your debts paid off </span>
+                            </div>
+                        </div>
+                        <!-- Income -->
+                        <div class="row">
+                            <div class="col-md-12 padding-top-10">
+                                <input type="text" class="form-control margin-right-3  inline" name="incomeRequired" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" [(ngModel)]="incomeRequired" (focus)="focusOnInput(incomeRequired,'incomeRequired')" (focusout)="focusOutInput(incomeRequired,'incomeRequired')"
+                                    (keyup)="keyupInput(incomeRequired,'incomeRequired')" required>
+                                <span class="span-text"> of income for</span>
+                                <input type="text" class="form-control year-input inline" name="protectionOutcome" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" [(ngModel)]="selectPersonalProtectionOutcome 
+                                && selectPersonalProtectionOutcome.timeRequiredYears" required>
+                                <span class="span-text">years</span>
+                            </div>
+                        </div>
+                        <!-- Emergency spending -->
+                        <div class="row">
+                            <div class="col-md-12 padding-top-10">
+                                <input type="text" class="form-control margin-right-3 inline" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="additionalLumpSumSpending" [(ngModel)]="additionalLumpSumSpending" (focus)="focusOnInput(additionalLumpSumSpending,'additionalLumpSumSpending')"
+                                    (focusout)="focusOutInput(additionalLumpSumSpending,'additionalLumpSumSpending')" (keyup)="keyupInput(additionalLumpSumSpending,'additionalLumpSumSpending')" required>
+                                <span class="span-text"> of emergency spending</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div [hidden]="insuranceType != 2"> -->
+                    <div *ngIf="insuranceType == 2">
+                        <!-- Income -->
+                        <div class="row">
+                            <div *ngIf="isMobile; then tempDisabledMobile else tempDisabledDesk"></div>
+                            <ng-template #tempDisabledMobile>
+                                <div class="col-md-12 padding-top-10">
+                                    <input type="text" class="form-control margin-right-3 inline " oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="incomeToCoverPercentage" [(ngModel)]="incomeToCoverPercentage" (focus)="focusOnInput(incomeToCoverPercentage,'incomeToCoverPercentage')"
+                                        (focusout)="focusOutInput(incomeToCoverPercentage,'incomeToCoverPercentage')" (keyup)="keyupInput(incomeToCoverPercentage,'incomeToCoverPercentage')" required>
+                                    <span class="span-text"> of income for replaced after</span>
+                                    <input type="text" class="form-control margin-right-3 inline year-input margin-top-10" name="waitingPeriodMonths" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" [(ngModel)]="selectPersonalProtectionOutcome
+                            && selectPersonalProtectionOutcome.waitingPeriodMonths" required> <span class="span-text padding-top-10">
+                                        months</span>
+                                </div>
+                            </ng-template>
+                            <ng-template #tempDisabledDesk>
+                                <div class="col-md-12 padding-top-10">
+                                    <input type="text" class="form-control margin-right-3 inline " oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="incomeToCoverPercentage" [(ngModel)]="incomeToCoverPercentage" (focus)="focusOnInput(incomeToCoverPercentage,'incomeToCoverPercentage')"
+                                        (focusout)="focusOutInput(incomeToCoverPercentage,'incomeToCoverPercentage')" (keyup)="keyupInput(incomeToCoverPercentage,'incomeToCoverPercentage')" required>
+                                    <span class="span-text"> of income for replaced</span>
+                                </div>
+                                <div class="col-md-12">
+                                    <span class="col-md-3"></span>
+                                    <span class="span-text">after</span>
+                                    <input type="text" class="form-control margin-right-3 inline year-input" name="waitingPeriodMonths" oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" [(ngModel)]="selectPersonalProtectionOutcome
+                            && selectPersonalProtectionOutcome.waitingPeriodMonths" required> <span class="span-text">
+                                        months</span>
+                                </div>
+                            </ng-template>
+                        </div>
+                        <!-- Superannuation payments -->
+                        <div class="row">
+                            <div class="padding-left-15 padding-top-10">
+                                <input type="text" class="form-control margin-right-3 inline " oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="superContinuationBenefit" [(ngModel)]="superContinuationBenefit" (focus)="focusOnInput(superContinuationBenefit,'superContinuationBenefit')"
+                                    (focusout)="focusOutInput(superContinuationBenefit,'superContinuationBenefit')" (keyup)="keyupInput(superContinuationBenefit,'superContinuationBenefit')" required>
+                                <span class="span-text"> superannuation payments</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="document-output">
+                        <!-- <div [hidden]="insuranceType == 2"> -->
+                        <div *ngIf="insuranceType != 2">
+                            <h4 class="finpal-h5 padding-top-10 padding-bottom-10 bold-text">You can self insure</h4>
+                            <p class="">
+                                <input type="text" class="form-control margin-right-3 inline " oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="selfInsuranceFunds" [(ngModel)]="selfInsuranceFunds" (focus)="focusOnInput(selfInsuranceFunds,'selfInsuranceFunds')" (focusout)="focusOutInput(selfInsuranceFunds,'selfInsuranceFunds')"
+                                    (keyup)="keyupInput(selfInsuranceFunds,'selfInsuranceFunds')" required>
+                            </p>
+                        </div>
+                        <!-- <div [hidden]="insuranceType != 2"> -->
+                        <div *ngIf="insuranceType == 2">
+                            <h4 class="finpal-h5 padding-top-10 padding-bottom-10 bold-text">You can self insure</h4>
+                            <p class="">
+                                <input type="text" class="form-control inline margin-right-3  " oninput="this.value=this.value.replace(/[^0-9\.]/g,'');" name="selfInsuranceIncome" [(ngModel)]="selfInsuranceIncome" (focus)="focusOnInput(selfInsuranceIncome,'selfInsuranceIncome')" (focusout)="focusOutInput(selfInsuranceIncome,'selfInsuranceIncome')"
+                                    (keyup)="keyupInput(selfInsuranceIncome,'selfInsuranceIncome')" required>
+                            </p>
+                        </div>
+                    </div>
+                    <button class="col-md-12 btn btn-info margin-top-20" (click)="calculateInsurance()" [disabled]="outcome.invalid">Calculate</button>
+                </div>
+            </form>
+            <div class="col-md-3 padding-left-0 font-size-20 margin-left-10">
+                <div class="card margin-top-40 margin-bottom-10">
+                    <div class="card-block text-center padding-left-10 padding-right-10 padding-top-30 padding-bottom-30">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="">
+                                    <span class="fa-stack fa-lg center-block">
+                                        <i class="fa fa-stack-1x fa-lg fa-money-bill light-gray"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="margin-bottom-5 m-dark-gray">
+                            You Need
+                        </span>
+                        <div class="insurance-need margin-bottom-20">
+                            ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.coverRequired) || 0 | number: '1.2-2' }}
+                            <span>
+                                <a rel="popover" data-popover-content="#you-need" data-placement="top"
+                                    onclick="$(this).popover('toggle')">
+                                    <i class="fas fa-info-circle object-shadow object-shadow-circle"></i>
+                                </a>
+                            </span>
+                            <div id="you-need" class="hide">
+                                <h3 class="finpal-h3 padding-bottom-10 padding-top-20">
+                                    {{ popoverTitle }}</h3>
+                                <table class="table table-condensed">
+                                    <tbody>
+                                        <tr>
+                                            <th>Clear debts</th>
+                                            <td class="ng-binding">
+                                                ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.clearDebts || 0) | number: '1.2-2' }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Replace income</th>
+                                            <td class="ng-binding">
+                                                ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.incomeNeeds || 0) | number: '1.2-2' }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Emergency spending</th>
+                                            <td class="ng-binding">
+                                                ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.additionalLumpSumSpending || 0) | number: '1.2-2' }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total</th>
+                                            <td>${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.clearDebts + selectPersonalProtectionOutcome.incomeNeeds + selectPersonalProtectionOutcome.additionalLumpSumSpending || 0) | number: '1.2-2'
+                                                }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 padding-left-0 font-size-20 margin-left-15">
+                <div class="card margin-top-40 margin-bottom-10">
+                    <div class="card-block text-center padding-left-10 padding-right-10 padding-top-30 padding-bottom-30">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="">
+                                    <span class="fa-stack fa-lg center-block" *ngIf="selectPersonalProtectionOutcome && (!selectPersonalProtectionOutcome || selectPersonalProtectionOutcome.onTrack == 509000000 || selectPersonalProtectionOutcome.onTrack == 509000002)">
+                                        <i class="fa fa-stack-1x fa-lg fa-thumbs-up dark-green"></i>
+                                    </span>
+                                    <span class="fa-stack fa-lg center-block" *ngIf="!selectPersonalProtectionOutcome || (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.onTrack == 509000001)">
+                                        <i class="fa fa-stack-1x fa-lg fa-thumbs-down red"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="margin-bottom-5 m-dark-gray">
+                            You Have
+                        </span>
+                        <div class="insurance-have margin-bottom-20">
+                            ${{ (selectPersonalProtectionOutcome && selectPersonalProtectionOutcome.currentCover) || 0 | number: '1.2-2' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

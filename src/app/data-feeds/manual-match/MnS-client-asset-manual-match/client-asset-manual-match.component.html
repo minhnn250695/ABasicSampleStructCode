@@ -1,0 +1,129 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #desktop>
+    <div class="breadcrumb-bar-datafeeds padding-top-50 padding-bottom-10">
+        <div class="container">
+            <a href="#">
+                <i class="fas fa-home fa-lg margin-right-5"></i>
+            </a>
+            <i class="fas fa-angle-right margin-right-5"></i>
+            <a href="#/data-feeds/home-feeds" class="margin-right-5">Data feeds</a>
+            <i class="fas fa-angle-right margin-right-5"></i>
+            <span>Manual match</span>
+            <i class="fas fa-angle-right margin-right-5"></i>
+            <span class="active-breadcrumb">Moneysoft</span>
+
+        </div>
+    </div>
+
+    <div class="container padding-top-40 padding-bottom-50">
+        <h1 class="finpal-h1">MoneySoft match Status</h1>
+        <div class="row">
+            <div class="col-md-1">
+                <img class="img-thumbnail" src="../../../assets/img/moneysoft.png" />
+            </div>
+            <div class="col-md-11">
+                <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                    <li [ngClass]="!activeUnmatchedTab ? 'active' : '' ">
+                        <a data-toggle="pill" href="#matched">Matched records ({{clientAssetMatchList ?
+                            clientAssetMatchList.length : 0}})</a>
+                    </li>
+                    <li [ngClass]="activeUnmatchedTab ? 'active' : '' ">
+                        <a data-toggle="pill" href="#unmatched">Unmatched records ({{clientAssetUnMatchList ?
+                            clientAssetUnMatchList.length : 0}})</a>
+                    </li>
+                    <li>
+                        <a data-toggle="pill" href="#ignore">Ignored records ({{clientAssetIgnoreList ?
+                            clientAssetIgnoreList.length : 0}})</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="matched" class="tab-pane fade" [ngClass]="!activeUnmatchedTab ? contentTabCSS : '' ">
+                        <app-client-asset-match [matchList]="clientAssetMatchList" (uploadAll)="checkUploadAll($event)"
+                            (updateClick)="reloadData($event)" (runLoading)="openLoading($event)"></app-client-asset-match>
+                    </div>
+                    <div id="unmatched" class="tab-pane fade" [ngClass]="activeUnmatchedTab ? contentTabCSS : '' ">
+                        <app-client-asset-unmatch [unMatchList]="clientAssetUnMatchList" (updateClick)="reloadData($event)"
+                            (runLoading)="openLoading($event)"></app-client-asset-unmatch>
+                    </div>
+                    <div id="ignore" class="tab-pane fade">
+                        <app-client-asset-ignore [ignoreList]="clientAssetIgnoreList" (updateClick)="reloadData($event)"
+                            (runLoading)="openLoading($event)"></app-client-asset-ignore>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #mobile>
+    <div class="breadcrumb-bar-datafeeds padding-top-50 margin-top-10 padding-bottom-10">
+        <div class="container">
+            <a href="/#/data-feeds/home-feeds">
+                <i class="fas fa-angle-left margin-right-5"></i> Data feeds</a>
+        </div>
+    </div>
+    <div class="container padding-bottom-30">
+        <div class="row">
+            <div class="col-xs-9">
+                <h1 class="finpal-h2">Match status</h1>
+                <h2 class="finpal-h3 padding-bottom-20">Moneysoft</h2>
+            </div>
+            <div class="col-xs-3 padding-top-10 padding-bottom-10">
+                <img src="../../../../assets/img/moneysoft.png" class="img-thumbnail" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="card">
+                    <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-30">
+                        <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                            <li class="active">
+                                <a data-toggle="pill" href="#matched">Matched</a>
+                            </li>
+                            <li>
+                                <a data-toggle="pill" href="#unmatched">Unmatched</a>
+                            </li>
+                            <li>
+                                <a data-toggle="pill" href="#ignored">Ignored</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="matched" class="tab-pane fade in active">
+                                <app-client-asset-match [matchList]="clientAssetMatchList" (uploadAll)="checkUploadAll($event)"
+                                    (updateClick)="reloadData($event)" (runLoading)="openLoading($event)"></app-client-asset-match>
+                            </div>
+                            <div id="unmatched" class="tab-pane fade">
+                                <app-client-asset-unmatch [unMatchList]="clientAssetUnMatchList" (updateClick)="reloadData($event)"
+                                    (runLoading)="openLoading($event)"></app-client-asset-unmatch>
+                            </div>
+                            <div id="ignore" class="tab-pane fade">
+                                <app-client-asset-ignore [ignoreList]="clientAssetIgnoreList" (updateClick)="reloadData($event)"
+                                    (runLoading)="openLoading($event)"></app-client-asset-ignore>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<fp-upload-completed-dialog #uploadCompleted></fp-upload-completed-dialog>
+
+<div class="modal fade" id="confirm-import" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 *ngIf="!isUploadAll" class="warning-title">No data</h4>
+                <h4 *ngIf="isUploadAll" class="warning-title">Upload Success</h4>
+                <p>Back to Home Page?</p>
+                <button class="btn btn-info" (click)="gotoHomePage()" data-dismiss="modal">Ok</button>
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

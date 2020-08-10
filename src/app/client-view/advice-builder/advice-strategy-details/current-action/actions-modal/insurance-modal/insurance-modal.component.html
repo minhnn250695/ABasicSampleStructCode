@@ -1,0 +1,135 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span *ngIf="!adviceBuilderService.isUpdateAction" class="modal-title finpal-h2 padding-bottom-10 margin-right-5" id="MatchModalLabel1">Add new action</span>
+            <span *ngIf="adviceBuilderService.isUpdateAction" class="modal-title finpal-h2 padding-bottom-10 margin-right-5" id="MatchModalLabel1">Update action</span>
+            <!-- <button type="button" class="btn btn-default pull-right margin-right-20"><i class="fas fa-download"></i> Get quote</button> -->
+        </div>
+        <div class="modal-body" [style.display]="((insurancePolicy.actionId && adviceBuilderService.isUpdateAction) || !adviceBuilderService.isUpdateAction) ? 'block' : 'none'">
+            <div class="row">
+                <div class="col-md-12">
+                    <form #newInsurancePolicy="ngForm">
+                        <div class="row">
+                            <div class="col-md-1 auto-width">
+                                <ul class="icon-list margin-top-bot-5">
+                                    <li>
+                                        <span *ngIf="!adviceBuilderService.isChangeExistingPolicy"><i class="fa fa-umbrella fa-lg dark-gray"></i></span>
+                                        <span *ngIf="adviceBuilderService.isChangeExistingPolicy"><i class="fa fa-pencil fa-lg dark-gray"></i></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-11 padding-0">
+                                <!-- create new insurance-->
+                                <div *ngIf="!adviceBuilderService.isUpdateAction">
+                                    <h3 *ngIf="!adviceBuilderService.isChangeExistingPolicy" class="action-style">New insurance policy</h3>
+                                    <h3 *ngIf="adviceBuilderService.isChangeExistingPolicy" class="action-style">Changes to an existing Insurance Policy</h3>
+                                </div>
+                                <!-- update insurance -->
+                                <div *ngIf="adviceBuilderService.isUpdateAction">
+                                    <h3 *ngIf="!adviceBuilderService.isChangeExistingPolicy" class="action-style">Update insurance policy</h3>
+                                    <h3 *ngIf="adviceBuilderService.isChangeExistingPolicy" class="action-style">Update changes to an existing Insurance Policy</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="nav nav-pills padding-top-10 padding-bottom-20">
+                                    <li class="active">
+                                        <a id="insurance-details" data-toggle="pill" href="#insurance-basic-data">Action details</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="pill" href="#insurance-complementary-data">Advice comments</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <!-- Policy -->
+                                    <div id="insurance-basic-data" class="tab-pane fade in active">
+                                        <div class="row">
+                                            <div class="col-md-8" *ngIf="!adviceBuilderService.isChangeExistingPolicy">
+                                                <label class="control-label">Policy name</label>
+                                                <input type="text" class="form-control" name="policyName" placeholder="" [(ngModel)]="insurancePolicy.policyName" required>
+                                            </div>
+                                            <div class="col-md-8" *ngIf="adviceBuilderService.isChangeExistingPolicy">
+                                                <label class="control-label">Choose the policy you want to change</label>
+                                                <select class="form-control" name="insuranceToChange" [(ngModel)]="selectedPersonalInsuranceId" (ngModelChange)="selectInsuranceToChange()" required>
+                                                    <option hidden value="undefined"></option>
+                                                    <option *ngFor="let insurance of activeInsuranceList" [value]="insurance.id">{{insurance.name}}</option>
+                                                </select>
+                                            </div>
+                                            <!-- user view only when update a change existing insurance -->
+                                            <!-- <div class="col-md-8" *ngIf="adviceBuilderService.isChangeExistingPolicy && adviceBuilderService.isUpdateAction">
+                                                <label class="control-label">The existing policy you want to update</label>
+                                                <p class="field-info">{{getInsuranceName()}}</p>
+                                            </div> -->
+                                            <div class="col-md-4">
+                                                <label class="control-label">Primary Client</label>
+                                                <select class="form-control" name="primaryClient" [(ngModel)]="insurancePolicy.primaryClientId" required [disabled]="adviceBuilderService.isChangeExistingPolicy">
+                                                    <option *ngFor="let client of clientList" [value]="client.code">{{client.name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 padding-top-20">
+                                                <label class="control-label">Insurance company</label>
+                                                <select class="form-control" name="insuranceCompany" [(ngModel)]="insurancePolicy.insuranceCompanyId" required [disabled]="adviceBuilderService.isChangeExistingPolicy">
+                                                    <option *ngFor="let company of insuranceCompanies" [value]="company.id">{{company.value}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 padding-top-20">
+                                                <label class="control-label">Premiums paid from</label>
+                                                <select class="form-control" name="premiumsPaidFrom" [(ngModel)]="insurancePolicy.premiumsPaidFrom" (change)="premiumsPaidFromChange($event)" required [disabled]="adviceBuilderService.isChangeExistingPolicy">
+                                                    <option *ngFor="let paidFrom of premiumsPaidFromList" [value]="paidFrom.code">{{paidFrom.name}}</option>                                    
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 padding-top-20">
+                                                <label class="control-label">Superannuation account</label>
+                                                <!-- this field require when user select "premium paid from" as Superannuation -->
+                                                <select class="form-control" name="clientAssetId" [(ngModel)]="insurancePolicy.clientAssetId" [required]="insurancePolicy.premiumsPaidFrom == 1" [disabled]="checkSuperannuationAccountDisabled()">
+                                                    <option *ngFor="let account of superannuationAccounts" [value]='account.id'>{{account.name}}</option>                                    
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 padding-top-20">
+                                                <label class="control-label">Frequency</label>
+                                                <select class="form-control" name='frequency' [(ngModel)]="insurancePolicy.premiumFrequency" required>
+                                                    <option *ngFor="let frequency of frequencyList" [value]="frequency.code">{{frequency.name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <insurance-benefit #benefit [benefitList]="inputBenefitList" [clientList]="clientList" (outputBenefit)="updateBenefitList($event)"></insurance-benefit>
+                                    </div>
+                                    <div id="insurance-complementary-data" class="tab-pane fade">
+                                        <div>
+                                            <label class="control-label">What is this action?</label>
+                                            <textarea class="form-control" rows="4" name="details" [(ngModel)]="insurancePolicy.details" [placeholder]="insurancePolicy.details || ''"></textarea>
+                                        </div>
+                                        <div class="padding-top-20">
+                                            <label class="control-label">Why are you taking this action?</label>
+                                            <textarea class="form-control" rows="4" name="reason" [(ngModel)]="insurancePolicy.reason" [placeholder]="insurancePolicy.reason || ''"></textarea>
+                                        </div>
+                                        <div class="padding-top-20">
+                                            <label class="control-label">How It improves your situation?</label>
+                                            <textarea class="form-control" rows="4" name="result" [(ngModel)]="insurancePolicy.result" [placeholder]="insurancePolicy.result || ''"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 padding-top-10">
+                    <hr>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                    <button type="button" *ngIf="!adviceBuilderService.isUpdateAction" class="btn btn-info pull-right margin-right-5" data-dismiss="modal" [disabled]="newInsurancePolicy.invalid" (click)="createNewInsurancePolicy()">Save new policy</button>
+                    <button type="button" *ngIf="adviceBuilderService.isUpdateAction" class="btn btn-info pull-right margin-right-5" data-dismiss="modal" [disabled]="newInsurancePolicy.invalid || !viewDetectChange()" (click)="editInsurancePolicy()">Save changes policy</button>
+                </div>
+            </div>
+        </div>
+        <div [style.display]="(!insurancePolicy.actionId && adviceBuilderService.isUpdateAction) ? 'block' : 'none'" class="modal-body text-center margin-top-10 margin-bottom-10">
+            <i class="fas fa-spinner fa-pulse"></i>
+        </div>
+    </div>
+</div>

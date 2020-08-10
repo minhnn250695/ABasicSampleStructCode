@@ -1,0 +1,79 @@
+<div class="col-md-3">
+    <div class="card">
+        <div class="card-header teal-background padding-top-30 padding-left-20  padding-right-20">Data feeds</div>
+        <div class="card-block-link padding-left-20 padding-right-20 card-bottom-border">
+            <a (click)="activeFeedsClick()">
+                <div class="row">
+                    <div class="col-md-3 padding-top-20 padding-bottom-10 text-center">
+                        <span class="teal-color card-big-number">{{thirdParties && thirdParties.length}}</span>
+                    </div>
+                    <div class="col-md-9 padding-top-10 padding-bottom-10">
+                        <h4 class="h4 padding-top-10">Active feeds</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div *ngIf="getTotalValidRecords(3) && getTotalValidRecords(3).length > 0">
+            <div class="card-block padding-left-20 padding-right-20 padding-top-20">
+                <span class="finpal-h4">Activity summary</span>
+            </div>
+            <div *ngFor="let imported of getTotalValidRecords(3)" class="card-block-link padding-left-20 padding-right-20">
+                <a (click)="btnResolveClick(imported)">
+                    <div class="row">
+                        <div class="col-md-3 padding-top-10 text-center">
+                            <span class="teal-color card-big-number">{{imported.value}}</span>
+                        </div>
+                        <div class="col-md-9 padding-top-10">
+                            <p class="small">records from {{imported.name}} were automatically imported</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="card-bottom-border"></div>
+        </div>
+        <div *ngIf="(getTotalValidRecords(1) && getTotalValidRecords(1).length > 0) || (getTotalValidRecords(2) &&  getTotalValidRecords(2).length > 0)">
+            <div class="card-block padding-left-20 padding-right-20 padding-top-20">
+                <span class="finpal-h4">Need your attention</span>
+            </div>
+            <div *ngFor="let matched of getTotalValidRecords(1)" class="card-block-link padding-left-20 padding-right-20">
+                <!-- <div *ngFor="let matched of getTotalMatched()"> -->
+                <a (click)="btnResolveClick(matched)">
+                    <div class="row">
+                        <div class="col-md-3 padding-top-10 text-center">
+                            <span class="pink-color card-big-number">{{matched.value}}</span>
+                        </div>
+                        <div class="col-md-9 padding-top-10">
+                            <p class="small"> records from {{getDataFeedName(matched.name)}} are ready for manual import</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div *ngFor="let unmatched of getTotalValidRecords(2)" class="card-block-link padding-left-20 padding-right-20">
+                <!-- <div *ngFor="let unmatched of getTotalUnmatched()"> -->
+                <a (click)="btnResolveClick(unmatched)">
+                    <div class="row">
+                        <div class="col-md-3 padding-top-10 text-center">
+                            <span class="pink-color card-big-number">{{unmatched.value}}</span>
+                        </div>
+                        <div class="col-md-9 padding-top-10">
+                            <p class="small"> records from {{getDataFeedName(unmatched.name)}} need to be matched to CRM records</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div *ngIf="expiredCompanies && expiredCompanies.length > 0">
+            <div class="card-bottom-border"></div>
+            <div class="card-block padding-left-20 padding-right-20 padding-top-20">
+                <span class="finpal-h4">Expired Accounts</span>
+            </div>
+            <div *ngFor="let item of expiredCompanies" class="card-block-link padding-left-20 padding-right-20 padding-top-10 padding-bottom-10">
+                <div>
+                    <a (click)="expiredFeedClick(item)" class="fail-link">
+            {{item.companyName}}
+          </a> account {{ item.accountName && item.accountName.length
+                    < 25 ? '"' + item.accountName + '"': "details" }} is expired. </div>
+                </div>
+            </div>
+        </div>
+    </div>

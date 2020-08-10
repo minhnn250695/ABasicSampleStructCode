@@ -1,0 +1,50 @@
+.default-cursor {
+    cursor: default;
+}
+
+.thumb-flag {
+    height: 40px;
+    width: 40px;
+    margin-right: 24px;
+    text-align: center;
+    display: table;
+}
+
+.thumb-icon {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 22px;
+}
+
+.finpal-h3 {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.finpal-h4 {
+    margin-bottom: 10px;
+}
+
+.card {
+    color: unset;
+}
+
+.btn-info {
+    height: 40px;
+    width: 100%;
+    padding: 9px 12px;
+}
+
+.details-button {
+    text-align: center;
+}
+
+.m-dark-gray {
+    color: #505050 !important;
+}
+
+@media(max-width: 992px) {
+    .card {
+        margin-bottom: 20px;
+    }
+}

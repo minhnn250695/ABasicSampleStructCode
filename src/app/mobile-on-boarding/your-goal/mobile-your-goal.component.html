@@ -1,0 +1,190 @@
+<div class="progress-menu-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="steps-form-2">
+                    <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/personal-information" type="button" class="btn btn-completed-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Personal info"><i class="fas fa-user fa-lg" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/family-member" type="button" class="btn btn-completed-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Family members"><i class="fas fa-users fa-lg" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/financial-situation" type="button" class="btn btn-completed-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Financial situation"><i class="fas fa-money-bill-alt fa-lg"
+                                    aria-hidden="true"></i></a>
+                        </div>
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/your-goal" type="button" class="btn btn-active-step btn-circle-2" data-toggle="tooltip" data-placement="top" title="Your goals"><i class="fas fa-flag-checkered fa-lg" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<fp-spinner-loading #myLoadingSpinner></fp-spinner-loading>
+<div *ngIf="!onLoadComponent; then component else waiting"></div>
+<ng-template #component>
+    <div class="container padding-top-30 padding-bottom-30">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="finpal-h2">Your goals</h2>
+                <p>Select which of the following are important to you.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="finpal-h3 padding-bottom-10 padding-top-20">Lifestyle/family</h3>
+                <div *ngFor="let client of getClientGoalListOnMobile(goalCategory.Lifestyle)" (click)="changeActiveStatus(client)" class="col-50 text-center">
+                    <a>
+                        <div [ngClass]="!client.activeStatus ? 'card-mini-flex-blue' : 'card-mini-flex'" class="padding-left-10 padding-right-10 padding-top-20 padding-bottom-10">
+                            <i class="fas fa-2x" [ngClass]="client.iconCssClass ? client.iconCssClass : null"></i>
+                            <p class="small padding-top-10">{{client.clientGoalName}}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="finpal-h3 padding-bottom-10 padding-top-20">Employment</h3>
+                <div *ngFor="let client of getClientGoalListOnMobile(goalCategory.Employment)" (click)="changeActiveStatus(client)" class="col-50 text-center">
+                    <a>
+                        <div [ngClass]="!client.activeStatus ? 'card-mini-flex-blue' : 'card-mini-flex'" class="padding-left-10 padding-right-10 padding-top-20 padding-bottom-10">
+                            <i class="fas fa-2x" [ngClass]="client.iconCssClass ? client.iconCssClass : null"></i>
+                            <p class="small padding-top-10">{{client.clientGoalName}}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="finpal-h3 padding-bottom-10 padding-top-20">Financial</h3>
+                <div *ngFor="let client of getClientGoalListOnMobile(goalCategory.Financial)" (click)="changeActiveStatus(client)" class="col-50 text-center">
+                    <a>
+                        <div [ngClass]="!client.activeStatus ? 'card-mini-flex-blue' : 'card-mini-flex'" class="padding-left-10 padding-right-10 padding-top-20 padding-bottom-10">
+                            <i class="fas fa-2x" [ngClass]="client.iconCssClass ? client.iconCssClass : null"></i>
+                            <p class="small padding-top-10">{{client.clientGoalName}}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="finpal-h3 padding-bottom-10 padding-top-20">Risk management</h3>
+                <div *ngFor="let client of getClientGoalListOnMobile(goalCategory.RiskManagement)" (click)="changeActiveStatus(client)" class="col-50 text-center">
+                    <a>
+                        <div [ngClass]="!client.activeStatus ? 'card-mini-flex-blue' : 'card-mini-flex'" class="padding-left-10 padding-right-10 padding-top-20 padding-bottom-10">
+                            <i class="fas fa-2x" [ngClass]="client.iconCssClass ? client.iconCssClass : null"></i>
+                            <p class="small padding-top-10">{{client.clientGoalName}}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="finpal-h3 padding-bottom-10 padding-top-20">The future</h3>
+                <div *ngFor="let client of getClientGoalListOnMobile(goalCategory.TheFuture)" (click)="changeActiveStatus(client)" class="col-50 text-center">
+                    <a>
+                        <div [ngClass]="!client.activeStatus ? 'card-mini-flex-blue' : 'card-mini-flex'" class="padding-left-10 padding-right-10 padding-top-20 padding-bottom-10">
+                            <!-- check if goal id is equal 509000020 then show it in svg type else show as icon -->
+                            <ng-container *ngTemplateOutlet="client.clientGoalId == 509000020 ? estatePlanningIcon: normalIcon, context: {$implicit: client}"></ng-container>
+
+                            <!-- <ng-container *ngIf="client.clientGoalId != 509000020">
+                                <i class="fas fa-2x" [ngClass]="client.iconCssClass ? client.iconCssClass : null"></i>
+                            </ng-container>
+                            <ng-container *ngIf="client.clientGoalId == 509000020">
+                                <svg class="svg-inline--fa fa-w-12 fa-2x" aria-hidden="true" focusable="false"
+                                    role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                    <path fill="currentColor"
+                                        d="M264.429,298.716l54.713,15.648c3.939,1.094,6.675,4.815,6.675,8.864c0,5.034-4.158,9.192-9.192,9.192h-35.892
+                                            c-3.939,0-7.769-0.875-11.271-2.407c-5.252-2.407-11.38-1.86-15.429,2.189l-19.15,19.15c-5.8,5.8-5.143,15.648,1.641,20.134
+                                            c10.396,6.894,22.214,11.052,34.798,12.584v19.368c0,9.63,7.879,17.508,17.508,17.508h17.508c9.63,0,17.508-7.879,17.508-17.508
+                                            v-19.259c33.156-3.939,58.324-33.922,53.947-68.939c-3.173-25.168-22.651-45.193-46.944-52.196l-54.713-15.648
+                                            c-3.939-1.094-6.675-4.815-6.675-8.864c0-5.034,4.158-9.192,9.192-9.192h35.892c3.939,0,7.769,0.875,11.271,2.407
+                                            c5.252,2.407,11.38,1.86,15.429-2.189l19.15-19.15c5.8-5.8,5.143-15.648-1.641-20.134c-10.396-6.894-22.214-11.052-34.798-12.584
+                                            v-19.368c0-9.63-7.879-17.508-17.508-17.508h-17.508c-9.63,0-17.508,7.879-17.508,17.508v19.259
+                                            c-33.156,3.939-58.324,33.922-53.947,68.939C220.658,271.687,240.136,291.712,264.429,298.716z" />
+                                    <path fill="currentColor"
+                                        d="M584.228,499.841c-12.256-11.709-31.187-10.943-44.099,0l-95.42,80.866c-11.709,9.958-26.262,15.32-41.363,15.32H281.117
+                                            c-9.082,0-16.523-7.879-16.523-17.508s7.441-17.508,16.523-17.508h80.866c16.523,0,31.734-11.927,34.36-29.107
+                                            c3.392-21.885-12.584-40.925-32.609-40.925H198.39c-27.904,0-54.932,10.177-76.489,28.779l-48.038,41.254H16.523
+                                            C7.441,561.011,0,568.89,0,578.519v105.049c0,9.63,7.441,17.508,16.523,17.508h368.658c14.991,0,29.545-5.362,41.363-15.32
+                                            l156.261-132.406C598.563,540.11,599.766,514.724,584.228,499.841L584.228,499.841z" />
+                                    <g>
+                                        <path fill="currentColor" d="M577.047,249.916L333.127,49.518c-20.576-17.132-50.45-17.132-71.027,0L18.179,249.916
+                                                c-6.709,5.615-7.596,15.606-1.981,22.315c0,0,0.001,0.001,0.001,0.001l10.138,12.178c5.615,6.703,15.598,7.589,22.306,1.98
+                                                l27.197-22.336v184.458c0.049,17.477,14.205,31.633,31.682,31.682h126.728c17.477-0.049,109.25-0.049,126.728,0h126.728
+                                                c17.389-0.037,31.514-14.056,31.682-31.444V264.034l27.256,22.395c6.708,5.609,16.691,4.723,22.306-1.98l10.128-12.168
+                                                c5.618-6.706,4.736-16.697-1.97-22.316C577.087,249.949,577.067,249.932,577.047,249.916z M471.715,432.671h-94.897H218.409
+                                                h-95.046V225.026l174.25-143.182l174.25,143.123L471.715,432.671z" />
+                                    </g>
+                                </svg>
+                            </ng-container> -->
+                            <p class="small padding-top-10">{{client.clientGoalName}}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row padding-top-20">
+        <div class="col-md-12">
+            <hr>
+            <h3 class="finpal-h3 padding-bottom-20">My goals</h3>
+            <a *ngFor="let client of getMyGoalList()" (click)="changeActiveStatus(client)">
+                <div class="goal text-center card-right-border goal-card-bottom-border">
+                    <i class="fas fa-2x" [ngClass]="client.iconCssClass ? client.iconCssClass : null"></i>
+                    <p class="small padding-top-10">{{client.clientGoalName}}</p>
+                </div>
+            </a>
+        </div>
+    </div> -->
+        <div class="row padding-top-20">
+            <div class="col-xs-12">
+                <a (click)="submitListOfGoal()" class="btn btn-info pull-right">Save and submit
+                    <i class="fas fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #waiting>
+    <app-mobile-waiting></app-mobile-waiting>
+</ng-template>
+
+<ng-template #normalIcon let-item>
+    <i class="fas fa-2x" [ngClass]="item.iconCssClass ? item.iconCssClass : null"></i>
+</ng-template>
+
+<ng-template #estatePlanningIcon>
+    <svg class="svg-inline--fa fa-w-12 fa-2x" style="width: 1.75em;" aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+        <path fill="currentColor"
+            d="M264.429,298.716l54.713,15.648c3.939,1.094,6.675,4.815,6.675,8.864c0,5.034-4.158,9.192-9.192,9.192h-35.892
+                c-3.939,0-7.769-0.875-11.271-2.407c-5.252-2.407-11.38-1.86-15.429,2.189l-19.15,19.15c-5.8,5.8-5.143,15.648,1.641,20.134
+                c10.396,6.894,22.214,11.052,34.798,12.584v19.368c0,9.63,7.879,17.508,17.508,17.508h17.508c9.63,0,17.508-7.879,17.508-17.508
+                v-19.259c33.156-3.939,58.324-33.922,53.947-68.939c-3.173-25.168-22.651-45.193-46.944-52.196l-54.713-15.648
+                c-3.939-1.094-6.675-4.815-6.675-8.864c0-5.034,4.158-9.192,9.192-9.192h35.892c3.939,0,7.769,0.875,11.271,2.407
+                c5.252,2.407,11.38,1.86,15.429-2.189l19.15-19.15c5.8-5.8,5.143-15.648-1.641-20.134c-10.396-6.894-22.214-11.052-34.798-12.584
+                v-19.368c0-9.63-7.879-17.508-17.508-17.508h-17.508c-9.63,0-17.508,7.879-17.508,17.508v19.259
+                c-33.156,3.939-58.324,33.922-53.947,68.939C220.658,271.687,240.136,291.712,264.429,298.716z" />
+        <path fill="currentColor"
+            d="M584.228,499.841c-12.256-11.709-31.187-10.943-44.099,0l-95.42,80.866c-11.709,9.958-26.262,15.32-41.363,15.32H281.117
+                c-9.082,0-16.523-7.879-16.523-17.508s7.441-17.508,16.523-17.508h80.866c16.523,0,31.734-11.927,34.36-29.107
+                c3.392-21.885-12.584-40.925-32.609-40.925H198.39c-27.904,0-54.932,10.177-76.489,28.779l-48.038,41.254H16.523
+                C7.441,561.011,0,568.89,0,578.519v105.049c0,9.63,7.441,17.508,16.523,17.508h368.658c14.991,0,29.545-5.362,41.363-15.32
+                l156.261-132.406C598.563,540.11,599.766,514.724,584.228,499.841L584.228,499.841z" />
+        <g>
+            <path fill="currentColor" d="M577.047,249.916L333.127,49.518c-20.576-17.132-50.45-17.132-71.027,0L18.179,249.916
+                    c-6.709,5.615-7.596,15.606-1.981,22.315c0,0,0.001,0.001,0.001,0.001l10.138,12.178c5.615,6.703,15.598,7.589,22.306,1.98
+                    l27.197-22.336v184.458c0.049,17.477,14.205,31.633,31.682,31.682h126.728c17.477-0.049,109.25-0.049,126.728,0h126.728
+                    c17.389-0.037,31.514-14.056,31.682-31.444V264.034l27.256,22.395c6.708,5.609,16.691,4.723,22.306-1.98l10.128-12.168
+                    c5.618-6.706,4.736-16.697-1.97-22.316C577.087,249.949,577.067,249.932,577.047,249.916z M471.715,432.671h-94.897H218.409
+                    h-95.046V225.026l174.25-143.182l174.25,143.123L471.715,432.671z" />
+        </g>
+    </svg>
+</ng-template>

@@ -1,0 +1,88 @@
+<div class="table-responsive">
+    <table class="table table-striped small">
+        <!--Table head-->
+        <thead>
+            <tr>
+                <th>Date
+                    <a (click)="btnSortByDateClick()">
+                        <i class="fas fa-sort"></i>
+                    </a>
+                </th>
+                <th>Client
+                    <a (click)="btnSortByClientNameClick()">
+                        <i class="fas fa-sort"></i>
+                    </a>
+                </th>
+                <th>Product #
+                    <a (click)="btnSortByProductNumberClick()">
+                        <i class="fas fa-sort"></i>
+                    </a>
+                </th>
+                <th>Product name</th>
+                <th>Adviser</th>
+                <!-- <th>Owner</th> -->
+                <!-- <th>Adviser revenue</th> -->
+                <!-- <th>Adviser tax</th> -->
+                <th>Gross revenue</th>
+                <th>Gross tax</th>
+                <th>Product provider</th>
+                <th>Revenue type</th>
+                <!-- <th>Opportunity</th> -->
+                <th></th>
+            </tr>
+        </thead>
+        <!--Table head-->
+
+        <tbody>
+            <tr *ngFor="let item of unMatchList, let i = index">
+                <td>{{item.date | date: 'dd/MM/yyyy'}}</td>
+                <td>{{item.clientName}}</td>
+                <td>{{item.productNumber}}</td>
+                <td>{{item.productName}}</td>
+                <td>{{item.owner}}</td>
+                <!-- <td class="text-right min-width">{{item.adviserPercentage*100 | number : '1.0-2'}}</td> -->
+                <!-- <td class="text-right">{{item.adviserRevenue | number : '1.0-2'}}</td> -->
+                <!-- <td class="text-right">{{item.adviserTax | number : '1.0-2'}}</td> -->
+                <td>{{item.grossRevenue | number : '1.0-2'}}</td>
+                <td>{{item.grossTax | number : '1.0-2'}}</td>
+                <td>{{item.productProvider}}</td>
+                <td>{{item.revenueType}}</td>
+                <!-- <td>{{item.opportunity}}</td> -->
+                <td>
+                    <!-- <button type="button" class="btn btn-default btn-xs" data-toggle="modal" (click)="onMatchBtnClick(item)">Match</button> -->
+
+                    <button type="button" class="btn btn-gray btn-xs pull-right" (click)="onMatchBtnClick(item)" data-toggle="modal" [tooltip]="match" tooltipPlacement="top">
+                            <i class="fas fa-wrench"></i>
+                        </button>
+                    <tooltip-content #match>
+                        <span style="width: 50px; display: inline-block;">Match</span>
+                    </tooltip-content>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<fp-unmatch-dialog #unmatchDialog *ngIf="showDialog" [entity]="selectedEntity" (keyPress)="onEscapePress($event)" (onDialogResult)="onManualDialogResult($event)" (onDialogCancel)="onDialogCancel($event)" (showAdvancedSearchModal)="handleAdvancedModal($event)">
+</fp-unmatch-dialog>
+
+<div class="modal fade" id="advanced-search-unmatch-modal" tabindex="-1" role="dialog" aria-labelledby="MatchModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title finpal-h2" id="MatchModalLabel">
+                    Advanced search
+                </h4>
+            </div>
+            <div class="modal-body">
+                <h4 *ngIf="!advancedRecords || advancedRecords == 0">No record found!</h4>
+                <h4 *ngIf="advancedRecords > 0">
+                    <span class="pink-color">{{advancedRecords}}</span> record(s) found.
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>

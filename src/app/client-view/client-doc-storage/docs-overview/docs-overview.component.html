@@ -1,0 +1,231 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<!-- Desktop design -->
+<ng-template #desktop>
+    <div class="container">
+        <div class="row padding-top-40 padding-bottom-20">
+            <h1 class="font-size-30">Documents</h1>
+            <div class="document card">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="document-breadcrumb">
+                            <span><i class="fas fa-folder fa-2x light-gray margin-right-10"></i></span>
+                            <a class="finpal-h1" [ngClass]="navigatePathSelecting('root') ? 'm-dark-gray disabled': 'dark-blue'" (click)="navigateToFolder('')">My Documents</a>
+                            <span class="finpal-h1" *ngFor="let name of navigatePathList; let pathIndex = index">
+                                <i class="far fa-sm fa-chevron-right"></i>
+                                <a (click)="navigateToFolder(name)"
+                                    [ngClass]="pathIndex == navigatePathList.length -1 ? 'm-dark-gray disabled': 'dark-blue'">{{name}}</a>
+                            </span>
+                        </div>
+                        <div class="document-filter row">
+                            <div style="height: 36px;">
+                                <table class="table" id="filter-actions">
+                                    <tr>
+                                        <td class="select-all-option">
+                                            <input type="checkbox" value="" [checked]="isSelectedAll" (change)="selectDeselectAllClick()">
+                                        </td>
+                                        <td class="select-all-option-text">Select All</td>
+                                        <td class="filter-categories">
+                                            <select class="form-control" name="filterCategories" id="filterCategories" [(ngModel)]="sortedField" (ngModelChange)="sortByField()">
+                                                <option value="name">Name</option>
+                                                <option value="lastModifiedDateTime">Date</option>
+                                            </select>
+                                        </td>
+                                        <td class="filter-search">
+                                            <div class="input-group" id="search">
+                                                <input type="text" class="form-control" name="search" placeholder="Search" [(ngModel)]="searchText">
+                                                <span class="input-group-addon"><i
+                                                        class="fas fa-search fa-lg"></i></span>
+                                            </div>
+                                        </td>
+                                        <td class="actions">
+                                            <button type="button" class="btn btn-info btn-action white margin-left-5" [ngClass]="isMobile ? 'btn-sm' : ''" (click)="uploadFileClick()" [folderModifyPermission]="curentFolderEntity"><i
+                                                    class="fas fa-upload fa-1x white"></i> Upload file</button>
+                                            <button type="button" class="btn btn-info btn-action white" [ngClass]="isMobile ? 'btn-sm' : ''" data-toggle="modal" data-target="#newFolderModal" [folderModifyPermission]="curentFolderEntity"><i
+                                                    class="fas fa-folder-plus fa-1x white"></i> New folder</button>
+                                        </td>
+                                        <td class="view-layouts">
+                                            <a (click)="changeLayoutView('list')" [ngClass]="currentLayoutView == 'list'? 'active disabled': null"><i
+                                                    class="fas fa-th-list fa-lg layout-view"></i></a>
+                                            <a (click)="changeLayoutView('icon')" [ngClass]="currentLayoutView == 'icon'? 'active disabled': null"><i
+                                                    class="fas fa-th fa-lg layout-view"></i></a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="documents-list row">
+                            <div class="col-md-12" *ngIf="!childrenFileFolders || childrenFileFolders && childrenFileFolders.length <= 0">
+                                <p class="margin-top-10">There are no file in this folder</p>
+                            </div>
+                            <!-- List view -->
+                            <div class="col-md-12 padding-right-20" *ngIf="childrenFileFolders && childrenFileFolders.length > 0">
+                                <table class="table table-hover card-client-table white-background" *ngIf="currentLayoutView == 'list'">
+                                    <tbody>
+                                        <tr *ngFor="let item of childrenFileFolders | filter:searchText">
+                                            <td class="col-select"><input type="checkbox" value="" [checked]="item.isSelected" (change)="itemSelectedClick(item)"></td>
+                                            <td class="col-file-name">
+                                                <a (click)="fileFolderItemClick(item)">
+                                                    <i [ngClass]="getEntityIcon(item)" class="fas fa-lg margin-right-10"></i> {{ item.name }}</a>
+                                            </td>
+                                            <td class="col-modified-date light-gray">
+                                                <p>Modified on {{item.lastModifiedDateTime | date: 'MMM dd yyyy, hh:mm a'}}
+                                            </td>
+                                            <td class="col-file-size light-gray" *ngIf="showFileSizeCol">
+                                                {{item.size}} KB
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Folder view -->
+                            <div class="col-md-12 icon-layout-view" *ngIf="currentLayoutView == 'icon'">
+                                <div class="col-md-2 icon-layout-item" *ngFor="let item of childrenFileFolders | filter:searchText; let i = index">
+                                    <input type="checkbox" value="" [checked]="item.isSelected">
+                                    <a (click)="itemSelectedClick(item)" (dblclick)="fileFolderItemClick(item)" [ngClass]="item.isSelected ? 'selected' : ''">
+                                        <i class="fas fa-2x margin-bottom-5" [ngClass]="getEntityIcon(item)"></i><br>{{ item.name }}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="document-actions">
+                            <button [folderModifyPermission]="curentFolderEntity" type="button" class="btn btn-info btn-action" [ngClass]="isMobile ? 'btn-sm' : ''" (click)="deleteSelectedClick()">
+                                <i class="fas fa-trash fa-1x white"></i> Delete</button>
+                            <button type="button" class="btn btn-info btn-action margin-left-5" [ngClass]="isMobile ? 'btn-sm' : ''" (click)="downloadSelectedClick()">
+                                <i class="fas fa-download fa-1x white"></i> Download</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Mobile design -->
+<ng-template #mobile>
+    <div class="container">
+        <div class="row padding-bottom-20">
+            <h1 class="font-size-30 margin-left-15">Documents</h1>
+            <div class="col-md-12">
+                <div class="document card">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="document-breadcrumb">
+                                <span><i class="fas fa-folder fa-2x light-gray margin-right-10"></i></span>
+                                <a class="finpal-h1" [ngClass]="navigatePathSelecting('root') ? 'm-dark-gray disabled': 'dark-blue'" (click)="navigateToFolder('')">My Documents</a>
+                                <span class="finpal-h1" *ngFor="let name of navigatePathList; let pathIndex = index">
+                                    <i class="far fa-sm fa-chevron-right"></i>
+                                    <a (click)="navigateToFolder(name)"
+                                        [ngClass]="pathIndex == navigatePathList.length -1 ? 'm-dark-gray disabled': 'dark-blue'">{{name}}</a>
+                                </span>
+                            </div>
+                            <div class="document-filter row">
+                                <div style="height: 36px;">
+                                    <table class="table" id="filter-actions">
+                                        <tr>
+                                            <td class="select-all-option"><input type="checkbox" value="" [checked]="isSelectedAll" (change)="selectDeselectAllClick()"></td>
+                                            <td class="filter-categories">
+                                                <select class="form-control" name="filterCategories" id="filterCategories">
+                                                    <option value="1">Name</option>
+                                                    <option value="2">Date</option>
+                                                </select>
+                                            </td>
+                                            <td class="filter-search">
+                                                <div class="input-group" id="search">
+                                                    <input type="text" class="form-control" name="search" placeholder="Search" [(ngModel)]="searchText">
+                                                    <span class="input-group-addon"><i
+                                                            class="fas fa-search fa-lg"></i></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="documents-list">
+                                <table class="table table-hover card-client-table white-background" *ngIf="currentLayoutView == 'list'">
+                                    <tbody>
+                                        <tr *ngFor="let item of childrenFileFolders | filter:searchText">
+                                            <td class="col-select"><input type="checkbox" value="" [checked]="item.isSelected" (change)="itemSelectedClick(item)"></td>
+                                            <td class="col-file-name">
+                                                <i [ngClass]="getEntityIcon(item)" class="fas fa-lg dark-blue margin-right-10"></i>
+                                                <a (click)="fileFolderItemClick(item)">{{ item.name }}</a>
+                                            </td>
+                                            <td class="col-modified-date light-gray">
+                                                Modified on {{item.lastModifiedDateTime | date: 'MMM dd yyyy, hh:mm a'}}
+                                            </td>
+                                            <td class="col-file-size light-gray" *ngIf="showFileSizeCol">
+                                                {{item.size}} KB
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div *ngIf="currentLayoutView == 'icon'" class="col-md-12 icon-layout-view">
+                                    <div *ngFor="let item of childrenFileFolders | filter:searchText" class="col-md-3 layout-icon">
+                                        <input type="checkbox" value="" [checked]="item.isSelected" (change)="itemSelectedClick(item)">
+                                        <a (click)="fileFolderItemClick(item)">
+                                            <i [ngClass]="getEntityIcon(item)" class="fas fa-2x margin-bottom-5"></i><br>{{ item.name }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="document-actions">
+                                <button type="button" class="btn btn-info btn-action margin-bottom-5" [ngClass]="isMobile ? 'btn-sm' : ''" (click)="downloadSelectedClick()">
+                                    <i class="fas fa-download fa-1x white"></i> Download</button>
+                                <button [folderModifyPermission]="curentFolderEntity" type="button" class="btn btn-info btn-action margin-left-5 margin-bottom-5" [ngClass]="isMobile ? 'btn-sm' : ''" (click)="deleteSelectedClick()">
+                                    <i class="fas fa-trash fa-1x white"></i> Delete</button>
+                                <button type="button" class="btn btn-info btn-action white margin-left-5 margin-bottom-5" [ngClass]="isMobile ? 'btn-sm' : ''" data-toggle="modal" data-target="#newFolderModal" [folderModifyPermission]="curentFolderEntity"><i
+                                        class="fas fa-folder-plus fa-1x white"></i> New folder</button>
+                                <button type="button" class="btn btn-info btn-action white margin-left-5 margin-bottom-5" [ngClass]="isMobile ? 'btn-sm' : ''" (click)="uploadFileClick()" [folderModifyPermission]="curentFolderEntity"><i
+                                        class="fas fa-upload fa-1x white"></i>
+                                    Upload file</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- new folder -->
+<div id="newFolderModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title">New folder</h5>
+            </div>
+
+            <div class="modal-body">
+                <input id="txtFolderName" type="text" class="form-control" placeholder="Folder name">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="newFolderModelSaveChange()">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- delete warning modal -->
+<div id="deleteWarningModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title">Delete file(s)</h5>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the selected file(s)?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" (click)="btnConfirmDeleteClick(true)">Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="btnConfirmDeleteClick(false)">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input #chooseFile type="file" id="selectFile" value="" style="display: none" (change)="onFileChanged($event)">

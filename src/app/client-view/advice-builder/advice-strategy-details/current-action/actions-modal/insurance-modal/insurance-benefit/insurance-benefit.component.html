@@ -1,0 +1,192 @@
+<div class="row">
+    <div class="col-md-5">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <form #newbenefitForm="ngForm">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingNew">
+                        <h4 class="panel-title">
+                            <a role="button" class="collapsed default-link" data-toggle="collapse" data-parent="#accordion" href="#collapseNew" (click)="collapseOtherAccordion(1)" aria-expanded="true" aria-controls="newbenefit">
+                                <i class="fas fa-plus margin-right-5"></i> New benefit
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse" id="collapseNew" role="tabpanel" aria-labelledby="headingNew">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12 padding-bottom-10">
+                                    <label class="control-label">Type</label>
+                                    <select class="form-control" name="benefitType" [(ngModel)]="benefit_new.type" required>
+                                        <option *ngFor="let type of benefitTypes" [value]="type.code">{{type.name}}</option>                                            
+                                    </select>
+                                </div>
+                                <div class="col-md-12 padding-bottom-10">
+                                    <label class="control-label">Person insured</label>
+                                    <select class="form-control" name="primaryClient" [(ngModel)]="benefit_new.personInsuredId" required>
+                                        <option *ngFor="let client of clientList" [value]="client.code">{{client.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 padding-bottom-10">
+                                    <label class="control-label">Amount</label>
+                                    <input class="form-control" name="benefitAmount" [(ngModel)]="benefitAmount_New" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="$100" (focus)="onNewAmountFocus(benefitAmount_New)" (focusout)="onNewAmountFocusOut(benefitAmount_New)"
+                                        (keyup)="onNewAmountKeyup($event)" required>
+                                </div>
+                                <div class="col-md-6 padding-bottom-10">
+                                    <label class="control-label">Premium type</label>
+                                    <select class="form-control" name="premiumType" [(ngModel)]="benefit_new.premiumType" required>
+                                        <option *ngFor="let premium of premiumTypes" [value]="premium.code">{{premium.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 padding-bottom-10">
+                                    <label class="control-label">Premium</label>
+                                    <input class="form-control" name="benefitPremium" [(ngModel)]="premium_New" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="$100" (focus)="onNewPremiumFocus(premium_New)" (focusout)="onNewPremiumFocusOut(premium_New)" (keyup)="onNewPremiumKeyup($event)"
+                                        required>
+                                </div>
+                                <div *ngIf="benefit_new.type == BenefitType.Income_Protection" class="col-md-6 padding-bottom-10">
+                                    <label class="control-label">Waiting period</label>
+                                    <select class="form-control" name="waitingPeriod" name="waitingPeriod" [(ngModel)]="benefit_new.waitingPeriod" required>
+                                        <option *ngFor="let period of waitingPeriodTypes" [value]="period.code">{{period.name}}</option>                                            
+                                    </select>
+                                </div>
+                                <div *ngIf="benefit_new.type == BenefitType.Income_Protection" class="col-md-6">
+                                    <label class="control-label">Benefit period</label>
+                                    <select class="form-control" name="benefitPeriod" [(ngModel)]="benefit_new.benefitPeriod" required>
+                                        <option *ngFor="let period of benefitPeriodTypes" [value]="period.code">{{period.name}}</option>                                            
+                                    </select>
+                                </div>
+                                <div class="col-md-12 padding-top-20">
+                                    <button class="btn btn-info btn-block" [disabled]="newbenefitForm.invalid" (click)="addNewBenefit()">Add Benefit <i class="fas fa-caret-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form #editBenefitForm="ngForm">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingEdit">
+                        <h4 class="panel-title">
+                            <a class="collapsed default-link" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEdit" (click)="collapseOtherAccordion(2)" aria-expanded="false" aria-controls="collapseTwo">
+                                <i class="fas fa-pencil margin-right-5"></i> Edit Benefit
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseEdit" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEdit">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12 padding-bottom-10">
+                                    <label class="control-label">Select Benefit to edit</label>
+                                    <select class="form-control" name="editBenefit" [(ngModel)]="selectedBenefitId_toEdit" (change)="selectEditBenefitChange($event)" required>
+                                        <option *ngFor="let benefit of benefitList" [style.display]="benefit.deleted ? 'none' : ''" [value]="benefit.tempId">{{benefit.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 padding-bottom-10">
+                                    <label class="control-label">Type</label>
+                                    <select class="form-control" name="benefitType" [(ngModel)]="benefit_edit.type" required>
+                                        <option *ngFor="let type of benefitTypes" [value]="type.code">{{type.name}}</option>                                            
+                                    </select>
+                                </div>
+                                <div class="col-md-12 padding-bottom-10">
+                                    <label class="control-label">Person insured</label>
+                                    <select class="form-control" name="primaryClient" [(ngModel)]="benefit_edit.personInsuredId" required>
+                                        <option *ngFor="let client of clientList" [value]="client.code">{{client.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 padding-bottom-10">
+                                    <label class="control-label">Amount</label>
+                                    <input class="form-control" name="benefitAmount" [(ngModel)]="benefitAmount_Edit" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="$100" (focus)="onEditAmountFocus(benefitAmount_Edit)" (focusout)="onEditAmountFocusOut(benefitAmount_Edit)"
+                                        (keyup)="onEditAmountKeyup($event)" required>
+                                </div>
+                                <div class="col-md-6 padding-bottom-10">
+                                    <label class="control-label">Premium type</label>
+                                    <select class="form-control" name="premiumType" [(ngModel)]="benefit_edit.premiumType" required>
+                                        <option *ngFor="let premium of premiumTypes" [value]="premium.code">{{premium.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 padding-bottom-10">
+                                    <label class="control-label">Premium</label>
+                                    <input class="form-control" name="benefitPremium" [(ngModel)]="premium_Edit" oninput="this.value=this.value.replace(/[^0-9]/g,'');" placeholder="$100" (focus)="onEditPremiumFocus(premium_Edit)" (focusout)="onEditPremiumFocusOut(premium_Edit)" (keyup)="onEditPremiumKeyup($event)"
+                                        required>
+                                </div>
+                                <div *ngIf="benefit_edit.type == BenefitType.Income_Protection" class="col-md-6 padding-bottom-10">
+                                    <label class="control-label">Waiting period</label>
+                                    <select class="form-control" name="waitingPeriod" name="waitingPeriod" [(ngModel)]="benefit_edit.waitingPeriod" required>
+                                        <option *ngFor="let period of waitingPeriodTypes" [value]="period.code">{{period.name}}</option>                                            
+                                    </select>
+                                </div>
+                                <div *ngIf="benefit_edit.type == BenefitType.Income_Protection" class="col-md-6">
+                                    <label class="control-label">Benefit period</label>
+                                    <select class="form-control" name="benefitPeriod" [(ngModel)]="benefit_edit.benefitPeriod" required>
+                                        <option *ngFor="let period of benefitPeriodTypes" [value]="period.code">{{period.name}}</option>                                            
+                                    </select>
+                                </div>
+                                <div class="col-md-12 padding-top-20">
+                                    <button class="btn btn-info btn-block" [disabled]="editBenefitForm.invalid" (click)="editBenefit()">Save Benefit changes <i class="fas fa-save"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form #deleteBenefitForm="ngForm">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingDelete">
+                        <h4 class="panel-title">
+                            <a class="collapsed default-link" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseDelete" (click)="collapseOtherAccordion(3)" aria-expanded="false" aria-controls="collapseThree">
+                                <i class="fas fa-trash margin-right-5"></i> Delete Benefit
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseDelete" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDelete">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="control-label">Select Benefit to delete</label>
+                                    <select class="form-control" name="deleteBenefit" [(ngModel)]="selectedBenefitId_toDelete" required>
+                                        <option value="-1" hidden></option>
+                                        <option *ngFor="let benefit of benefitList" [style.display]="benefit.deleted ? 'none' : ''" [value]="benefit.tempId">{{benefit.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 padding-top-20">
+                                    <button class="btn btn-info btn-block" [disabled]="!selectedBenefitId_toDelete" (click)="deleteSelectedBenefit()">Delete Benefit <i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-7" *ngIf="benefitList.length == 0">
+        <h3 class="finpal-h3 margin-right-5 padding-bottom-20">Benefits</h3>
+        <p>There are currently no benefits.</p>
+    </div>
+    <div class="col-md-7" *ngIf="benefitList.length > 0">
+        <h3 class="finpal-h3 margin-right-5 padding-bottom-20">Benefits</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 padding-bottom-20" *ngFor="let benefit of benefitList">
+                    <div *ngIf="!benefit.deleted" (click)="selectEditBenefit(benefit)">
+                        <a class="default-link-lg">
+                            <div style="width:60px;" class="pull-left">
+                                <img [src]="getImageByPersonInsured(benefit.personInsuredId)" class="img-circle" width="50" />
+                            </div>
+                            <div class="margin-top-5">
+                                {{benefit.name}}<br> ${{ benefit.benefitAmount | number : '1.2-2' }}
+                            </div>
+                        </a>
+                    </div>
+                    <div *ngIf="benefit.deleted">
+                        <a class="m-dark-gray disabled" data-toggle="tooltip" data-placement="top" title="Deleted benefit">
+                            <div style="width:60px;" class="pull-left dim-image">
+                                <img [src]="getImageByPersonInsured(benefit.personInsuredId)" class="img-circle" width="50" />
+                            </div>
+                            <div class="margin-top-5">
+                                {{benefit.name}}<br> ${{ benefit.benefitAmount | number : '1.2-2' }}
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

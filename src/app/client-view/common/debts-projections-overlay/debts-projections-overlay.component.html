@@ -1,0 +1,80 @@
+<a (click)="show()" class="btn btn-info finpal-h5 white-color square" id="debt-projections" *ngIf="buttonShape === 'square'">
+    <i class="fas fa-file-chart-line fa-lg" *ngIf="showIcon"></i> Debt projections
+</a>
+
+<a (click)="show()" class="white-color circle" id="debt-projections" *ngIf="buttonShape === 'circle'">
+    <i class="fas fa-info-circle fa-1x dark-blue object-shadow" [style.width.px]="iconWidth" [style.height.px]="iconHeight"></i>
+</a>
+
+<div class=" modal fade" id="debt-projection-modal" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true ">&times;</span>
+                </button>
+                <h3 class="modal-title" id="editincome">Debt projections</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tbody>
+                        <tr id="current-gross-debt">
+                            <th>Current gross debt</th>
+                            <td>
+                                ${{ (debtProjection && debtProjection.currentGrossDebt || 0) | number : '1.0-2'}}
+                            </td>
+                        </tr>
+                        <tr id="current-net-debt">
+                            <th>Current net debt</th>
+                            <td>
+                                ${{ (debtProjection && debtProjection.currentNetDebt || 0) | number : '1.0-2'}}
+                            </td>
+                        </tr>
+                        <tr id="annual-payment">
+                            <th>Annual payments</th>
+                            <td>
+                                ${{ (debtProjection && debtProjection.annualPayments || 0) | number : '1.0-2'}}
+                            </td>
+                        </tr>
+                        <tr id="average-interest-rate">
+                            <th>Average interest rate</th>
+                            <td>
+                                {{ (debtProjection && debtProjection.averageInterestRate * 100 || 0) | number : '1.0-2'}}%
+                            </td>
+                        </tr>
+                        <tr id="years-to-pay">
+                            <th>Years to Pay</th>
+                            <td *ngIf="debtProjection.finish">
+                                {{ (debtProjection && debtProjection.yearsToPay || 0) | number : '1.0-1'}}
+                            </td>
+                            <td *ngIf="!debtProjection.finish">Never</td>
+                        </tr>
+                        <tr id="additional-monthly-payment">
+                            <th>Additional monthly payment</th>
+                            <td>
+                                {{ (debtProjection && debtProjection.parameters && debtProjection.parameters.additionalMonthlyPayment || 0) | number: '1.0-2'}}
+                                <a rel="popover" data-popover-content="#additional-payment" class="margin-left-10" onclick="$(this).popover( 'toggle')">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <div id="additional-payment" class="hide">
+                                    <label for="txtAdditionalPayment" class="control-label ">Additional monthly
+                                        payment</label>
+                                    <input type="text " class="form-control" id="txtAdditionalPayment" oninput="this.value=this.value.replace(/[^0-9]/g, ''); " placeholder="{{ (debtProjection && debtProjection.parameters && debtProjection.parameters.additionalMonthlyPayment || 0) | number: '1.0-2'}} ">
+                                    <div class="margin-top-10">
+                                        <button type="button" class="btn btn-primary save-changes-popover debt-projection">Save
+                                            changes</button>
+                                        <button type="button" class="btn btn-default close-popover" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="new-years-to-pay">
+                            <th>New Years to Pay</th>
+                            <td>{{ (debtProjection && debtProjection.newYearsToPay || 0) | number : '1.0-1' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

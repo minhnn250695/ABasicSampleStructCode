@@ -1,0 +1,4 @@
+<ngu-letter-avatar *ngIf="isShowAvatar()" [avatar-data]="getName()" avatar-char-count="2" avatar-shape="round" avatar-dynamic='true' class="img-circle" [avatar-height]="imgHeight" [avatar-width]="imgWidth" [avatar-custom-bg-color]="getAvatarColor()" [avatar-border]="hasBorder">
+</ngu-letter-avatar>
+
+<img *ngIf="isShowImg()" [src]="imgUrl()" class="img-circle img-res" [ngClass]="hasBorder ? 'white-border': ''" alt="" [height]="imgHeight" [width]="imgWidth" />

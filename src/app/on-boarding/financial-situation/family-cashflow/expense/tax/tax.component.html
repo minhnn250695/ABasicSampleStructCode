@@ -1,0 +1,61 @@
+<div class="row padding-top-30">
+  <div class="col-md-12 text-left">
+    <form #taxForm="ngForm">
+      <div class="row">
+        <div class="col-md-4">
+          <label fclass="control-label">* Expense type</label>
+          <select [disabled]="taxFromClick ? 'disabled' : null" class="form-control" (change)="onExpenseTypeChange($event)"
+            required>
+            <!-- <option selected value="1">Tax</option> -->
+            <option value="2">Household spending</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="control-label">* Family member</label>
+          <select [disabled]="taxFromClick ? 'disabled' : null" class="form-control" (change)="onFamilyMemberChange($event.target.value)"
+            [(ngModel)]="selectedMember" required name="family-members">
+            <option *ngFor="let member of familyMembers" value={{member.code}}>{{member.name}}</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="control-label">* Tax amount (annual)</label>
+          <input type="number" class="form-control" placeholder="$" (keydown)="checkNumbersOnly($event)"
+           [(ngModel)]="taxAmount" required name="tax-amount">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 padding-top-20">
+    <button type="button" class="btn btn-default pull-right" data-dismiss="modal" (click)="resetValues()">Cancel</button>
+    <button *ngIf="!taxFromClick" type="button" [disabled]="taxForm.invalid" (click)="btnAddClick()" class="btn btn-info pull-right margin-right-5">Add
+      expense</button>
+    <button *ngIf="taxFromClick" type="button" [disabled]="taxForm.invalid" (click)="btnAddClick()" class="btn btn-info pull-right margin-right-5">Save
+      changes</button>
+  </div>
+</div>
+
+
+
+<!-- <div class="row">
+  <div class="col-md-4">
+    <label fclass="control-label">* Expense type</label>
+    <select class="form-control">
+      <option>Tax</option>
+      <option>Household spending</option>
+    </select>
+  </div>
+  <div class="col-md-4">
+    <label class="control-label">* Family member</label>
+    <select class="form-control">
+      <option>Stephen</option>
+      <option>Claudia</option>
+      <option>Joint</option>
+    </select>
+  </div>
+  <div class="col-md-4">
+    <label class="control-label">* Tax amount (annual)</label>
+    <input type="number" class="form-control" placeholder="$">
+  </div>
+</div> -->

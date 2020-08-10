@@ -1,0 +1,40 @@
+.advice-builder-tab {
+    float: right;
+    background-color: #FF8C00;
+    width: 114px;
+}
+
+.nav-tabs>li>a {
+    margin-right: 0px;
+    padding: 13px 15px 7px 15px;
+}
+
+
+/* .nav-tabs>li {
+    margin-right: 2px;
+} */
+
+.nav-tabs>li>a:hover {
+    background-color: #002050;
+    border-color: #002050;
+}
+
+.nav-tabs>li.active>a:hover {
+    color: #FFFFFF;
+}
+
+.fa-comment-alt-dollar {
+    width: 23px;
+    height: 23px;
+}
+
+#menu-item-advice {
+    padding: 17px 15px 0px 15px;
+    position: relative;
+}
+
+#menu-item-advice-title {
+    position: absolute;
+    top: 13px;
+    margin-left: 8px;
+}

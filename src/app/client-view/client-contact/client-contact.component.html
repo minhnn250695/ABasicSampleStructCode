@@ -1,0 +1,144 @@
+<fp-client-view-header active="8"> </fp-client-view-header>
+
+<div class="contact-background">
+    <div class="container">
+        <div class="row padding-top-40 padding-bottom-40">
+            <div class="col-md-offset-6 col-md-6">
+                <div class="contact card">
+                    <h1 class="font-size-30">Contact</h1>
+                    <div class="margin-top-10 padding-bottom-20">
+                        <div class="row padding-top-30">
+                            <div class="col-md-7 contact-send-message">
+                                <h3 class="finpal-h3">Send us a Message</h3>
+                                <form class="margin-top-20">
+                                    <div class="form-group">
+                                        <label for="fullName">Full Name</label>
+                                        <input type="text" class="form-control" [placeholder]="fullName" name="fullName" id="fullName" [(ngModel)]="name" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="policyAccountNumber">Policy # Account Number</label>
+                                        <input type="text" class="form-control" name="policyAccountNumber" id="policyAccountNumber" [(ngModel)]="policyNum">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-5 contact-info">
+                                <h3 class="finpal-h3">Contact Information</h3>
+                                <div class="margin-top-20">
+                                    <div class="contact-info-details">
+                                        <div class="margin-bottom-5">
+                                            <label>Email</label><br>
+                                            <a href="mailto:{{companyInfo.email}}">{{companyInfo.email}}</a>
+                                        </div>
+                                        <div class="margin-bottom-5">
+                                            <label>Phone</label><br>
+                                            <a [href]="sanitize()">{{companyInfo.phone}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="contact-info-social-media">
+                                        <ul class="social-network social-circle no-rotate circle-md">
+                                            <li *ngIf="twitter">
+                                                <a href="https://www.{{twitter}}" class="icoTwitter" title="Twitter">
+                                                    <i class="fab fa-twitter"></i>
+                                                </a>
+                                            </li>
+                                            <li *ngIf="facebook">
+                                                <a href="https://www.{{facebook}}" class="icoFacebook" title="Facebook">
+                                                    <i class="fab fa-facebook-f"></i>
+                                                </a>
+                                            </li>
+                                            <li *ngIf="linkedin">
+                                                <a href="https://www.{{linkedin}}" class="icoLinkedin" title="Linkedin">
+                                                    <i class="fab fa-linkedin-in"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="message">Message</label><br>
+                                <ckeditor name="editor" [(ngModel)]="message" [editor]="ClassicEditor" [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic',  'link', 'bulletedList', 'numberedList', 'blockQuote' ] }"></ckeditor>
+                            </div>
+                            <button type="submit" class="btn btn-info" (click)="btnSendClick()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<div class="container padding-top-40 padding-bottom-50">
+  <h1 class="finpal-h1">Contact us</h1>
+  <div class="row">
+    <div class="col-md-4 padding-top-20">
+      <div class="card">
+        <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+          <h3 class="finpal-h3 padding-bottom-10">Contact information</h3>
+          <div class="row">
+            <div class="col-md-12 col-xs-12">
+              <p>
+                <strong>Email:</strong>
+                <br/>
+                <a href="mailto:{{companyInfo.email}}">{{companyInfo.email}}</a>
+              </p>
+              <p>
+                <strong>Phone:</strong>
+                <br/>{{companyInfo.phone}}</p>
+              <span *ngIf="facebook" class="fa-stack fa-lg">
+                <a href="https://www.{{facebook}}" target="_blank" title="Facebook" class="margin-right-10">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-flag fa-stack-1x fa-facebook white-color"></i>
+                </a>
+              </span>
+              <span *ngIf="twitter" class="fa-stack fa-lg">
+                <a href="https://www.{{twitter}}" target="_blank" title="Twitter" class="margin-right-10">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-flag fa-stack-1x fa-twitter white-color"></i>
+                </a>
+              </span>
+              <span *ngIf="youtube" class="fa-stack fa-lg">
+                <a href="https://www.{{youtube}}" target="_blank" title="Youtube" class="margin-right-10">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-flag fa-stack-1x fa-youtube white-color"></i>
+                </a>
+              </span>
+              <span *ngIf="linkedin" class="fa-stack fa-lg">
+                <a href="https://www.{{linkedin}}" target="_blank" title="Linkedin" class="margin-right-10">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-flag fa-stack-1x fa-linkedin white-color"></i>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8 padding-top-20">
+      <h3 class="finpal-h3 padding-bottom-10">Send us a message</h3>
+
+      <div class="row">
+        <div class="col-md-6">
+          <form>
+            <div class="form-group">
+              <label for="">Name</label>
+              <input type="text" class="form-control" placeholder="Stephen" name="name" [(ngModel)]="name" />
+            </div>
+            <div class="form-group">
+              <label for="">Policy # account number</label>
+              <input type="text" class="form-control" name="policy" [(ngModel)]="policyNum">
+            </div>
+            <div class="form-group">
+              <label for="">Message</label>
+              <textarea class="form-control" rows="3" name="message" [(ngModel)]="message"></textarea>
+            </div>
+            <button type="submit" class="btn btn-info pull-right" (click)="btnSendClick()">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

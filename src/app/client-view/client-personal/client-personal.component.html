@@ -1,0 +1,84 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+
+<ng-template #desktop>
+    <fp-client-view-header active="2"> </fp-client-view-header>
+
+    <div class="container padding-top-10 padding-bottom-10 margin-top-10 margin-bottom-10" id="personal">
+        <div class="col-md-3 padding-top-10 padding-bottom-10">
+            <div class="card light-gray-background" id="household-members">
+                <div id="household-members-info">
+                    <h3 class="finpal-h3 margin-bottom-10">Household</h3>
+                    <h5 class="finpal-h5 light-gray">{{ houseHolds.length }}
+                        <span *ngIf="houseHolds.length > 1">members</span>
+                        <span *ngIf="houseHolds.length <= 1">member</span>
+                    </h5>
+                </div>
+                <div class="list-group household-members-list padding-top-20" *ngIf="houseHolds.length > 0 && !isMobile">
+                    <a class="list-group-item list-group-item-action light-gray-background" [ngClass]="currentHouseHoldMemberId == i ? 'active' : ''" [attr.id]="'household-member-' + i" *ngFor="let member of houseHolds, let i = index" (click)="showHouseHoldMemberDetails(i)">
+                        <ngu-letter-avatar *ngIf="!isHasAvatar(member)" [avatar-data]='getClientFullName(member)' avatar-char-count="2" avatar-shape="round" class="img-circle" avatar-height="32px" avatar-width="32px" [avatar-custom-bg-color]="getAvatarColor(member)" avatar-font-size="15px">
+                        </ngu-letter-avatar>
+                        <img *ngIf="isHasAvatar(member)" [src]="memberImgUrl(member)" class="img-circle" alt="" /> {{member.firstName}} {{member.lastName}}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 padding-top-10 padding-bottom-10" id="household-members-details">
+            <h3 *ngIf="houseHolds.length == 0" class="m-dark-gray">There are no household to show</h3>
+            <fp-personal-info [cashFlow]="getCashFlow(currentHouseHoldMember)" [client]="currentHouseHoldMember" [id]="currentHouseHoldMemberId" *ngIf="houseHolds.length > 0"></fp-personal-info>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #mobile>
+    <div class="mobile-personal e1-gray-background" [ngStyle]="{'min-height.px': screenHeight}">
+        <h3 *ngIf="houseHolds.length == 0" class="m-dark-gray">There are no household to show</h3>
+        <div class="card white-background" *ngIf="houseHolds.length > 0">
+            <!-- Avatar -->
+            <div class="member-profile">
+                <div class="avatar">
+                    <ngu-letter-avatar *ngIf="isShowAvatar(currentHouseHoldMember)" [avatar-data]='getClientFullName(currentHouseHoldMember)' avatar-char-count="2" avatar-shape="round" class="img-circle" avatar-height="98px" avatar-width="98px" [avatar-custom-bg-color]="getAvatarColor(currentHouseHoldMember)">
+                    </ngu-letter-avatar>
+                    <img *ngIf="isHasAvatar(currentHouseHoldMember)" [src]="memberImgUrl(currentHouseHoldMember)" class="img-circle img-lg" alt="" />
+                </div>
+                <h4 class="finpal-h4 margin-top-15 margin-bottom-15">{{currentHouseHoldMember.fullName}}</h4>
+            </div>
+
+            <fp-mobile-personal-info [cashFlow]="getCashFlow(currentHouseHoldMember)" [client]="currentHouseHoldMember" [id]="currentHouseHoldMemberId" *ngIf="houseHolds.length > 0"></fp-mobile-personal-info>
+
+        </div>
+        <div class="member-selection" *ngIf="houseHolds && houseHolds.length > 1">
+            <h4 class="finpal-h4 padding-bottom-10 padding-top-20">Household</h4>
+            <div id="contactIndicators">
+                <!-- Contact indicators -->
+                <ul id="image-indicators" class="padding-0" [style.bottom]="isAdviceBuilderPage ? '60px' : 'none'">
+                    <li class="small object-shadow indicators" [attr.id]="'indicator-' + prevIndicators[i]" *ngFor="let prevContact of prevHouseHoldMembers; let i = index" [style.visibility]="!prevContact ? 'hidden' : 'visible'" (click)="changeIndicator(prevContact)">
+                        <ngu-letter-avatar *ngIf="!isHasAvatar(prevContact)" [avatar-data]="getClientFullName(prevContact)" avatar-char-count="2" avatar-shape="round" avatar-dynamic='true' class="img-circle" avatar-height="38px" avatar-width="38px" [avatar-custom-bg-color]="getAvatarColor(prevContact)"
+                            avatar-font-size="15px">
+                        </ngu-letter-avatar>
+                        <img *ngIf="isHasAvatar(prevContact)" [src]="memberImgUrl(prevContact)" class="img-circle white-border" [alt]="prevContact.fullName" />
+                    </li>
+                    <li class="active object-shadow indicators" [attr.id]="'indicator-' + currentHouseHoldMemberId">
+                        <ngu-letter-avatar *ngIf="isShowAvatar(currentHouseHoldMember)" [avatar-data]="getClientFullName(currentHouseHoldMember)" avatar-char-count="2" avatar-shape="round" avatar-dynamic='true' class="img-circle" avatar-height="52px" avatar-width="52px" [avatar-custom-bg-color]="getAvatarColor(currentHouseHoldMember)"
+                            avatar-font-size="15px">
+                        </ngu-letter-avatar>
+                        <img *ngIf="isHasAvatar(currentHouseHoldMember)" [src]="memberImgUrl(currentHouseHoldMember)" class="img-circle white-border" [alt]="currentHouseHoldMember.fullName" />
+                    </li>
+                    <li class="small object-shadow indicators" [attr.id]="'indicator-' + nextIndicators[i]" *ngFor="let nextContact of nextHouseHoldMembers; let i = index" (click)="changeIndicator(nextContact)" [style.visibility]="!nextContact ? 'hidden' : 'visible'">
+                        <ngu-letter-avatar *ngIf="!isHasAvatar(nextContact)" [avatar-data]='getClientFullName(nextContact)' avatar-char-count="2" avatar-shape="round" avatar-dynamic='true' class="img-circle" avatar-height="38px" avatar-width="38px" [avatar-custom-bg-color]="getAvatarColor(nextContact)"
+                            avatar-font-size="15px">
+                        </ngu-letter-avatar>
+                        <img *ngIf="isHasAvatar(nextContact)" [src]="memberImgUrl(nextContact)" class="img-circle white-border" [alt]="nextContact.fullName" />
+                    </li>
+                </ul>
+                <a class="carousel-control-prev" (click)="changeIndicatorsByAction('prev')">
+                    <i class="fas fa-angle-left dark-blue fa-lg"></i>
+                </a>
+                <a class="carousel-control-next" (click)="changeIndicatorsByAction('next')">
+                    <i class="fas fa-angle-right dark-blue fa-lg"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,105 @@
+<div class="progress-menu-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="steps-form-2">
+                    <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/personal-information" type="button" class="btn btn-default-step-disabled btn-circle-2"
+                                data-toggle="tooltip" data-placement="top" title="Personal info"><i class="fas fa-user fa-lg"
+                                    aria-hidden="true"></i></a>
+                        </div>
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/family-member" type="button" class="btn btn-default-step-disabled btn-circle-2"
+                                data-toggle="tooltip" data-placement="top" title="Family members"><i class="fas fa-users fa-lg"
+                                    aria-hidden="true"></i></a>
+                        </div>
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/financial-situation" type="button" class="btn btn-default-step-disabled btn-circle-2"
+                                data-toggle="tooltip" data-placement="top" title="Financial situation"><i class="fas fa-money-bill-alt fa-lg"
+                                    aria-hidden="true"></i></a>
+                        </div>
+                        <div class="steps-step-2">
+                            <a href="#/mobile-on-boarding/your-goal" type="button" class="btn btn-default-step-disabled btn-circle-2"
+                                data-toggle="tooltip" data-placement="top" title="Your goals"><i class="fas fa-flag-checkered fa-lg"
+                                    aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container padding-top-30 padding-bottom-30">
+    <div *ngIf="household?.clientOnboardingStep == 1;then page1 else others"></div>
+    <ng-template #page1>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <div id="myCarousel" class="carousel slide" (swipeleft)="onSwipeLeft($event)" (swiperight)="onSwipeRight($event)"
+                    data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                        <li data-target="#myCarousel" data-slide-to="3"></li>
+                    </ol>
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div class="margin-bottom-50">
+                                <i class="fas fa-handshake fa-5x dark-blue padding-top-20" aria-hidden="true"></i>
+                                <h1 class="finpal-h3 padding-bottom-10 padding-top-20">
+                                    Welcome {{household?.jointSalutation}}</h1>
+                                <p class="padding-bottom-50">We’re excited to help you design a strategy that will
+                                    enable
+                                    you
+                                    to reach all your goals.</p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="margin-bottom-50">
+                                <i class="fas fa-shoe-prints fa-5x green-color padding-top-20" aria-hidden="true"></i>
+                                <h1 class="finpal-h3 padding-bottom-10 padding-top-20">Make the first step</h1>
+                                <p class="padding-bottom-50">Help us paint a clear picture of where you’re at today and
+                                    what
+                                    tomorrow looks like.</p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="margin-bottom-50">
+                                <i class="fas fa-walking fa-5x teal-color padding-top-20" aria-hidden="true"></i>
+                                <h1 class="finpal-h3 padding-bottom-10 padding-top-20">Only 4 steps to get there</h1>
+                                <p class="padding-bottom-30">We need your help collecting some basic information about
+                                    yourself,
+                                    your family, your financial situation and your goals.</p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="margin-bottom-50">
+                                <i class="fas fa-trophy-alt fa-5x light-orange padding-top-20" aria-hidden="true"></i>
+                                <h1 class="finpal-h3 padding-bottom-10 padding-top-20">Reach your goals</h1>
+                                <p>At the end of the process, you’ll instantly receive a report of your current
+                                    financial
+                                    situation.</p>
+                                <a href="#/mobile-on-boarding/personal-information" class="btn btn-primary margin-bottom-10">Get
+                                    started
+                                    <i class="fas fa-angle-right fa-lg" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                            <span class="icon-prev" aria-hidden="true"><i class="fas fa-angle-left fa-lg"></i></span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                            <span class="icon-next" aria-hidden="true"><i class="fas fa-angle-right fa-lg"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #others>
+        <app-mobile-waiting></app-mobile-waiting>
+    </ng-template>
+</div>

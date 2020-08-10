@@ -1,0 +1,95 @@
+<div class="card margin-bottom-20">
+  <div class="card-block padding-left-20 padding-right-20 padding-top-30 padding-bottom-20">
+    <div class="row">
+      <!-- Active  -->
+      <div *ngIf="isActive()" class="col-md-3 col-xs-3">
+        <span class="fa-stack fa-lg">
+          <i class="fas fa-circle fa-stack-2x light-blue"></i>
+          <i class="fas fa-stack-1x fa-calendar white-color"></i>
+        </span>
+      </div>
+
+      <!--  Inactive  -->
+      <div *ngIf="isInactive()" class="col-md-3 col-xs-3">
+        <span class="fa-stack fa-lg">
+          <i class="fas fa-circle fa-stack-2x red"></i>
+          <i class="fas fa-stack-1x fa-lock white-color"></i>
+        </span>
+      </div>
+
+      <!-- Trial -->
+      <div *ngIf="isTrial()" class="col-md-3 col-xs-3">
+        <span class="fa-stack fa-lg">
+          <i class="fas fa-circle fa-stack-2x light-blue"></i>
+          <i class="fas fa-stack-1x fa-clock-o white-color"></i>
+        </span>
+      </div>
+
+      <div class="col-md-9 col-xs-9">
+        <ng-container *ngIf="!isTrial()">
+          <h3 class="finpal-h3">{{licence && licence.description || 'N/A'}}</h3>
+          <h4 class="finpal-h4">Expires <span class="orange">{{licence && licence.expiry || 'N/A'}}</span></h4>
+        </ng-container>
+        <ng-container *ngIf="isTrial()">
+          <h3 class="finpal-h3">Trial version</h3>
+          <h4 class="finpal-h4"><span class="orange">{{getRemainingDays()}}</span> days remaining</h4>
+        </ng-container>
+
+        <a class="btn btn-default" id="pop" rel="popover" data-popover-content='#popContent'
+          onclick="$(this).popover('toggle')">
+          <div *ngIf="isActive()">
+            <i class="fas fa-lock margin-right-5"></i> Disable
+          </div>
+          <div *ngIf="isInactive()">
+            <i class="fas fa-unlock margin-right-5"></i> Enable
+          </div>
+          <div *ngIf="isTrial()">
+            <i class="fas fa-clock-o margin-right-5"></i> Extend trial time
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Popovers -->
+<div id="popContent" class="hide">
+  <label for="password" class="control-label">{{getPopLabel()}}</label>
+  <p>{{getPopMessage()}}</p>
+  <ng-container *ngIf="isTrial()">
+    <input type="number" class="form-control" id="txtExtendDayNum" placeholder="1"
+      onkeypress='return (event.charCode >= 48 && event.charCode <= 57)'>
+  </ng-container>
+  <div class="margin-top-10">
+    <button type="button" class="btn btn-primary confirm-popover">{{getPopConfirmBtn()}}</button>
+    <button type="button" class="btn btn-default close-popover">Cancel</button>
+  </div>
+  <!-- 
+  <ng-container *ngIf="isActive()">
+    <label for="password" class="control-label">Are you sure you want to disable?</label>
+    <p>The user will lose access.</p>
+    <div class="margin-top-10">
+      <button type="button" class="btn btn-primary accept-disable">Disable</button>
+      <button type="button" class="btn btn-default close-popover">Cancel</button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="isInactive()">
+    <label for="password" class="control-label">Are you sure you want to enable?</label>
+    <div class="margin-top-10">
+      <button type="button" class="btn btn-primary accept-enable">Enable</button>
+      <button type="button" class="btn btn-default close-popover">Cancel</button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="isTrial()">
+    <label for="" class="control-label">Extend trial time</label>
+    <p>How many days you want to add?</p>
+    <input type="number" class="form-control" id="txtExtendDayNum" placeholder="1"
+      onkeypress='return (event.charCode >= 48 && event.charCode <= 57)'>
+    <div class="margin-top-10">
+      <button type="button" class="btn btn-primary accept-extend">Extend</button>
+      <button type="button" class="btn btn-default close-popover">Cancel</button>
+    </div>
+  </ng-container> -->
+</div>

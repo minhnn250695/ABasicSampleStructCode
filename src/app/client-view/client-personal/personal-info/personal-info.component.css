@@ -1,0 +1,98 @@
+.border-bottom-1 {
+    border-bottom: 1px solid #ccc;
+}
+
+input {
+    width: 100%;
+}
+
+#member-profile-image {
+    width: 80px;
+    height: 80px;
+}
+
+.member-info-section {
+    padding: 0;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.member-info-section.member-health {
+    padding-left: 20px;
+}
+
+.member-info-section.member-personal-information>.btn-action {
+    top: 33px;
+}
+
+@media only screen and (max-width: 990px) {
+    .member-info-section.member-health {
+        padding-left: 0;
+    }
+}
+
+@media only screen and (min-width: 990px) {
+    .member-personal-information .col-md-1 {
+        width: 10%;
+    }
+    .member-personal-information .col-md-11 {
+        width: 90%;
+    }
+}
+
+.btn-action {
+    border-radius: 0;
+    height: 35px;
+    width: 35px;
+    padding: 6px 6px;
+    position: absolute;
+    top: 23px;
+    right: 0;
+    z-index: 1;
+}
+
+.btn-edit {
+    right: 40px;
+}
+
+
+/* BEGIN OF CLIENT INFO ITEM (In ClientInfo NgTemplate) */
+
+.info-icon {
+    padding: 0;
+}
+
+.info-icon .icon {
+    padding-top: 10px;
+}
+
+.info-details {
+    padding: 0 10px 0 10px;
+}
+
+.col-md-1.info-icon {
+    width: 12%;
+}
+
+.col-md-11.info-details {
+    width: 88%;
+}
+
+
+/* END OF CLIENT INFO ITEM (In ClientInfo NgTemplate) */
+
+@media(max-width: 992px) {
+    #member-profile-image {
+        margin: auto;
+    }
+    #member-name {
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+
+@media(min-width: 992px) {
+    #member-personal-info-details {
+        padding-left: 35px;
+    }
+}

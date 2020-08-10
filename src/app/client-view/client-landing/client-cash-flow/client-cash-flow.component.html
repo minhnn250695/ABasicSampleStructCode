@@ -1,0 +1,540 @@
+<div *ngIf="isMobile; then mobile else desktop"></div>
+
+<ng-template #mobile>
+    <div class="card cash-flow-card m-dark-gray">
+        <div class="row margin-0">
+            <div class="card-header-xs-2-mobile green-background">
+                <div class="card white-color pull-right thumb-flag orange-background  thumb-top-position">
+                    <span class="thumb-icon"><i *ngIf="cashFlow.onTrack == 509000000 || cashFlow.onTrack == 509000002"
+                    class="fas fa-thumbs-up"></i></span>
+                    <span class="thumb-icon"><i *ngIf="cashFlow.onTrack == 509000001" class="fas fa-thumbs-down"></i></span>
+                </div>
+            </div>
+            <h3 class="finpal-h3 padding-left-20 padding-top-5">Cash flow</h3>
+        </div>
+        <div class="row margin-0">
+            <div class="col-xs-2">
+                <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x light-blue"></i>
+                    <i class="fas fa-hands-usd fa-stack-1x white-color"></i>
+                </span>
+            </div>
+            <div class="col-xs-10">
+                <h5 class="finpal-h5">Net income</h5>
+                <p class="font-size-20" id="cashflow-total-net-income">
+                    ${{ cashFlow.details[0] && cashFlow.details[0].totalNetIncome || 0 | number : '1.2-2'}}</p>
+                <p class="small font-size-12">
+                    <strong>Gross income</strong> ${{ cashFlow.details[0] && cashFlow.details[0].totalGrossIncome || 0 | number : '1.2-2'}}<br />
+                    <strong>Pre-tax deductions</strong> ${{ cashFlow.details[0] && cashFlow.details[0].deductibleDebt | number : '1.2-2'}}<br />
+                    <strong>Tax paid</strong> ${{ cashFlow.details[0] && cashFlow.details[0].incomeTax | number : '1.2-2'}}
+                </p>
+            </div>
+        </div>
+
+        <div class="row margin-0 border-top-e1-gray">
+            <div class="margin-top-10">
+                <div class="col-xs-2">
+                    <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x light-blue"></i>
+                    <i class="fas fa-wallet fa-stack-1x white-color"></i>
+                </span>
+                </div>
+                <div class="col-xs-10">
+                    <h5 class="finpal-h5">Total expenses</h5>
+                    <p class="font-size-20" id="cashflow-total-expenses">
+                        ${{ cashFlow.details[0] && cashFlow.details[0].totalExpenses || 0 | number : '1.2-2'}}</p>
+                    <div class="row">
+                        <div class="col-xs-5 padding-0 padding-bottom-10">
+                            <div class="col-xs-2 text-center">
+                                <span data-toggle="tooltip" data-placement="top" title="Lifestyle">
+                                    <i class="fa fa-music light-gray"></i>
+                                </span>
+                            </div>
+                            <div class="col-xs-8 font-size-12">
+                                <div class=""><strong>Lifestyle</strong></div>
+                                <span id="cashflow-lifestyle">
+                                    ${{cashFlow.details[0] && cashFlow.details[0].lifestyleNeeds + cashFlow.details[0].lifestyleWants || 0 | number: '1.2-2'}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-5 padding-0 padding-bottom-10">
+                            <div class="col-xs-2 text-center">
+                                <span data-toggle="tooltip" data-placement="top" title="Investment">
+                                    <i class="fa fa-money-bill-alt light-gray"></i>
+                                </span>
+                            </div>
+                            <div class="col-xs-8 font-size-12">
+                                <span>
+                                    <div><strong>Investment</strong></div>
+                                    ${{ cashFlow.details[0] && cashFlow.details[0].investmentContributions + cashFlow.details[0].investmentExpenses || 0 | number : '1.2-2'}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5 padding-0 padding-bottom-10">
+                            <div class="col-xs-2 text-center">
+                                <span data-toggle="tooltip" data-placement="top" title="Credit">
+                                    <i class="fa fa-credit-card light-gray"></i>
+                                </span>
+                            </div>
+                            <div class="col-xs-8 font-size-12">
+                                <span>
+                                    <div class=""><strong>Credit</strong></div>
+                                    ${{cashFlow.details[0] && cashFlow.details[0].deductibleDebt + cashFlow.details[0].nonDeductibleDebt || 0 | number : '1.2-2'}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-5 padding-0 padding-bottom-10">
+                            <div class="col-xs-2 text-center">
+                                <span data-toggle="tooltip" data-placement="top" title="Insurance">
+                                    <i class="fa fa-umbrella light-gray"></i>
+                                </span>
+                            </div>
+                            <div class="col-xs-8 font-size-12">
+                                <div class=""><strong>Insurance</strong></div>
+                                <span id="cashflow-personal-insurance">
+                                    ${{ cashFlow.details[0] && cashFlow.details[0].personalInsurance || 0 | number : '1.2-2'}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-0 border-top-e1-gray margin-top-10">
+            <div class="margin-top-10">
+                <div class="col-xs-2">
+                    <span class="fa-stack fa-lg">
+                    <i class=" fas fa-circle fa-stack-2x light-blue"></i>
+                    <i class=" fas fa-dollar-sign fa-stack-1x white-color"></i>
+                </span>
+                </div>
+                <div class="col-xs-10">
+                    <h5 class="finpal-h5">Surplus income</h5>
+                    <p class="font-size-20" id="cashflow-surplus-income">
+                        ${{ cashFlow.details[0] && cashFlow.details[0].surplusIncome || 0 | number : '1.2-2'}}
+                    </p>
+                    <a class="btn btn-info finpal-h6 white-color btn-cash-flow-details-mobile margin-bottom-20" id="cashflow-projections" data-toggle="modal" data-target="#mobile-cash-flow-details">Cash Flow Projections</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #desktop>
+    <div class="card default-cursor m-dark-gray">
+        <div class="card-header-xs-2 green-background padding-left-20 padding-right-20">
+            <div class="card white-color pull-right thumb-flag orange-background">
+                <span class="thumb-icon"><i *ngIf="cashFlow.onTrack == 509000000 || cashFlow.onTrack == 509000002"
+                    class="fas fa-thumbs-up"></i></span>
+                <span class="thumb-icon"><i *ngIf="cashFlow.onTrack == 509000001" class="fas fa-thumbs-down"></i></span>
+            </div>
+        </div>
+        <div class="card-block card-bottom-border padding-left-20 padding-right-20 padding-top-20 padding-bottom-10">
+            <h3 class="finpal-h3 m-dark-gray">Cash flow</h3>
+            <div class="finpal-h5 m-dark-gray">Net income</div>
+            <div class="finpal-h4 m-dark-gray" id="cashflow-total-net-income">
+                ${{ cashFlow.details[0] && cashFlow.details[0].totalNetIncome | number : '1.2-2'}}</div>
+            <p class="small">
+                Gross income: ${{ cashFlow.details[0] && cashFlow.details[0].totalGrossIncome | number : '1.2-2'}}<br /> Pre-tax deductions: ${{ cashFlow.details[0] && cashFlow.details[0].deductibleDebt | number : '1.2-2'}}<br /> Tax paid: ${{ cashFlow.details[0]
+                && cashFlow.details[0].incomeTax | number : '1.2-2'}}
+            </p>
+        </div>
+        <div class="card-block card-bottom-border padding-left-20 padding-right-20 padding-top-20 padding-bottom-10">
+            <div class="finpal-h5 m-dark-gray">Total expenses</div>
+            <div class="finpal-h4 m-dark-gray" id="cashflow-total-expenses">
+                ${{ cashFlow.details[0] && cashFlow.details[0].totalExpenses || 0 | number : '1.2-2'}}</div>
+            <div class="row">
+                <div class="col-xs-2 col-md-3 padding-top-10 text-center">
+                    <span data-toggle="tooltip" data-placement="top" title="Lifestyle">
+                    <i class="fa fa-music"></i>
+                </span>
+                </div>
+                <div class="col-xs-10 col-md-9 padding-top-10">
+                    <span id="cashflow-lifestyle" data-toggle="tooltip" data-placement="right" title="Lifestyle">
+                    ${{cashFlow.details[0] && cashFlow.details[0].lifestyleNeeds + cashFlow.details[0].lifestyleWants || 0 | number: '1.2-2'}}
+                </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 col-md-3 padding-top-10 text-center">
+                    <span data-toggle="tooltip" data-placement="top" title="Credit">
+                    <i class="fa fa-credit-card"></i></span>
+                </div>
+                <div class="col-xs-10 col-md-9 padding-top-10">
+                    <span id="cashflow-credit" data-toggle="tooltip" data-placement="right" title="Credit">
+                    ${{cashFlow.details[0] && cashFlow.details[0].deductibleDebt + cashFlow.details[0].nonDeductibleDebt || 0 | number : '1.2-2'}}
+                </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 col-md-3 padding-top-10 text-center">
+                    <span data-toggle="tooltip" data-placement="top" title="Investment">
+                    <i class="fa fa-money-bill-alt"></i></span>
+                </div>
+                <div class="col-xs-10 col-md-9 padding-top-10">
+                    <span id="cashflow-investment" data-toggle="tooltip" data-placement="right" title="Investment">
+                    ${{ cashFlow.details[0] && cashFlow.details[0].investmentContributions + cashFlow.details[0].investmentExpenses || 0 | number : '1.2-2'}}
+                </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2 col-md-3 padding-top-10 text-center">
+                    <span data-toggle="tooltip" data-placement="top" title="Insurance"><i class="fa fa-umbrella"></i></span>
+                </div>
+                <div class="col-xs-10 col-md-9 padding-top-10">
+                    <span id="cashflow-personal-insurance" data-toggle="tooltip" data-placement="right" title="Insurance">
+                    ${{ cashFlow.details[0] && cashFlow.details[0].personalInsurance || 0 | number : '1.2-2'}}
+                </span>
+                </div>
+            </div>
+        </div>
+        <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-20">
+            <div class="finpal-h5 m-dark-gray">Surplus income</div>
+            <div class="finpal-h4 m-dark-gray" id="cashflow-surplus-income">
+                ${{ cashFlow.details[0] && cashFlow.details[0].surplusIncome | number : '1.2-2'}}</div>
+            <div class="details-button">
+                <a class="btn btn-info finpal-h5 white-color" id="cashflow-projections" data-toggle="modal" data-target="#cash-flow-details">Cash Flow Projections</a>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<div class="modal fade" id="mobile-cash-flow-details" tabindex="-1" role="dialog" aria-labelledby="mobile-cash-flow-details">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span class="modal-title finpal-h2 padding-bottom-10" id="MobileMatchModelLabel">
+                    Cash Flow Details
+                </span>
+            </div>
+            <div class="modal-body padding-bottom-20">
+                <div class="row">
+                    <div class="col-xs-12 padding-bottom-20">
+                        <div class="card">
+                            <div class="card-header-client padding-top-30 padding-left-20 padding-right-20">
+                                Income
+                            </div>
+                            <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-10">
+                                <table class="table">
+                                    <tr>
+                                        <td>Gross salary</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].grossSalary | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Investment income</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].investmentIncome | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Government benefits</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].governmentBenefits | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Retirement income streams</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].retirementIncomeStreams | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Other income</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].otherIncome | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total gross income</th>
+                                        <th>${{ cashFlow.details[0] && cashFlow.details[0].totalGrossIncome | number : '1.2-2'}}</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Less salary packaging</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].preTaxSpending | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Less salary sacrifice</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].salarySacrifice | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Less income tax</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].incomeTax | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total net income</th>
+                                        <th>${{ cashFlow.details[0] && cashFlow.details[0].totalNetIncome | number : '1.2-2'}}</th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 padding-bottom-20" [ngClass]="isMobile ? 'padding-top-20' : ''">
+                        <div class="card">
+                            <div class="card-header-client padding-top-30 padding-left-20 padding-right-20">
+                                Expenses
+                            </div>
+                            <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-10">
+                                <table class="table">
+                                    <tr>
+                                        <td>
+                                            Lifestyle needs
+                                        </td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].lifestyleNeeds | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Lifestyle wants
+                                        </td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].lifestyleWants | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Non-deductible debt</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].nonDeductibleDebt | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deductible debt</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].deductibleDebt | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Investment expenses</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].investmentExpenses | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Investment contributions</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].investmentContributions | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Personal insurances</td>
+                                        <td>${{ cashFlow.details[0] && cashFlow.details[0].personalInsurance | number : '1.2-2'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total expenses</th>
+                                        <th>${{ cashFlow.details[0] && cashFlow.details[0].totalExpenses | number : '1.2-2'}}</th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-block padding-left-20 padding-right-20 padding-top-20 padding-bottom-10">
+                                <div class="row">
+                                    <div class="col-xs-2 col-xs-2">
+                                        <span class="fa-stack fa-lg">
+									<i class="fas fa-circle fa-stack-2x light-blue"></i>
+									<i class="fas fa-flag fa-stack-1x fa-chart-line white-color"></i>
+									</span>
+                                    </div>
+                                    <div class="col-xs-10 col-xs-10">
+                                        <p>Surplus Income</p>
+                                        <p class="finpal-h2">${{ cashFlow.details[0] && cashFlow.details[0].surplusIncome | number : '1.2-2'}}</p>
+                                    </div>
+                                </div>
+                                <div class="row padding-top-30">
+                                    <div class="col-xs-2 col-xs-2">
+                                        <span class="fa-stack fa-lg">
+									<i class="fas fa-circle fa-stack-2x light-blue"></i>
+									<i class="fas fa-flag fa-stack-1x fa-calendar white-color"></i>
+									</span>
+                                    </div>
+                                    <div class="col-xs-10 col-xs-10">
+                                        <p>Weekly surplus</p>
+                                        <p class="finpal-h2">${{ cashFlow.details[0] && cashFlow.details[0].weeklySurplus | number : '1.2-2'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cash-flow-details" tabindex="-1" role="dialog" aria-labelledby="cash-flow-details">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <span class="modal-title finpal-h2 padding-bottom-10" id="MatchModalLabel">Cash Flow Details</span>
+            </div>
+            <div class="modal-body padding-bottom-20">
+                <div class="table-responsive scrollbar">
+                    <table class="table table-condensed fixed-first-column-table">
+                        <tr>
+                            <td class="min-width-250 max-width-250 fixed-column border-bottom-6" style="height: 49px">
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details" class="border-bottom-6 bold-text">
+                                {{cashflow && cashflow.period.value}}</td>
+                        </tr>
+                        <tr>
+                            <td class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text">
+                                <a (click)="showDetails('Income')" class="link">
+                                    <span *ngIf="'Income' == currentDisplayType"><i
+                                            class="fas fa-xs fa-chevron-up"></i></span>
+                                    <span *ngIf="'Income' != currentDisplayType"><i
+                                            class="fas fa-xs fa-chevron-down"></i></span> Income</a>
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details; let i=index" class="border-top-1" [style.display]="currentDisplayType != 'Income' ? null : 'none'">
+                                ${{ cashflow && cashflow.totalNetIncome | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Income'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Gross Salary</td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.grossSalary | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Income'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Government Benefits
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.governmentBenefits | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Income'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Other Income</td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.otherIncome | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Income'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Investment Income</td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.investmentIncome | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Income'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Retirement Income Streams
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.retirementIncomeStreams | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Income'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text">
+                                Total Gross Income
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.totalGrossIncome | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Income'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Less Pre-Tax Spending
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.preTaxSpending | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Income'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Less Pre-Tax Investment Contributions</td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.salarySacrifice | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Income'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Less Income Tax</td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.incomeTax | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Income'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text">
+                                Total Net Income</td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.totalNetIncome | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr>
+                            <td class="min-width-250 max-width-250 fixed-column box-shadow-fixed-column bold-text border-top-1">
+                                <a (click)="showDetails('Less Expenses')" class="link">
+                                    <span *ngIf="'Less Expenses' == currentDisplayType"><i
+                                            class="fas fa-xs fa-chevron-up"></i></span>
+                                    <span *ngIf="'Less Expenses' != currentDisplayType"><i
+                                            class="fas fa-xs fa-chevron-down"></i></span> Less Expenses</a>
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details; let i=index" class="border-top-1">
+                                <span [style.display]="'Less Expenses' != currentDisplayType ? null : 'none'">${{ cashflow && cashflow.totalExpenses | number : '1.2-2'}}</span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Lifestyle Fixed</td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.lifestyleNeeds | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Lifestyle Discretionary
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.lifestyleWants | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Lifestyle Goals</td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.lifestyleGoals | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Non-Deductible Debt
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.nonDeductibleDebt | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Deductible Debt</td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.deductibleDebt | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Investment Expenses
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.investmentExpenses | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Investment Contributions
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.investmentContributions | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column">
+                                Personal Insurance
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.personalInsurance | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr *ngIf="currentDisplayType == 'Less Expenses'">
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text">
+                                Total Expenses</td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.totalExpenses | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr>
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text">
+                                Surplus Income
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.surplusIncome | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr>
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text">
+                                Weekly Surplus
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.weeklySurplus | number : '1.2-2'}}</td>
+                        </tr>
+                        <tr>
+                            <td class="min-width-250 max-width-250 fixed-column white-background box-shadow-fixed-column bold-text">
+                                Net Account Transfers
+                            </td>
+                            <td *ngFor="let cashflow of cashFlow.details">
+                                ${{ cashflow && cashflow.netAccountTransfers | number : '1.2-2'}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
